@@ -35,6 +35,7 @@ RDEPENDS_${PN}_append += " \
 	ai-engine-driver \
 	file \
 	ldd \
+	tcf-agent \
 	${APP_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
