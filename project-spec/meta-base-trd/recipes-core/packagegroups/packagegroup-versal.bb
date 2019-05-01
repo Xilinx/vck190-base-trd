@@ -3,6 +3,7 @@ DESCRIPTION = "Versal Base TRD related Packages"
 inherit packagegroup
 
 APP_PACKAGES = " \
+	gst-plugins-xlnx \
 	trd-files \
 	"
 
@@ -31,12 +32,20 @@ XRT_PACKAGES = " \
 	"
 
 RDEPENDS_${PN}_append += " \
+	packagegroup-core-tools-debug \
+	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
+	packagegroup-petalinux-opencv \
+	packagegroup-petalinux-self-hosted \
+	packagegroup-petalinux-v4lutils \
 	ai-engine-driver \
+	dnf \
 	file \
+	git \
 	kernel-module-hdmi \
 	ldd \
 	tcf-agent \
 	${APP_PACKAGES} \
+	${PYTHON_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
