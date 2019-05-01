@@ -34,6 +34,7 @@ RDEPENDS_${PN}_append += " \
 	packagegroup-petalinux-gstreamer \
 	ai-engine-driver \
 	file \
+	kernel-module-hdmi \
 	ldd \
 	tcf-agent \
 	${APP_PACKAGES} \
