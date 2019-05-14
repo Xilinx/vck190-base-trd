@@ -16,7 +16,7 @@ echo '/media/card/lib' >> /etc/ld.so.conf
 if [ -f "/media/card/perfapm-server.elf" ]; then
 	# Udev loads zynqmp_r5_remoteproc driver automatically.
 	# Load remaining driver here
-	/sbin/modprobe rpmsg_user_dev_driver
+	/sbin/modprobe rpmsg-char
 	# Provide name of  R5 firmware to zynqmp_r5_remoteproc driver
 	mkdir -p /lib/firmware
 	cp /media/card/perfapm-server.elf /lib/firmware/
