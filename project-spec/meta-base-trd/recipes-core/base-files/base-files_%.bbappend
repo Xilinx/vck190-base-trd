@@ -17,4 +17,5 @@ do_install_append () {
 	echo "export G_SLICE=always-malloc">> ${D}${sysconfdir}/profile
 	echo "export GST_PLUGIN_PATH_1_0=/media/card/gstreamer-1.0" >> ${D}${sysconfdir}/profile
 	echo "export XILINX_XRT=/usr" >> ${D}${sysconfdir}/profile
+	echo "export XCL_BINDIR=/media/card" >> ${D}${sysconfdir}/profile
 }
