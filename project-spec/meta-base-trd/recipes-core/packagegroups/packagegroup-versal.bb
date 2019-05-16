@@ -40,10 +40,8 @@ RDEPENDS_${PN}_append += " \
 	packagegroup-petalinux-v4lutils \
 	ai-engine-driver \
 	dnf \
-	file \
 	git \
 	kernel-module-hdmi \
-	ldd \
 	tcf-agent \
 	${APP_PACKAGES} \
 	${PYTHON_PACKAGES} \
