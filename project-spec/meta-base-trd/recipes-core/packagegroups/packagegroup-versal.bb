@@ -32,14 +32,13 @@ XRT_PACKAGES = " \
 	zocl \
 	"
 
-RDEPENDS_${PN}_append += " \
+BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
-	ai-engine-driver \
 	dnf \
 	git \
 	kernel-module-hdmi \
@@ -48,3 +47,9 @@ RDEPENDS_${PN}_append += " \
 	${PYTHON_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
+
+BASE_TRD_PACKAGES_append_versal = " \
+	ai-engine-driver \
+	"
+
+RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
