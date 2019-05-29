@@ -3,6 +3,7 @@ DESCRIPTION = "Versal Base TRD related Packages"
 inherit packagegroup
 
 APP_PACKAGES = " \
+	gst-interpipes \
 	gst-plugins-xlnx \
 	trd-files \
 	"
