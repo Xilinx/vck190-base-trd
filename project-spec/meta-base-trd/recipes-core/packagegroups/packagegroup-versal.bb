@@ -39,7 +39,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
-	dnf \
 	git \
 	kernel-module-hdmi \
 	tcf-agent \
