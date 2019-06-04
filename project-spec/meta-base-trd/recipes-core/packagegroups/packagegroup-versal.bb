@@ -4,6 +4,7 @@ inherit packagegroup
 
 APP_PACKAGES = " \
 	gst-interpipes \
+	gst-perf \
 	gst-plugins-xlnx \
 	trd-files \
 	"
