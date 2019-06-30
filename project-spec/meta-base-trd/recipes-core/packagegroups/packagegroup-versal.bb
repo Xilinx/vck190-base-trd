@@ -6,6 +6,7 @@ APP_PACKAGES = " \
 	gst-interpipes \
 	gst-perf \
 	gst-plugins-xlnx \
+	gst-sdx \
 	trd-files \
 	"
 
