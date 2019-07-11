@@ -1,4 +1,9 @@
-SRC_URI = "git://github.com/Xilinx/XRT.git;protocol=https;branch=2019.1"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI = " \
+	git://github.com/Xilinx/XRT.git;protocol=https;branch=2019.1 \
+	file://0001-allow-user-map-dma-buf-1623.patch \
+	"
 
 SRCREV = "${AUTOREV}"
 

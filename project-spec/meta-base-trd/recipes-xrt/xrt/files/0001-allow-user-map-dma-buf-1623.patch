@@ -1,0 +1,32 @@
+From 719a52c60943eb982ccdc3db15089bbefc0f5616 Mon Sep 17 00:00:00 2001
+From: Min Ma <min.ma@xilinx.com>
+Date: Mon, 8 Jul 2019 23:24:34 -0700
+Subject: [PATCH] allow user map dma-buf (#1623)
+
+---
+ runtime_src/driver/zynq/user/shim.cpp | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/runtime_src/driver/zynq/user/shim.cpp b/runtime_src/driver/zynq/user/shim.cpp
+index 4bd8d3e..f72fdfe 100644
+--- a/runtime_src/driver/zynq/user/shim.cpp
++++ b/runtime_src/driver/zynq/user/shim.cpp
+@@ -424,8 +424,14 @@ int ZYNQShim::xclLoadAxlf(const axlf *buffer)
+ 
+ int ZYNQShim::xclExportBO(unsigned int boHandle)
+ {
+-  drm_prime_handle info = {boHandle, 0, -1};
++  drm_prime_handle info = {boHandle, DRM_RDWR, -1};
++  // Since Linux 4.6, drm_prime_handle_to_fd_ioctl respects O_RDWR.
+   int result = ioctl(mKernelFD, DRM_IOCTL_PRIME_HANDLE_TO_FD, &info);
++  if (result) {
++    std::cout << "WARNING: DRM prime handle to fd faied with DRM_RDWR. Try default flags." << std::endl;
++    info.flags = 0;
++    result = ioctl(mKernelFD, DRM_IOCTL_PRIME_HANDLE_TO_FD, &info);
++  }
+   if (mVerbosity == XCL_INFO) {
+     mLogStream << "xclExportBO result = " << result << std::endl;
+   }
+-- 
+2.7.4
+
