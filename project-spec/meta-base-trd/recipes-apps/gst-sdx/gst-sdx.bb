@@ -14,7 +14,7 @@ SRC_URI = "file://gst-sdx.zip"
 
 # the xrt and sds-lib package configs are mutually exclusive
 # the use shall enable only one at a time
-PACKAGECONFIG ??= "xrt filter2d opticalflow"
+PACKAGECONFIG ??= "xrt filter2d opticalflow permute"
 PACKAGECONFIG[sds-lib] = "-DSDSOC_MODE=on,-DSDSOC_MODE=off,sds-lib,sds-lib"
 PACKAGECONFIG[xrt] = "-DSDSOC_MODE=off,-DSDSOC_MODE=on,xrt,xrt"
 # plugin configs e.g. filter2d are only valid when xrt is selected
