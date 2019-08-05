@@ -1,4 +1,4 @@
-DESCRIPTION = "Versal Base TRD related Packages"
+DESCRIPTION = "Base TRD related Packages"
 
 inherit packagegroup
 
