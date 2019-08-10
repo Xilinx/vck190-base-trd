@@ -42,6 +42,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	git \
+	jupyter-startup \
 	kernel-module-hdmi \
 	tcf-agent \
 	${APP_PACKAGES} \
