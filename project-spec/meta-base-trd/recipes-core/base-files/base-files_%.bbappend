@@ -9,13 +9,6 @@ do_install_append () {
 	echo "alias modetest='modetest -M xlnx'" >> ${D}${sysconfdir}/profile
 	echo "alias modetest-dp='modetest -D fd4a0000.zynqmp-display'" >> ${D}${sysconfdir}/profile
 	echo "alias modetest-hdmi='modetest -D b00c0000.v_mix'" >> ${D}${sysconfdir}/profile
-	echo "export PATH=/media/card:/media/card/bin:\$PATH" >> ${D}${sysconfdir}/profile
-	echo "export QT_QPA_PLATFORM=eglfs" >> ${D}${sysconfdir}/profile
-	echo "export QT_QPA_GENERIC_PLUGINS=libinput" >> ${D}${sysconfdir}/profile
-	echo "export QT_QPA_ENABLE_TERMINAL_KEYBOARD=1" >> ${D}${sysconfdir}/profile
-	echo "export QT_QPA_EGLFS_INTEGRATION=eglfs_x11" >> ${D}${sysconfdir}/profile
-	echo "export G_SLICE=always-malloc">> ${D}${sysconfdir}/profile
-	echo "export GST_PLUGIN_PATH_1_0=/media/card/gstreamer-1.0" >> ${D}${sysconfdir}/profile
 	echo "export XILINX_XRT=/usr" >> ${D}${sysconfdir}/profile
 	echo "export XCL_BINDIR=/media/card" >> ${D}${sysconfdir}/profile
 }
