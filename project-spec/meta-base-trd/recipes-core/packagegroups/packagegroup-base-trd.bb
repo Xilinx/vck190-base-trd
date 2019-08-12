@@ -42,6 +42,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
+	haveged \
 	git \
 	jupyter-startup \
 	kernel-module-hdmi \
