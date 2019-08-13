@@ -2,23 +2,9 @@ DESCRIPTION = "Base TRD related Packages"
 
 inherit packagegroup
 
-APP_PACKAGES = " \
-	base-trd-notebooks \
-	gst-plugins-xlnx \
-	gst-sdx \
-	trd-files \
-	"
-
 MOVIE_PACKAGES = " \
 	bigbuckbunny-360p-vp9-webm \
 	bigbuckbunny-480p-vp9-webm \
-	"
-
-PYTHON_PACKAGES = " \
-	gstreamer1.0-python \
-	nodejs \
-	nodejs-npm \
-	python3-dev \
 	"
 
 XRT_PACKAGES = " \
@@ -37,14 +23,20 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
+	base-trd-notebooks \
 	haveged \
 	git \
+	gst-plugins-xlnx \
+	gst-sdx \
+	gstreamer1.0-python \
 	jupyter-startup \
 	kernel-module-hdmi \
+	nodejs \
+	nodejs-npm \
+	python3-dev \
 	tcf-agent \
-	${APP_PACKAGES} \
+	trd-files \
 	${MOVIE_PACKAGES} \
-	${PYTHON_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
 
