@@ -4,8 +4,6 @@ inherit packagegroup
 
 APP_PACKAGES = " \
 	base-trd-notebooks \
-	gst-interpipes \
-	gst-perf \
 	gst-plugins-xlnx \
 	gst-sdx \
 	trd-files \
