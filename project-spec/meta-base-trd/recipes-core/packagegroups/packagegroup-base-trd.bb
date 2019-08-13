@@ -11,6 +11,11 @@ APP_PACKAGES = " \
 	trd-files \
 	"
 
+MOVIE_PACKAGES = " \
+	bigbuckbunny-360p-vp9-webm \
+	bigbuckbunny-480p-vp9-webm \
+	"
+
 PYTHON_PACKAGES = " \
 	gstreamer1.0-python \
 	nodejs \
@@ -48,6 +53,7 @@ BASE_TRD_PACKAGES = " \
 	kernel-module-hdmi \
 	tcf-agent \
 	${APP_PACKAGES} \
+	${MOVIE_PACKAGES} \
 	${PYTHON_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
