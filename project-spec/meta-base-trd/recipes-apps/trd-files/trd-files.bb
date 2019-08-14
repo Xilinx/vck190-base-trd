@@ -10,9 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "\
 	file://trd-autostart.sh \
-	file://run_video.sh \
 	file://autostart.sh \
-	file://trd-utils.sh \
 	file://jupyter-setup.sh \
 	file://dropbear_rsa_host_key \
 	file://xocl.txt \
@@ -30,12 +28,10 @@ do_install() {
 	install -m 0755 ${S}/trd-autostart.sh ${D}${sysconfdir}/init.d/trd-autostart
 
 	install -d ${D}/${bindir}
-	install -m 0755 ${S}/run_video.sh ${D}/${bindir}/
 	install -m 0755 ${S}/jupyter-setup.sh ${D}/${bindir}/
 
 	install -d ${D}${sysconfdir}/trd
 	install -m 0755 ${S}/autostart.sh ${D}${sysconfdir}/trd/
-	install -m 0755 ${S}/trd-utils.sh ${D}${sysconfdir}/trd/
 
 	install -d ${D}${sysconfdir}/dropbear
 	install -m 0644 ${S}/dropbear_rsa_host_key ${D}${sysconfdir}/dropbear
@@ -45,7 +41,6 @@ do_install() {
 }
 
 FILES_${PN} += " \
-	${bindir}/run_video.sh \
 	${bindir}/jupyter-setup.sh \
 	"
 
