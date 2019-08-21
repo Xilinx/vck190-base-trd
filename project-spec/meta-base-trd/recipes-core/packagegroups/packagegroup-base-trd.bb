@@ -32,6 +32,7 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	kms++ \
+	mediasrcbin \
 	nodejs \
 	nodejs-npm \
 	python3-dev \
