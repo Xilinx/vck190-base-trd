@@ -1,7 +1,4 @@
-SRC_URI = "\
-    git://github.com/Xilinx/XRT.git;protocol=https;branch=2019.1 \
-    file://0001-xrt-enable-scheduler-debug.patch \
-    "
+SRC_URI = "git://github.com/Xilinx/XRT.git;protocol=https;branch=2019.1"
 
 SRCREV = "${AUTOREV}"
 
