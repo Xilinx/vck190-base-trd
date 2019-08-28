@@ -1,0 +1,6 @@
+/include/ "system-conf.dtsi"
+/ {
+	chosen {
+		stdout-path = "serial0:115200";
+	};
+};
