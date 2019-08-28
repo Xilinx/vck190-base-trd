@@ -4,3 +4,9 @@
 		stdout-path = "serial0:115200";
 	};
 };
+&amba {
+	zyxclmm_drm {
+		compatible = "xlnx,zocl";
+		status = "okay";
+	};
+};
