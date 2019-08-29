@@ -4221,6 +4221,7 @@ CONFIG_imagefeature-hwcodecs=y
 #
 # user packages 
 #
+CONFIG_packagegroup-base-trd=y
 
 #
 # PetaLinux RootFS Settings
