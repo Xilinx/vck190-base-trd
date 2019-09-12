@@ -77,7 +77,7 @@ CONFIG_SUBSYSTEM_MACHINE_NAME="versal-vc-e-a2197-00-reva"
 #
 # Kernel Bootargs
 #
-CONFIG_SUBSYSTEM_USER_CMDLINE="console=ttyAMA0 earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused"
+CONFIG_SUBSYSTEM_USER_CMDLINE="console=ttyAMA0 earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused root=/dev/ram rw cma=256M"
 CONFIG_SUBSYSTEM_DEVICETREE_FLAGS=""
 
 #
