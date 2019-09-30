@@ -1,4 +1,4 @@
 [submodule "project-spec/meta-base-trd"]
 	path = project-spec/meta-base-trd
 	url = https://gitenterprise.xilinx.com/ckohn/meta-base-trd.git
-	branch = 2019.2
+	branch = master
