@@ -155,6 +155,11 @@ CONFIG_system-versal=y
 # CONFIG_formfactor-dev is not set
 
 #
+# haveged 
+#
+CONFIG_haveged=y
+
+#
 # i2c-tools 
 #
 # CONFIG_i2c-tools is not set
@@ -2231,14 +2236,14 @@ CONFIG_tcl=y
 #
 # xrt
 #
-# CONFIG_xrt is not set
+CONFIG_xrt=y
 # CONFIG_xrt-dev is not set
 # CONFIG_xrt-dbg is not set
 
 #
 # zocl
 #
-# CONFIG_zocl is not set
+CONFIG_zocl=y
 # CONFIG_zocl-dev is not set
 # CONFIG_zocl-dbg is not set
 
