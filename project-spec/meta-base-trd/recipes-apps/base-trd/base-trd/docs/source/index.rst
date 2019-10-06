@@ -3,20 +3,23 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the Base TRD documentation!
-======================================
+Versal Base TRD Documentation
+=============================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
 
+   revision.rst
+   intro.rst
+   run.rst
+   build.rst
 
-
-Indices and tables
+Indices and Tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
