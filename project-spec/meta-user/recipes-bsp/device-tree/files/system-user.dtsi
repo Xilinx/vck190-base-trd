@@ -10,3 +10,4 @@
 		status = "okay";
 	};
 };
+#include "pl-custom.dtsi"
