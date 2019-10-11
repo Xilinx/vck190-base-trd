@@ -5,7 +5,7 @@
 
 SUMMARY = "gst-sdx allocator and base class"
 SECTION = "PETALINUX/apps"
-LICENSE = "Proprietary"
+LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/src/gst-libs/gst/base/gstsdxbase.c;beginline=1;endline=24;md5=091ea5d307cba07f2969994cdbb8f2f3"
 
 DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
