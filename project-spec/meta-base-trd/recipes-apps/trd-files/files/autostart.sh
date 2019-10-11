@@ -7,5 +7,8 @@ source /etc/profile
 echo "Setting console loglevel to 0 ..."
 echo "0" > /proc/sys/kernel/printk
 
+# Wake up monitor
+/usr/bin/modetest -M xlnx > /dev/null
+
 # Install/upgrade python packages for jupyter
 echo "Run 'jupyter-setup.sh' to enable jupyter widgets extension"
