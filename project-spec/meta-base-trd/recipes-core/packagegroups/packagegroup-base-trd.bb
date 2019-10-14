@@ -19,10 +19,10 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
-	packagegroup-petalinux-jupyter \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
+	packagegroup-python3-jupyter \
 	base-trd-notebooks \
 	haveged \
 	git \
