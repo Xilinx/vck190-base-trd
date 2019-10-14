@@ -7,7 +7,7 @@
 
 /dts-v1/;
 #include "versal.dtsi"
-#include "versal-vck190-reva.dtsi"
+#include "versal-vck190-reva-x-ebm-01-reva.dtsi"
 #include "versal-clk.dtsi"
 #include "pcw.dtsi"
 / {
