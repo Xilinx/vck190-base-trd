@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * dts file for Xilinx Versal VCK190 revA
+ * dts file for Xilinx Versal vck190 revA with X-EBM-01-revA module
  *
  * (C) Copyright 2019, Xilinx, Inc.
  *
@@ -8,8 +8,9 @@
  */
 
 / {
-	compatible = "xlnx,versal-vck190-revA", "xlnx,versal";
-	model = "Xilinx Versal vck190 Eval board revA";
+	compatible = "xlnx,versal-vck190-revA-x-ebm-01-revA",
+		     "xlnx,versal-vck190-revA", "xlnx,versal";
+	model = "Xilinx Versal vck190 Eval board revA (QSPI)";
 
 	chosen {
 		bootargs = "console=ttyAMA0 earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused";
@@ -114,4 +115,27 @@
 	snps,dis_u2_susphy_quirk;
 	snps,dis_u3_susphy_quirk;
 	snps,usb3_lpm_capable;
+};
+
+&qspi {
+        status = "okay";
+        num-cs = <1>;
+        spi-tx-bus-width = <1>;
+        spi-rx-bus-width = <4>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+        is-dual = <1>;
+        flash@0 {
+                #address-cells = <1>;
+                #size-cells = <1>;
+                compatible = "m25p80", "spi-flash"; /* 256MB */
+                reg = <0>;
+                spi-tx-bus-width = <1>;
+                spi-rx-bus-width = <4>;
+                spi-max-frequency = <104000000>;
+                partition@0 {
+                        label = "spi0-flash0";
+                        reg = <0x0 0x10000000>;
+                };
+        };
 };
