@@ -20,6 +20,10 @@ The following is a list of supported design shells including key I/O interfaces:
 
     * File source
 
+  * Processing:
+
+    * VP9 decode and demux
+
   * Sinks:
 
     * HDMI Tx + video mixer display pipeline
@@ -27,10 +31,13 @@ The following is a list of supported design shells including key I/O interfaces:
     * Application sink into jupyter notebook display
 
 
-**TODO:**
+.. figure:: images/system-bd.jpg
+    :width: 1000px
+    :align: center
+    :alt: System Design Block Diagram
+    :figclass: align-center
 
-* Add system block diagram
-  
+    System Design Block Diagram
 
 Software Stack
 --------------
@@ -45,8 +52,11 @@ The main software framworks used in this reference design are:
 
 * DRM/KMS kernel subsystem and drivers for display devices
 
-* Xilinx Runtime (XRT) and zocl driver for accelerator kernels
+.. figure:: images/sw-stack.jpg
+    :width: 550px
+    :align: center
+    :alt: Software Stack Overview
+    :figclass: align-center
 
-**TODO:**
+    Software Stack Overview
 
-* Add software stack diagram
