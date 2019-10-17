@@ -11,4 +11,4 @@ Revision History
 
   * Prebuilt SD card image
 
-  * Jupyter notebooks
+  * Jupyter notebooks (NB1-4)
