@@ -9,6 +9,12 @@
 .affix {position:inherit;}
 .icon icon-home {color:#E9102B;}
 .copyright {font-size:0.5em;}
+body .xilinx-bs3 header nav .main-nav{margin-right:100%;}
+.wy-menu-vertical {width:250px;}
+footer p {font-size:small;}
+
+
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

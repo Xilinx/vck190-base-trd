@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Vitis, library, Database, Quantitative Finance, Vision, Data Compression, Security, Solver, BLAS, Hardware, xfOpenCV, xfdatabase, xffintech, xfcompression, xfsecurity, xfsolver, xfblas, xfhardware"/>
+<meta name="description" content="Vitis software development platform includes an extensive set of open-source, performance-optimized libraries that offer out-of-the-box acceleration with minimal to zero-code changes to your existing applications, without the need to reimplement your algorithms from scratch to harness the benefits of Xilinx adaptive compute."/>
+<meta name="xlnxdocumentclass" content="Document"> 
+<meta name="xlnxdocumenttypes" content="Tutorials"> 
+<!-- Header information provided by Emily-->
+    <meta name="Language" content="en">
+    <meta name="Location" content="us">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+  
+  <title>3. Run the Prebuilt Image &mdash; Versal Base TRD 2019.2-0.1 documentation</title>
+  
+<!-- Header information provided by Emily-->
+    <meta name="apple-itunes-app" content="app-id=1063287962">
+    <meta name="google-play-app" content="app-id=com.marketing.xilinxgo">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/d3dd8c60ed.js"></script>
+    
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all.min.css" type="text/css">
+    
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Build the Vivado Design" href="build-vivado.html" />
+    <link rel="prev" title="2. Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+<div class="xilinx-bs3">
+    <noindex>
+        <header data-component="header">
+            <nav class="navbar navbar-default">
+                <div class="container main-nav">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-2 logo-column">
+                            <div class="logo">
+                                <a href="https://www.xilinx.com/">
+                                    <img src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/imgs/header/xilinx-header-logo.svg" title="Xilinx Inc" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 navbar-column">
+                            <div class="navbar navbar-collapse collapse" id="xilinx-main-menu">
+                                <ul class="nav navbar-nav nav-justified">
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html#documentation">
+                                            Documentation
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html">
+                                            Support
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://forums.xilinx.com/">
+                                            Forums
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mini-nav col-sm-2">
+                            <button type="button" data-function="xilinx-mobile-menu" id="nav-toggle" class="navbar-toggle collapsed visible-xs-block" aria-expanded="false">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </noindex>
+</div>
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Versal Base TRD
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Run the Prebuilt Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">3.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sd-card-creation">3.2. SD Card Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#board-setup">3.3. Board Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connect-to-the-jupyterlab-server">3.4. Connect to the JupyterLab Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-the-jupyter-notebooks">3.5. Run the Jupyter Notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+</ul>
+
+            
+			<p class="caption"><span class="caption-text">This Page</span></p>
+				<ul class="current">
+				  <li class="toctree-l1"><a href="_sources/run.rst.txt"
+						rel="nofollow">Show Source</a></li>
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/run.rst"
+						   rel="nofollow">View on GitHub</a></li>						
+				</ul>
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Versal Base TRD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>3. Run the Prebuilt Image</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/run.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="run-the-prebuilt-image">
+<h1>3. Run the Prebuilt Image<a class="headerlink" href="#run-the-prebuilt-image" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>3.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Reference design zip file</p></li>
+<li><p>Terminal emulator, for example</p>
+<ul>
+<li><p>Windows: teraterm (<a class="reference external" href="https://osdn.net/projects/ttssh2">https://osdn.net/projects/ttssh2</a>)</p></li>
+<li><p>Linux: picocom (<a class="reference external" href="https://github.com/npat-efault/picocom/releases">https://github.com/npat-efault/picocom/releases</a>)</p></li>
+</ul>
+</li>
+<li><p>Windows: Win32 Disk Imager utility (<a class="reference external" href="https://sourceforge.net/projects/win32diskimager">https://sourceforge.net/projects/win32diskimager</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="sd-card-creation">
+<h2>3.2. SD Card Creation<a class="headerlink" href="#sd-card-creation" title="Permalink to this headline">¶</a></h2>
+<p>Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
+<em>Win32 Disk Imager</em> utility for Windows or ‘dd’ command line utility for Linux
+to write the given rawdisk image ‘sdcard.img’ to the SD card.</p>
+<p>After unzipping the image file <em>sdcard.img.zip</em> using windows extractor, use the
+following steps to write a raw disk image to a removable device using the
+Win32 Disk Imager utility.</p>
+<ol class="arabic simple">
+<li><p>Browse to the location of the unzipped image in the Win32 utility</p></li>
+<li><p>Choose the correct SD card under ‘device’</p></li>
+<li><p>Select ‘Write’ to the SD card, click ‘Yes’ at the prompt to continue writing
+and wait till the operation is complete</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/win32.png"><img alt="Win32 Image" class="align-center" src="_images/win32.png" style="width: 800px;" /></a>
+<p>Steps to write a raw disk image to a removable device using dd command-line
+utility for Linux</p>
+<ol class="arabic">
+<li><p>Unzip the given image file “sdcard.img.zip” in linux</p></li>
+<li><p>Use dd to write sdcard.img to correct enumerated disk for SD card in the
+Linux machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unzip</span> <span class="n">sdcard</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">zip</span>
+<span class="n">sudo</span> <span class="n">dd</span> <span class="k">if</span><span class="o">=</span><span class="n">sdcard</span><span class="o">.</span><span class="n">img</span> <span class="n">of</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdbx</span> <span class="n">bs</span><span class="o">=</span><span class="mi">1</span><span class="n">M</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>SD card partitions</strong></p>
+<p>Once the raw image is written to the SD card, you will be able to see two
+partitions. In the first partition (FAT32 format) resides:</p>
+<ul class="simple">
+<li><p>the boot image (BOOT.bin)</p></li>
+<li><p>the u-boot boot script (boot.scr)</p></li>
+<li><p>and the kernel image (image.ub)</p></li>
+</ul>
+<p>while in the second patition (ext4 format) resides the root file system.</p>
+<p><strong>Note:</strong> A Windows OS would only allows FAT32 partitions to be viewed, which is
+the boot partition, whereas ext4 format is not recognized.</p>
+</div>
+<div class="section" id="board-setup">
+<h2>3.3. Board Setup<a class="headerlink" href="#board-setup" title="Permalink to this headline">¶</a></h2>
+<p>The following figure shows how to set up the VCK190 evaluation board.</p>
+<a class="reference internal image-reference" href="_images/vck190-setup.jpg"><img alt="VCK190 Board Setup" class="align-center" src="_images/vck190-setup.jpg" style="width: 900px;" /></a>
+<p><strong>Board jumper and switch settings</strong></p>
+<p>This is a onetime setup and the board should have been delivered to you with
+this default settings, but it is good to double check for the first time when
+you get the board.</p>
+<ul class="simple">
+<li><p>Make sure you remove J326 (7-8) jumper.</p></li>
+<li><p>Setup SYSCTRL Boot mode switch SW11 to (ON,OFF,OFF,OFF) from switch bits
+1 to 4 as shown in the above picture.</p></li>
+<li><p>Make sure you have the SYSCTRL uSD card inserted in the slot and card has the
+SYSCTRL image.</p></li>
+<li><p>Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
+as shown in the above picture.</p></li>
+</ul>
+<p><strong>Serial console settings</strong></p>
+<p>VCK190 comes with a USB-C connector for JTAG+UART, when connected three UART
+ports should be visible in Device Manager:</p>
+<ul class="simple">
+<li><p>Versal UART0</p></li>
+<li><p>Versal UART1 &amp;</p></li>
+<li><p>System Controller UART</p></li>
+</ul>
+<p>Connect a USB-C cable to the USB-UART connector. In the terminal emulator choose
+Versal UART0 and use the following settings:</p>
+<ul class="simple">
+<li><p>Baud Rate: 115200</p></li>
+<li><p>Data: 8 bit</p></li>
+<li><p>Parity: None</p></li>
+<li><p>Stop: 1 bit</p></li>
+<li><p>Flow Control: None</p></li>
+</ul>
+</div>
+<div class="section" id="connect-to-the-jupyterlab-server">
+<h2>3.4. Connect to the JupyterLab Server<a class="headerlink" href="#connect-to-the-jupyterlab-server" title="Permalink to this headline">¶</a></h2>
+<p>Follow these steps to boot the board into Linux</p>
+<ul>
+<li><p>Ensure all steps under the section ‘Board jumper and switch settings’ are
+verified.</p></li>
+<li><p>Insert the prepared micro SD card into the Versal SD card slot (refer to the
+image VCK190 Board Setup)</p></li>
+<li><p>Make physical connections to ethernet, HDMI, UART, webcam and power as shown
+in the image.</p></li>
+<li><p>Have the UART0 terminal emulator tab connected.</p></li>
+<li><p>Turn ON power switch SW13.</p></li>
+<li><p>On Versal UART0 terminal, we would see the Versal device booting from the
+micro SD card starting with the message
+“Xilinx Versal Platform Loader and Manager”</p></li>
+<li><p>In about 60 seconds boot is complete. Observe the Linux prompt
+<em>root&#64;xilinx-vck190-qspi-2019_2</em> and autostart of JupyterLab server as shown
+in the example below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>root@xilinx-vck190-qspi-2019_2:~#
+[W 02:30:21.552 LabApp] JupyterLab server extension not enabled, manually loading...
+[I 02:30:21.571 LabApp] JupyterLab extension loaded from /usr/lib/python3.5/site-packages/jupyterlab
+[I 02:30:21.572 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
+[I 02:30:21.580 LabApp] Serving notebooks from local directory: /usr/share/notebooks
+[I 02:30:21.581 LabApp] The Jupyter Notebook is running at:
+[I 02:30:21.581 LabApp] http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+[I 02:30:21.581 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 02:30:23.092 LabApp]
+
+ To access the notebook, open this file in a browser:
+     file:///home/root/.local/share/jupyter/runtime/nbserver-1889-open.html
+ Or copy and paste one of these URLs:
+     http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Follow these steps to connect to the jupyter-server using Chrome browser on the
+laptop.</p>
+<p><strong>Note:</strong> This demo is tested with Chrome browser only.</p>
+<ul>
+<li><p>Copy the generated URL with token on the prompt of Versal target and paste it
+to the browser address bar of the laptop, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+</pre></div>
+</div>
+<p><strong>Note:</strong> If for any reason target fails to grab an IP address from the
+network, Jupyter server would fail to issue an URL. In such a case user is
+recommended to fix an IP address and restart the jupyter server as shown
+below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">server</span> <span class="n">stop</span>
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">server</span> <span class="n">start</span>
+</pre></div>
+</div>
+</li>
+<li><p>To look up the jupyter server IP address and token on the target, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span> <span class="nb">list</span>
+</pre></div>
+</div>
+</li>
+<li><p>In case of a private network, user may have to assign a static address within
+the subnet of the host laptop</p></li>
+</ul>
+</div>
+<div class="section" id="run-the-jupyter-notebooks">
+<h2>3.5. Run the Jupyter Notebooks<a class="headerlink" href="#run-the-jupyter-notebooks" title="Permalink to this headline">¶</a></h2>
+<p>This TRD includes four jupyter notebooks</p>
+<ol class="arabic simple">
+<li><p><strong>base-trd-nb1.ipynb</strong>: Demonstrates videoplayback of a file source in rootfs
+of the target to the Jupyter notebook using the GStreamer multimedia
+framework</p></li>
+<li><p><strong>base-trd-nb2.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
+the target to the Jupyter notebook using the GStreamer multimedia framework</p></li>
+<li><p><strong>base-trd-nb3.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
+the target to a Hdmi monitor using the GStreamer multimedia framework</p></li>
+<li><p><strong>base-trd-nb4.ipynb</strong>: Demonstrates two simultaneous streaming pipelines,
+one from file source and another from a v4l2 device onto two individual
+planes of a HDMI monitor using the GStreamer multimedia framework</p></li>
+</ol>
+<p>For file source, two VP9 encoded video files are located at <em>/usr/share/movies/</em>
+on the root file system:</p>
+<ul class="simple">
+<li><p>Big Buck Bunny 360p</p></li>
+<li><p>Big Buck Bunny 480p</p></li>
+</ul>
+<p>V4L2 device can be emulated or can be a USB webcam:</p>
+<ul>
+<li><p>Virtual Video Device (vivid) enumerated as <em>/dev/video0</em> OR</p></li>
+<li><p>USB webcam enumerated as <em>/dev/video2</em></p>
+<p><strong>Note:</strong> The video node can differ based on the USB webcam model</p>
+</li>
+</ul>
+<p>To run the notebooks, follow the below steps:</p>
+<ol class="arabic simple">
+<li><p>On the left pane of the browser, 4 notebooks are available under the folder
+Base TRD.</p></li>
+<li><p>Double click to open the notebook</p></li>
+<li><p>Select ‘Kernel’ → ‘Restart Kernel and Run All Cells’ from the top menu bar to
+run the demo. Scroll down to the end of the notebook to see the video output.</p></li>
+<li><p>Click the rectangular icon to interrupt the kernel and stop the video stream.</p></li>
+<li><p>Select ‘Kernel’ → ‘Shutdown Kernel’ → close the notebook tab and move to the
+next notebook.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/jnbh.png"><img alt="Jupyter_nb_home" class="align-center" src="_images/jnbh.png" style="width: 1000px;" /></a>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build-vivado.html" class="btn btn-neutral float-right" title="4. Build the Vivado Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral float-left" title="2. Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo" class="copyright">
+    <p>
+        
+        &copy; Copyright 2019, Xilinx
+
+    </p>
+  </div>
+<!--
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+-->
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

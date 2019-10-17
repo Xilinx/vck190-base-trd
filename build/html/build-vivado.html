@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Vitis, library, Database, Quantitative Finance, Vision, Data Compression, Security, Solver, BLAS, Hardware, xfOpenCV, xfdatabase, xffintech, xfcompression, xfsecurity, xfsolver, xfblas, xfhardware"/>
+<meta name="description" content="Vitis software development platform includes an extensive set of open-source, performance-optimized libraries that offer out-of-the-box acceleration with minimal to zero-code changes to your existing applications, without the need to reimplement your algorithms from scratch to harness the benefits of Xilinx adaptive compute."/>
+<meta name="xlnxdocumentclass" content="Document"> 
+<meta name="xlnxdocumenttypes" content="Tutorials"> 
+<!-- Header information provided by Emily-->
+    <meta name="Language" content="en">
+    <meta name="Location" content="us">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+  
+  <title>4. Build the Vivado Design &mdash; Versal Base TRD 2019.2-0.1 documentation</title>
+  
+<!-- Header information provided by Emily-->
+    <meta name="apple-itunes-app" content="app-id=1063287962">
+    <meta name="google-play-app" content="app-id=com.marketing.xilinxgo">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/d3dd8c60ed.js"></script>
+    
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all.min.css" type="text/css">
+    
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Build the PetaLinux Image" href="build-plnx.html" />
+    <link rel="prev" title="3. Run the Prebuilt Image" href="run.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+<div class="xilinx-bs3">
+    <noindex>
+        <header data-component="header">
+            <nav class="navbar navbar-default">
+                <div class="container main-nav">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-2 logo-column">
+                            <div class="logo">
+                                <a href="https://www.xilinx.com/">
+                                    <img src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/imgs/header/xilinx-header-logo.svg" title="Xilinx Inc" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 navbar-column">
+                            <div class="navbar navbar-collapse collapse" id="xilinx-main-menu">
+                                <ul class="nav navbar-nav nav-justified">
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html#documentation">
+                                            Documentation
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html">
+                                            Support
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://forums.xilinx.com/">
+                                            Forums
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mini-nav col-sm-2">
+                            <button type="button" data-function="xilinx-mobile-menu" id="nav-toggle" class="navbar-toggle collapsed visible-xs-block" aria-expanded="false">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </noindex>
+</div>
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Versal Base TRD
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Build the Vivado Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">4.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">4.2. Build Flow Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+</ul>
+
+            
+			<p class="caption"><span class="caption-text">This Page</span></p>
+				<ul class="current">
+				  <li class="toctree-l1"><a href="_sources/build-vivado.rst.txt"
+						rel="nofollow">Show Source</a></li>
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/build-vivado.rst"
+						   rel="nofollow">View on GitHub</a></li>						
+				</ul>
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Versal Base TRD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>4. Build the Vivado Design</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/build-vivado.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-the-vivado-design">
+<h1>4. Build the Vivado Design<a class="headerlink" href="#build-the-vivado-design" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>4.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Reference Design zip file</p></li>
+<li><p>Vivado Design Suite 2019.2</p></li>
+</ul>
+</div>
+<div class="section" id="build-flow-tutorial">
+<h2>4.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<p><strong>Download Reference Design Files:</strong></p>
+<p>Skip the following steps if the design zip file has already been downloaded and
+extracted to a working directory</p>
+<ol class="arabic simple">
+<li><p>Download the VCK190 Base Targeted Reference Design ZIP file</p></li>
+<li><p>Unzip Contents</p></li>
+</ol>
+<p>The directory structure is described in the Introduction Section</p>
+<p><strong>Generate Device Image and XSA:</strong></p>
+<ol class="arabic">
+<li><p>Enable Versal device support</p>
+<p>To enable Versal device support, you need to create two tcl initialization
+scripts, one for Vivado and one for HLS. Add the following line to each of
+the tcl scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enable_beta_device</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>The initialization tcl script for Vivado shall be placed at:</p>
+<ul class="simple">
+<li><p><strong>Linux</strong>: $HOME/.Xilinx/Vivado/Vivado_init.tcl</p></li>
+<li><p><strong>Windows</strong>: %APPDATA%/Roaming/Xilinx/Vivado/Vivado_init.tcl</p></li>
+</ul>
+<p>Similarly, the initialization tcl script for HLS shall be placed at:</p>
+<ul class="simple">
+<li><p><strong>Linux</strong>: $HOME/.Xilinx/HLS_init.tcl</p></li>
+<li><p><strong>Windows</strong>: %APPDATA%/Roaming/HLS_init.tcl</p></li>
+</ul>
+</li>
+<li><p>Open the Vivado GUI.</p>
+<p>On Windows, open Vivado by navigating to <em>Start &gt; Xilinx Design Tools &gt; Vivado 2019.2</em>.
+In the tcl console type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $working_dir/vck190_base_trd_shell1/vivado
+source scripts/main.tcl
+</pre></div>
+</div>
+<p>On Linux, at the command prompt enter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $working_dir/vck190_base_trd_shell1/vivado
+vivado -source scripts/main.tcl
+</pre></div>
+</div>
+<p>A Vivado cockpit as shown below will open with vck190_base_trd_shell1 project
+populated.</p>
+<a class="reference internal image-reference" href="_images/vivado.png"><img alt="Vivado cockpit" class="align-center" src="_images/vivado.png" style="width: 1200px;" /></a>
+</li>
+<li><p>In the Flow Navigator pane on the left-hand side under IP Integrator, click
+on <em>Open Block Design</em>. An IP Integrator (IPI) block design
+(<em>vck190_base_trd_shell1.bd</em>) becomes visible that contains the
+Control, Interface and Processing System (CIPS) IP, NOC IP and
+Display Pipeline.</p>
+<a class="reference internal image-reference" href="_images/block_design.png"><img alt="IPI Block Design" class="align-center" src="_images/block_design.png" style="width: 1200px;" /></a>
+</li>
+<li><p>In the Flow Navigator pane on the left-hand side under Program and Debug,
+click on <em>Generate Device Image</em>. The device image (pdi) for the design will
+be generated and available at
+<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.runs/impl_1/vck190_base_trd_shell1_wrapper.pdi</em>.</p></li>
+<li><p>After Device Image Generation completes successfully a window pops up. Select
+<em>Open Implemented Design</em> and click on <em>OK</em>.</p>
+<a class="reference internal image-reference" href="_images/open_implemented_design.png"><img alt="Open Implemented Design" class="align-center" src="_images/open_implemented_design.png" style="width: 350px;" /></a>
+</li>
+<li><p>To create the XSA, click on <em>File –&gt; Export –&gt; Export hardware</em>. A
+window pops up.</p>
+<ul class="simple">
+<li><p>Unselect Include files for Emulation.</p></li>
+<li><p>Select Include Device Image.</p></li>
+<li><p>Change Export path to
+<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk</em></p></li>
+<li><p>Click on OK.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/export.png"><img alt="Export hardware Options" class="align-center" src="_images/export.png" style="width: 500px;" /></a>
+<p>The file <em>vck190_base_trd_shell1.xsa</em> will be available in
+<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk</em></p>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build-plnx.html" class="btn btn-neutral float-right" title="5. Build the PetaLinux Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="run.html" class="btn btn-neutral float-left" title="3. Run the Prebuilt Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo" class="copyright">
+    <p>
+        
+        &copy; Copyright 2019, Xilinx
+
+    </p>
+  </div>
+<!--
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+-->
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
