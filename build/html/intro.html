@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Vitis, library, Database, Quantitative Finance, Vision, Data Compression, Security, Solver, BLAS, Hardware, xfOpenCV, xfdatabase, xffintech, xfcompression, xfsecurity, xfsolver, xfblas, xfhardware"/>
+<meta name="description" content="Vitis software development platform includes an extensive set of open-source, performance-optimized libraries that offer out-of-the-box acceleration with minimal to zero-code changes to your existing applications, without the need to reimplement your algorithms from scratch to harness the benefits of Xilinx adaptive compute."/>
+<meta name="xlnxdocumentclass" content="Document"> 
+<meta name="xlnxdocumenttypes" content="Tutorials"> 
+<!-- Header information provided by Emily-->
+    <meta name="Language" content="en">
+    <meta name="Location" content="us">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
+  
+  <title>2. Introduction &mdash; Versal Base TRD 2019.2-0.1 documentation</title>
+  
+<!-- Header information provided by Emily-->
+    <meta name="apple-itunes-app" content="app-id=1063287962">
+    <meta name="google-play-app" content="app-id=com.marketing.xilinxgo">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/d3dd8c60ed.js"></script>
+    
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.css" type="text/css">
+    <link rel="stylesheet" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all.min.css" type="text/css">
+    
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/clientlibs/granite/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/header-footer.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Run the Prebuilt Image" href="run.html" />
+    <link rel="prev" title="1. Revision History" href="revision.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+<div class="xilinx-bs3">
+    <noindex>
+        <header data-component="header">
+            <nav class="navbar navbar-default">
+                <div class="container main-nav">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-2 logo-column">
+                            <div class="logo">
+                                <a href="https://www.xilinx.com/">
+                                    <img src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/imgs/header/xilinx-header-logo.svg" title="Xilinx Inc" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 navbar-column">
+                            <div class="navbar navbar-collapse collapse" id="xilinx-main-menu">
+                                <ul class="nav navbar-nav nav-justified">
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html#documentation">
+                                            Documentation
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://www.xilinx.com/support.html">
+                                            Support
+                                        </a>
+                                    </li>
+                                    <li class="accordion-toggle-icons" data-component="toggle-dropdown">
+                                        <a href="https://forums.xilinx.com/">
+                                            Forums
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mini-nav col-sm-2">
+                            <button type="button" data-function="xilinx-mobile-menu" id="nav-toggle" class="navbar-toggle collapsed visible-xs-block" aria-expanded="false">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </noindex>
+</div>
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Versal Base TRD
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#design-shells">2.1. Design Shells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#software-stack">2.2. Software Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-file-hierarchy">2.3. Design File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licenses">2.4. Licenses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+</ul>
+
+            
+			<p class="caption"><span class="caption-text">This Page</span></p>
+				<ul class="current">
+				  <li class="toctree-l1"><a href="_sources/intro.rst.txt"
+						rel="nofollow">Show Source</a></li>
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/intro.rst"
+						   rel="nofollow">View on GitHub</a></li>						
+				</ul>
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Versal Base TRD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>2. Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>2. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The Versal Base TRD consists of a series of design shells and jupyter notebooks
+to demonstrate various aspects of the design. A design shell is a Vivado design
+with a pre-instantiated set of I/O interfaces and a corresponding PetaLinux BSP
+and image that includes the required kernel drivers and user-space libraries to
+exercise those interfaces. The reference design currently supports the VCK190
+evaluation board.</p>
+<div class="section" id="design-shells">
+<h2>2.1. Design Shells<a class="headerlink" href="#design-shells" title="Permalink to this headline">¶</a></h2>
+<p>The following is a list of supported design shells including key I/O interfaces:</p>
+<ul class="simple">
+<li><p>Shell 1:</p>
+<ul>
+<li><p>Sources:</p>
+<ul>
+<li><p>USB webcam capture pipeline</p></li>
+<li><p>File source</p></li>
+</ul>
+</li>
+<li><p>Processing:</p>
+<ul>
+<li><p>VP9 decode and demux</p></li>
+</ul>
+</li>
+<li><p>Sinks:</p>
+<ul>
+<li><p>HDMI Tx + video mixer display pipeline</p></li>
+<li><p>Application sink into jupyter notebook display</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<a class="reference internal image-reference" href="_images/system-bd.jpg"><img alt="System Design Block Diagram" class="align-center" src="_images/system-bd.jpg" style="width: 1000px;" /></a>
+</div>
+<div class="section" id="software-stack">
+<h2>2.2. Software Stack<a class="headerlink" href="#software-stack" title="Permalink to this headline">¶</a></h2>
+<p>The main software frameworks used in this reference design are:</p>
+<ul class="simple">
+<li><p>Jupyter notebooks for top-level application control and visualization</p></li>
+<li><p>GStreamer multimedia framework and plugins for video pipeline creation</p></li>
+<li><p>V4L2 kernel subsystem and drivers for video capture devices</p></li>
+<li><p>DRM/KMS kernel subsystem and drivers for display devices</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/sw-stack.jpg"><img alt="Software Stack Overview" class="align-center" src="_images/sw-stack.jpg" style="width: 550px;" /></a>
+</div>
+<div class="section" id="design-file-hierarchy">
+<h2>2.3. Design File Hierarchy<a class="headerlink" href="#design-file-hierarchy" title="Permalink to this headline">¶</a></h2>
+<p>The reference design zip file can be downloaded from
+<a class="reference external" href="https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.zip">https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.zip</a></p>
+<p>It has the following contents:</p>
+<ul class="simple">
+<li><p>Documentation (html webpages)</p></li>
+<li><p>Petalinux Board Support Package (BSP)</p></li>
+<li><p>Pre-built SD card image</p></li>
+<li><p>Vivado hardware design project</p></li>
+<li><p>README file</p></li>
+<li><p>Design sources zip file</p></li>
+<li><p>Licenses zip file</p></li>
+</ul>
+<p>The design file hierarchy is shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vck190_base_trd_shell1_2019.2_v0.1
+├── docs
+│   ├── doctrees
+│   ├── html
+│   └── index.html
+├── licenses.zip
+├── petalinux
+│   └── xilinx-vck190-qspi-base-trd-2019.2-v0.1.bsp
+├── README.txt
+├── sdcard
+│   └── sdcard.img.zip
+├── sources.zip
+└── vivado
+    ├── scripts
+    └── xdc
+</pre></div>
+</div>
+</div>
+<div class="section" id="licenses">
+<h2>2.4. Licenses<a class="headerlink" href="#licenses" title="Permalink to this headline">¶</a></h2>
+<p>The design includes files licensed by Xilinx and third parties under the terms
+of the GNU General Public License, GNU Lesser General Public License,
+BSD License, MIT License, and other licenses. The design directory includes one
+zip file named <code class="docutils literal notranslate"><span class="pre">sources.zip</span></code> containing the complete set of design source
+files and one zip file named <code class="docutils literal notranslate"><span class="pre">licenses.zip</span></code> containing licenses extracted from
+the design source files. You are solely responsible for checking any files you
+use for notices and licenses and for complying with any terms applicable to your
+use of the design and any third party files supplied with the design.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="run.html" class="btn btn-neutral float-right" title="3. Run the Prebuilt Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="revision.html" class="btn btn-neutral float-left" title="1. Revision History" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo" class="copyright">
+    <p>
+        
+        &copy; Copyright 2019, Xilinx
+
+    </p>
+  </div>
+<!--
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+-->
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
