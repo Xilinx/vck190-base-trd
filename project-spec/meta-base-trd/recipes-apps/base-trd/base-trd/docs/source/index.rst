@@ -15,7 +15,8 @@ Contents:
    revision.rst
    intro.rst
    run.rst
-   build.rst
+   build-vivado.rst
+   build-plnx.rst
 
 Indices and Tables
 ==================
