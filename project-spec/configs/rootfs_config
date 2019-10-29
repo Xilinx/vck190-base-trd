@@ -3100,7 +3100,6 @@ CONFIG_packagegroup-core-ssh-dropbear=y
 # CONFIG_qtsensors-mkspecs is not set
 # CONFIG_qtsensors-plugins is not set
 # CONFIG_qtsensors-dbg is not set
-# CONFIG_qtsensors-examples-dev is not set
 # CONFIG_qtsensors-dev is not set
 
 #
@@ -3149,7 +3148,6 @@ CONFIG_packagegroup-core-ssh-dropbear=y
 #
 # CONFIG_qttranslations is not set
 # CONFIG_qttranslations-qtwebengine is not set
-# CONFIG_qttranslations-qtquick1 is not set
 # CONFIG_qttranslations-qthelp is not set
 # CONFIG_qttranslations-qtbase is not set
 # CONFIG_qttranslations-dbg is not set
@@ -3161,7 +3159,6 @@ CONFIG_packagegroup-core-ssh-dropbear=y
 # CONFIG_qttranslations-linguist is not set
 # CONFIG_qttranslations-qtserialport is not set
 # CONFIG_qttranslations-qtmultimedia is not set
-# CONFIG_qttranslations-qt is not set
 # CONFIG_qttranslations-qtconnectivity is not set
 # CONFIG_qttranslations-qtlocation is not set
 # CONFIG_qttranslations-qtxmlpatterns is not set
@@ -3885,7 +3882,6 @@ CONFIG_bridge-utils=y
 #
 # libpthread-stubs 
 #
-# CONFIG_libpthread-stubs is not set
 # CONFIG_libpthread-stubs-dbg is not set
 # CONFIG_libpthread-stubs-dev is not set
 
