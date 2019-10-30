@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>5. Build the PetaLinux Image &mdash; Versal Base TRD 2019.2-0.1 documentation</title>
+  <title>5. Build the PetaLinux Image &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -132,7 +132,7 @@
             
             
               <div class="version">
-                0.1
+                0.1.1
               </div>
             
           
@@ -264,7 +264,7 @@ extracted to a working directory</p>
 <ol class="arabic">
 <li><p>Create a new PetaLinux project from the provided BSP:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">petalinux</span>
-<span class="n">petalinux</span><span class="o">-</span><span class="n">create</span> <span class="o">-</span><span class="n">t</span> <span class="n">project</span> <span class="o">-</span><span class="n">s</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mf">1.</span><span class="n">bsp</span>
+<span class="n">petalinux</span><span class="o">-</span><span class="n">create</span> <span class="o">-</span><span class="n">t</span> <span class="n">project</span> <span class="o">-</span><span class="n">s</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="n">bsp</span>
 </pre></div>
 </div>
 </li>
@@ -272,7 +272,7 @@ extracted to a working directory</p>
 <p><strong>Note:</strong> The xsa file used for project configuration is included with this
 BSP. The build step performs the configuration step implicitly. The xsa file
 can be generated through Vivado following the Vivado build steps:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mf">1.1</span>
 <span class="n">petalinux</span><span class="o">-</span><span class="n">build</span>
 </pre></div>
 </div>
