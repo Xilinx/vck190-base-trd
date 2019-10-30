@@ -58,7 +58,7 @@ Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.1.zip
 
 It has the following contents:
 
@@ -78,14 +78,14 @@ It has the following contents:
 
 The design file hierarchy is shown below::
 
- vck190_base_trd_shell1_2019.2_v0.1
+ vck190_base_trd_shell1_2019.2_v0.1.1
  ├── docs
  │   ├── doctrees
  │   ├── html
  │   └── index.html
  ├── licenses.zip
  ├── petalinux
- │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.1.bsp
+ │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.1.1.bsp
  ├── README.txt
  ├── sdcard
  │   └── sdcard.img.zip

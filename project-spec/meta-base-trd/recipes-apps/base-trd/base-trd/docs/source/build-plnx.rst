@@ -29,7 +29,7 @@ The directory structure is described in the Introduction Section.
 #. Create a new PetaLinux project from the provided BSP::
 
     cd petalinux
-    petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.1.bsp
+    petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.1.1.bsp
 
 
 #. Configure and build the PetaLinux project.
@@ -38,7 +38,7 @@ The directory structure is described in the Introduction Section.
    BSP. The build step performs the configuration step implicitly. The xsa file
    can be generated through Vivado following the Vivado build steps::
 
-    cd xilinx-vck190-qspi-base-trd-2019.2-v0.1
+    cd xilinx-vck190-qspi-base-trd-2019.2-v0.1.1
     petalinux-build
 
 #. Create a boot image::
