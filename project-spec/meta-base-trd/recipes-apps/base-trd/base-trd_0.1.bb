@@ -19,9 +19,12 @@ RDEPENDS_${PN} += " \
 	python3-pydot \
 	"
 
-SRC_URI = "file://base-trd.zip"
+SRC_URI = " \
+	file://notebooks \
+	file://LICENSE \
+	"
 
-S = "${WORKDIR}/src"
+S = "${WORKDIR}"
 
 do_configure[noexec]="1"
 do_compile[noexec]="1"

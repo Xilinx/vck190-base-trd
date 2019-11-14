@@ -31,6 +31,7 @@ BASE_TRD_PACKAGES = " \
 	gstreamer1.0-python \
 	jupyter-startup \
 	kernel-module-hdmi \
+	kms++ \
 	nodejs \
 	nodejs-npm \
 	python3-dev \
