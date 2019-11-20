@@ -26,6 +26,11 @@ The directory structure is described in the Introduction Section.
 
 **Generate PetaLinux Image**
 
+#. Enable Versal device support
+
+   To enable Versal device support in PetaLinux, follow the instructions
+   in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2019.2.tar.gz
+
 #. Create a new PetaLinux project from the provided BSP::
 
     cd petalinux
