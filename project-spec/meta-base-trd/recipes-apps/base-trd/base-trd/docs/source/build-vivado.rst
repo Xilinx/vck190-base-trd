@@ -49,16 +49,16 @@ The directory structure is described in the Introduction Section
    On Windows, open Vivado by navigating to *Start > Xilinx Design Tools > Vivado 2019.2*.
    In the tcl console type::
 
-     cd $working_dir/vck190_base_trd_shell1/vivado
+     cd $working_dir/vck190_base_trd_platform1/vivado
      source scripts/main.tcl
 
    On Linux, at the command prompt enter::
 
-     cd $working_dir/vck190_base_trd_shell1/vivado
+     cd $working_dir/vck190_base_trd_platform1/vivado
      vivado -source scripts/main.tcl
 
-   A Vivado cockpit as shown below will open with vck190_base_trd_shell1 project
-   populated.
+   A Vivado cockpit as shown below will open with vck190_base_trd_platform1
+   project populated.
 
    .. image:: images/vivado.png
      :width: 1200
@@ -67,7 +67,7 @@ The directory structure is described in the Introduction Section
 
 #. In the Flow Navigator pane on the left-hand side under IP Integrator, click
    on *Open Block Design*. An IP Integrator (IPI) block design
-   (*vck190_base_trd_shell1.bd*) becomes visible that contains the
+   (*vck190_base_trd_platform1.bd*) becomes visible that contains the
    Control, Interface and Processing System (CIPS) IP, NOC IP and
    Display Pipeline.
 
@@ -79,7 +79,7 @@ The directory structure is described in the Introduction Section
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will
    be generated and available at
-   *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.runs/impl_1/vck190_base_trd_shell1_wrapper.pdi*.
+   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi*.
 
 #. After Device Image Generation completes successfully a window pops up. Select
    *Open Implemented Design* and click on *OK*.
@@ -97,7 +97,7 @@ The directory structure is described in the Introduction Section
    * Select Include Device Image.
 
    * Change Export path to
-     *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk*
+     *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*
 
    * Click on OK.
 
@@ -106,5 +106,5 @@ The directory structure is described in the Introduction Section
      :align: center
      :alt: Export hardware Options
 
-   The file *vck190_base_trd_shell1.xsa* will be available in
-   *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk*
+   The file *vck190_base_trd_platform1.xsa* will be available in
+   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*

@@ -11,7 +11,7 @@ Revision History
 
 * Compatible with Vivado and PetaLinux 2019.2 EA tools version
 
-* Initial Release of Shell 1 including:
+* Initial Release of platform 1 including:
 
   * Vivado design
 

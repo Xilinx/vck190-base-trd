@@ -1,19 +1,19 @@
 Introduction
 ============
 
-The Versal Base TRD consists of a series of design shells and jupyter notebooks
-to demonstrate various aspects of the design. A design shell is a Vivado design
-with a pre-instantiated set of I/O interfaces and a corresponding PetaLinux BSP
-and image that includes the required kernel drivers and user-space libraries to
+The Versal Base TRD consists of a series of platforms and jupyter notebooks to
+demonstrate various aspects of the design. A platform is a Vivado design with a
+pre-instantiated set of I/O interfaces and a corresponding PetaLinux BSP and
+image that includes the required kernel drivers and user-space libraries to
 exercise those interfaces. The reference design currently supports the VCK190
 evaluation board.
 
-Design Shells
--------------
+Platforms
+---------
 
-The following is a list of supported design shells including key I/O interfaces:
+The following is a list of supported platforms including key I/O interfaces:
 
-* Shell 1:
+* Platform 1:
 
   * Sources:
 
@@ -58,7 +58,7 @@ Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.1.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.1.1.zip
 
 It has the following contents:
 
@@ -78,7 +78,7 @@ It has the following contents:
 
 The design file hierarchy is shown below::
 
- vck190_base_trd_shell1_2019.2_v0.1.1
+ vck190_base_trd_platform1_2019.2_v0.1.1
  ├── docs
  │   ├── doctrees
  │   ├── html
