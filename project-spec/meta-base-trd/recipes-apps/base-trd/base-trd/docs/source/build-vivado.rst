@@ -42,7 +42,7 @@ The directory structure is described in the Introduction Section
 
    * **Linux**: $HOME/.Xilinx/HLS_init.tcl
 
-   * **Windows**: %APPDATA%/Roaming/HLS_init.tcl
+   * **Windows**: %APPDATA%/Roaming/Xilinx/HLS_init.tcl
 
 #. Open the Vivado GUI.
 
