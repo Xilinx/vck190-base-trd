@@ -1,6 +1,22 @@
 Revision History
 ================
 
+**2019.2 v0.2:**
+
+* Replace 'shell' with 'platform' according to taxonomy
+
+* Add link to PetaLinux Versal device support README
+
+* Add Vitis platform and XSCT platform creation tcl script
+
+* Add Vitis accelerator projects, GStreamer plugins and Jupyter notebook
+
+  * 2D Filter (PL) using xf_opencv
+
+  * 2D Filter (AIE)
+
+* Add AXI performance monitors (APM) and Jupyter notebook
+
 **2019.2 v0.1.1:**
 
 * Compatible with Vivado and PetaLinux 2019.2 tools version
@@ -11,7 +27,7 @@ Revision History
 
 * Compatible with Vivado and PetaLinux 2019.2 EA tools version
 
-* Initial Release of Shell 1 including:
+* Initial Release of platform 1 including:
 
   * Vivado design
 

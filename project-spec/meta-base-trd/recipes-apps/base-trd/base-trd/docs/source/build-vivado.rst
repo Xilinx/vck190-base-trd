@@ -28,9 +28,11 @@ The directory structure is described in the Introduction Section
 
    To enable Versal device support, you need to create two tcl initialization
    scripts, one for Vivado and one for HLS. Add the following line to each of
-   the tcl scripts::
+   the tcl scripts:
 
-    enable_beta_device *
+   .. code-block:: bash
+
+      enable_beta_device *
 
    The initialization tcl script for Vivado shall be placed at:
 
@@ -42,51 +44,52 @@ The directory structure is described in the Introduction Section
 
    * **Linux**: $HOME/.Xilinx/HLS_init.tcl
 
-   * **Windows**: %APPDATA%/Roaming/HLS_init.tcl
+   * **Windows**: %APPDATA%/Roaming/Xilinx/HLS_init.tcl
 
 #. Open the Vivado GUI.
 
    On Windows, open Vivado by navigating to *Start > Xilinx Design Tools > Vivado 2019.2*.
-   In the tcl console type::
+   In the tcl console type:
 
-     cd $working_dir/vck190_base_trd_shell1/vivado
+   .. code-block:: bash
+
+     cd $working_dir/vck190_base_trd_platform1/vivado
      source scripts/main.tcl
 
-   On Linux, at the command prompt enter::
+   On Linux, at the command prompt enter:
 
-     cd $working_dir/vck190_base_trd_shell1/vivado
+   .. code-block:: bash
+
+     cd $working_dir/vck190_base_trd_platform1/vivado
      vivado -source scripts/main.tcl
 
-   A Vivado cockpit as shown below will open with vck190_base_trd_shell1 project
-   populated.
+   A Vivado cockpit as shown below will open with vck190_base_trd_platform1
+   project populated.
 
    .. image:: images/vivado.png
      :width: 1200
-     :align: center
      :alt: Vivado cockpit
 
 #. In the Flow Navigator pane on the left-hand side under IP Integrator, click
    on *Open Block Design*. An IP Integrator (IPI) block design
-   (*vck190_base_trd_shell1.bd*) becomes visible that contains the
+   (*vck190_base_trd_platform1.bd*) becomes visible that contains the
    Control, Interface and Processing System (CIPS) IP, NOC IP and
    Display Pipeline.
 
    .. image:: images/block_design.png
      :width: 1200
-     :align: center
      :alt: IPI Block Design
 
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will
    be generated and available at
-   *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.runs/impl_1/vck190_base_trd_shell1_wrapper.pdi*.
+   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi*.
 
 #. After Device Image Generation completes successfully a window pops up. Select
    *Open Implemented Design* and click on *OK*.
 
    .. image:: images/open_implemented_design.png
      :width: 350
-     :align: center
      :alt: Open Implemented Design
 
 #. To create the XSA, click on *File --> Export --> Export hardware*. A
@@ -97,14 +100,13 @@ The directory structure is described in the Introduction Section
    * Select Include Device Image.
 
    * Change Export path to
-     *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk*
+     *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*
 
    * Click on OK.
 
    .. image:: images/export.png
      :width: 500
-     :align: center
      :alt: Export hardware Options
 
-   The file *vck190_base_trd_shell1.xsa* will be available in
-   *$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk*
+   The file *vck190_base_trd_platform1.xsa* will be available in
+   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*

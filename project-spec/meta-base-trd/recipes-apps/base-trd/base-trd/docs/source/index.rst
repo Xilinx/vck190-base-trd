@@ -15,7 +15,9 @@ Contents:
    revision.rst
    intro.rst
    run.rst
+   build-overview.rst
    build-vivado.rst
+   build-pfm.rst
    build-plnx.rst
 
 Indices and Tables

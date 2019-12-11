@@ -32,10 +32,9 @@ Win32 Disk Imager utility.
 #. Select 'Write' to the SD card, click 'Yes' at the prompt to continue writing
    and wait till the operation is complete
 
-.. image:: images/win32.png
-  :width: 800px
-  :align: center
-  :alt: Win32 Image
+   .. image:: images/win32.png
+      :width: 800px
+      :alt: Win32 Image
 
 Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux
@@ -43,10 +42,12 @@ utility for Linux
 #. Unzip the given image file "sdcard.img.zip" in linux
 
 #. Use dd to write sdcard.img to correct enumerated disk for SD card in the
-   Linux machine::
+   Linux machine:
 
-    unzip sdcard.img.zip
-    sudo dd if=sdcard.img of=/dev/sdbx bs=1M
+   .. code-block:: bash
+
+      unzip sdcard.img.zip
+      sudo dd if=sdcard.img of=/dev/sdbx bs=1M
 
 **SD card partitions**
 
@@ -68,9 +69,8 @@ Board Setup
 The following figure shows how to set up the VCK190 evaluation board.
 
 .. image:: images/vck190-setup.jpg
-  :width: 900px
-  :align: center
-  :alt: VCK190 Board Setup
+   :width: 900px
+   :alt: VCK190 Board Setup
 
 **Board jumper and switch settings**
 
@@ -137,22 +137,24 @@ Follow these steps to boot the board into Linux
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
   *root@xilinx-vck190-qspi-2019_2* and autostart of JupyterLab server as shown
-  in the example below::
+  in the example below:
 
-    root@xilinx-vck190-qspi-2019_2:~#
-    [W 02:30:21.552 LabApp] JupyterLab server extension not enabled, manually loading...
-    [I 02:30:21.571 LabApp] JupyterLab extension loaded from /usr/lib/python3.5/site-packages/jupyterlab
-    [I 02:30:21.572 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
-    [I 02:30:21.580 LabApp] Serving notebooks from local directory: /usr/share/notebooks
-    [I 02:30:21.581 LabApp] The Jupyter Notebook is running at:
-    [I 02:30:21.581 LabApp] http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
-    [I 02:30:21.581 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-    [C 02:30:23.092 LabApp]
+  .. code-block:: bash
 
-     To access the notebook, open this file in a browser:
-         file:///home/root/.local/share/jupyter/runtime/nbserver-1889-open.html
-     Or copy and paste one of these URLs:
-         http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+     root@xilinx-vck190-qspi-2019_2:~#
+     [W 02:30:21.552 LabApp] JupyterLab server extension not enabled, manually loading...
+     [I 02:30:21.571 LabApp] JupyterLab extension loaded from /usr/lib/python3.5/site-packages/jupyterlab
+     [I 02:30:21.572 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
+     [I 02:30:21.580 LabApp] Serving notebooks from local directory: /usr/share/notebooks
+     [I 02:30:21.581 LabApp] The Jupyter Notebook is running at:
+     [I 02:30:21.581 LabApp] http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+     [I 02:30:21.581 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+     [C 02:30:23.092 LabApp]
+
+      To access the notebook, open this file in a browser:
+          file:///home/root/.local/share/jupyter/runtime/nbserver-1889-open.html
+      Or copy and paste one of these URLs:
+          http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
 
 Follow these steps to connect to the jupyter-server using Chrome browser on the
 laptop.
@@ -160,21 +162,27 @@ laptop.
 **Note:** This demo is tested with Chrome browser only.
 
 * Copy the generated URL with token on the prompt of Versal target and paste it
-  to the browser address bar of the laptop, for example::
+  to the browser address bar of the laptop, for example:
 
-    http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+  .. code-block:: bash
+
+      http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
 
   **Note:** If for any reason target fails to grab an IP address from the
   network, Jupyter server would fail to issue an URL. In such a case user is
   recommended to fix an IP address and restart the jupyter server as shown
-  below::
+  below:
 
-    /etc/init.d/jupyterlab-server stop
-    /etc/init.d/jupyterlab-server start
+  .. code-block:: bash
 
-* To look up the jupyter server IP address and token on the target, run::
+     /etc/init.d/jupyterlab-server stop
+     /etc/init.d/jupyterlab-server start
 
-    jupyter notebook list
+* To look up the jupyter server IP address and token on the target, run:
+
+  .. code-block:: bash
+
+     jupyter notebook list
 
 * In case of a private network, user may have to assign a static address within
   the subnet of the host laptop
@@ -228,8 +236,6 @@ To run the notebooks, follow the below steps:
 #. Select 'Kernel' → 'Shutdown Kernel' → close the notebook tab and move to the
    next notebook.
 
-.. image:: images/jnbh.png
-    :width: 1000px
-    :align: center
-    :alt: Jupyter_nb_home
-
+   .. image:: images/jnbh.png
+      :width: 1000px
+      :alt: Jupyter_nb_home
