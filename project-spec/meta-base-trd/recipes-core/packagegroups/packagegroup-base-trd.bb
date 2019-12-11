@@ -36,6 +36,7 @@ BASE_TRD_PACKAGES = " \
 	nodejs \
 	nodejs-npm \
 	python3-dev \
+	python3-periphery \
 	tcf-agent \
 	trd-files \
 	${MOVIE_PACKAGES} \
