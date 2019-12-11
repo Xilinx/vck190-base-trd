@@ -31,24 +31,30 @@ The directory structure is described in the Introduction Section.
    To enable Versal device support in PetaLinux, follow the instructions
    in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2019.2.tar.gz
 
-#. Create a new PetaLinux project from the provided BSP::
+#. Create a new PetaLinux project from the provided BSP:
 
-    cd petalinux
-    petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.1.1.bsp
+   .. code-block:: bash
+
+      cd petalinux
+      petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
 
 
 #. Configure and build the PetaLinux project.
 
    **Note:** The xsa file used for project configuration is included with this
    BSP. The build step performs the configuration step implicitly. The xsa file
-   can be generated through Vivado following the Vivado build steps::
+   can be generated through Vivado following the Vivado build steps:
 
-    cd xilinx-vck190-qspi-base-trd-2019.2-v0.1.1
-    petalinux-build
+   .. code-block:: bash
 
-#. Create a boot image::
+      cd xilinx-vck190-qspi-base-trd-2019.2-v0.2
+      petalinux-build
 
-    petalinux-package --boot --u-boot
+#. Create a boot image:
+
+   .. code-block:: bash
+
+      petalinux-package --boot --u-boot
 
 The resulting build artifacts will be available in the *petalinux/images/linux/*
 folder. The relevant files for the next step are:
@@ -83,9 +89,11 @@ Create an SD Card Image
    * The second partition is the root file system in EXT4 format.
 
    Use the fdisk utility to partition your SD card. The below steps assume your
-   SD card is device */dev/sdb*::
+   SD card is device */dev/sdb*:
 
-    sudo fdisk /dev/sdb
+   .. code-block:: bash
+
+      sudo fdisk /dev/sdb
 
    * Delete all existing partitions using the *d* command.
 
@@ -101,27 +109,33 @@ Create an SD Card Image
    * Use the *w* command to write the partition table.
 
 #. Format the file systems of the two partitions. The first partition should be
-   FAT32, the second partition ext4::
+   FAT32, the second partition ext4:
 
-    sudo mkfs -t vfat -F 32 /dev/sdb1
-    sudo mkfs -t ext4 /dev/sdb2
+   .. code-block:: bash
 
-#. Copy the required boot files to partition 1::
+      sudo mkfs -t vfat -F 32 /dev/sdb1
+      sudo mkfs -t ext4 /dev/sdb2
 
-    sudo mount /dev/sdb1 /media/card
-    cd image/linux
-    sudo cp BOOT.BIN boot.scr image.ub /media/card
-    sudo umount /media/card
+#. Copy the required boot files to partition 1:
 
-#. Copy and extract the root file system to partition 2::
+   .. code-block:: bash
 
-    sudo mount /dev/sdb2 /media/card
-    sudo cp rootfs.tar.gz /media/card
-    cd /media/card
-    sudo tar xfv rootfs.tar.gz
-    sudo rm rootfs.tar.gz
-    cd -
-    sudo umount /media/card
+      sudo mount /dev/sdb1 /media/card
+      cd image/linux
+      sudo cp BOOT.BIN boot.scr image.ub /media/card
+      sudo umount /media/card
+
+#. Copy and extract the root file system to partition 2:
+
+   .. code-block:: bash
+
+      sudo mount /dev/sdb2 /media/card
+      sudo cp rootfs.tar.gz /media/card
+      cd /media/card
+      sudo tar xfv rootfs.tar.gz
+      sudo rm rootfs.tar.gz
+      cd -
+      sudo umount /media/card
 
 The SD card image is now ready to be used to boot the device into Linux, see
 Section *Run the Prebuilt Image* for details.

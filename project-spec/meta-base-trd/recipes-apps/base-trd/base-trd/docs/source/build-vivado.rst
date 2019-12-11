@@ -28,9 +28,11 @@ The directory structure is described in the Introduction Section
 
    To enable Versal device support, you need to create two tcl initialization
    scripts, one for Vivado and one for HLS. Add the following line to each of
-   the tcl scripts::
+   the tcl scripts:
 
-    enable_beta_device *
+   .. code-block:: bash
+
+      enable_beta_device *
 
    The initialization tcl script for Vivado shall be placed at:
 
@@ -47,12 +49,16 @@ The directory structure is described in the Introduction Section
 #. Open the Vivado GUI.
 
    On Windows, open Vivado by navigating to *Start > Xilinx Design Tools > Vivado 2019.2*.
-   In the tcl console type::
+   In the tcl console type:
+
+   .. code-block:: bash
 
      cd $working_dir/vck190_base_trd_platform1/vivado
      source scripts/main.tcl
 
-   On Linux, at the command prompt enter::
+   On Linux, at the command prompt enter:
+
+   .. code-block:: bash
 
      cd $working_dir/vck190_base_trd_platform1/vivado
      vivado -source scripts/main.tcl
@@ -62,7 +68,6 @@ The directory structure is described in the Introduction Section
 
    .. image:: images/vivado.png
      :width: 1200
-     :align: center
      :alt: Vivado cockpit
 
 #. In the Flow Navigator pane on the left-hand side under IP Integrator, click
@@ -73,7 +78,6 @@ The directory structure is described in the Introduction Section
 
    .. image:: images/block_design.png
      :width: 1200
-     :align: center
      :alt: IPI Block Design
 
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
@@ -86,7 +90,6 @@ The directory structure is described in the Introduction Section
 
    .. image:: images/open_implemented_design.png
      :width: 350
-     :align: center
      :alt: Open Implemented Design
 
 #. To create the XSA, click on *File --> Export --> Export hardware*. A
@@ -103,7 +106,6 @@ The directory structure is described in the Introduction Section
 
    .. image:: images/export.png
      :width: 500
-     :align: center
      :alt: Export hardware Options
 
    The file *vck190_base_trd_platform1.xsa* will be available in

@@ -37,8 +37,9 @@ The following is a list of supported platforms including key I/O interfaces:
     * Application sink into jupyter notebook display
 
 .. image:: images/system-bd.jpg
-   :width: 1200px
-   :alt: System Design Block Diagram
+    :width: 1200px
+    :align: center
+    :alt: System Design Block Diagram
 
 Software Stack
 --------------
@@ -56,8 +57,9 @@ The main software frameworks used in this reference design are:
 * DRM/KMS kernel subsystem and drivers for display devices
 
 .. image:: images/sw-stack.jpg
-   :width: 700px
-   :alt: Software Stack Overview
+    :width: 700px
+    :align: center
+    :alt: Software Stack Overview
 
 Design File Hierarchy
 ---------------------
