@@ -48,7 +48,8 @@ The directory structure is described in the Introduction Section
 
 #. Open the Vivado GUI.
 
-   On Windows, open Vivado by navigating to *Start > Xilinx Design Tools > Vivado 2019.2*.
+   On Windows, open Vivado by navigating to *Start > Xilinx Design Tools >
+   Vivado 2019.2*.
    In the tcl console type:
 
    .. code-block:: bash
@@ -73,40 +74,45 @@ The directory structure is described in the Introduction Section
 #. In the Flow Navigator pane on the left-hand side under IP Integrator, click
    on *Open Block Design*. An IP Integrator (IPI) block design
    (*vck190_base_trd_platform1.bd*) becomes visible that contains the
-   Control, Interface and Processing System (CIPS) IP, NOC IP and
-   Display Pipeline.
+   Control, Interface and Processing System (CIPS) IP, NOC IP,
+   AXI Performace Monitors (APM) and Display Pipeline.
 
    .. image:: images/block_design.png
      :width: 1200
      :alt: IPI Block Design
+
+#. To view the Platform interfaces that are enabled for Vitis compiler to stitch
+   in accelerators, on the tool bar at the top click on  *Window >
+   Platform Interfaces*. Platform interfaces are enabled under the following IPs
+
+   * clk_wiz: Clocks used to drive clock inputs on the accelerator.
+   * smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
+     control port.
+   * smartconnect_accel:  AXI Memory Mapped slave ports driven by the
+     accelerator data port.
+
+   .. tip::
+      For more information on how to setup Platform Interfaces refer to Section
+      - Configuring Platform Interface Properties in https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1393-vitis-application-acceleration.pdf
 
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will
    be generated and available at
    *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi*.
 
-#. After Device Image Generation completes successfully a window pops up. Select
-   *Open Implemented Design* and click on *OK*.
+#. After Device Image Generation completes successfully a window pops up. Click
+   on *Cancel*
 
    .. image:: images/open_implemented_design.png
-     :width: 350
+     :width: 300
      :alt: Open Implemented Design
 
-#. To create the XSA, click on *File --> Export --> Export hardware*. A
-   window pops up.
+#. To create the XSA, on the Tcl Console type the following command.
 
-   * Unselect Include files for Emulation.
+   .. code-block:: bash
 
-   * Select Include Device Image.
+      write_hw_platform -force -include_bit -file ./project/vck190_base_trd_platform1.sdk/vck190_base_trd_platform1.xsa
 
-   * Change Export path to
-     *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*
+   The file *vck190_base_trd_platform1.xsa* will be available in *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*.
+   It will be used as an input when building the Vitis Platform.
 
-   * Click on OK.
-
-   .. image:: images/export.png
-     :width: 500
-     :alt: Export hardware Options
-
-   The file *vck190_base_trd_platform1.xsa* will be available in
-   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*
