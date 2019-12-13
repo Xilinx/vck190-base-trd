@@ -94,9 +94,12 @@ The design file hierarchy is shown below:
    vck190_base_trd_platform1_2019.2_v0.2
    ├── accelerators
    │   ├── examples
-   │   │   └── filter2d
-   │   └── libraries
-   │       └── xf_opencv
+   │   │   ├── filter2d_aie
+   │   │   ├── filter2d_combined
+   │   │   └── filter2d_pl
+   │   ├── LICENSE
+   │   └── vitis_libraries
+   │       └── vision
    ├── docs
    │   ├── doctrees
    │   ├── html
