@@ -200,11 +200,18 @@ This TRD includes four jupyter notebooks
    the target to the Jupyter notebook using the GStreamer multimedia framework
 
 #. **base-trd-nb3.ipynb**: Demonstrates streaming video from a v4l2 device on
-   the target to a Hdmi monitor using the GStreamer multimedia framework
+   the target to a HDMI monitor using the GStreamer multimedia framework
 
 #. **base-trd-nb4.ipynb**: Demonstrates two simultaneous streaming pipelines,
    one from file source and another from a v4l2 device onto two individual
    planes of a HDMI monitor using the GStreamer multimedia framework
+
+#. **base-trd-nb5.ipynb**: Demonstrates the 2D filter accelerator kernels, both
+   the PL and the AIE versions, inserted into the video pipeline of notebook 2.
+
+#. **base-trd-nb6.ipynb**: Demonstrates how to plot the memory bandwidth of
+   various pipeline elements like sources, sinks, and accelerators while the
+   video pipeline is running. Can be combined with any other notebook.
 
 For file source, two VP9 encoded video files are located at */usr/share/movies/*
 on the root file system:

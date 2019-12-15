@@ -11,6 +11,12 @@ Prerequisites
 Build Flow Tutorial
 -------------------
 
+.. tip::
+
+   You can skip this tutorial and move straight to the next tutorial if desired.
+   A pre-built XSA file is provided at
+   *$working_dir/vck190_base_trd_platform1/platform/vck190_base_trd_platform1/hw/vck190_base_trd_platform1.xsa*
+
 **Download Reference Design Files:**
 
 Skip the following steps if the design zip file has already been downloaded and
