@@ -11,7 +11,7 @@ Revision History
 
 * Add Vitis accelerator projects, GStreamer plugins and Jupyter notebook
 
-  * 2D Filter (PL) using xf_opencv
+  * 2D Filter (PL) using the Vitis Vision libraries
 
   * 2D Filter (AIE)
 
