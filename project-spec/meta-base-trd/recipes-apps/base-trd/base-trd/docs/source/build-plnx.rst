@@ -154,7 +154,7 @@ Create an SD Card Image
    .. code-block:: bash
 
       sudo mount /dev/sdb1 /media/card
-      cd image/linux
+      cd images/linux
       sudo cp binary_container_1.xclbin BOOT.BIN boot.scr image.ub /media/card
       sudo umount /media/card
 
