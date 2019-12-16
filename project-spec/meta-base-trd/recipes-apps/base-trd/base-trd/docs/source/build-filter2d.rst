@@ -55,6 +55,11 @@ The directory structure is described in the Introduction Section
       cd $working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_combined
       make PLATFORM=$working_dir/vck190_base_trd_platform1/platform/ws/vck190_base_trd_platform1/export/vck190_base_trd_platform1/vck190_base_trd_platform1.xpfm
 
+   .. note::
+
+      The *PLATFORM* variable needs to use an absolute path, otherwise the make
+      step will error out.
+
    The Makefile implements the following:
 
    * Builds the filter2d PL kernel. Output is *filter2d_pl_accel.xo* file.
