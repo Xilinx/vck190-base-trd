@@ -209,10 +209,6 @@ This TRD includes four jupyter notebooks
 #. **base-trd-nb5.ipynb**: Demonstrates the 2D filter accelerator kernels, both
    the PL and the AIE versions, inserted into the video pipeline of notebook 2.
 
-#. **base-trd-nb6.ipynb**: Demonstrates how to plot the memory bandwidth of
-   various pipeline elements like sources, sinks, and accelerators while the
-   video pipeline is running. Can be combined with any other notebook.
-
 For file source, two VP9 encoded video files are located at */usr/share/movies/*
 on the root file system:
 

@@ -15,8 +15,6 @@ Revision History
 
   * 2D Filter (AIE)
 
-* Add AXI performance monitors (APM) and Jupyter notebook
-
 **2019.2 v0.1.1:**
 
 * Compatible with Vivado and PetaLinux 2019.2 tools version
