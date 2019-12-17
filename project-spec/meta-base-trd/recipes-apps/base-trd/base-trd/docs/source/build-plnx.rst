@@ -36,8 +36,8 @@ The directory structure is described in the Introduction Section.
    .. code-block:: bash
 
       cd petalinux
-      petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
-      cd xilinx-vck190-qspi-base-trd-2019.2-v0.2
+      petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.3.bsp
+      cd xilinx-vck190-qspi-base-trd-2019.2-v0.3
 
 
 #. Configure and build the PetaLinux project.

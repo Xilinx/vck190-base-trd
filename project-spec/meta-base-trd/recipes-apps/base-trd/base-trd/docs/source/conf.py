@@ -27,9 +27,9 @@ copyright = '2019, Xilinx'
 author = 'Xilinx'
 
 # The short X.Y version
-version = '0.2'
+version = '0.3'
 # The full version, including alpha/beta/rc tags
-release = '2019.2-0.2'
+release = '2019.2-0.3'
 
 
 # -- General configuration ---------------------------------------------------

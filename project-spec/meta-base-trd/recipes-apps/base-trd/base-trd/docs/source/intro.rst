@@ -65,7 +65,7 @@ Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.2.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.3.zip
 
 It has the following contents:
 
@@ -91,7 +91,7 @@ The design file hierarchy is shown below:
 
 .. code-block::
 
-   vck190_base_trd_platform1_2019.2_v0.2
+   vck190_base_trd_platform1_2019.2_v0.3
    ├── accelerators
    │   ├── examples
    │   │   ├── filter2d_aie
@@ -106,7 +106,7 @@ The design file hierarchy is shown below:
    │   └── index.html
    ├── licenses.zip
    ├── petalinux
-   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
+   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.3.bsp
    ├── platform
    │   ├── pfm.tcl
    │   └── vck190_base_trd_platform1
