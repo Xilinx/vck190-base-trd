@@ -62,7 +62,7 @@ The directory structure is described in the Introduction Section.
 
    .. code-block:: bash
 
-      petalinux-package --boot --u-boot --add-cdo pre-built/aie_cdo.bin --add pre-built/2_2 --cpu me --force
+      petalinux-package --boot --bif=project-spec/bifs/bootgen_filter2d_combined.bif  --force
 
    .. note::
 
