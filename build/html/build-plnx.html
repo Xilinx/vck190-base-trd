@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>5. Build the PetaLinux Image &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
+  <title>8. Build the PetaLinux Image &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="4. Build the Vivado Design" href="build-vivado.html" /> 
+    <link rel="prev" title="7. Integrate 2D Filter Kernels in the Platform" href="build-filter2d.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -132,7 +132,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -161,11 +161,14 @@
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Build the PetaLinux Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#prerequisites">5.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">5.2. Build Flow Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-an-sd-card-image">5.3. Create an SD Card Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Build the PetaLinux Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">8.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">8.2. Build Flow Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-an-sd-card-image">8.3. Create an SD Card Image</a></li>
 </ul>
 </li>
 </ul>
@@ -221,7 +224,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>5. Build the PetaLinux Image</li>
+      <li>8. Build the PetaLinux Image</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -241,9 +244,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="build-the-petalinux-image">
-<h1>5. Build the PetaLinux Image<a class="headerlink" href="#build-the-petalinux-image" title="Permalink to this headline">¶</a></h1>
+<h1>8. Build the PetaLinux Image<a class="headerlink" href="#build-the-petalinux-image" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="prerequisites">
-<h2>5.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<h2>8.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Reference Design zip file</p></li>
 <li><p>PetaLinux Tools 2019.2</p></li>
@@ -251,7 +254,7 @@
 </ul>
 </div>
 <div class="section" id="build-flow-tutorial">
-<h2>5.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<h2>8.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
 <p><strong>Download Reference Design Files</strong></p>
 <p>Skip the following steps if the design zip file has already been downloaded and
 extracted to a working directory</p>
@@ -262,30 +265,61 @@ extracted to a working directory</p>
 <p>The directory structure is described in the Introduction Section.</p>
 <p><strong>Generate PetaLinux Image</strong></p>
 <ol class="arabic">
+<li><p>Enable Versal device support</p>
+<p>To enable Versal device support in PetaLinux, follow the instructions
+in this README file: <a class="reference external" href="https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2019.2.tar.gz">https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2019.2.tar.gz</a></p>
+</li>
 <li><p>Create a new PetaLinux project from the provided BSP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">petalinux</span>
-<span class="n">petalinux</span><span class="o">-</span><span class="n">create</span> <span class="o">-</span><span class="n">t</span> <span class="n">project</span> <span class="o">-</span><span class="n">s</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="n">bsp</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> petalinux
+petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
+<span class="nb">cd</span> xilinx-vck190-qspi-base-trd-2019.2-v0.2
 </pre></div>
 </div>
 </li>
 <li><p>Configure and build the PetaLinux project.</p>
-<p><strong>Note:</strong> The xsa file used for project configuration is included with this
-BSP. The build step performs the configuration step implicitly. The xsa file
-can be generated through Vivado following the Vivado build steps:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">xilinx</span><span class="o">-</span><span class="n">vck190</span><span class="o">-</span><span class="n">qspi</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">trd</span><span class="o">-</span><span class="mf">2019.2</span><span class="o">-</span><span class="n">v0</span><span class="o">.</span><span class="mf">1.1</span>
-<span class="n">petalinux</span><span class="o">-</span><span class="n">build</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-build
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The XSA file used for project configuration is included with this BSP.
+The build step performs the configuration step implicitly. If you want
+to configure your BSP with the XSA file generated in the previous
+tutorial, run the following command <strong>prior</strong> to the <em>petalinux-build</em>
+command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-config --get-hw-description<span class="o">=</span>../../accelerators/examples/filter2d_combined/ --silentconfig
+</pre></div>
+</div>
 </div>
 </li>
 <li><p>Create a boot image:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">petalinux</span><span class="o">-</span><span class="n">package</span> <span class="o">--</span><span class="n">boot</span> <span class="o">--</span><span class="n">u</span><span class="o">-</span><span class="n">boot</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-package --boot --bif<span class="o">=</span>project-spec/bifs/bootgen_filter2d_combined.bif  --force
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The AIE elf (<em>2_2</em>) and cdo (<em>aie_cdo.bin</em>) files used for the boot image
+creation are included with this BSP. Alternatively you can use the files
+generated in the previous tutorial located at:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_aie/kernel</em></p>
+</div>
+</li>
+<li><p>Copy the xclbin file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp pre-built/binary_container_1.xclbin images/linux
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As mentioned in the 2D filter build tutorial section, the tool generated
+xclbin is incorrect. Therefore, the patched xclbin from above mentioned
+location needs to be used instead.</p>
 </div>
 </li>
 </ol>
-<p>The resulting build artifacts will be available in the <em>petalinux/images/linux/</em>
-folder. The relevant files for the next step are:</p>
+<p>The resulting build artifacts will be available in the <em>images/linux/</em> folder.
+The relevant files for the next step are:</p>
 <ul class="simple">
+<li><p><strong>binary_container_1.xclbin</strong>: This is the kernel meta data file used by XRT</p></li>
 <li><p><strong>BOOT.BIN</strong>: This is the boot image which includes:</p>
 <ul>
 <li><p>Platform Loader and Manager (PLM)</p></li>
@@ -294,6 +328,8 @@ folder. The relevant files for the next step are:</p>
 <li><p>ARM trusted firmware</p></li>
 <li><p>u-boot</p></li>
 <li><p>Device tree blob</p></li>
+<li><p>AI Engine filter2d application (2_2)</p></li>
+<li><p>AI Engine configuration data object (CDO) file</p></li>
 </ul>
 </li>
 <li><p><strong>boot.scr</strong>: A u-boot boot script</p></li>
@@ -302,7 +338,7 @@ folder. The relevant files for the next step are:</p>
 </ul>
 </div>
 <div class="section" id="create-an-sd-card-image">
-<h2>5.3. Create an SD Card Image<a class="headerlink" href="#create-an-sd-card-image" title="Permalink to this headline">¶</a></h2>
+<h2>8.3. Create an SD Card Image<a class="headerlink" href="#create-an-sd-card-image" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p>Create two primary partitions on your SD card:</p>
 <ul class="simple">
@@ -311,7 +347,7 @@ folder. The relevant files for the next step are:</p>
 </ul>
 <p>Use the fdisk utility to partition your SD card. The below steps assume your
 SD card is device <em>/dev/sdb</em>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">fdisk</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo fdisk /dev/sdb
 </pre></div>
 </div>
 <ul class="simple">
@@ -327,27 +363,27 @@ the size to <em>+2G</em>.</p></li>
 </li>
 <li><p>Format the file systems of the two partitions. The first partition should be
 FAT32, the second partition ext4:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mkfs</span> <span class="o">-</span><span class="n">t</span> <span class="n">vfat</span> <span class="o">-</span><span class="n">F</span> <span class="mi">32</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb1</span>
-<span class="n">sudo</span> <span class="n">mkfs</span> <span class="o">-</span><span class="n">t</span> <span class="n">ext4</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb2</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo mkfs -t vfat -F <span class="m">32</span> /dev/sdb1
+sudo mkfs -t ext4 /dev/sdb2
 </pre></div>
 </div>
 </li>
 <li><p>Copy the required boot files to partition 1:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mount</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb1</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
-<span class="n">cd</span> <span class="n">image</span><span class="o">/</span><span class="n">linux</span>
-<span class="n">sudo</span> <span class="n">cp</span> <span class="n">BOOT</span><span class="o">.</span><span class="n">BIN</span> <span class="n">boot</span><span class="o">.</span><span class="n">scr</span> <span class="n">image</span><span class="o">.</span><span class="n">ub</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
-<span class="n">sudo</span> <span class="n">umount</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo mount /dev/sdb1 /media/card
+<span class="nb">cd</span> images/linux
+sudo cp binary_container_1.xclbin BOOT.BIN boot.scr image.ub /media/card
+sudo umount /media/card
 </pre></div>
 </div>
 </li>
 <li><p>Copy and extract the root file system to partition 2:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mount</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb2</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
-<span class="n">sudo</span> <span class="n">cp</span> <span class="n">rootfs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
-<span class="n">cd</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
-<span class="n">sudo</span> <span class="n">tar</span> <span class="n">xfv</span> <span class="n">rootfs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-<span class="n">sudo</span> <span class="n">rm</span> <span class="n">rootfs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-<span class="n">cd</span> <span class="o">-</span>
-<span class="n">sudo</span> <span class="n">umount</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">card</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo mount /dev/sdb2 /media/card
+sudo cp rootfs.tar.gz /media/card
+<span class="nb">cd</span> /media/card
+sudo tar xfv rootfs.tar.gz
+sudo rm rootfs.tar.gz
+<span class="nb">cd</span> -
+sudo umount /media/card
 </pre></div>
 </div>
 </li>
@@ -366,7 +402,7 @@ Section <em>Run the Prebuilt Image</em> for details.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="build-vivado.html" class="btn btn-neutral float-left" title="4. Build the Vivado Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="build-filter2d.html" class="btn btn-neutral float-left" title="7. Integrate 2D Filter Kernels in the Platform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

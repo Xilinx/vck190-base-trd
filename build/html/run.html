@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>3. Run the Prebuilt Image &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
+  <title>3. Run the Prebuilt Image &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Build the Vivado Design" href="build-vivado.html" />
+    <link rel="next" title="4. Tool Flow Overview" href="build-overview.html" />
     <link rel="prev" title="2. Introduction" href="intro.html" /> 
 </head>
 
@@ -133,7 +133,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -169,8 +169,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#run-the-jupyter-notebooks">3.5. Run the Jupyter Notebooks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
 </ul>
 
             
@@ -266,21 +269,22 @@ to write the given rawdisk image ‘sdcard.img’ to the SD card.</p>
 <p>After unzipping the image file <em>sdcard.img.zip</em> using windows extractor, use the
 following steps to write a raw disk image to a removable device using the
 Win32 Disk Imager utility.</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>Browse to the location of the unzipped image in the Win32 utility</p></li>
 <li><p>Choose the correct SD card under ‘device’</p></li>
 <li><p>Select ‘Write’ to the SD card, click ‘Yes’ at the prompt to continue writing
-and wait till the operation is complete</p></li>
+and wait till the operation is complete</p>
+<a class="reference internal image-reference" href="_images/win32.png"><img alt="Win32 Image" src="_images/win32.png" style="width: 800px;" /></a>
+</li>
 </ol>
-<a class="reference internal image-reference" href="_images/win32.png"><img alt="Win32 Image" class="align-center" src="_images/win32.png" style="width: 800px;" /></a>
 <p>Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux</p>
 <ol class="arabic">
 <li><p>Unzip the given image file “sdcard.img.zip” in linux</p></li>
 <li><p>Use dd to write sdcard.img to correct enumerated disk for SD card in the
 Linux machine:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unzip</span> <span class="n">sdcard</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">zip</span>
-<span class="n">sudo</span> <span class="n">dd</span> <span class="k">if</span><span class="o">=</span><span class="n">sdcard</span><span class="o">.</span><span class="n">img</span> <span class="n">of</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdbx</span> <span class="n">bs</span><span class="o">=</span><span class="mi">1</span><span class="n">M</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unzip sdcard.img.zip
+sudo dd <span class="k">if</span><span class="o">=</span>sdcard.img <span class="nv">of</span><span class="o">=</span>/dev/sdbx <span class="nv">bs</span><span class="o">=</span>1M
 </pre></div>
 </div>
 </li>
@@ -300,7 +304,7 @@ the boot partition, whereas ext4 format is not recognized.</p>
 <div class="section" id="board-setup">
 <h2>3.3. Board Setup<a class="headerlink" href="#board-setup" title="Permalink to this headline">¶</a></h2>
 <p>The following figure shows how to set up the VCK190 evaluation board.</p>
-<a class="reference internal image-reference" href="_images/vck190-setup.jpg"><img alt="VCK190 Board Setup" class="align-center" src="_images/vck190-setup.jpg" style="width: 900px;" /></a>
+<a class="reference internal image-reference" href="_images/vck190-setup.jpg"><img alt="VCK190 Board Setup" src="_images/vck190-setup.jpg" style="width: 900px;" /></a>
 <p><strong>Board jumper and switch settings</strong></p>
 <p>This is a onetime setup and the board should have been delivered to you with
 this default settings, but it is good to double check for the first time when
@@ -350,20 +354,20 @@ micro SD card starting with the message
 <li><p>In about 60 seconds boot is complete. Observe the Linux prompt
 <em>root&#64;xilinx-vck190-qspi-2019_2</em> and autostart of JupyterLab server as shown
 in the example below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>root@xilinx-vck190-qspi-2019_2:~#
-[W 02:30:21.552 LabApp] JupyterLab server extension not enabled, manually loading...
-[I 02:30:21.571 LabApp] JupyterLab extension loaded from /usr/lib/python3.5/site-packages/jupyterlab
-[I 02:30:21.572 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
-[I 02:30:21.580 LabApp] Serving notebooks from local directory: /usr/share/notebooks
-[I 02:30:21.581 LabApp] The Jupyter Notebook is running at:
-[I 02:30:21.581 LabApp] http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
-[I 02:30:21.581 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-[C 02:30:23.092 LabApp]
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@xilinx-vck190-qspi-2019_2:~#
+<span class="o">[</span>W <span class="m">02</span>:30:21.552 LabApp<span class="o">]</span> JupyterLab server extension not enabled, manually loading...
+<span class="o">[</span>I <span class="m">02</span>:30:21.571 LabApp<span class="o">]</span> JupyterLab extension loaded from /usr/lib/python3.5/site-packages/jupyterlab
+<span class="o">[</span>I <span class="m">02</span>:30:21.572 LabApp<span class="o">]</span> JupyterLab application directory is /usr/share/jupyter/lab
+<span class="o">[</span>I <span class="m">02</span>:30:21.580 LabApp<span class="o">]</span> Serving notebooks from <span class="nb">local</span> directory: /usr/share/notebooks
+<span class="o">[</span>I <span class="m">02</span>:30:21.581 LabApp<span class="o">]</span> The Jupyter Notebook is running at:
+<span class="o">[</span>I <span class="m">02</span>:30:21.581 LabApp<span class="o">]</span> http://172.19.1.246:8888/?token<span class="o">=</span>c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+<span class="o">[</span>I <span class="m">02</span>:30:21.581 LabApp<span class="o">]</span> Use Control-C to stop this server and shut down all kernels <span class="o">(</span>twice to skip confirmation<span class="o">)</span>.
+<span class="o">[</span>C <span class="m">02</span>:30:23.092 LabApp<span class="o">]</span>
 
  To access the notebook, open this file in a browser:
      file:///home/root/.local/share/jupyter/runtime/nbserver-1889-open.html
  Or copy and paste one of these URLs:
-     http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+     http://172.19.1.246:8888/?token<span class="o">=</span>c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
 </pre></div>
 </div>
 </li>
@@ -374,20 +378,20 @@ laptop.</p>
 <ul>
 <li><p>Copy the generated URL with token on the prompt of Versal target and paste it
 to the browser address bar of the laptop, for example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>http://172.19.1.246:8888/?token=c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://172.19.1.246:8888/?token<span class="o">=</span>c46d443a39d2648046afdbb9bc5821177ab7cd386c218103
 </pre></div>
 </div>
 <p><strong>Note:</strong> If for any reason target fails to grab an IP address from the
 network, Jupyter server would fail to issue an URL. In such a case user is
 recommended to fix an IP address and restart the jupyter server as shown
 below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">server</span> <span class="n">stop</span>
-<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">server</span> <span class="n">start</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/etc/init.d/jupyterlab-server stop
+/etc/init.d/jupyterlab-server start
 </pre></div>
 </div>
 </li>
 <li><p>To look up the jupyter server IP address and token on the target, run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span> <span class="nb">list</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook list
 </pre></div>
 </div>
 </li>
@@ -405,10 +409,12 @@ framework</p></li>
 <li><p><strong>base-trd-nb2.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
 the target to the Jupyter notebook using the GStreamer multimedia framework</p></li>
 <li><p><strong>base-trd-nb3.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
-the target to a Hdmi monitor using the GStreamer multimedia framework</p></li>
+the target to a HDMI monitor using the GStreamer multimedia framework</p></li>
 <li><p><strong>base-trd-nb4.ipynb</strong>: Demonstrates two simultaneous streaming pipelines,
 one from file source and another from a v4l2 device onto two individual
 planes of a HDMI monitor using the GStreamer multimedia framework</p></li>
+<li><p><strong>base-trd-nb5.ipynb</strong>: Demonstrates the 2D filter accelerator kernels, both
+the PL and the AIE versions, inserted into the video pipeline of notebook 2.</p></li>
 </ol>
 <p>For file source, two VP9 encoded video files are located at <em>/usr/share/movies/</em>
 on the root file system:</p>
@@ -424,7 +430,7 @@ on the root file system:</p>
 </li>
 </ul>
 <p>To run the notebooks, follow the below steps:</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>On the left pane of the browser, 4 notebooks are available under the folder
 Base TRD.</p></li>
 <li><p>Double click to open the notebook</p></li>
@@ -432,9 +438,10 @@ Base TRD.</p></li>
 run the demo. Scroll down to the end of the notebook to see the video output.</p></li>
 <li><p>Click the rectangular icon to interrupt the kernel and stop the video stream.</p></li>
 <li><p>Select ‘Kernel’ → ‘Shutdown Kernel’ → close the notebook tab and move to the
-next notebook.</p></li>
+next notebook.</p>
+<a class="reference internal image-reference" href="_images/jnbh.png"><img alt="Jupyter_nb_home" src="_images/jnbh.png" style="width: 1000px;" /></a>
+</li>
 </ol>
-<a class="reference internal image-reference" href="_images/jnbh.png"><img alt="Jupyter_nb_home" class="align-center" src="_images/jnbh.png" style="width: 1000px;" /></a>
 </div>
 </div>
 
@@ -446,7 +453,7 @@ next notebook.</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="build-vivado.html" class="btn btn-neutral float-right" title="4. Build the Vivado Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="build-overview.html" class="btn btn-neutral float-right" title="4. Tool Flow Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="intro.html" class="btn btn-neutral float-left" title="2. Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

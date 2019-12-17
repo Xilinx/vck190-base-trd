@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Versal Base TRD Documentation &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
+  <title>Versal Base TRD Documentation &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -132,7 +132,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -161,8 +161,11 @@
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
 </ul>
 
             
@@ -242,7 +245,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#design-shells">2.1. Design Shells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#platforms">2.1. Platforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#software-stack">2.2. Software Stack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#design-file-hierarchy">2.3. Design File Hierarchy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#licenses">2.4. Licenses</a></li>
@@ -256,15 +259,26 @@
 <li class="toctree-l2"><a class="reference internal" href="run.html#run-the-jupyter-notebooks">3.5. Run the Jupyter Notebooks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#prerequisites">4.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#build-flow-tutorial">4.2. Build Flow Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#prerequisites">5.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#build-flow-tutorial">5.2. Build Flow Tutorial</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#prerequisites">5.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#build-flow-tutorial">5.2. Build Flow Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#create-an-sd-card-image">5.3. Create an SD Card Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-pfm.html#prerequisites">6.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-pfm.html#build-flow-tutorial">6.2. Build Flow Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-filter2d.html#prerequisites">7.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-filter2d.html#build-flow-tutorial">7.2. Build Flow Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#prerequisites">8.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#build-flow-tutorial">8.2. Build Flow Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#create-an-sd-card-image">8.3. Create an SD Card Image</a></li>
 </ul>
 </li>
 </ul>

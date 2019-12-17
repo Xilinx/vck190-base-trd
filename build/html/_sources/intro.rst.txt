@@ -1,19 +1,20 @@
 Introduction
 ============
 
-The Versal Base TRD consists of a series of design shells and jupyter notebooks
-to demonstrate various aspects of the design. A design shell is a Vivado design
-with a pre-instantiated set of I/O interfaces and a corresponding PetaLinux BSP
-and image that includes the required kernel drivers and user-space libraries to
-exercise those interfaces. The reference design currently supports the VCK190
-evaluation board.
+The Versal Base TRD consists of a series of platforms, accelerators and Jupyter
+notebooks to demonstrate various aspects of the design. A platform is a Vivado
+design with a pre-instantiated set of I/O interfaces and a corresponding
+PetaLinux BSP and image that includes the required kernel drivers and user-space
+libraries to exercise those interfaces. Accelerators are mapped to FPGA logic
+resources and/or AI Engine cores and stitched into the platform using the Vitis
+toolchain. The reference design currently supports the VCK190 evaluation board.
 
-Design Shells
--------------
+Platforms
+---------
 
-The following is a list of supported design shells including key I/O interfaces:
+The following is a list of supported platforms including key I/O interfaces:
 
-* Shell 1:
+* Platform 1:
 
   * Sources:
 
@@ -25,6 +26,10 @@ The following is a list of supported design shells including key I/O interfaces:
 
     * VP9 decode and demux
 
+    * 2D Filter (PL)
+
+    * 2D Filter (AIE)
+
   * Sinks:
 
     * HDMI Tx + video mixer display pipeline
@@ -32,7 +37,7 @@ The following is a list of supported design shells including key I/O interfaces:
     * Application sink into jupyter notebook display
 
 .. image:: images/system-bd.jpg
-    :width: 1000px
+    :width: 1200px
     :align: center
     :alt: System Design Block Diagram
 
@@ -47,10 +52,12 @@ The main software frameworks used in this reference design are:
 
 * V4L2 kernel subsystem and drivers for video capture devices
 
+* Xilinx run-time (XRT) and Xilinx OpenCL for acceleration kernels
+
 * DRM/KMS kernel subsystem and drivers for display devices
 
 .. image:: images/sw-stack.jpg
-    :width: 550px
+    :width: 700px
     :align: center
     :alt: Software Stack Overview
 
@@ -58,7 +65,7 @@ Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_shell1_2019.2_v0.1.1.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.2.zip
 
 It has the following contents:
 
@@ -70,29 +77,46 @@ It has the following contents:
 
 * Vivado hardware design project
 
+* Vitis platform
+
+* Vitis accelerator projects
+
 * README file
 
 * Design sources zip file
 
 * Licenses zip file
 
-The design file hierarchy is shown below::
+The design file hierarchy is shown below:
 
- vck190_base_trd_shell1_2019.2_v0.1.1
- ├── docs
- │   ├── doctrees
- │   ├── html
- │   └── index.html
- ├── licenses.zip
- ├── petalinux
- │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.1.1.bsp
- ├── README.txt
- ├── sdcard
- │   └── sdcard.img.zip
- ├── sources.zip
- └── vivado
-     ├── scripts
-     └── xdc
+.. code-block::
+
+   vck190_base_trd_platform1_2019.2_v0.2
+   ├── accelerators
+   │   ├── examples
+   │   │   ├── filter2d_aie
+   │   │   ├── filter2d_combined
+   │   │   └── filter2d_pl
+   │   ├── LICENSE
+   │   └── vitis_libraries
+   │       └── vision
+   ├── docs
+   │   ├── doctrees
+   │   ├── html
+   │   └── index.html
+   ├── licenses.zip
+   ├── petalinux
+   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
+   ├── platform
+   │   ├── pfm.tcl
+   │   └── vck190_base_trd_platform1
+   ├── README.txt
+   ├── sdcard
+   │   └── sdcard.img.zip
+   ├── sources.zip
+   └── vivado
+       ├── scripts
+       └── xdc
 
 Licenses
 --------

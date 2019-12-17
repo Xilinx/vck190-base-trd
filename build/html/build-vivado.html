@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>4. Build the Vivado Design &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
+  <title>5. Build the Vivado Design &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,8 +61,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Build the PetaLinux Image" href="build-plnx.html" />
-    <link rel="prev" title="3. Run the Prebuilt Image" href="run.html" /> 
+    <link rel="next" title="6. Create the Vitis Platform" href="build-pfm.html" />
+    <link rel="prev" title="4. Tool Flow Overview" href="build-overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -133,7 +133,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -162,12 +162,15 @@
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Build the Vivado Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#prerequisites">4.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">4.2. Build Flow Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Build the Vivado Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">5.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">5.2. Build Flow Tutorial</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
 </ul>
 
             
@@ -221,7 +224,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>4. Build the Vivado Design</li>
+      <li>5. Build the Vivado Design</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -241,16 +244,22 @@
            <div itemprop="articleBody">
             
   <div class="section" id="build-the-vivado-design">
-<h1>4. Build the Vivado Design<a class="headerlink" href="#build-the-vivado-design" title="Permalink to this headline">¶</a></h1>
+<h1>5. Build the Vivado Design<a class="headerlink" href="#build-the-vivado-design" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="prerequisites">
-<h2>4.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<h2>5.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Reference Design zip file</p></li>
 <li><p>Vivado Design Suite 2019.2</p></li>
 </ul>
 </div>
 <div class="section" id="build-flow-tutorial">
-<h2>4.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<h2>5.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can skip this tutorial and move straight to the next tutorial if desired.
+A pre-built XSA file is provided at
+<em>$working_dir/vck190_base_trd_platform1/platform/vck190_base_trd_platform1/hw/vck190_base_trd_platform1.xsa</em></p>
+</div>
 <p><strong>Download Reference Design Files:</strong></p>
 <p>Skip the following steps if the design zip file has already been downloaded and
 extracted to a working directory</p>
@@ -265,7 +274,7 @@ extracted to a working directory</p>
 <p>To enable Versal device support, you need to create two tcl initialization
 scripts, one for Vivado and one for HLS. Add the following line to each of
 the tcl scripts:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enable_beta_device</span> <span class="o">*</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>enable_beta_device *
 </pre></div>
 </div>
 <p>The initialization tcl script for Vivado shall be placed at:</p>
@@ -276,52 +285,63 @@ the tcl scripts:</p>
 <p>Similarly, the initialization tcl script for HLS shall be placed at:</p>
 <ul class="simple">
 <li><p><strong>Linux</strong>: $HOME/.Xilinx/HLS_init.tcl</p></li>
-<li><p><strong>Windows</strong>: %APPDATA%/Roaming/HLS_init.tcl</p></li>
+<li><p><strong>Windows</strong>: %APPDATA%/Roaming/Xilinx/HLS_init.tcl</p></li>
 </ul>
 </li>
 <li><p>Open the Vivado GUI.</p>
-<p>On Windows, open Vivado by navigating to <em>Start &gt; Xilinx Design Tools &gt; Vivado 2019.2</em>.
+<p>On Windows, open Vivado by navigating to <em>Start &gt; Xilinx Design Tools &gt;
+Vivado 2019.2</em>.
 In the tcl console type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $working_dir/vck190_base_trd_shell1/vivado
-source scripts/main.tcl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$working_dir</span>/vck190_base_trd_platform1/vivado
+<span class="nb">source</span> scripts/main.tcl
 </pre></div>
 </div>
 <p>On Linux, at the command prompt enter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $working_dir/vck190_base_trd_shell1/vivado
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$working_dir</span>/vck190_base_trd_platform1/vivado
 vivado -source scripts/main.tcl
 </pre></div>
 </div>
-<p>A Vivado cockpit as shown below will open with vck190_base_trd_shell1 project
-populated.</p>
-<a class="reference internal image-reference" href="_images/vivado.png"><img alt="Vivado cockpit" class="align-center" src="_images/vivado.png" style="width: 1200px;" /></a>
+<p>A Vivado cockpit as shown below will open with vck190_base_trd_platform1
+project populated.</p>
+<a class="reference internal image-reference" href="_images/vivado.png"><img alt="Vivado cockpit" src="_images/vivado.png" style="width: 1200px;" /></a>
 </li>
 <li><p>In the Flow Navigator pane on the left-hand side under IP Integrator, click
 on <em>Open Block Design</em>. An IP Integrator (IPI) block design
-(<em>vck190_base_trd_shell1.bd</em>) becomes visible that contains the
-Control, Interface and Processing System (CIPS) IP, NOC IP and
-Display Pipeline.</p>
-<a class="reference internal image-reference" href="_images/block_design.png"><img alt="IPI Block Design" class="align-center" src="_images/block_design.png" style="width: 1200px;" /></a>
+(<em>vck190_base_trd_platform1.bd</em>) becomes visible that contains the
+Control, Interface and Processing System (CIPS) IP, NOC IP,
+AXI Performace Monitors (APM) and Display Pipeline.</p>
+<a class="reference internal image-reference" href="_images/block_design.png"><img alt="IPI Block Design" src="_images/block_design.png" style="width: 1200px;" /></a>
+</li>
+<li><p>To view the Platform interfaces that are enabled for Vitis compiler to stitch
+in accelerators, on the tool bar at the top click on  <em>Window &gt;
+Platform Interfaces</em>. Platform interfaces are enabled under the following IPs</p>
+<ul class="simple">
+<li><p>clk_wiz: Clocks used to drive clock inputs on the accelerator.</p></li>
+<li><p>smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
+control port.</p></li>
+<li><p>smartconnect_accel:  AXI Memory Mapped slave ports driven by the
+accelerator data port.</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For more information on how to setup Platform Interfaces refer to Section
+- Configuring Platform Interface Properties in <a class="reference external" href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1393-vitis-application-acceleration.pdf">https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1393-vitis-application-acceleration.pdf</a></p>
+</div>
 </li>
 <li><p>In the Flow Navigator pane on the left-hand side under Program and Debug,
 click on <em>Generate Device Image</em>. The device image (pdi) for the design will
 be generated and available at
-<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.runs/impl_1/vck190_base_trd_shell1_wrapper.pdi</em>.</p></li>
-<li><p>After Device Image Generation completes successfully a window pops up. Select
-<em>Open Implemented Design</em> and click on <em>OK</em>.</p>
-<a class="reference internal image-reference" href="_images/open_implemented_design.png"><img alt="Open Implemented Design" class="align-center" src="_images/open_implemented_design.png" style="width: 350px;" /></a>
+<em>$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi</em>.</p></li>
+<li><p>After Device Image Generation completes successfully a window pops up. Click
+on <em>Cancel</em></p>
+<a class="reference internal image-reference" href="_images/open_implemented_design.png"><img alt="Open Implemented Design" src="_images/open_implemented_design.png" style="width: 300px;" /></a>
 </li>
-<li><p>To create the XSA, click on <em>File –&gt; Export –&gt; Export hardware</em>. A
-window pops up.</p>
-<ul class="simple">
-<li><p>Unselect Include files for Emulation.</p></li>
-<li><p>Select Include Device Image.</p></li>
-<li><p>Change Export path to
-<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk</em></p></li>
-<li><p>Click on OK.</p></li>
-</ul>
-<a class="reference internal image-reference" href="_images/export.png"><img alt="Export hardware Options" class="align-center" src="_images/export.png" style="width: 500px;" /></a>
-<p>The file <em>vck190_base_trd_shell1.xsa</em> will be available in
-<em>$working_dir/vck190_base_trd_shell1/vivado/project/vck190_base_trd_shell1.sdk</em></p>
+<li><p>To create the XSA, on the Tcl Console type the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>write_hw_platform -force -include_bit -file ./project/vck190_base_trd_platform1.sdk/vck190_base_trd_platform1.xsa
+</pre></div>
+</div>
+<p>The file <em>vck190_base_trd_platform1.xsa</em> will be available in <em>$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk</em>.
+It will be used as an input when building the Vitis Platform.</p>
 </li>
 </ol>
 </div>
@@ -335,10 +355,10 @@ window pops up.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="build-plnx.html" class="btn btn-neutral float-right" title="5. Build the PetaLinux Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="build-pfm.html" class="btn btn-neutral float-right" title="6. Create the Vitis Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="run.html" class="btn btn-neutral float-left" title="3. Run the Prebuilt Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="build-overview.html" class="btn btn-neutral float-left" title="4. Tool Flow Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

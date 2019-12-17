@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Search &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
+  <title>7. Integrate 2D Filter Kernels in the Platform &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -43,7 +43,6 @@
   
 
   
-    
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
@@ -56,13 +55,14 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-    <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. Build the PetaLinux Image" href="build-plnx.html" />
+    <link rel="prev" title="6. Create the Vitis Platform" href="build-pfm.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -140,7 +140,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -158,18 +158,29 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Integrate 2D Filter Kernels in the Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">7.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">7.2. Build Flow Tutorial</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
 </ul>
 
             
+			<p class="caption"><span class="caption-text">This Page</span></p>
+				<ul class="current">
+				  <li class="toctree-l1"><a href="_sources/build-filter2d.rst.txt"
+						rel="nofollow">Show Source</a></li>
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/build-filter2d.rst"
+						   rel="nofollow">View on GitHub</a></li>						
+				</ul>
           
         </div>
         
@@ -213,12 +224,14 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Search</li>
+      <li>7. Integrate 2D Filter Kernels in the Platform</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/build-filter2d.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -230,23 +243,112 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="integrate-2d-filter-kernels-in-the-platform">
+<h1>7. Integrate 2D Filter Kernels in the Platform<a class="headerlink" href="#integrate-2d-filter-kernels-in-the-platform" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>7.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Reference Design zip file</p></li>
+<li><p>Vitis Unified Software Platform 2019.2 (include AIE tool chain)</p></li>
+<li><p>Xilinx Runtime (XRT) 2019.2</p></li>
+</ul>
+</div>
+<div class="section" id="build-flow-tutorial">
+<h2>7.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can skip this tutorial and move straight to the next tutorial if desired.
+Pre-built Vitis acceleration output products are located inside the PetaLinux
+BSP file located at:
+<em>$working_dir/vck190_base_trd_platform1/petalinux/xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp</em></p>
+</div>
+<p><strong>Download Reference Design Files:</strong></p>
+<p>Skip the following steps if the design zip file has already been downloaded and
+extracted to a working directory</p>
+<ol class="arabic simple">
+<li><p>Download the VCK190 Base Targeted Reference Design ZIP file</p></li>
+<li><p>Unzip Contents</p></li>
+</ol>
+<p>The directory structure is described in the Introduction Section</p>
+<p><strong>Set up the AI Engine toolchain and XRT environment:</strong></p>
+<ol class="arabic">
+<li><p>To set up the AIE toolchain, run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CARDANO_ROOT</span><span class="o">=</span><span class="nv">$XILINX_VITIS</span>/cardano
+<span class="nb">source</span> <span class="nv">$CARDANO_ROOT</span>/scripts/cardano_env.sh
+<span class="nb">export</span> <span class="nv">XILINXD_LICENSE_FILE</span><span class="o">=</span>&lt;path to where the license file is installed&gt;
+</pre></div>
+</div>
+</li>
+<li><p>To set up the XRT environment, follow the installation instructions provided
+here: <a class="reference external" href="https://xilinx.github.io/XRT/2019.2/html/build.html">https://xilinx.github.io/XRT/2019.2/html/build.html</a></p></li>
+</ol>
+<p><strong>Implement platform design with filter2d PL and filter2d AIE accelerators:</strong></p>
+<ol class="arabic">
+<li><p>To create the platform design with accelerators integrated, run the following
+Makefile:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$working_dir</span>/vck190_base_trd_platform1/accelerators/examples/filter2d_combined
+make <span class="nv">PLATFORM</span><span class="o">=</span><span class="nv">$working_dir</span>/vck190_base_trd_platform1/platform/ws/vck190_base_trd_platform1/export/vck190_base_trd_platform1/vck190_base_trd_platform1.xpfm
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <em>PLATFORM</em> variable needs to use an absolute path, otherwise the make
+step will error out.</p>
+</div>
+<p>The Makefile implements the following:</p>
+<ul class="simple">
+<li><p>Builds the filter2d PL kernel. Output is <em>filter2d_pl_accel.xo</em> file.</p></li>
+<li><p>Builds the filter2d AIE kernel and the datamover kernel. The datamover
+kernel is implemented on PL and is responsible to move data from/to DDR
+to/from the AI Engine. Output is a <em>graph.o</em> and <em>filter2d_aie_accel.xo</em></p></li>
+<li><p>Integrates the above kernels into the <em>vck190_base_trd_platform1</em> design
+using the Vitis linker. Generates <em>binary_container_1.xclbin</em> which
+contains meta data describing the kernels and platform. Generates a new
+XSA that includes the updated PDI.</p></li>
+</ul>
+</li>
+<li><p>The following is a list of important output products:</p>
+<ul>
+<li><p>Vivado project with integrated kernels:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_combined/_x/link/vivado/vpl/prj/prj.xpr</em></p></li>
+<li><p>XSA required for building the Petalinux BSP:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_combined/binary_container_1.xsa</em>
+The XSA contains the updated PDI with the accelerators added into the
+platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
+<li><p>The xclbin that contains the platform and kernel meta data needed by XRT:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_combined/binary_container_1.xclbin</em></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The xclbin generated by the tools is incorrect and non-functional. A
+working, hand-edited xclbin is provided as a temporary workaround and
+located here:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/binary_container_1.xclbin</em></p>
+</div>
+</li>
+<li><p>The AIE elf file required to build the <em>BOOT.BIN</em>:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_aie/kernel/2_2</em></p></li>
+<li><p>The AIE cdo file required to build the <em>BOOT.BIN</em>:
+<em>$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_aie/kernel/aie_cdo.bin</em></p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build-plnx.html" class="btn btn-neutral float-right" title="8. Build the PetaLinux Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="build-pfm.html" class="btn btn-neutral float-left" title="6. Create the Vitis Platform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -282,14 +384,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

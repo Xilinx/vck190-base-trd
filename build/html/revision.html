@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>1. Revision History &mdash; Versal Base TRD 2019.2-0.1.1 documentation</title>
+  <title>1. Revision History &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -133,7 +133,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -162,8 +162,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">4. Build the Vivado Design</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">5. Build the PetaLinux Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
 </ul>
 
             
@@ -238,6 +241,18 @@
             
   <div class="section" id="revision-history">
 <h1>1. Revision History<a class="headerlink" href="#revision-history" title="Permalink to this headline">¶</a></h1>
+<p><strong>2019.2 v0.2:</strong></p>
+<ul class="simple">
+<li><p>Replace ‘shell’ with ‘platform’ according to taxonomy</p></li>
+<li><p>Add link to PetaLinux Versal device support README</p></li>
+<li><p>Add Vitis platform and XSCT platform creation tcl script</p></li>
+<li><p>Add Vitis accelerator projects, GStreamer plugins and Jupyter notebook</p>
+<ul>
+<li><p>2D Filter (PL) using the Vitis Vision libraries</p></li>
+<li><p>2D Filter (AIE)</p></li>
+</ul>
+</li>
+</ul>
 <p><strong>2019.2 v0.1.1:</strong></p>
 <ul class="simple">
 <li><p>Compatible with Vivado and PetaLinux 2019.2 tools version</p></li>
@@ -246,7 +261,7 @@
 <p><strong>2019.2 EA v0.1:</strong></p>
 <ul class="simple">
 <li><p>Compatible with Vivado and PetaLinux 2019.2 EA tools version</p></li>
-<li><p>Initial Release of Shell 1 including:</p>
+<li><p>Initial Release of platform 1 including:</p>
 <ul>
 <li><p>Vivado design</p></li>
 <li><p>PetaLinux BSP</p></li>

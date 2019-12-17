@@ -26,27 +26,67 @@ The directory structure is described in the Introduction Section.
 
 **Generate PetaLinux Image**
 
-#. Create a new PetaLinux project from the provided BSP::
+#. Enable Versal device support
 
-    cd petalinux
-    petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.1.1.bsp
+   To enable Versal device support in PetaLinux, follow the instructions
+   in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2019.2.tar.gz
+
+#. Create a new PetaLinux project from the provided BSP:
+
+   .. code-block:: bash
+
+      cd petalinux
+      petalinux-create -t project -s xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
+      cd xilinx-vck190-qspi-base-trd-2019.2-v0.2
 
 
 #. Configure and build the PetaLinux project.
 
-   **Note:** The xsa file used for project configuration is included with this
-   BSP. The build step performs the configuration step implicitly. The xsa file
-   can be generated through Vivado following the Vivado build steps::
+   .. code-block:: bash
 
-    cd xilinx-vck190-qspi-base-trd-2019.2-v0.1.1
-    petalinux-build
+      petalinux-build
 
-#. Create a boot image::
+   .. note::
 
-    petalinux-package --boot --u-boot
+       The XSA file used for project configuration is included with this BSP.
+       The build step performs the configuration step implicitly. If you want
+       to configure your BSP with the XSA file generated in the previous
+       tutorial, run the following command **prior** to the *petalinux-build*
+       command:
 
-The resulting build artifacts will be available in the *petalinux/images/linux/*
-folder. The relevant files for the next step are:
+       .. code-block:: bash
+
+          petalinux-config --get-hw-description=../../accelerators/examples/filter2d_combined/ --silentconfig
+
+#. Create a boot image:
+
+   .. code-block:: bash
+
+      petalinux-package --boot --bif=project-spec/bifs/bootgen_filter2d_combined.bif  --force
+
+   .. note::
+
+       The AIE elf (*2_2*) and cdo (*aie_cdo.bin*) files used for the boot image
+       creation are included with this BSP. Alternatively you can use the files
+       generated in the previous tutorial located at:
+       *$working_dir/vck190_base_trd_platform1/accelerators/examples/filter2d_aie/kernel*
+
+#. Copy the xclbin file:
+
+   .. code-block:: bash
+
+      cp pre-built/binary_container_1.xclbin images/linux
+
+   .. warning::
+
+      As mentioned in the 2D filter build tutorial section, the tool generated
+      xclbin is incorrect. Therefore, the patched xclbin from above mentioned
+      location needs to be used instead.
+
+The resulting build artifacts will be available in the *images/linux/* folder.
+The relevant files for the next step are:
+
+* **binary_container_1.xclbin**: This is the kernel meta data file used by XRT
 
 * **BOOT.BIN**: This is the boot image which includes:
 
@@ -61,6 +101,10 @@ folder. The relevant files for the next step are:
   * u-boot
 
   * Device tree blob
+
+  * AI Engine filter2d application (2_2)
+
+  * AI Engine configuration data object (CDO) file
 
 * **boot.scr**: A u-boot boot script
 
@@ -78,9 +122,11 @@ Create an SD Card Image
    * The second partition is the root file system in EXT4 format.
 
    Use the fdisk utility to partition your SD card. The below steps assume your
-   SD card is device */dev/sdb*::
+   SD card is device */dev/sdb*:
 
-    sudo fdisk /dev/sdb
+   .. code-block:: bash
+
+      sudo fdisk /dev/sdb
 
    * Delete all existing partitions using the *d* command.
 
@@ -96,27 +142,33 @@ Create an SD Card Image
    * Use the *w* command to write the partition table.
 
 #. Format the file systems of the two partitions. The first partition should be
-   FAT32, the second partition ext4::
+   FAT32, the second partition ext4:
 
-    sudo mkfs -t vfat -F 32 /dev/sdb1
-    sudo mkfs -t ext4 /dev/sdb2
+   .. code-block:: bash
 
-#. Copy the required boot files to partition 1::
+      sudo mkfs -t vfat -F 32 /dev/sdb1
+      sudo mkfs -t ext4 /dev/sdb2
 
-    sudo mount /dev/sdb1 /media/card
-    cd image/linux
-    sudo cp BOOT.BIN boot.scr image.ub /media/card
-    sudo umount /media/card
+#. Copy the required boot files to partition 1:
 
-#. Copy and extract the root file system to partition 2::
+   .. code-block:: bash
 
-    sudo mount /dev/sdb2 /media/card
-    sudo cp rootfs.tar.gz /media/card
-    cd /media/card
-    sudo tar xfv rootfs.tar.gz
-    sudo rm rootfs.tar.gz
-    cd -
-    sudo umount /media/card
+      sudo mount /dev/sdb1 /media/card
+      cd images/linux
+      sudo cp binary_container_1.xclbin BOOT.BIN boot.scr image.ub /media/card
+      sudo umount /media/card
+
+#. Copy and extract the root file system to partition 2:
+
+   .. code-block:: bash
+
+      sudo mount /dev/sdb2 /media/card
+      sudo cp rootfs.tar.gz /media/card
+      cd /media/card
+      sudo tar xfv rootfs.tar.gz
+      sudo rm rootfs.tar.gz
+      cd -
+      sudo umount /media/card
 
 The SD card image is now ready to be used to boot the device into Linux, see
 Section *Run the Prebuilt Image* for details.

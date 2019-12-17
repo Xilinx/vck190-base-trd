@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Search &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
+  <title>4. Tool Flow Overview &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -43,7 +43,6 @@
   
 
   
-    
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
@@ -56,13 +55,14 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-    <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Build the Vivado Design" href="build-vivado.html" />
+    <link rel="prev" title="3. Run the Prebuilt Image" href="run.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -140,7 +140,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -158,11 +158,11 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Tool Flow Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
@@ -170,6 +170,13 @@
 </ul>
 
             
+			<p class="caption"><span class="caption-text">This Page</span></p>
+				<ul class="current">
+				  <li class="toctree-l1"><a href="_sources/build-overview.rst.txt"
+						rel="nofollow">Show Source</a></li>
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/build-overview.rst"
+						   rel="nofollow">View on GitHub</a></li>						
+				</ul>
           
         </div>
         
@@ -213,12 +220,14 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Search</li>
+      <li>4. Tool Flow Overview</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/build-overview.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -230,23 +239,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="tool-flow-overview">
+<h1>4. Tool Flow Overview<a class="headerlink" href="#tool-flow-overview" title="Permalink to this headline">¶</a></h1>
+<p>The overall tool flow is outlined in the below diagram. Each step in the tool
+flow is exlpained in detail in subsequent build tutorials.</p>
+<p>At a high level, the builds steps are as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Vivado platform design:</strong>
+The Vivado design is augmented with platform parameters that describe the
+meta data and physical interfaces available to the Vitis compiler for
+stitching in PL and/or AIE kernels.</p></li>
+<li><p><strong>Platform creation:</strong>
+The XSCT utility is used to create an extensible platform whose main
+component is the XSA created by Vivado in step 1.</p></li>
+<li><p><strong>AIE kernels:</strong>
+The Cardano tool chain is used to compile AI Engine kernels. It also
+generates a graph description which is consumed by the Vitis toolchain during
+the link step.</p></li>
+<li><p><strong>PL kernels:</strong>
+The Vitis tool chain is used to compile accelerator kernels from C/C++ using
+high-level synthesis (HLS) or to package RTL kernels. The Vitis linker
+integrates the kernels into the platform design and generates a new XSA and
+xclbin as output products.</p></li>
+<li><p><strong>PetaLinux BSP:</strong>
+The PetaLinux BSP is a collection of yocto meta layers and recipes that are
+used to generate a bootable SD card image including boot image components
+(BOOT.BIN), Linux image (image.ub) and external rootf filesystem partition
+(rootfs). The rootfs contains a collection of software packages required to
+run the target applications.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/tool-flow.jpg"><img alt="Tool Flow" src="_images/tool-flow.jpg" style="width: 800px;" /></a>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build-vivado.html" class="btn btn-neutral float-right" title="5. Build the Vivado Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="run.html" class="btn btn-neutral float-left" title="3. Run the Prebuilt Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -282,14 +320,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>
