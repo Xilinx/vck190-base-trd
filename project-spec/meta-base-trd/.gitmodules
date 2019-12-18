@@ -1,3 +1,0 @@
-[submodule "recipes-apps/base-trd/base-trd"]
-	path = recipes-apps/base-trd/base-trd
-	url = git://gitenterprise.xilinx.com/PAEG/base-trd-jupyter.git
