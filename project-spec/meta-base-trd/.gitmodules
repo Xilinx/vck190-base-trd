@@ -7,3 +7,6 @@
 [submodule "recipes-multimedia/gstreamer/gst-sdx"]
 	path = recipes-multimedia/gstreamer/gst-sdx
 	url = https://gitenterprise.xilinx.com/PAEG/gst-sdx.git
+[submodule "recipes-multimedia/gstreamer/gst-plugins-xlnx"]
+	path = recipes-multimedia/gstreamer/gst-plugins-xlnx
+	url = https://gitenterprise.xilinx.com/PAEG/gst-plugins-xlnx.git
