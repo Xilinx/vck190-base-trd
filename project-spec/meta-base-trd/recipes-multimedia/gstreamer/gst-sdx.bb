@@ -6,11 +6,17 @@
 SUMMARY = "gst-sdx allocator and base class"
 SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/src/gst-libs/gst/base/gstsdxbase.c;beginline=1;endline=24;md5=091ea5d307cba07f2969994cdbb8f2f3"
+LIC_FILES_CHKSUM = "file://gst-libs/gst/base/gstsdxbase.c;beginline=1;endline=24;md5=091ea5d307cba07f2969994cdbb8f2f3"
 
 DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
 
-SRC_URI = "file://gst-sdx.zip"
+SRC_URI = " \
+	file://cmake \
+	file://CMakeLists.txt \
+	file://ext \
+	file://gst-libs \
+	file://src \
+	"
 
 # the xrt and sds-lib package configs are mutually exclusive
 # the use shall enable only one at a time
@@ -23,7 +29,7 @@ PACKAGECONFIG[filter2d] = "-DPLUGIN_FILTER2D=on,-DPLUGIN_FILTER2D=off,opencv"
 PACKAGECONFIG[opticalflow] = "-DPLUGIN_OPTICALFLOW=on,-DPLUGIN_OPTICALFLOW=off,"
 PACKAGECONFIG[permute] = "-DPLUGIN_PERMUTE=on,-DPLUGIN_PERMUTE=off,"
 
-S = "${WORKDIR}/src"
+S = "${WORKDIR}"
 
 inherit pkgconfig cmake
 
