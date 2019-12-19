@@ -22,6 +22,8 @@ The following is a list of supported platforms including key I/O interfaces:
 
     * File source
 
+    * MIPI CSI-2 image sensor capture pipeline via FMC daughter card
+
   * Processing:
 
     * VP9 decode and demux
@@ -38,7 +40,6 @@ The following is a list of supported platforms including key I/O interfaces:
 
 .. image:: images/system-bd.jpg
     :width: 1200px
-    :align: center
     :alt: System Design Block Diagram
 
 Software Stack
@@ -58,7 +59,6 @@ The main software frameworks used in this reference design are:
 
 .. image:: images/sw-stack.jpg
     :width: 700px
-    :align: center
     :alt: Software Stack Overview
 
 Design File Hierarchy
