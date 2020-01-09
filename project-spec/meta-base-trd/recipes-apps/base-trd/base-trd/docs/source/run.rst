@@ -19,10 +19,10 @@ SD Card Creation
 
 Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
 *Win32 Disk Imager* utility for Windows or 'dd' command line utility for Linux
-to write the given rawdisk image 'sdcard.img' to the SD card.
+to write the given rawdisk image ``sdcard.img`` to the SD card.
 
-After unzipping the image file *sdcard.img.zip* using windows extractor, use the
-following steps to write a raw disk image to a removable device using the
+After unzipping the image file ``sdcard.img.zip`` using windows extractor, use
+the following steps to write a raw disk image to a removable device using the
 Win32 Disk Imager utility.
 
 #. Browse to the location of the unzipped image in the Win32 utility
@@ -39,9 +39,9 @@ Win32 Disk Imager utility.
 Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux
 
-#. Unzip the given image file "sdcard.img.zip" in linux
+#. Unzip the given image file ``sdcard.img.zip`` in linux
 
-#. Use dd to write sdcard.img to correct enumerated disk for SD card in the
+#. Use dd to write ``sdcard.img`` to correct enumerated disk for SD card in the
    Linux machine:
 
    .. code-block:: bash
@@ -54,9 +54,10 @@ utility for Linux
 Once the raw image is written to the SD card, you will be able to see two
 partitions. In the first partition (FAT32 format) resides:
 
-* the boot image (BOOT.bin)
-* the u-boot boot script (boot.scr)
-* and the kernel image (image.ub)
+* Xilinx OpenCL binary container (``binary_container_1.xclbin``)
+* Boot image (``BOOT.BIN``)
+* u-boot boot script (``boot.scr``)
+* Linux kernel image (``image.ub``)
 
 while in the second patition (ext4 format) resides the root file system.
 
@@ -88,6 +89,42 @@ you get the board.
 
 * Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
   as shown in the above picture.
+
+**Platform 1: FMC and Vadj settings**
+
+Platform 1 supports video capture from the Leopard IMX274 MIPI FMC. Connect the
+FMC card to the FMCP1 slot (J51) as shown in the above figure. More details on
+the FMC can be found at:
+https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/
+
+Perform the following steps to set the Vadj voltage rail to 1.2V using the
+*BoardUI* utility:
+
+* Depending on whether you have downloaded this reference design through the
+  VCK190 Headstart or EA lounge, use one of the two weblinks below to download
+  the *BoardUI* utility:
+
+  * EA Lounge: https://www.xilinx.com/member/vck190-ea/VCK190_BIT_Test_20191014.zip
+
+  * Headstart Lounge: https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_20191014.zip
+
+* Extract the zip file and start the *BoardUI* tool. Make sure the USB-C
+  cable is connected to your PC and the system controller Micro SD card is
+  inserted.
+
+* In the *BoardUI* GUI, navigate to the *FMC Boot Up* tab following the red
+  circles as shown in the below figure. Enter *1.2* in the *Set On-Boot VADJ*
+  field and click the button next to it to save the value.
+
+  .. image:: images/boardui.jpg
+     :width: 900px
+     :alt: BoardUI Utility
+
+* Power-cycle the board and navigate to the *FMC Current* tab. Click the
+  *Get VADJ_FMC Voltage* button to read out the current voltage setting and
+  confirm it matches the 1.2V set in the previous step.
+
+* Close the *BoardUI* utility.
 
 **Serial console settings**
 
@@ -190,39 +227,30 @@ laptop.
 Run the Jupyter Notebooks
 -------------------------
 
-This TRD includes four jupyter notebooks
+This TRD includes the following jupyter notebooks:
 
 #. **base-trd-nb1.ipynb**: Demonstrates videoplayback of a file source in rootfs
    of the target to the Jupyter notebook using the GStreamer multimedia
-   framework
+   framework.
 
 #. **base-trd-nb2.ipynb**: Demonstrates streaming video from a v4l2 device on
    the target to the Jupyter notebook using the GStreamer multimedia framework
 
 #. **base-trd-nb3.ipynb**: Demonstrates streaming video from a v4l2 device on
-   the target to a HDMI monitor using the GStreamer multimedia framework
+   the target to a HDMI monitor using the GStreamer multimedia framework.
 
 #. **base-trd-nb4.ipynb**: Demonstrates two simultaneous streaming pipelines,
    one from file source and another from a v4l2 device onto two individual
-   planes of a HDMI monitor using the GStreamer multimedia framework
+   planes of a HDMI monitor using the GStreamer multimedia framework.
 
 #. **base-trd-nb5.ipynb**: Demonstrates the 2D filter accelerator kernels, both
    the PL and the AIE versions, inserted into the video pipeline of notebook 2.
 
-For file source, two VP9 encoded video files are located at */usr/share/movies/*
-on the root file system:
+#. **base-trd-nb6.ipynb**: Demonstrates using both 2D filter accelerator kernels
+   in a time-multiplexed fashion in a multi-branch pipeline.
 
-* Big Buck Bunny 360p
-
-* Big Buck Bunny 480p
-
-V4L2 device can be emulated or can be a USB webcam:
-
-* Virtual Video Device (vivid) enumerated as */dev/video0* OR
-
-* USB webcam enumerated as */dev/video2*
-
-  **Note:** The video node can differ based on the USB webcam model
+#. **base-trd-apm.ipynb**: Demonstrates how to plot the memory bandwidth while
+   a video pipeline is running using the libxapm library with python bindings.
 
 To run the notebooks, follow the below steps:
 

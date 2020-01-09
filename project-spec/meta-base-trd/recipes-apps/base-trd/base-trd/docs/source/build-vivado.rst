@@ -81,7 +81,8 @@ The directory structure is described in the Introduction Section
    on *Open Block Design*. An IP Integrator (IPI) block design
    (*vck190_base_trd_platform1.bd*) becomes visible that contains the
    Control, Interface and Processing System (CIPS) IP, NOC IP,
-   AXI Performace Monitors (APM) and Display Pipeline.
+   AXI Performace Monitors (APM), MIPI CSI capture pipeline and HDMI Tx display
+   pipeline.
 
    .. image:: images/block_design.png
      :width: 1200
@@ -94,7 +95,7 @@ The directory structure is described in the Introduction Section
    * clk_wiz: Clocks used to drive clock inputs on the accelerator.
    * smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
      control port.
-   * smartconnect_accel:  AXI Memory Mapped slave ports driven by the
+   * smartconnect_accel: AXI Memory Mapped slave ports driven by the
      accelerator data port.
 
    .. tip::

@@ -22,6 +22,8 @@ The following is a list of supported platforms including key I/O interfaces:
 
     * File source
 
+    * MIPI CSI-2 image sensor capture pipeline via FMC daughter card
+
   * Processing:
 
     * VP9 decode and demux
@@ -38,7 +40,6 @@ The following is a list of supported platforms including key I/O interfaces:
 
 .. image:: images/system-bd.jpg
     :width: 1200px
-    :align: center
     :alt: System Design Block Diagram
 
 Software Stack
@@ -58,14 +59,13 @@ The main software frameworks used in this reference design are:
 
 .. image:: images/sw-stack.jpg
     :width: 700px
-    :align: center
     :alt: Software Stack Overview
 
 Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.2.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.3.zip
 
 It has the following contents:
 
@@ -91,7 +91,7 @@ The design file hierarchy is shown below:
 
 .. code-block::
 
-   vck190_base_trd_platform1_2019.2_v0.2
+   vck190_base_trd_platform1_2019.2_v0.3
    ├── accelerators
    │   ├── examples
    │   │   ├── filter2d_aie
@@ -106,7 +106,7 @@ The design file hierarchy is shown below:
    │   └── index.html
    ├── licenses.zip
    ├── petalinux
-   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp
+   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.3.bsp
    ├── platform
    │   ├── pfm.tcl
    │   └── vck190_base_trd_platform1
