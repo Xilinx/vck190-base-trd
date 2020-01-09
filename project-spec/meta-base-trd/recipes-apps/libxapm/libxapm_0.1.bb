@@ -7,21 +7,24 @@ SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7124841280fe439e1e022aaf7958a7f3"
 
-SRCBRANCH ?= "master"
-SRCREV = "${AUTOREV}"
-SRC_URI = "git://gitenterprise.xilinx.com/nayyala/libxapm.git;protocol=https;branch=${SRCBRANCH}"
-
-TARGET_CC_ARCH += "${LDFLAGS}"
-TARGET_CFLAGS += "-I${STAGING_DIR_TARGET}/${includedir}/python3.5m -I${s}/inc"
-
 DEPENDS += " \
 	boost \
 	python3 \
 	"
 
+SRC_URI = " \
+	file://inc \
+	file://LICENSE \
+	file://Makefile \
+	file://src \
+	"
+
+S = "${WORKDIR}"
+
 inherit python3-dir
 
-S = "${WORKDIR}/git"
+TARGET_CC_ARCH += "${LDFLAGS}"
+TARGET_CFLAGS += "-I${STAGING_DIR_TARGET}/${includedir}/python3.5m -I${s}/inc"
 
 do_install() {
 	install -d ${D}${includedir}
