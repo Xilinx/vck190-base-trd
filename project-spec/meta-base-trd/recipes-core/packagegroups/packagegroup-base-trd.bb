@@ -32,6 +32,8 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	kms++ \
+	libxapm \
+	libxapm-python \
 	mediasrcbin \
 	nodejs \
 	nodejs-npm \
