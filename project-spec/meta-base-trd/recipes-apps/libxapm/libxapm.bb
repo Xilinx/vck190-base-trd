@@ -5,7 +5,7 @@
 SUMMARY = "AXI performance monitor library with python bindings"
 SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=7124841280fe439e1e022aaf7958a7f3"
 
 SRCBRANCH ?= "master"
 SRCREV = "${AUTOREV}"
