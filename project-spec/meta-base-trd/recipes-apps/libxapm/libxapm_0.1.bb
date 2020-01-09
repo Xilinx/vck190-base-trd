@@ -5,23 +5,26 @@
 SUMMARY = "AXI performance monitor library with python bindings"
 SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-
-SRCBRANCH ?= "master"
-SRCREV = "${AUTOREV}"
-SRC_URI = "git://gitenterprise.xilinx.com/nayyala/libxapm.git;protocol=https;branch=${SRCBRANCH}"
-
-TARGET_CC_ARCH += "${LDFLAGS}"
-TARGET_CFLAGS += "-I${STAGING_DIR_TARGET}/${includedir}/python3.5m -I${s}/inc"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=7124841280fe439e1e022aaf7958a7f3"
 
 DEPENDS += " \
 	boost \
 	python3 \
 	"
 
+SRC_URI = " \
+	file://inc \
+	file://LICENSE \
+	file://Makefile \
+	file://src \
+	"
+
+S = "${WORKDIR}"
+
 inherit python3-dir
 
-S = "${WORKDIR}/git"
+TARGET_CC_ARCH += "${LDFLAGS}"
+TARGET_CFLAGS += "-I${STAGING_DIR_TARGET}/${includedir}/python3.5m -I${s}/inc"
 
 do_install() {
 	install -d ${D}${includedir}
@@ -32,7 +35,7 @@ do_install() {
 	oe_libinstall -so libxapm ${D}${libdir}
 
 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-	install -m 755 libxapm.so.1.0.1 ${D}${PYTHON_SITEPACKAGES_DIR}/libxapm.so
+	install -m 755 libxapm.so.0.1.0 ${D}${PYTHON_SITEPACKAGES_DIR}/libxapm.so
 }
 
 PACKAGES =+ "${PN}-python"
