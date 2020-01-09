@@ -32,7 +32,7 @@ do_install() {
 	oe_libinstall -so libxapm ${D}${libdir}
 
 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-	install -m 755 libxapm.so.1.0.1 ${D}${PYTHON_SITEPACKAGES_DIR}/libxapm.so
+	install -m 755 libxapm.so.0.1.0 ${D}${PYTHON_SITEPACKAGES_DIR}/libxapm.so
 }
 
 PACKAGES =+ "${PN}-python"
