@@ -19,7 +19,7 @@ Build Flow Tutorial
    You can skip this tutorial and move straight to the next tutorial if desired.
    Pre-built Vitis acceleration output products are located inside the PetaLinux
    BSP file located at:
-   *$working_dir/vck190_base_trd_platform1/petalinux/xilinx-vck190-qspi-base-trd-2019.2-v0.2.bsp*
+   *$working_dir/vck190_base_trd_platform1/petalinux/xilinx-vck190-qspi-base-trd-2019.2-v0.3.bsp*
 
 **Download Reference Design Files:**
 

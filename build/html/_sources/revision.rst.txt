@@ -1,6 +1,19 @@
 Revision History
 ================
 
+**2019.2 v0.3**
+
+* Add support for Leopard IMX274 MIPI FMC in platform 1
+
+* Update notebooks to support video capture from IMX274 sensor
+
+* Add notebook to demonstrate time-multiplexed filtering on a multi-branch
+  pipeline
+
+* Add AXI performance monitor support in platform 1
+
+* Add library and notebook to plot memory bandwith using AXI performance monitor
+
 **2019.2 v0.2:**
 
 * Replace 'shell' with 'platform' according to taxonomy
