@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>5. Build the Vivado Design &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
+  <title>5. Build the Vivado Design &mdash; Versal Base TRD 2019.2-0.3 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -133,7 +133,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -309,7 +309,8 @@ project populated.</p>
 on <em>Open Block Design</em>. An IP Integrator (IPI) block design
 (<em>vck190_base_trd_platform1.bd</em>) becomes visible that contains the
 Control, Interface and Processing System (CIPS) IP, NOC IP,
-AXI Performace Monitors (APM) and Display Pipeline.</p>
+AXI Performace Monitors (APM), MIPI CSI capture pipeline and HDMI Tx display
+pipeline.</p>
 <a class="reference internal image-reference" href="_images/block_design.png"><img alt="IPI Block Design" src="_images/block_design.png" style="width: 1200px;" /></a>
 </li>
 <li><p>To view the Platform interfaces that are enabled for Vitis compiler to stitch
@@ -319,7 +320,7 @@ Platform Interfaces</em>. Platform interfaces are enabled under the following IP
 <li><p>clk_wiz: Clocks used to drive clock inputs on the accelerator.</p></li>
 <li><p>smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
 control port.</p></li>
-<li><p>smartconnect_accel:  AXI Memory Mapped slave ports driven by the
+<li><p>smartconnect_accel: AXI Memory Mapped slave ports driven by the
 accelerator data port.</p></li>
 </ul>
 <div class="admonition tip">

@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>3. Run the Prebuilt Image &mdash; Versal Base TRD 2019.2-0.2 documentation</title>
+  <title>3. Run the Prebuilt Image &mdash; Versal Base TRD 2019.2-0.3 documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -133,7 +133,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -265,9 +265,9 @@
 <h2>3.2. SD Card Creation<a class="headerlink" href="#sd-card-creation" title="Permalink to this headline">¶</a></h2>
 <p>Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
 <em>Win32 Disk Imager</em> utility for Windows or ‘dd’ command line utility for Linux
-to write the given rawdisk image ‘sdcard.img’ to the SD card.</p>
-<p>After unzipping the image file <em>sdcard.img.zip</em> using windows extractor, use the
-following steps to write a raw disk image to a removable device using the
+to write the given rawdisk image <code class="docutils literal notranslate"><span class="pre">sdcard.img</span></code> to the SD card.</p>
+<p>After unzipping the image file <code class="docutils literal notranslate"><span class="pre">sdcard.img.zip</span></code> using windows extractor, use
+the following steps to write a raw disk image to a removable device using the
 Win32 Disk Imager utility.</p>
 <ol class="arabic">
 <li><p>Browse to the location of the unzipped image in the Win32 utility</p></li>
@@ -280,8 +280,8 @@ and wait till the operation is complete</p>
 <p>Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux</p>
 <ol class="arabic">
-<li><p>Unzip the given image file “sdcard.img.zip” in linux</p></li>
-<li><p>Use dd to write sdcard.img to correct enumerated disk for SD card in the
+<li><p>Unzip the given image file <code class="docutils literal notranslate"><span class="pre">sdcard.img.zip</span></code> in linux</p></li>
+<li><p>Use dd to write <code class="docutils literal notranslate"><span class="pre">sdcard.img</span></code> to correct enumerated disk for SD card in the
 Linux machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unzip sdcard.img.zip
 sudo dd <span class="k">if</span><span class="o">=</span>sdcard.img <span class="nv">of</span><span class="o">=</span>/dev/sdbx <span class="nv">bs</span><span class="o">=</span>1M
@@ -293,9 +293,10 @@ sudo dd <span class="k">if</span><span class="o">=</span>sdcard.img <span class=
 <p>Once the raw image is written to the SD card, you will be able to see two
 partitions. In the first partition (FAT32 format) resides:</p>
 <ul class="simple">
-<li><p>the boot image (BOOT.bin)</p></li>
-<li><p>the u-boot boot script (boot.scr)</p></li>
-<li><p>and the kernel image (image.ub)</p></li>
+<li><p>Xilinx OpenCL binary container (<code class="docutils literal notranslate"><span class="pre">binary_container_1.xclbin</span></code>)</p></li>
+<li><p>Boot image (<code class="docutils literal notranslate"><span class="pre">BOOT.BIN</span></code>)</p></li>
+<li><p>u-boot boot script (<code class="docutils literal notranslate"><span class="pre">boot.scr</span></code>)</p></li>
+<li><p>Linux kernel image (<code class="docutils literal notranslate"><span class="pre">image.ub</span></code>)</p></li>
 </ul>
 <p>while in the second patition (ext4 format) resides the root file system.</p>
 <p><strong>Note:</strong> A Windows OS would only allows FAT32 partitions to be viewed, which is
@@ -317,6 +318,35 @@ you get the board.</p>
 SYSCTRL image.</p></li>
 <li><p>Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
 as shown in the above picture.</p></li>
+</ul>
+<p><strong>Platform 1: FMC and Vadj settings</strong></p>
+<p>Platform 1 supports video capture from the Leopard IMX274 MIPI FMC. Connect the
+FMC card to the FMCP1 slot (J51) as shown in the above figure. More details on
+the FMC can be found at:
+<a class="reference external" href="https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/">https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/</a></p>
+<p>Perform the following steps to set the Vadj voltage rail to 1.2V using the
+<em>BoardUI</em> utility:</p>
+<ul>
+<li><p>Depending on whether you have downloaded this reference design through the
+VCK190 Headstart or EA lounge, use one of the two weblinks below to download
+the <em>BoardUI</em> utility:</p>
+<ul class="simple">
+<li><p>EA Lounge: <a class="reference external" href="https://www.xilinx.com/member/vck190-ea/VCK190_BIT_Test_20191014.zip">https://www.xilinx.com/member/vck190-ea/VCK190_BIT_Test_20191014.zip</a></p></li>
+<li><p>Headstart Lounge: <a class="reference external" href="https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_20191014.zip">https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_20191014.zip</a></p></li>
+</ul>
+</li>
+<li><p>Extract the zip file and start the <em>BoardUI</em> tool. Make sure the USB-C
+cable is connected to your PC and the system controller Micro SD card is
+inserted.</p></li>
+<li><p>In the <em>BoardUI</em> GUI, navigate to the <em>FMC Boot Up</em> tab following the red
+circles as shown in the below figure. Enter <em>1.2</em> in the <em>Set On-Boot VADJ</em>
+field and click the button next to it to save the value.</p>
+<a class="reference internal image-reference" href="_images/boardui.jpg"><img alt="BoardUI Utility" src="_images/boardui.jpg" style="width: 900px;" /></a>
+</li>
+<li><p>Power-cycle the board and navigate to the <em>FMC Current</em> tab. Click the
+<em>Get VADJ_FMC Voltage</em> button to read out the current voltage setting and
+confirm it matches the 1.2V set in the previous step.</p></li>
+<li><p>Close the <em>BoardUI</em> utility.</p></li>
 </ul>
 <p><strong>Serial console settings</strong></p>
 <p>VCK190 comes with a USB-C connector for JTAG+UART, when connected three UART
@@ -401,34 +431,25 @@ the subnet of the host laptop</p></li>
 </div>
 <div class="section" id="run-the-jupyter-notebooks">
 <h2>3.5. Run the Jupyter Notebooks<a class="headerlink" href="#run-the-jupyter-notebooks" title="Permalink to this headline">¶</a></h2>
-<p>This TRD includes four jupyter notebooks</p>
+<p>This TRD includes the following jupyter notebooks:</p>
 <ol class="arabic simple">
 <li><p><strong>base-trd-nb1.ipynb</strong>: Demonstrates videoplayback of a file source in rootfs
 of the target to the Jupyter notebook using the GStreamer multimedia
-framework</p></li>
+framework.</p></li>
 <li><p><strong>base-trd-nb2.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
 the target to the Jupyter notebook using the GStreamer multimedia framework</p></li>
 <li><p><strong>base-trd-nb3.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
-the target to a HDMI monitor using the GStreamer multimedia framework</p></li>
+the target to a HDMI monitor using the GStreamer multimedia framework.</p></li>
 <li><p><strong>base-trd-nb4.ipynb</strong>: Demonstrates two simultaneous streaming pipelines,
 one from file source and another from a v4l2 device onto two individual
-planes of a HDMI monitor using the GStreamer multimedia framework</p></li>
+planes of a HDMI monitor using the GStreamer multimedia framework.</p></li>
 <li><p><strong>base-trd-nb5.ipynb</strong>: Demonstrates the 2D filter accelerator kernels, both
 the PL and the AIE versions, inserted into the video pipeline of notebook 2.</p></li>
+<li><p><strong>base-trd-nb6.ipynb</strong>: Demonstrates using both 2D filter accelerator kernels
+in a time-multiplexed fashion in a multi-branch pipeline.</p></li>
+<li><p><strong>base-trd-apm.ipynb</strong>: Demonstrates how to plot the memory bandwidth while
+a video pipeline is running using the libxapm library with python bindings.</p></li>
 </ol>
-<p>For file source, two VP9 encoded video files are located at <em>/usr/share/movies/</em>
-on the root file system:</p>
-<ul class="simple">
-<li><p>Big Buck Bunny 360p</p></li>
-<li><p>Big Buck Bunny 480p</p></li>
-</ul>
-<p>V4L2 device can be emulated or can be a USB webcam:</p>
-<ul>
-<li><p>Virtual Video Device (vivid) enumerated as <em>/dev/video0</em> OR</p></li>
-<li><p>USB webcam enumerated as <em>/dev/video2</em></p>
-<p><strong>Note:</strong> The video node can differ based on the USB webcam model</p>
-</li>
-</ul>
 <p>To run the notebooks, follow the below steps:</p>
 <ol class="arabic">
 <li><p>On the left pane of the browser, 4 notebooks are available under the folder
