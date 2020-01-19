@@ -43,6 +43,7 @@ BASE_TRD_PACKAGES = " \
 	python3-periphery \
 	tcf-agent \
 	trd-files \
+	tree \
 	${MOVIE_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
