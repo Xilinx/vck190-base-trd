@@ -39,6 +39,7 @@ BASE_TRD_PACKAGES = " \
 	mediasrcbin \
 	nodejs \
 	nodejs-npm \
+	ntp \
 	python3-dev \
 	python3-periphery \
 	tcf-agent \
