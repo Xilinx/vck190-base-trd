@@ -33,6 +33,7 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	kms++ \
+	kms++-python \
 	libxapm \
 	libxapm-python \
 	mediasrcbin \
