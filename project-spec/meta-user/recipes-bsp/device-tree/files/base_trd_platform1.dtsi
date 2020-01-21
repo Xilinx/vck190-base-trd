@@ -201,14 +201,14 @@
                          clock-frequency = <149998499>;
                          compatible = "fixed-clock";
 		};
-		display_pipe_v_mix_0: v_mix@a4270000 {
+		display_pipe_v_mix_0: v_mix@a4040000 {
 			clock-names = "ap_clk";
 			clocks = <&misc_clk_0>;
 			compatible = "xlnx,mixer-4.0";
 			interrupt-names = "interrupt";
 			interrupt-parent = <&gic>;
 			interrupts = <0 86 4>;
-			reg = <0x0 0xa4270000 0x0 0x10000>;
+			reg = <0x0 0xa4040000 0x0 0x10000>;
 			reset-gpios = <&gpio0 26 1>;
 			xlnx,bpc = <8>;
 			xlnx,dma-addr-width = <32>;
@@ -292,13 +292,13 @@
 			clock-frequency = <40000000>;
 		};
 
-		hdmi_tx_pipe_fmch_axi_iic: i2c@a4070000 {
+		hdmi_tx_pipe_fmch_axi_iic: i2c@a4010000 {
 			#address-cells = <1>;
 			#size-cells = <0>;
 			clock-names = "s_axi_aclk";
 			clocks = <&versal_clk 65>;
 			compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
-			reg = <0x0 0xa4070000 0x0 0x10000>;
+			reg = <0x0 0xa4010000 0x0 0x10000>;
 			interrupt-names = "iic2intc_irpt";
 			interrupt-parent = <&gic>;
 			interrupts = <0 87 4>;
@@ -350,14 +350,14 @@
 				#clock-cells = <0>;
 			};
 		};
-		hdmi_tx_pipe_hdmi_gt_controller_1: hdmi_gt_controller@a4080000 {
+		hdmi_tx_pipe_hdmi_gt_controller_1: hdmi_gt_controller@a4000000 {
 			clock-names = "gt_refclk1_odiv2", "sb_aclk", "axi4lite_aclk", "apb_clk", "dru-clk";
 			clocks = <&misc_clk_1>, <&versal_clk 65>, <&versal_clk 65>, <&versal_clk 65>, <&si570_2>;
 			compatible = "xlnx,hdmi-gt-controller-1.0";
 			interrupt-names = "irq";
 			interrupt-parent = <&gic>;
 			interrupts = <0 84 4>;
-			reg = <0x0 0xa4080000 0x0 0x10000>;
+			reg = <0x0 0xa4000000 0x0 0x10000>;
 			xlnx,axi4lite-enable = "true";
 			xlnx,component-name = "exdes_hdmi_gt_controller_1_0";
 			xlnx,device = "xcvc1902";
@@ -479,14 +479,14 @@
 			compatible = "fixed-clock";
 		};
 
-		axi_iic_0_sensor: i2c@a4040000 {
+		axi_iic_0_sensor: i2c@a4070000 {
 			#address-cells = <1>;
 			#size-cells = <0>;
 			compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
 		        interrupt-names = "iic2intc_irpt";
 			interrupt-parent = <&gic>;
-			interrupts = <0 89 4>;
-			reg = <0x0 0xa4040000 0x0 0x10000>;
+			interrupts = <0 90 4>;
+			reg = <0x0 0xa4070000 0x0 0x10000>;
 		        clock-names = "s_axi_aclk";
 			clocks = <&misc_clk_4>;
 
@@ -507,13 +507,13 @@
 				};
 		};
 
-		csiss_1: csiss@a4000000 {
+		csiss_1: csiss@a4060000 {
 			compatible = "xlnx,mipi-csi2-rx-subsystem-4.0";
-			reg = <0x0 0xa4000000 0x0 0x10000>;
+			reg = <0x0 0xa4060000 0x0 0x10000>;
 			clock-names = "lite_aclk", "dphy_clk_200M", "video_aclk";
 			clocks = <&misc_clk_4>, <&misc_clk_5>, <&misc_clk_0>;
 			interrupt-parent = <&gic>;
-			interrupts = <0 88 4>;
+			interrupts = <0 89 4>;
 
 			xlnx,csi-pxl-format = "RAW10";
 			xlnx,axis-tdata-width = <0x20>;
@@ -553,9 +553,9 @@
 			};
 		};
 
-		v_demosaic_0: v_demosaic@a4050000 {
+		v_demosaic_0: v_demosaic@a4080000 {
 			compatible = "xlnx,v-demosaic";
-			reg = <0x0 0xa4050000 0x0 0x10000>;
+			reg = <0x0 0xa4080000 0x0 0x10000>;
 			clocks = <&misc_clk_0>;
 			reset-gpios = <&gpio0 27 1>;
 			xlnx,max-width = <3840>;
@@ -588,9 +588,9 @@
 			};
 		};
 
-		gamma_1: v_gamma@a4090000 {
+		gamma_1: v_gamma@a40a0000 {
 			compatible = "xlnx,v-gamma-lut";
-			reg = <0x0 0xa4090000 0x0 0x10000>;
+			reg = <0x0 0xa40a0000 0x0 0x10000>;
 			clocks = <&misc_clk_0>;
 			reset-gpios = <&gpio0 28 1>;
 			xlnx,max-width = <3840>;
@@ -622,9 +622,9 @@
 			};
 		};
 
-		csc_1: csc@a4010000 {
+		csc_1: csc@a40b0000 {
 			compatible = "xlnx,v-vpss-csc";
-			reg = <0x0 0xa4010000 0x0 0x10000>;
+			reg = <0x0 0xa40b0000 0x0 0x10000>;
 			clocks = <&misc_clk_0>;
 			reset-gpios = <&gpio0 29 1>;
 			xlnx,max-width = <3840>;
@@ -694,12 +694,12 @@
 			};
 		};
 
-		fb_wr_csi: fb_wr@a4060000 {
+		fb_wr_csi: fb_wr@a4090000 {
 			compatible = "xlnx,axi-frmbuf-wr-v2.1";
-			reg = <0x0 0xa4060000 0x0 0x10000>;
+			reg = <0x0 0xa4090000 0x0 0x10000>;
 			#dma-cells = <1>;
 			interrupt-parent = <&gic>;
-			interrupts = <0 90 4>;
+			interrupts = <0 91 4>;
 			xlnx,vid-formats = "yuyv", "bgr888";
 			reset-gpios = <&gpio0 31 1>;
 			xlnx,dma-addr-width = <32>;
