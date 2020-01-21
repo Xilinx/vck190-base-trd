@@ -20,6 +20,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
 	packagegroup-petalinux-opencv \
+	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
@@ -32,15 +33,18 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	kms++ \
+	kms++-python \
 	libxapm \
 	libxapm-python \
 	mediasrcbin \
 	nodejs \
 	nodejs-npm \
+	ntp \
 	python3-dev \
 	python3-periphery \
 	tcf-agent \
 	trd-files \
+	tree \
 	${MOVIE_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
