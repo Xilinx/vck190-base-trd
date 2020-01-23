@@ -495,7 +495,7 @@
 					reg = <0x1a>;
 					#address-cells = <1>;
 					#size-cells = <0>;
-					reset-gpios = <&gpio0 32 0>;
+					reset-gpios = <&gpio0 30 0>;
 
 					port@0 {
 						reg = <0>;
@@ -553,9 +553,9 @@
 			};
 		};
 
-		v_demosaic_0: v_demosaic@a4080000 {
+		v_demosaic_0: v_demosaic@a40c0000 {
 			compatible = "xlnx,v-demosaic";
-			reg = <0x0 0xa4080000 0x0 0x10000>;
+			reg = <0x0 0xa40c0000 0x0 0x10000>;
 			clocks = <&misc_clk_0>;
 			reset-gpios = <&gpio0 27 1>;
 			xlnx,max-width = <3840>;
@@ -582,90 +582,21 @@
 					xlnx,video-width = <8>;
 
 					demosaic_out: endpoint {
-						remote-endpoint = <&gamma_in>;
-					};
-				};
-			};
-		};
-
-		gamma_1: v_gamma@a40a0000 {
-			compatible = "xlnx,v-gamma-lut";
-			reg = <0x0 0xa40a0000 0x0 0x10000>;
-			clocks = <&misc_clk_0>;
-			reset-gpios = <&gpio0 28 1>;
-			xlnx,max-width = <3840>;
-			xlnx,max-height = <2160>;
-
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				port@0 {
-					reg = <0>;
-
-					xlnx,video-width = <8>;
-
-					gamma_in: endpoint {
-						remote-endpoint = <&demosaic_out>;
-					};
-				};
-
-				port@1 {
-					reg = <1>;
-
-					xlnx,video-width = <8>;
-
-					gamma_out: endpoint {
-						remote-endpoint = <&csc_in>;
-					};
-				};
-			};
-		};
-
-		csc_1: csc@a40b0000 {
-			compatible = "xlnx,v-vpss-csc";
-			reg = <0x0 0xa40b0000 0x0 0x10000>;
-			clocks = <&misc_clk_0>;
-			reset-gpios = <&gpio0 29 1>;
-			xlnx,max-width = <3840>;
-			xlnx,max-height = <2160>;
-
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				port@0 {
-					reg = <0>;
-
-					xlnx,video-format = <XVIP_VF_RBG>;
-					xlnx,video-width = <8>;
-
-					csc_in: endpoint {
-						remote-endpoint = <&gamma_out>;
-					};
-				};
-				port@1 {
-					reg = <1>;
-
-					xlnx,video-format = <XVIP_VF_RBG>;
-					xlnx,video-width = <8>;
-
-					csc_out: endpoint {
 						remote-endpoint = <&scaler_in>;
 					};
 				};
 			};
 		};
 
-		scaler_1: scaler@a40c0000 {
+		scaler_1: scaler@a4080000 {
 			compatible = "xlnx,v-vpss-scaler-2.2";
-			reg = <0x0 0xa40c0000 0x0 0x40000>;
+			reg = <0x0 0xa4080000 0x0 0x40000>;
 			clock-names = "aclk_axis", "aclk_ctrl";
 			clocks = <&misc_clk_0>, <&misc_clk_0>;
 			xlnx,num-hori-taps = <6>;
 			xlnx,num-vert-taps = <6>;
 			xlnx,pix-per-clk = <4>;
-			reset-gpios = <&gpio0 30 1>;
+			reset-gpios = <&gpio0 28 1>;
 			xlnx,max-width = <3840>;
 			xlnx,max-height = <2160>;
 
@@ -679,7 +610,7 @@
 					xlnx,video-width = <8>;
 
 					scaler_in: endpoint {
-						remote-endpoint = <&csc_out>;
+						remote-endpoint = <&demosaic_out>;
 					};
 				};
 				port@1 {
@@ -694,14 +625,14 @@
 			};
 		};
 
-		fb_wr_csi: fb_wr@a4090000 {
+		fb_wr_csi: fb_wr@a40d0000 {
 			compatible = "xlnx,axi-frmbuf-wr-v2.1";
-			reg = <0x0 0xa4090000 0x0 0x10000>;
+			reg = <0x0 0xa40d0000 0x0 0x10000>;
 			#dma-cells = <1>;
 			interrupt-parent = <&gic>;
 			interrupts = <0 91 4>;
 			xlnx,vid-formats = "yuyv", "bgr888";
-			reset-gpios = <&gpio0 31 1>;
+			reset-gpios = <&gpio0 29 1>;
 			xlnx,dma-addr-width = <32>;
 			xlnx,pixels-per-clock = <4>;
 			xlnx,max-width = <3840>;
