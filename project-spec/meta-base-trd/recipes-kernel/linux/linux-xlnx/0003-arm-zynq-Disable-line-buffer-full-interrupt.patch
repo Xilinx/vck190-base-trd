@@ -1,7 +1,7 @@
-From e728789e450d22cd523289c4eefc665c5b4de357 Mon Sep 17 00:00:00 2001
+From eef293a4ad1f570e0ccb37dcb68ca8af21e39b4a Mon Sep 17 00:00:00 2001
 From: watson <watson.chow@avnet.com>
 Date: Thu, 21 Jun 2018 19:41:34 +0800
-Subject: [PATCH] arm: zynq: Disable line buffer full interrupt
+Subject: [LINUX PATCH 3/7] arm: zynq: Disable line buffer full interrupt
 
 Signed-off-by: watson <watson.chow@avnet.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: watson <watson.chow@avnet.com>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-index 33191a5..089ae04 100644
+index 3f0150794442..a528f4a76aca 100644
 --- a/drivers/media/platform/xilinx/xilinx-csi2rxss.c
 +++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
 @@ -14,7 +14,7 @@
@@ -20,8 +20,8 @@ index 33191a5..089ae04 100644
 +//#define DEBUG
  #include <dt-bindings/media/xilinx-vip.h>
  #include <linux/bitops.h>
- #include <linux/compiler.h>
-@@ -242,7 +242,9 @@
+ #include <linux/clk.h>
+@@ -300,7 +300,9 @@
  /*
   * Interrupt mask
   */
@@ -33,5 +33,5 @@ index 33191a5..089ae04 100644
   * Timeout for reset
   */
 -- 
-1.8.3.1
+2.21.0
 
