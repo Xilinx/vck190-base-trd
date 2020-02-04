@@ -20,8 +20,8 @@ Signed-off-by: watson <watson.chow@avnet.com>
  drivers/media/i2c/avt_multi_sensor_fmc/Makefile    |    3 +
  drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c    |  866 ++++++++++
  drivers/media/i2c/avt_multi_sensor_fmc/ar0231.h    |   30 +
- .../i2c/avt_multi_sensor_fmc/max9286_serdes.c      | 1826 ++++++++++++++++++++
- .../i2c/avt_multi_sensor_fmc/max9286_serdes.h      | 1315 ++++++++++++++
+ .../i2c/avt_multi_sensor_fmc/max9286_serdes.c      | 1879 ++++++++++++++++++++
+ .../i2c/avt_multi_sensor_fmc/max9286_serdes.h      | 1370 ++++++++++++++
  .../i2c/avt_multi_sensor_fmc/max96705_serdes.c     |  108 ++
  .../i2c/avt_multi_sensor_fmc/max96705_serdes.h     |   14 +
  13 files changed, 4333 insertions(+)
@@ -286,7 +286,7 @@ index 0000000..dbb54f6
 + * This driver is based on vs2016.c
 + *
 + */
-+//#define DEBUG
++#define DEBUG
 +#include <linux/delay.h>
 +#include <linux/gpio.h>
 +#include <linux/i2c.h>
@@ -419,7 +419,7 @@ index 0000000..dbb54f6
 +/* GROUPED_PARAMETER_HOLD_ */
 +static u16 ar0231_group_param_release[] = {0x02, 0x3022, 0x0000};
 +/* COARSE_INTEGRATION_TIME_ */
-+static u16 ar0231_coarse_integration[]	= {0x02, 0x3012, 0x053B};
++static u16 ar0231_coarse_integration[]	= {0x02, 0x3012, 0x0335};
 +/* FINE_INTEGRATION_TIME_ */
 +/*static u16 ar0231_fine_integration[] = {0x02, 0x3014, 0x06A4};*/
 +/*
@@ -1175,7 +1175,7 @@ new file mode 100644
 index 0000000..432a86c
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
-@@ -0,0 +1,1826 @@
+@@ -0,0 +1,1879 @@
 +/*
 + * max9286_96705_serdes.c - serdes driver for MAX96705 and MAX9286
 + *
@@ -1192,7 +1192,7 @@ index 0000000..432a86c
 + *
 + * This driver is based on xilinx-axis-switch.c
 + */
-+//#define DEBUG
++#define DEBUG
 +#include <linux/device.h>
 +#include <linux/delay.h>
 +#include <linux/of.h>
@@ -1442,8 +1442,8 @@ index 0000000..432a86c
 +		return -1;
 +	}
 +
-+	dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x len %02d\n",
-+		target, reg, len);
++	//dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x len %02d\n",
++	//	target, reg, len);
 +	return regmap_bulk_write(regmap, reg, data, len);
 +}
 +
@@ -1458,8 +1458,8 @@ index 0000000..432a86c
 +		return -1;
 +	}
 +
-+	dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x val 0x%02x\n",
-+		target, reg, val);
++	//dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x val 0x%02x\n",
++	//	target, reg, val);
 +	return regmap_write(regmap, reg, val);
 +}
 +
@@ -1475,8 +1475,8 @@ index 0000000..432a86c
 +		return -1;
 +	}
 +
-+	dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x len %02d\n",
-+		target, reg, len);
++	//dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x len %02d\n",
++	//	target, reg, len);
 +	return regmap_bulk_read(regmap, reg, data, len);
 +}
 +
@@ -1492,7 +1492,7 @@ index 0000000..432a86c
 +		return -1;
 +	}
 +
-+	dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x\n", target, reg);
++	//dev_dbg(serdes->dev, "i2c interface %d reg 0x%02x\n", target, reg);
 +	return regmap_read(regmap, reg, val);
 +}
 +
@@ -1514,7 +1514,7 @@ index 0000000..432a86c
 +		}
 +		if (array[0] == 0x00) {
 +			msleep(array[1]);
-+			dev_dbg(serdes->dev, "delay %dms\n", array[1]);
++			//dev_dbg(serdes->dev, "delay %dms\n", array[1]);
 +			array = array + 2;
 +		} else {
 +			len = array[0] - 2;
@@ -1529,7 +1529,7 @@ index 0000000..432a86c
 +				break;
 +			}
 +			array = array + (array[0] + 1);
-+			dev_dbg(serdes->dev, "array %p\n", array);
++			//dev_dbg(serdes->dev, "array %p\n", array);
 +		}
 +	}
 +	return ret;
@@ -1553,7 +1553,7 @@ index 0000000..432a86c
 +		}
 +		if (array[0] == 0x00) {
 +			msleep(array[1]);
-+			dev_dbg(serdes->dev, "delay %dms\n", array[1]);
++			//dev_dbg(serdes->dev, "delay %dms\n", array[1]);
 +			array = array + 2;
 +		} else {
 +			len = array[0] - 2;
@@ -1568,7 +1568,7 @@ index 0000000..432a86c
 +				break;
 +			}
 +			array = array + (array[0] + 1);
-+			dev_dbg(serdes->dev, "array %p\n", array);
++			//dev_dbg(serdes->dev, "array %p\n", array);
 +		}
 +	}
 +
@@ -1624,8 +1624,35 @@ index 0000000..432a86c
 +	if (ret < 0)
 +		return ret;
 +
++	//return max9286_serdes_write_table_u8(serdes,
++	//				     max9286_initial_setup_p2);
++
++	ret =  max9286_serdes_write_table_u8(serdes,
++					     max9286_initial_setup_p2b);
++	if (ret < 0)
++		return ret;
++
++	switch (serdes->formats[PAD_TYPE_SINK].height) {
++	case 720:
++		//dev_dbg(serdes->dev, "Image Resolution = 1280x720 => 30FPS\n");
++		//ret =  max9286_serdes_write_table_u8(serdes, max9286_initial_setup_p2c_30fps_75mhz);
++		dev_dbg(serdes->dev, "Image Resolution = 1280x720 => 60FPS\n");
++		ret =  max9286_serdes_write_table_u8(serdes, max9286_initial_setup_p2c_60fps_75mhz);
++		break;
++	case 1080:
++	default:
++		dev_dbg(serdes->dev, "Image Resolution = 1920x1080 => 30FPS\n");
++		//ret =  max9286_serdes_write_table_u8(serdes, max9286_initial_setup_p2c_30fps);
++		ret =  max9286_serdes_write_table_u8(serdes, max9286_initial_setup_p2c_30fps_75mhz);
++		break;
++	}
++	if (ret < 0) {
++		dev_err(serdes->dev, "max9286_initial_setup_p2c failed\n");
++		return ret;
++	}
++
 +	return max9286_serdes_write_table_u8(serdes,
-+					     max9286_initial_setup_p2);
++					     max9286_initial_setup_p2d);
 +}
 +
 +/*
@@ -1837,7 +1864,7 @@ index 0000000..432a86c
 +		return ret;
 +	}
 +
-+	switch (serdes->formats[PAD_TYPE_SINK].width) {
++	switch (serdes->formats[PAD_TYPE_SINK].height) {
 +	case 720:
 +		dev_dbg(serdes->dev, "Image Resolution = 1280x720\n");
 +		ret =
@@ -1857,9 +1884,35 @@ index 0000000..432a86c
 +		return ret;
 +	}
 +
-+	ret = max9286_serdes_write_table_u16(serdes, ar0231_config_part5);
++	ret = max9286_serdes_write_table_u16(serdes, ar0231_config_part5a);
 +	if (ret < 0) {
-+		dev_err(serdes->dev, "ar0231_config_part5 failed\n");
++		dev_err(serdes->dev, "ar0231_config_part5a failed\n");
++		return ret;
++	}
++
++	switch (serdes->formats[PAD_TYPE_SINK].height) {
++	case 720:
++		dev_dbg(serdes->dev, "Image Resolution = 1280x720\n");
++		ret =
++		max9286_serdes_write_table_u16(serdes,
++					       ar0231_config_part5b_720p);
++		break;
++	case 1080:
++	default:
++		dev_dbg(serdes->dev, "Image Resolution = 1920x1080\n");
++		ret =
++		max9286_serdes_write_table_u16(serdes,
++					       ar0231_config_part5b_1080p);
++		break;
++	}
++	if (ret < 0) {
++		dev_err(serdes->dev, "ar0231_config_part5b failed\n");
++		return ret;
++	}
++
++	ret = max9286_serdes_write_table_u16(serdes, ar0231_config_part5c);
++	if (ret < 0) {
++		dev_err(serdes->dev, "ar0231_config_part5c failed\n");
 +		return ret;
 +	}
 +
@@ -3007,7 +3060,7 @@ new file mode 100644
 index 0000000..9e15c58
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.h
-@@ -0,0 +1,1315 @@
+@@ -0,0 +1,1370 @@
 +#ifndef __MAX9286_96705_SERDES_H
 +#define __MAX9286_96705_SERDES_H
 +
@@ -3158,7 +3211,7 @@ index 0000000..9e15c58
 +	0xFF				// End marker
 +};
 +
-+u8 max9286_initial_setup_p2[] = {
++u8 max9286_initial_setup_p2b[] = {
 +	0x03, DSR_I2C_DEF, 0x01, 0x40,	// frame sync on, manual
 +					// [7:6] Internally generated Frame
 +					//       Sync, FSYNC pin outputs frame
@@ -3178,6 +3231,10 @@ index 0000000..9e15c58
 +					//
 +					// Reference MAX9286 Fsync Guide
 +					//
++	0xFF				// End marker
++};
++
++u8 max9286_initial_setup_p2c_30fps[] = {
 +					// Setup PCLK's per frame
 +					// 88MHz, 30fps
 +					// MAX9286 sends FSYNC to all active
@@ -3189,6 +3246,40 @@ index 0000000..9e15c58
 +					// 2,933,333 cycles / 88MHz =
 +					// 0.0333 => 30fps
 +					//
++	0xFF				// End marker
++};
++
++u8 max9286_initial_setup_p2c_30fps_75mhz[] = {
++					// Setup PCLK's per frame
++					// 75MHz, 30fps
++					// MAX9286 sends FSYNC to all active
++					// links once count is reached.
++	0x03, DSR_I2C_DEF, 0x06, 0xA0,	// [7:0] FSYNC_PERIODL
++	0x03, DSR_I2C_DEF, 0x07, 0x25,	// [7:0] FSYNC_PERIODM
++	0x03, DSR_I2C_DEF, 0x08, 0x26,	// [7:0] FSYNC_PERIODH
++					// FSYNC_PERIOD = 0x2625A0 = 
++					// 2,500,000 cycles / 75MHz = 
++					// 0.0333 => 30fps
++					//
++	0xFF				// End marker
++};
++
++u8 max9286_initial_setup_p2c_60fps_75mhz[] = {
++					// Setup PCLK's per frame
++					// 75MHz, 60fps
++					// MAX9286 sends FSYNC to all active
++					// links once count is reached.
++	0x03, DSR_I2C_DEF, 0x06, 0xD0,	// [7:0] FSYNC_PERIODL
++	0x03, DSR_I2C_DEF, 0x07, 0x12,	// [7:0] FSYNC_PERIODM
++	0x03, DSR_I2C_DEF, 0x08, 0x13,	// [7:0] FSYNC_PERIODH
++					// FSYNC_PERIOD = 0x1312D0 = 
++					// 1,250,000 cycles / 75MHz = 
++					// 0.0166 => 60fps
++					//
++	0xFF				// End marker
++};
++
++u8 max9286_initial_setup_p2d[] = {
 +	0x03, DSR_I2C_DEF, 0x63, 0x00,	// Disable overlap windlow as
 +					// relationship will be broken between
 +					// Fsync & returning Vsync
@@ -3224,19 +3315,19 @@ index 0000000..9e15c58
 +					// lines or more
 +	0x03, SER_I2C_DEF, 0x44, 0x00,	// [7:0] VS_DLY[23:16] = 0x00
 +	0x00, 0x02,			// Delay 2ms
-+	0x03, SER_I2C_DEF, 0x45, 0x9C,	// [7:0] VS_DLY[15:8] = 0x9C
++	0x03, SER_I2C_DEF, 0x45, 0x21,	// [7:0] VS_DLY[15:8] = 0x21
 +	0x00, 0x05,			// Delay 5ms
-+	0x03, SER_I2C_DEF, 0x46, 0x80,	// [7:0] VS_DLY[7:0] = 0x80
-+					// VS_DLY = 0x009C80 - 40064
++	0x03, SER_I2C_DEF, 0x46, 0xC8,	// [7:0] VS_DLY[7:0] = 0xC8
++					// VS_DLY = 2162 * 4 = 8648 (0x21C8
 +					//
 +					// vsync high
 +					//
 +					// High time >200Pclks
 +					// Ensure there are >200 PCLK's
 +	0x03, SER_I2C_DEF, 0x47, 0x00,	// [7:0] VS_H[23:16]
-+	0x03, SER_I2C_DEF, 0x48, 0xb0,	// [7:0] VS_H[15:8]
-+	0x03, SER_I2C_DEF, 0x49, 0x00,	// [7:0] VS_H[7:0]
-+					// VS_H = 0x00B000 - 45056
++	0x03, SER_I2C_DEF, 0x48, 0x00,	// [7:0] VS_H[15:8]
++	0x03, SER_I2C_DEF, 0x49, 0xC8,	// [7:0] VS_H[7:0]
++					// VS_H = 200 (0xC8)
 +					//
 +	0x03, SER_I2C_DEF, 0x43, 0x21,	// enable vsync re-gen
 +					//   [7] RSVD = 0
@@ -3767,17 +3858,34 @@ index 0000000..9e15c58
 +	0xFF	// End marker
 +};
 +
-+u16 ar0231_config_part5[] = {
++u16 ar0231_config_part5a[] = {
 +	0x03, CAM_I2C_BRD, 0x3082, 0x0000,	// OPERATION_MODE_CTRL
 +	0x03, CAM_I2C_BRD, 0x30BA, 0x11F1,	// DIGITAL_CTRL
 +	0x00, 100, // DELAY= 100
 +	0x03, CAM_I2C_BRD, 0x30BA, 0x11F0,	// DIGITAL_CTRL
 +
-+	0x03, CAM_I2C_BRD, 0x300C, 0x0872,	// LINE_LENGTH_PCK_ = 2162
-+	0x03, CAM_I2C_BRD, 0x300A, 0x054A,	// FRAME_LENGTH_LINES_ = 1354
++	0xFF	// End marker
++};
++
++u16 ar0231_config_part5b_1080p[] = {
++	0x03, CAM_I2C_BRD, 0x300C, 0x080E,	// LINE_LENGTH_PCK_ = 2062
++	0x03, CAM_I2C_BRD, 0x300A, 0x0484,	// FRAME_LENGTH_LINES_ = 1156
 +	0x03, CAM_I2C_BRD, 0x3042, 0x0000,	// EXTRA_DELAY = 0
-+						// TOTAL CYCLES = 2162*1354 + 0
-+						// = 2,927,348
++						// TOTAL CYCLES = 2062*1156 + 0
++						// = 2,383,672
++	0xFF	// End marker
++};
++
++u16 ar0231_config_part5b_720p[] = {
++	0x03, CAM_I2C_BRD, 0x300C, 0x05DC,	// LINE_LENGTH_PCK_ = 1500 (1280+220 or 1280+17%)
++	0x03, CAM_I2C_BRD, 0x300A, 0x0335,	// FRAME_LENGTH_LINES_ = 821
++	0x03, CAM_I2C_BRD, 0x3042, 0x0000,	// EXTRA_DELAY = 0
++						// TOTAL CYCLES = 1500*821 + 0 
++						// = 1,315,000
++	0xFF	// End marker
++};
++
++u16 ar0231_config_part5c[] = {
 +	0x03, CAM_I2C_BRD, 0x3238, 0x0222,	// EXPOSURE_RATIO
 +	0x03, CAM_I2C_BRD, 0x3238, 0x0222,	// EXPOSURE_RATIO
 +	0x03, CAM_I2C_BRD, 0x3238, 0x0222,	// EXPOSURE_RATIO
@@ -3863,7 +3971,7 @@ index 0000000..9e15c58
 +	00, 250,
 +	// Adjust Integration Time
 +	0x03, CAM_I2C_BRD, 0x3022, 0x0001, // GROUPED_PARAMETER_HOLD_
-+	0x03, CAM_I2C_BRD, 0x3012, 0x053B, // COARSE_INTEGRATION_TIME_
++	0x03, CAM_I2C_BRD, 0x3012, 0x0335, // COARSE_INTEGRATION_TIME_
 +	0x03, CAM_I2C_BRD, 0x3014, 0x06A4, // FINE_INTEGRATION_TIME_
 +	0x03, CAM_I2C_BRD, 0x3022, 0x0000, // GROUPED_PARAMETER_HOLD_
 +	// Sleep 1 sec
@@ -4345,7 +4453,7 @@ index 0000000..1263927
 + * GNU General Public License for more details.
 + *
 + */
-+//#define DEBUG
++#define DEBUG
 +#include <linux/device.h>
 +#include <linux/module.h>
 +#include <linux/init.h>
