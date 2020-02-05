@@ -6,4 +6,5 @@ SRC_URI += " \
 	file://quad-capture.dtsi \
 	file://display.dtsi \
 	file://ina226-power-monitor.dtsi \
+	file://single-capture.dtsi \
 "
