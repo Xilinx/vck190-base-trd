@@ -1,0 +1,26 @@
+From f7f209b10d0ac8d75eb7f206cec7f86cc639f24c Mon Sep 17 00:00:00 2001
+From: vivekana <vivekana@xilinx.com>
+Date: Tue, 4 Feb 2020 15:50:10 -0800
+Subject: [PATCH 3/4] net:mcab: Limit maximum GEM TX length in TSO
+
+---
+ drivers/net/ethernet/cadence/macb_main.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
+index 49b64a2..8d84256 100644
+--- a/drivers/net/ethernet/cadence/macb_main.c
++++ b/drivers/net/ethernet/cadence/macb_main.c
+@@ -69,8 +69,7 @@
+ /* Max length of transmit frame must be a multiple of 8 bytes */
+ #define MACB_TX_LEN_ALIGN	8
+ #define MACB_MAX_TX_LEN		((unsigned int)((1 << MACB_TX_FRMLEN_SIZE) - 1) & ~((unsigned int)(MACB_TX_LEN_ALIGN - 1)))
+-#define GEM_MAX_TX_LEN		((unsigned int)((1 << GEM_TX_FRMLEN_SIZE) - 1) & ~((unsigned int)(MACB_TX_LEN_ALIGN - 1)))
+-
++#define GEM_MAX_TX_LEN		(unsigned int)(0x3FC0)
+ #define GEM_MTU_MIN_SIZE	ETH_MIN_MTU
+ #define MACB_NETIF_LSO		NETIF_F_TSO
+ 
+-- 
+2.7.4
+
