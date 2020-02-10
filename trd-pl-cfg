@@ -68,3 +68,13 @@ fi
 rm -f pl-custom.dtsi
 ln -s ${dt} pl-custom.dtsi
 popd > /dev/null
+
+# change platfrom name:
+pushd project-spec/meta-base-trd/recipes-apps/trd-files/files > /dev/null
+xocl=xocl.txt
+if [ ! -e ${xocl} ]; then
+	echo "text file '${xocl}' not found"
+	exit 6
+fi
+echo ${DESIGN//-/_} > ${xocl}
+popd > /dev/null

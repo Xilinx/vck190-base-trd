@@ -14,7 +14,7 @@ platform. To list the available platforms and designs, run:
 To configure the project for vck190 platform and Base TRD platform3,
 run:
 ```bash
-% source trd-pl-cfg -d base_trd_platform3
+% source trd-pl-cfg -d base-trd-platform3
 ```
 Next the project needs to be configured with the xsa file from the Vivado
 project.
