@@ -20,14 +20,12 @@ SRC_URI = " \
 
 # the xrt and sds-lib package configs are mutually exclusive
 # the use shall enable only one at a time
-PACKAGECONFIG ??= "xrt filter2d opticalflow permute"
+PACKAGECONFIG ??= "xrt filter2d"
 PACKAGECONFIG[sds-lib] = "-DSDSOC_MODE=on,-DSDSOC_MODE=off,sds-lib,sds-lib"
 PACKAGECONFIG[xrt] = "-DSDSOC_MODE=off,-DSDSOC_MODE=on,xrt,xrt"
 # plugin configs e.g. filter2d are only valid when xrt is selected
 # enabling plugins in combination with sds-lib results in an error
 PACKAGECONFIG[filter2d] = "-DPLUGIN_FILTER2D=on,-DPLUGIN_FILTER2D=off,opencv"
-PACKAGECONFIG[opticalflow] = "-DPLUGIN_OPTICALFLOW=on,-DPLUGIN_OPTICALFLOW=off,"
-PACKAGECONFIG[permute] = "-DPLUGIN_PERMUTE=on,-DPLUGIN_PERMUTE=off,"
 
 S = "${WORKDIR}"
 

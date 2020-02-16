@@ -1,0 +1,15 @@
+[submodule "recipes-apps/base-trd/base-trd"]
+	path = recipes-apps/base-trd/base-trd
+	url = https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter.git
+[submodule "recipes-kernel/hdmi/kernel-module-hdmi"]
+	path = recipes-kernel/hdmi/kernel-module-hdmi
+	url = https://gitenterprise.xilinx.com/ipssw/hdmi-modules.git
+[submodule "recipes-multimedia/gstreamer/gst-sdx"]
+	path = recipes-multimedia/gstreamer/gst-sdx
+	url = https://gitenterprise.xilinx.com/PAEG/gst-sdx.git
+[submodule "recipes-multimedia/gstreamer/gst-plugins-xlnx"]
+	path = recipes-multimedia/gstreamer/gst-plugins-xlnx
+	url = https://gitenterprise.xilinx.com/PAEG/gst-plugins-xlnx.git
+[submodule "recipes-apps/libxapm/libxapm"]
+	path = recipes-apps/libxapm/libxapm
+	url = https://gitenterprise.xilinx.com/PAEG/libxapm.git

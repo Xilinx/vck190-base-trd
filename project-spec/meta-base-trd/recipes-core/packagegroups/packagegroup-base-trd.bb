@@ -32,11 +32,7 @@ BASE_TRD_PACKAGES = " \
 	gstreamer1.0-python \
 	jupyter-startup \
 	kernel-module-hdmi \
-	kms++ \
-	kms++-python \
-	libxapm \
 	libxapm-python \
-	mediasrcbin \
 	nodejs \
 	nodejs-npm \
 	ntp \
