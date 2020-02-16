@@ -12,6 +12,3 @@ echo "0" > /proc/sys/kernel/printk
 
 # Run MIPI DPHY workaround script
 /etc/trd/mipi_dphy_workaround.sh
-
-# Install/upgrade python packages for jupyter
-echo "Run 'jupyter-setup.sh' to enable jupyter widgets extension"
