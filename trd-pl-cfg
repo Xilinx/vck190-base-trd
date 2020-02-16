@@ -76,5 +76,5 @@ if [ ! -e ${xocl} ]; then
 	echo "text file '${xocl}' not found"
 	exit 6
 fi
-echo ${DESIGN//-/_} > ${xocl}
+echo ${PLATFORM}_${DESIGN//-/_} > ${xocl}
 popd > /dev/null
