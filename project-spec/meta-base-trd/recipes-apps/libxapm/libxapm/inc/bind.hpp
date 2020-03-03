@@ -47,23 +47,26 @@ std::vector<apm_t> toVector(list l){
 }
 
 boost::python::list setup(){
-	uint32_t clk = 206248000;
-	std::vector<uint32_t> HDMI_YUY2_PLANE_READ = {0xA40A0000, 0, 0x44, 0x03, 0x200, 0, clk};
-	std::vector<uint32_t> MIPI_READ = {0xA40A0000, 1, 0x44, 0x2300, 0x210, 0, clk};
-	std::vector<uint32_t> HDMI_RGB_PLANE_READ = {0xA40A0000, 2, 0x44, 0x430000, 0x220, 0, clk};
-	std::vector<uint32_t> HDMI_PRIMARY_PLANE_READ = {0xA40A0000, 3, 0x44, 0x63000000, 0x230, 0, clk};
-	std::vector<uint32_t> ACCEL_READ = {0xA40A0000, 4, 0x48, 0x83, 0x240, 0, clk};
-	std::vector<uint32_t> HDMI_YUY2_PLANE_WRITE = {0xA40A0000, 5, 0x48, 0x0200, 0x250, 0, clk};
-	std::vector<uint32_t> MIPI_WRITE = {0xA40A0000, 6, 0x48, 0x220000, 0x260, 0, clk};
-	std::vector<uint32_t> HDMI_RGB_PLANE_WRITE = {0xA40A0000, 7, 0x48, 0x42000000, 0x270, 0, clk};
-	std::vector<uint32_t> HDMI_PRIMARY_PLANE_WRITE = {0xA40A0000, 8, 0x4C, 0x62, 0x280, 0, clk};
-	std::vector<uint32_t> ACCEL_WRITE = {0xA40A0000, 9, 0x4C, 0x8200, 0x290, 0, clk};
-	std::vector<std::vector<uint32_t>> preset = {HDMI_PRIMARY_PLANE_READ,
-					   HDMI_YUY2_PLANE_READ,
-					   HDMI_RGB_PLANE_READ,
-                       ACCEL_WRITE,
-                       ACCEL_READ,
-                       MIPI_WRITE};
+	uint32_t core_clk = 206248000;
+	uint32_t base_addr = 0xA4050000;
+	std::vector<uint32_t> HDMI_VMIX_SMC_0_RD = {base_addr, 0, 0x44, 0x03, 0x200, 0, core_clk};
+	std::vector<uint32_t> HDMI_VMIX_SMC_1_RD = {base_addr, 1, 0x44, 0x2300, 0x210, 0, core_clk};
+	std::vector<uint32_t> PL_ACCEL_RD = {base_addr, 2, 0x44, 0x630000, 0x220, 0, core_clk};
+	std::vector<uint32_t> PL_ACCEL_WR = {base_addr, 3, 0x44, 0x62000000, 0x230, 0, core_clk};
+	std::vector<uint32_t> AIE_ACCEL_RD = {base_addr, 4, 0x48, 0x83, 0x240, 0, core_clk};
+	std::vector<uint32_t> AIE_ACCEL_WR = {base_addr, 5, 0x48, 0x8200, 0x250, 0, core_clk};
+	std::vector<uint32_t> MIPI_WRITE = {base_addr, 6, 0x48, 0xA20000, 0x260, 0, core_clk};
+	std::vector<uint32_t> HDMI_PRIMARY_PLANE_RD = {base_addr, 7, 0x48, 0x43000000, 0x270, 0, core_clk};
+	std::vector<std::vector<uint32_t>> preset = {
+		HDMI_VMIX_SMC_0_RD,
+		HDMI_VMIX_SMC_1_RD,
+		PL_ACCEL_RD,
+		PL_ACCEL_WR,
+		AIE_ACCEL_RD,
+		AIE_ACCEL_WR,
+		MIPI_WRITE,
+		HDMI_PRIMARY_PLANE_RD
+	};
 	boost::python::list fin;
 	for (int i = 0; i < preset.size(); i++){
 		boost::python::list temp;
@@ -74,8 +77,6 @@ boost::python::list setup(){
 	}
 
 	return fin;
-
-
 }
 
 BOOST_PYTHON_MODULE(libxapm)
