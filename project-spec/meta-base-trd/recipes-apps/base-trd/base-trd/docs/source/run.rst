@@ -90,12 +90,17 @@ you get the board.
 * Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
   as shown in the above picture.
 
-**Platform 1: FMC and Vadj settings**
+**FMC and Vadj settings**
 
-Platform 1 supports video capture from the Leopard IMX274 MIPI FMC. Connect the
-FMC card to the FMCP1 slot (J51) as shown in the above figure. More details on
-the FMC can be found at:
-https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/
+Platform 1 supports video capture from the Leopard IMX274 MIPI FMC,
+connect the FMC card to the FMCP1 slot (J51) as shown in the above figure.
+
+Platform 2 supports video capture from Avnet Multi-Camera MIPI FMC Module.
+Connect the FMC card to the FMCP2 slot (J53) as shown in the above figure.
+
+More details on the FMC can be found at:
+Platform1 FMC: https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/
+Platform2 FMC: https://www.avnet.com/wps/portal/silica/products/new-products/npi/2018/avnet-multi-camera-fmc-module/
 
 Perform the following steps to set the Vadj voltage rail to 1.2V using the
 *BoardUI* utility:
@@ -319,14 +324,21 @@ This TRD includes the following jupyter notebooks:
    one from file source and another from a v4l2 device onto two individual
    planes of a HDMI monitor using the GStreamer multimedia framework.
 
-#. **base-trd-nb5.ipynb**: Demonstrates the 2D filter accelerator kernels, both
+#. **base-trd-nb5.ipynb**: Demonstrates streaming video from a Mulit-Camera FMC
+   module on the target to a HDMI monitor using the GStreamer multimedia framework.
+
+#. **base-trd-nb6.ipynb**: Demonstrates the 2D filter accelerator kernels, both
    the PL and the AIE versions, inserted into the video pipeline of notebook 2.
 
-#. **base-trd-nb6.ipynb**: Demonstrates using both 2D filter accelerator kernels
+#. **base-trd-nb7.ipynb**: Demonstrates using both 2D filter accelerator kernels
    in a time-multiplexed fashion in a multi-branch pipeline.
 
 #. **base-trd-apm.ipynb**: Demonstrates how to plot the memory bandwidth while
    a video pipeline is running using the libxapm library with python bindings.
+
+**Note:** MIPI sources in the notebook is platform specific, User is allowed to
+choose "mipi" in platform 1 and "mipi_quad" in platform 2 respectively,
+otherwise an exception would be thrown.
 
 To run the notebooks, follow the below steps:
 
