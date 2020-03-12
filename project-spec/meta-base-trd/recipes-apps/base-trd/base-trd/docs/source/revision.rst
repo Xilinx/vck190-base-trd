@@ -1,6 +1,12 @@
 Revision History
 ================
 
+**2020.1 v0.4**
+
+* Add support for Avnet Multi-Camera MIPI FMC Module in platform 2
+
+* Update notebooks to support video capture from Multi-camera FMC
+
 **2019.2 v0.3**
 
 * Add support for Leopard IMX274 MIPI FMC in platform 1

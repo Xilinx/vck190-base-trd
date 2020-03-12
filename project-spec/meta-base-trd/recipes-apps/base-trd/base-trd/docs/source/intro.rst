@@ -38,6 +38,14 @@ The following is a list of supported platforms including key I/O interfaces:
 
     * Application sink into jupyter notebook display
 
+
+* Platform 2:
+
+  Platform 2 is essentially an enhancement to platform 1 capture pipeline, 
+  while the rest of the hardware design and pre-instantiated set of I/O 
+  interfaces remain the same. The notable difference in the capture path is
+  replacement of IMX274 image sensor with Avnet Multi-Camera image sensor.
+
 .. image:: images/system-bd.jpg
     :width: 1200px
     :alt: System Design Block Diagram
@@ -65,7 +73,7 @@ Design File Hierarchy
 ---------------------
 
 The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2019.2_v0.3.zip
+https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2020.1_v0.4.zip
 
 It has the following contents:
 
@@ -91,7 +99,7 @@ The design file hierarchy is shown below:
 
 .. code-block::
 
-   vck190_base_trd_platform1_2019.2_v0.3
+   vck190_base_trd_platform1_2020.1_v0.4
    ├── accelerators
    │   ├── examples
    │   │   ├── filter2d_aie
@@ -106,7 +114,7 @@ The design file hierarchy is shown below:
    │   └── index.html
    ├── licenses.zip
    ├── petalinux
-   │   └── xilinx-vck190-qspi-base-trd-2019.2-v0.3.bsp
+   │   └── xilinx-vck190-qspi-base-trd-2020.1-v0.4.bsp
    ├── platform
    │   ├── pfm.tcl
    │   └── vck190_base_trd_platform1
