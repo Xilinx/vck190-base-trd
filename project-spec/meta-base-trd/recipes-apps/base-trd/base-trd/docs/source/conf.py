@@ -30,7 +30,7 @@ author = 'Xilinx'
 version = '0.3'
 # The full version, including alpha/beta/rc tags
 release = '2019.2-0.3'
-
+html_last_updated_fmt = '%B %d, %Y'
 
 # -- General configuration ---------------------------------------------------
 
