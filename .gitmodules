@@ -1,8 +1,8 @@
 [submodule "project-spec/meta-base-trd"]
 	path = project-spec/meta-base-trd
 	url = https://gitenterprise.xilinx.com/PAEG/meta-base-trd.git
-	branch = 2019.2
+	branch = 2020.1
 [submodule "project-spec/meta-base-trd-internal"]
 	path = project-spec/meta-base-trd-internal
 	url = https://gitenterprise.xilinx.com/PAEG/meta-base-trd-internal.git
-	branch = 2019.2
+	branch = 2020.1
