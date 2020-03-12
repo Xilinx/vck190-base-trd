@@ -155,6 +155,11 @@ CONFIG_system-versal=y
 # CONFIG_formfactor-dev is not set
 
 #
+# fpga-manager-script 
+#
+CONFIG_fpga-manager-script=y
+
+#
 # haveged 
 #
 CONFIG_haveged=y
@@ -212,6 +217,13 @@ CONFIG_haveged=y
 # CONFIG_lsbinitscripts is not set
 # CONFIG_lsbinitscripts-dev is not set
 # CONFIG_lsbinitscripts-dbg is not set
+
+#
+# linuxptp 
+#
+# CONFIG_linuxptp is not set
+# CONFIG_linuxptp-dev is not set
+# CONFIG_linuxptp-dbg is not set
 
 #
 # modutils-initscripts 
@@ -443,6 +455,13 @@ CONFIG_mtd-utils=y
 # CONFIG_whetstone-dbg is not set
 
 #
+# bootgen 
+#
+# CONFIG_bootgen is not set
+# CONFIG_bootgen-dev is not set
+# CONFIG_bootgen-dbg is not set
+
+#
 # bootloader 
 #
 
@@ -465,9 +484,16 @@ CONFIG_mtd-utils=y
 #
 # canutils 
 #
-CONFIG_canutils=y
+# CONFIG_canutils is not set
 # CONFIG_canutils-dev is not set
 # CONFIG_canutils-dbg is not set
+
+#
+# can-utils 
+#
+CONFIG_can-utils=y
+# CONFIG_can-utils-dbg is not set
+# CONFIG_can-utils-dev is not set
 
 #
 # curl 
@@ -2246,6 +2272,21 @@ CONFIG_xrt=y
 CONFIG_zocl=y
 # CONFIG_zocl-dev is not set
 # CONFIG_zocl-dbg is not set
+
+#
+# opencl-clhpp
+#
+# CONFIG_opencl-clhpp is not set
+
+#
+# opencl-headers
+#
+# CONFIG_opencl-headers is not set
+
+#
+# protobuf
+#
+# CONFIG_protobuf is not set
 
 #
 # zlib 
@@ -4133,6 +4174,13 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-networking-stack-dev is not set
 
 #
+# packagegroup-petalinux-ocicontainers 
+#
+# CONFIG_packagegroup-petalinux-ocicontainers is not set
+# CONFIG_packagegroup-petalinux-ocicontainers-dev is not set
+# CONFIG_packagegroup-petalinux-ocicontainers-dbg is not set
+
+#
 # packagegroup-petalinux-openamp 
 #
 # CONFIG_packagegroup-petalinux-openamp is not set
@@ -4190,6 +4238,13 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-v4lutils-dev is not set
 
 #
+# packagegroup-petalinux-vitisai 
+#
+# CONFIG_packagegroup-petalinux-vitisai is not set
+# CONFIG_packagegroup-petalinux-vitisai-dbg is not set
+# CONFIG_packagegroup-petalinux-vitisai-dev is not set
+
+#
 # packagegroup-petalinux-weston 
 #
 # CONFIG_packagegroup-petalinux-weston is not set
@@ -4211,6 +4266,13 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-xen-dbg is not set
 
 #
+# packagegroup-petalinux-xrt 
+#
+# CONFIG_packagegroup-petalinux-xrt is not set
+# CONFIG_packagegroup-petalinux-xrt-dev is not set
+# CONFIG_packagegroup-petalinux-xrt-dbg is not set
+
+#
 # Image Features
 #
 CONFIG_imagefeature-ssh-server-dropbear=y
@@ -4228,4 +4290,4 @@ CONFIG_packagegroup-base-trd=y
 # PetaLinux RootFS Settings
 #
 CONFIG_ROOTFS_ROOT_PASSWD="root"
-CONFIG_ADD_EXTRA_USERS=""
+CONFIG_ADD_EXTRA_USERS="petalinux:petalinux;"

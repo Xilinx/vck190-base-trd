@@ -12,8 +12,6 @@
 #include "pcw.dtsi"
 / {
 	chosen {
-		bootargs = "earlycon clk_ignore_unused";
-		stdout-path = "serial0:115200n8";
 	};
 	aliases {
 		ethernet0 = &gem0;
@@ -23,9 +21,9 @@
 		serial0 = &serial0;
 		spi0 = &qspi;
 	};
-	memory@00000000 {
+	memory@800000000 {
 		device_type = "memory";
-		reg = <0x0 0x00000000 0x0 0x80000000>;
+		reg = <0x0 0x00000000 0x0 0x80000000>, <0x00000008 0x00000000 0x00000001 0x00000000>;
 	};
 };
 #include "system-user.dtsi"

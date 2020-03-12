@@ -318,7 +318,7 @@
 		};
 
 		gpio1: gpio@f1020000 {
-			compatible = "xlnx,versal-gpio-1.0";
+			compatible = "xlnx,pmc-gpio-1.0";
 			status = "disabled";
 			reg = <0 0xf1020000 0 0x1000>;
 			interrupts = <0 122 4>;
@@ -365,6 +365,8 @@
 			clock-names = "clk_xin", "clk_ahb";
 			xlnx,device_id = <0>;
 			#stream-id-cells = <1>;
+			#clock-cells = <1>;
+			clock-output-names = "clk_out_sd0", "clk_in_sd0";
 			/* iommus = <&smmu 0x242>; */
 			/* dma-coherent; */
 		};
@@ -377,6 +379,8 @@
 			clock-names = "clk_xin", "clk_ahb";
 			xlnx,device_id = <1>;
 			#stream-id-cells = <1>;
+			#clock-cells = <1>;
+			clock-output-names = "clk_out_sd1", "clk_in_sd1";
 			/* iommus = <&smmu 0x243>; */
 			/* dma-coherent; */
 		};
@@ -420,7 +424,7 @@
 		};
 
 		ospi: spi@f1010000 {
-			compatible = "cdns,qspi-nor";
+			compatible = "xlnx,versal-ospi-1.0", "cadence,qspi", "cdns,qspi-nor";
 			status = "disabled";
 			reg = <0 0xf1010000 0 0x10000 0 0xc0000000 0 0x20000000>;
 			interrupts = <0 124 4>, <0 124 4>;
