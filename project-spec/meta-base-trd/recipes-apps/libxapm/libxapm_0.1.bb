@@ -21,10 +21,10 @@ SRC_URI = " \
 
 S = "${WORKDIR}"
 
-inherit python3-dir
+inherit python3native
 
 TARGET_CC_ARCH += "${LDFLAGS}"
-TARGET_CFLAGS += "-I${STAGING_DIR_TARGET}/${includedir}/python3.5m -I${s}/inc"
+TARGET_CFLAGS += "-I${PYTHON_INCLUDE_DIR} -I${s}/inc"
 
 do_install() {
 	install -d ${D}${includedir}
