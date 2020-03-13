@@ -8,5 +8,5 @@ pre-built/linux/
 *.o
 *.jou
 *.log
-project-spec/meta-plnx-generated/
 /components/plnx_workspace
+/components/yocto

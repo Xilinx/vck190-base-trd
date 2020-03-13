@@ -58,8 +58,8 @@
 };
 
 &sdhci1 { /* PMC_MIO26-36/51 */
-	status = "okay";
 	xlnx,mio_bank = <1>;
+	no-1-8-v;
 };
 
 &serial0 { /* PMC_MIO42/43 */
@@ -128,7 +128,7 @@
         flash@0 {
                 #address-cells = <1>;
                 #size-cells = <1>;
-                compatible = "m25p80", "spi-flash"; /* 256MB */
+		compatible = "m25p80", "jedec,spi-nor"; /* 256MB */
                 reg = <0>;
                 spi-tx-bus-width = <1>;
                 spi-rx-bus-width = <4>;

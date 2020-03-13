@@ -1,0 +1,49 @@
+# This is a boot script for U-Boot
+# Generate boot.scr:
+# mkimage -c none -A arm -T script -d boot.cmd.default boot.scr
+#
+################
+
+for boot_target in ${boot_targets};
+do
+	if test "${boot_target}" = "jtag" ; then
+		@@KERNEL_BOOTCMD@@ @@KERNEL_LOAD_ADDRESS@@ @@RAMDISK_IMAGE_ADDRESS@@ @@DEVICETREE_ADDRESS@@
+		exit;
+	fi
+	if test "${boot_target}" = "mmc0" || test "${boot_target}" = "mmc1" ; then
+		if test -e ${devtype} ${devnum}:${distro_bootpart} /@@FIT_IMAGE@@; then
+			fatload ${devtype} ${devnum}:${distro_bootpart} @@FIT_IMAGE_LOAD_ADDRESS@@ @@FIT_IMAGE@@;
+			bootm @@FIT_IMAGE_LOAD_ADDRESS@@;
+			exit;
+                fi
+		if test -e ${devtype} ${devnum}:${distro_bootpart} /@@KERNEL_IMAGE@@; then
+			fatload ${devtype} ${devnum}:${distro_bootpart} @@KERNEL_LOAD_ADDRESS@@ @@KERNEL_IMAGE@@;;
+		fi
+		if test -e ${devtype} ${devnum}:${distro_bootpart} /system.dtb; then
+			fatload ${devtype} ${devnum}:${distro_bootpart} @@DEVICETREE_ADDRESS@@ system.dtb;
+		fi
+		if test -e ${devtype} ${devnum}:${distro_bootpart} /@@RAMDISK_IMAGE@@; then
+			fatload ${devtype} ${devnum}:${distro_bootpart} @@RAMDISK_IMAGE_ADDRESS@@ @@RAMDISK_IMAGE@@;
+			@@KERNEL_BOOTCMD@@ @@KERNEL_LOAD_ADDRESS@@ @@RAMDISK_IMAGE_ADDRESS@@ @@DEVICETREE_ADDRESS@@
+			exit;
+		fi
+		@@KERNEL_BOOTCMD@@ @@KERNEL_LOAD_ADDRESS@@ - @@DEVICETREE_ADDRESS@@
+		exit;
+	fi
+	if test "${boot_target}" = "xspi0" || test "${boot_target}" = "qspi" || test "${boot_target}" = "qspi0"; then
+		sf probe 0 0 0;
+		if test "@@QSPI_KERNEL_IMAGE@@" = "@@FIT_IMAGE@@"; then
+			sf read @@FIT_IMAGE_LOAD_ADDRESS@@ @@QSPI_KERNEL_OFFSET@@ @@FIT_IMAGE_SIZE@@;
+			bootm @@FIT_IMAGE_LOAD_ADDRESS@@;
+			exit;
+		fi
+		if test "@@QSPI_KERNEL_IMAGE@@" = "@@KERNEL_IMAGE@@"; then
+			sf read @@KERNEL_LOAD_ADDRESS@@ @@QSPI_KERNEL_OFFSET@@ @@KERNEL_SIZE@@;
+			sf read @@DEVICETREE_ADDRESS@@ @@QSPI_DEVICETREE_OFFSET@@ @@DEVICETREE_SIZE@@;
+			sf read @@RAMDISK_IMAGE_ADDRESS@@ @@QSPI_RAMDISK_OFFSET@@ @@RAMDISK_SIZE@@
+			@@KERNEL_BOOTCMD@@ @@KERNEL_LOAD_ADDRESS@@ @@RAMDISK_IMAGE_ADDRESS@@ @@DEVICETREE_ADDRESS@@
+			exit;
+		fi
+		exit;
+	fi
+done

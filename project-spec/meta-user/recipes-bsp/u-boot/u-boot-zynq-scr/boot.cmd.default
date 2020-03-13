@@ -2,13 +2,18 @@
 # Generate boot.scr:
 # mkimage -c none -A arm -T script -d boot.cmd.default boot.scr
 #
-
+################
+## Please change the kernel_offset and kernel_size if the kernel image size more than
+## the 100MB and BOOT.BIN size more than the 30MB
+## kernel_offset --> is the address of qspi which you want load the kernel image
+## kernel_size --> size of the kernel image in hex
+###############
 fdt_addr=0x1000
 imageub_addr=0x10000000
 kernel_addr=0x80000
-kernel_offset=0x6400000
-kernel_size=0x2000000
-kernel_type=Image
+kernel_offset=0x1E00200
+kernel_size=0x7800000
+kernel_type=image.ub
 
 for boot_target in ${boot_targets};
 do

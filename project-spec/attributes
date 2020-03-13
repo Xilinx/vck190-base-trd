@@ -4,4 +4,4 @@
 
 #defconfigs
 
-UBOOT_DEFAULT_DEFCONFIG="xilinx_zynqmp_zcu102_revB_defconfig"
+UBOOT_DEFAULT_DEFCONFIG="xilinx_versal_virt_defconfig"
