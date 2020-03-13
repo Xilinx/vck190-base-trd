@@ -31,7 +31,6 @@ BASE_TRD_PACKAGES = " \
 	gst-sdx \
 	gstreamer1.0-python \
 	jupyter-startup \
-	kernel-module-hdmi \
 	libxapm-python \
 	nodejs \
 	nodejs-npm \
