@@ -12,7 +12,7 @@ INCLUDE = inc/
 all: lib$(NAME).so
 
 lib$(NAME).so.$(VERSION): $(OBJ)
-	$(CXX) $(LDFLAGS_BOOST) $(LDFLAGS) $(OBJ) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) -lboost_python35 -o lib$(NAME).so.$(VERSION)
+	$(CXX) $(LDFLAGS_BOOST) $(LDFLAGS) $(OBJ) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) -lboost_python37 -o lib$(NAME).so.$(VERSION)
 
 lib$(NAME).so: lib$(NAME).so.$(VERSION)
 	rm -f lib$(NAME).so.$(MAJOR) lib$(NAME).so
