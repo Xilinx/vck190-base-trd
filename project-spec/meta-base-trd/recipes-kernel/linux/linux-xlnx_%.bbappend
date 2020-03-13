@@ -6,6 +6,4 @@ SRC_URI_append = " \
 	file://0007-max9286-serdes-Fix-source-pad-media-format.patch \
 	file://0006-ar0231-Fix-the-media-bus-format-to-GRBG.patch \
 	file://0003-arm-zynq-Disable-line-buffer-full-interrupt.patch \
-	file://0003-net-mcab-Limit-maximum-GEM-TX-length-in-TSO.patch \
-	file://0004-net-mcab-Remove-unnecessary-alignment-check-for-TSO.patch \
 "
