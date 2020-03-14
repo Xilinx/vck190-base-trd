@@ -1,10 +1,14 @@
 #!/bin/sh
 
-# Execute userhook if present
-USERHOOK=/etc/trd/autostart.sh
-USERHOOK_SD=/media/card/autostart.sh
-if [ -f $USERHOOK_SD ]; then
-	sh $USERHOOK_SD &
-elif [ -f $USERHOOK ]; then
-	sh $USERHOOK &
-fi
+# Source environment for init script
+source /etc/profile
+
+# Set console loglevel to KERN_INFO
+echo "Setting console loglevel to 0 ..."
+echo "0" > /proc/sys/kernel/printk
+
+# Wake up monitor
+/usr/bin/modetest -M xlnx > /dev/null
+
+# Run MIPI DPHY workaround script
+/etc/trd/mipi_dphy_workaround.sh

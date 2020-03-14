@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "\
 	file://trd-autostart.sh \
-	file://autostart.sh \
 	file://mipi_dphy_workaround.sh \
 	file://xocl.txt \
 	"
@@ -25,9 +24,6 @@ INITSCRIPT_PARAMS = "start 99 5 ."
 do_install() {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${S}/trd-autostart.sh ${D}${sysconfdir}/init.d/trd-autostart
-
-	install -d ${D}${sysconfdir}/trd
-	install -m 0755 ${S}/autostart.sh ${D}${sysconfdir}/trd/
 
 	install -d ${D}${sysconfdir}
 	install -m 0644 ${S}/xocl.txt ${D}${sysconfdir}/
