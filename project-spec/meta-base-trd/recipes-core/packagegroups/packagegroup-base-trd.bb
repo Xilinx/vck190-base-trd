@@ -41,6 +41,7 @@ BASE_TRD_PACKAGES = " \
 	tcf-agent \
 	trd-files \
 	tree \
+	tzdata \
 	${MOVIE_PACKAGES} \
 	${XRT_PACKAGES} \
 	"
