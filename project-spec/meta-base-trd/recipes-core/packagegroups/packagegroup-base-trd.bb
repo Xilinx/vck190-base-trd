@@ -21,18 +21,16 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-gstreamer \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-python-modules \
-	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
-	haveged \
 	git \
 	gst-plugins-xlnx \
 	gst-sdx \
 	gstreamer1.0-python \
 	jupyter-startup \
+	kernel-module-hdmi \
 	libxapm-python \
-	nodejs \
 	nodejs-npm \
 	ntp \
 	python3-dev \
@@ -40,6 +38,7 @@ BASE_TRD_PACKAGES = " \
 	tcf-agent \
 	trd-files \
 	tree \
+	tzdata \
 	${MOVIE_PACKAGES} \
 	${XRT_PACKAGES} \
 	"

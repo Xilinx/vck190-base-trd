@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 JUPYTER_STARTUP_PACKAGES += " \
 	python3-jupyterlab \
 	bash \
+	procps \
 	"
 
 RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
