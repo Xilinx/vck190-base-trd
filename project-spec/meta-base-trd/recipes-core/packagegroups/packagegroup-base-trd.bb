@@ -21,7 +21,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-gstreamer \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-python-modules \
-	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
