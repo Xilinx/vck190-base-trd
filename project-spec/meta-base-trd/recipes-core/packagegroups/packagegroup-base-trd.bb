@@ -24,7 +24,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
-	haveged \
 	git \
 	gst-plugins-xlnx \
 	gst-sdx \
