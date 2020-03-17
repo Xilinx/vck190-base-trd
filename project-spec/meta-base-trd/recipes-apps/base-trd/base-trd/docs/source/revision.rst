@@ -7,6 +7,8 @@ Revision History
 
 * Update notebooks to support video capture from Multi-camera FMC
 
+* Add notebooks for plotting CPU utilization and Power Consumption
+
 **2019.2 v0.3**
 
 * Add support for Leopard IMX274 MIPI FMC in platform 1

@@ -336,6 +336,12 @@ This TRD includes the following jupyter notebooks:
 #. **base-trd-apm.ipynb**: Demonstrates how to plot the memory bandwidth while
    a video pipeline is running using the libxapm library with python bindings.
 
+#. **base-trd-cpu.ipynb**: Demonstrates how to plot the CPU usage while running
+   applications and pipelines.
+
+#. **base-trd-power.ipynb**: Demonstrates how to plot power consumption of 
+   multiple voltage rails throughout the board.
+
 **Note:** MIPI sources in the notebook is platform specific, User is allowed to
 choose "mipi" in platform 1 and "mipi_quad" in platform 2 respectively,
 otherwise an exception would be thrown.
