@@ -19,7 +19,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
-	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
