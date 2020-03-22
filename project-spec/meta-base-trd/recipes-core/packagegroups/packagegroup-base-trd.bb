@@ -30,6 +30,7 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	libxapm-python \
+	nodejs \
 	nodejs-npm \
 	ntp \
 	python3-dev \
