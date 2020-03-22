@@ -26,7 +26,7 @@
 	display_pipe_v_mix_0: v_mix@a4040000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,mixer-4.0";
+		compatible = "xlnx,mixer-5.0";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 86 4>;
