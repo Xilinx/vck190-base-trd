@@ -7,20 +7,13 @@ MOVIE_PACKAGES = " \
 	bigbuckbunny-480p-vp9-webm \
 	"
 
-XRT_PACKAGES = " \
-	opencl-clhpp-dev \
-	opencl-headers-dev \
-	xrt \
-	xrt-dev \
-	zocl \
-	"
-
 BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-v4lutils \
+	packagegroup-petalinux-xrt \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
 	git \
@@ -40,7 +33,6 @@ BASE_TRD_PACKAGES = " \
 	tree \
 	tzdata \
 	${MOVIE_PACKAGES} \
-	${XRT_PACKAGES} \
 	"
 
 BASE_TRD_PACKAGES_append_versal = " \
