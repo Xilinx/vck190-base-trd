@@ -7,5 +7,5 @@ do_install_append () {
 	echo "alias la='ls --color=auto -la'" >> ${D}${sysconfdir}/profile
 	echo "alias modetest='modetest -M xlnx'" >> ${D}${sysconfdir}/profile
 	echo "export XILINX_XRT=/usr" >> ${D}${sysconfdir}/profile
-	echo "export XCL_BINDIR=/media/card" >> ${D}${sysconfdir}/profile
+	echo "export XCL_BINDIR=/boot" >> ${D}${sysconfdir}/profile
 }
