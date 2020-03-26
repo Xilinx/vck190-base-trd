@@ -1,7 +1,7 @@
 the_ROM_image:
 {
 	[bootimage] project-spec/hw-description/vpl_gen_fixed.pdi
-	[destination_cpu=me] pre-built/2_2
+	[destination_cpu=aie] pre-built/2_2
 	[partition_type=cdo] pre-built/aie_cdo.bin
 	[bootloader] images/linux/plm.elf
 	[destination_cpu=psm] images/linux/psmfw.elf
