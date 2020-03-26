@@ -36,7 +36,7 @@
 		};
 
 		csiss_1: csiss@a4060000 {
-			compatible = "xlnx,mipi-csi2-rx-subsystem-4.0";
+			compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
 			reg = <0x0 0xa4060000 0x0 0x10000>;
 			clock-names = "lite_aclk", "dphy_clk_200M", "video_aclk";
 			clocks = <&misc_clk_4>, <&misc_clk_5>, <&misc_clk_0>;
