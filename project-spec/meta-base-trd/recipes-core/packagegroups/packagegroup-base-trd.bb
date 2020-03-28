@@ -16,6 +16,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-xrt \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
+	e2fsprogs-resize2fs \
 	git \
 	gst-plugins-xlnx \
 	gst-sdx \
@@ -26,6 +27,7 @@ BASE_TRD_PACKAGES = " \
 	nodejs \
 	nodejs-npm \
 	ntp \
+	parted \
 	python3-dev \
 	python3-periphery \
 	tcf-agent \
