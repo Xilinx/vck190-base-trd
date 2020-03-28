@@ -23,6 +23,7 @@ BASE_TRD_PACKAGES = " \
 	gstreamer1.0-python \
 	jupyter-startup \
 	kernel-module-hdmi \
+	libopencv-imgcodecs3.4 \
 	libxapm-python \
 	nodejs \
 	nodejs-npm \
