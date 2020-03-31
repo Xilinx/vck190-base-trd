@@ -35,6 +35,7 @@ BASE_TRD_PACKAGES = " \
 	tcf-agent \
 	trd-files \
 	tree \
+	ttf-bitstream-vera \
 	tzdata \
 	${MOVIE_PACKAGES} \
 	"
