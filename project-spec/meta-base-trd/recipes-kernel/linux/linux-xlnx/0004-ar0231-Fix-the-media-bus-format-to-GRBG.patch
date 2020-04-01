@@ -1,7 +1,7 @@
-From e562b3d80427170212f0b2b8da98d28af5860354 Mon Sep 17 00:00:00 2001
+From 9fcac11b56df9b575f90686a5e7b4d33cdb9ce52 Mon Sep 17 00:00:00 2001
 From: Vishal Sagar <vishal.sagar@xilinx.com>
 Date: Tue, 3 Sep 2019 00:49:54 +0530
-Subject: [LINUX PATCH 6/7] ar0231: Fix the media bus format to GRBG
+Subject: [PATCH 4/5] ar0231: Fix the media bus format to GRBG
 
 Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
  1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c b/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c
-index a669f39aec04..f608b7356c0b 100644
+index 2d19400..93de2c6 100644
 --- a/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c
 @@ -117,14 +117,8 @@ static const struct ar0231_resolution supported_source_resolutions[] = {
@@ -37,5 +37,5 @@ index a669f39aec04..f608b7356c0b 100644
  
  	ret = v4l2_async_register_subdev(sd);
 -- 
-2.21.0
+2.7.4
 

@@ -1,7 +1,7 @@
-From 7b7e842fdae2e7f8c8fc78b3c9b4cc4f7b60f3c7 Mon Sep 17 00:00:00 2001
+From 98b62131079b64c42258be7b3bf2ae11548007fe Mon Sep 17 00:00:00 2001
 From: watson <watson.chow@avnet.com>
-Date: Thu, 21 Jun 2018 19:41:31 +0800
-Subject: [PATCH] arm: zynq: Add avt_multi_sensor_fmc driver
+Date: Tue, 31 Mar 2020 21:17:28 -0700
+Subject: [PATCH 2/5] arm: zynq: Add avt_multi_sensor_fmc driver
 
 This is a combo driver that is composed of
 
@@ -18,13 +18,13 @@ Signed-off-by: watson <watson.chow@avnet.com>
  drivers/media/i2c/Makefile                         |    1 +
  drivers/media/i2c/avt_multi_sensor_fmc/Kconfig     |    6 +
  drivers/media/i2c/avt_multi_sensor_fmc/Makefile    |    3 +
- drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c    |  866 ++++++++++
+ drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c    |  866 +++++++++
  drivers/media/i2c/avt_multi_sensor_fmc/ar0231.h    |   30 +
  .../i2c/avt_multi_sensor_fmc/max9286_serdes.c      | 1879 ++++++++++++++++++++
  .../i2c/avt_multi_sensor_fmc/max9286_serdes.h      | 1370 ++++++++++++++
  .../i2c/avt_multi_sensor_fmc/max96705_serdes.c     |  108 ++
  .../i2c/avt_multi_sensor_fmc/max96705_serdes.h     |   14 +
- 13 files changed, 4333 insertions(+)
+ 13 files changed, 4442 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/avt_multi_sensor_fmc/ar0231.txt
  create mode 100644 Documentation/devicetree/bindings/media/i2c/avt_multi_sensor_fmc/max9286_serdes.txt
  create mode 100644 Documentation/devicetree/bindings/media/i2c/avt_multi_sensor_fmc/max96705_serdes.txt
@@ -220,10 +220,10 @@ index 0000000..ed32e70
 +	reg = <0x40>;
 +};
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index a367b21..77ee03e 100644
+index 7eee181..72c5d50f 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -793,4 +793,6 @@ endif
+@@ -1169,4 +1169,6 @@ config VIDEO_ST_MIPID02
  
  endmenu
  
@@ -231,14 +231,12 @@ index a367b21..77ee03e 100644
 +
  endif
 diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index f959029..53261c3 100644
+index beb170b..572ecf0 100644
 --- a/drivers/media/i2c/Makefile
 +++ b/drivers/media/i2c/Makefile
-@@ -84,5 +84,6 @@ obj-$(CONFIG_VIDEO_OV2659)	+= ov2659.o
- obj-$(CONFIG_VIDEO_TC358743)	+= tc358743.o
- obj-$(CONFIG_VIDEO_VS2016)	+= vs2016.o
- obj-$(CONFIG_VIDEO_IMX274)	+= imx274.o
-
+@@ -117,3 +117,4 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+ 
  obj-$(CONFIG_SDR_MAX2175) += max2175.o
 +obj-y				+= avt_multi_sensor_fmc/
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/Kconfig b/drivers/media/i2c/avt_multi_sensor_fmc/Kconfig
@@ -264,7 +262,7 @@ index 0000000..bd695dc
 +obj-$(CONFIG_AVT_MULTI_SENSOR_FMC)	+= ar0231.o
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c b/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c
 new file mode 100644
-index 0000000..dbb54f6
+index 0000000..2d19400
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/ar0231.c
 @@ -0,0 +1,866 @@
@@ -1172,7 +1170,7 @@ index 0000000..051101e
 +#endif
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
 new file mode 100644
-index 0000000..432a86c
+index 0000000..2779d86
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
 @@ -0,0 +1,1879 @@
@@ -3057,7 +3055,7 @@ index 0000000..432a86c
 +MODULE_LICENSE("GPL v2");
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.h b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.h
 new file mode 100644
-index 0000000..9e15c58
+index 0000000..9811a12
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.h
 @@ -0,0 +1,1370 @@
@@ -4433,7 +4431,7 @@ index 0000000..9e15c58
 +#endif
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/max96705_serdes.c b/drivers/media/i2c/avt_multi_sensor_fmc/max96705_serdes.c
 new file mode 100644
-index 0000000..1263927
+index 0000000..c77de2a
 --- /dev/null
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max96705_serdes.c
 @@ -0,0 +1,108 @@
@@ -4566,5 +4564,5 @@ index 0000000..b32b7bb
 +
 +#endif
 -- 
-1.8.3.1
+2.7.4
 

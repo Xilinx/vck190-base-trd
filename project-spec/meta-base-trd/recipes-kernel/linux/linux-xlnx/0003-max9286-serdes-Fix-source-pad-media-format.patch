@@ -1,7 +1,7 @@
-From 4a49d808e12bc5f4fb6a35437010eeab2e5a1c88 Mon Sep 17 00:00:00 2001
+From 7dc44bd06f94dcb9ad6cfc8a3aa60bb2a10397f9 Mon Sep 17 00:00:00 2001
 From: Vishal Sagar <vishal.sagar@xilinx.com>
 Date: Tue, 3 Sep 2019 00:51:19 +0530
-Subject: [LINUX PATCH 7/7] max9286 serdes : Fix source pad media format
+Subject: [PATCH 3/5] max9286 serdes : Fix source pad media format
 
 The pad format of all the sinks and source will be same. So if any sink
 pad format changes, apply that to all the sink and source pad. If source
@@ -9,11 +9,11 @@ pad format is tried to be changed then don't let it happen.
 
 Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
 ---
- .../i2c/avt_multi_sensor_fmc/max9286_serdes.c | 39 ++++++++++++++++++-
+ .../i2c/avt_multi_sensor_fmc/max9286_serdes.c      | 39 +++++++++++++++++++++-
  1 file changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
-index 9084491bb8c1..c5a32ccfe385 100644
+index 2779d86..4971aa8 100644
 --- a/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
 +++ b/drivers/media/i2c/avt_multi_sensor_fmc/max9286_serdes.c
 @@ -1242,7 +1242,7 @@ static int max9286_serdes_set_format(struct v4l2_subdev *subdev,
@@ -71,5 +71,5 @@ index 9084491bb8c1..c5a32ccfe385 100644
  }
  
 -- 
-2.21.0
+2.7.4
 
