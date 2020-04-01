@@ -1,7 +1,7 @@
-From 16324fef2630a8335969f9381dabf773ed1d5824 Mon Sep 17 00:00:00 2001
+From 3ce15fa0b6b553fbb587cdab67e44a292df7560c Mon Sep 17 00:00:00 2001
 From: watson <watson.chow@avnet.com>
 Date: Thu, 21 Jun 2018 19:41:30 +0800
-Subject: [PATCH] arm: zynq: Add MAX20087 driver
+Subject: [PATCH 1/5] arm: zynq: Add MAX20087 driver
 
 It is designed to comply with
 Linux voltage and current regulator framework
@@ -15,7 +15,7 @@ Signed-off-by: watson <watson.chow@avnet.com>
  drivers/regulator/Makefile                         |   1 +
  drivers/regulator/max20087-regulator.c             | 427 +++++++++++++++++++++
  include/linux/regulator/max20087-regulator.h       |  38 ++
- 5 files changed, 528 insertions(+), 1 deletion(-)
+ 5 files changed, 531 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/devicetree/bindings/regulator/max20087-regulator.txt
  create mode 100644 drivers/regulator/max20087-regulator.c
  create mode 100644 include/linux/regulator/max20087-regulator.h
@@ -82,10 +82,10 @@ index 0000000..30165a9
 +	};
 +};
 diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 936f7cc..4906e6f 100644
+index 3ee6353..74bcc07 100644
 --- a/drivers/regulator/Kconfig
 +++ b/drivers/regulator/Kconfig
-@@ -477,6 +477,16 @@ config REGULATOR_MAX77802
+@@ -571,6 +571,16 @@ config REGULATOR_MAX77802
  	  Exynos5420/Exynos5800 SoCs to control various voltages.
  	  It includes support for control of voltage and ramp speed.
  
@@ -102,16 +102,16 @@ index 936f7cc..4906e6f 100644
  config REGULATOR_MC13XXX_CORE
  	tristate
  
-@@ -879,4 +889,3 @@ config REGULATOR_WM8994
+@@ -1106,4 +1116,3 @@ config REGULATOR_WM8994
  	  WM8994 CODEC.
  
  endif
 -
 diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 2142a5d..acffdd5 100644
+index 2210ba5..383c353 100644
 --- a/drivers/regulator/Makefile
 +++ b/drivers/regulator/Makefile
-@@ -62,6 +62,7 @@ obj-$(CONFIG_REGULATOR_MAX8998) += max8998.o
+@@ -73,6 +73,7 @@ obj-$(CONFIG_REGULATOR_MAX8998) += max8998.o
  obj-$(CONFIG_REGULATOR_MAX77686) += max77686-regulator.o
  obj-$(CONFIG_REGULATOR_MAX77693) += max77693-regulator.o
  obj-$(CONFIG_REGULATOR_MAX77802) += max77802-regulator.o
@@ -121,7 +121,7 @@ index 2142a5d..acffdd5 100644
  obj-$(CONFIG_REGULATOR_MC13XXX_CORE) +=  mc13xxx-regulator-core.o
 diff --git a/drivers/regulator/max20087-regulator.c b/drivers/regulator/max20087-regulator.c
 new file mode 100644
-index 0000000..60cde9f
+index 0000000..fe3df07
 --- /dev/null
 +++ b/drivers/regulator/max20087-regulator.c
 @@ -0,0 +1,427 @@
@@ -597,5 +597,5 @@ index 0000000..f70aa7c
 +};
 +#endif
 -- 
-1.8.3.1
+2.7.4
 
