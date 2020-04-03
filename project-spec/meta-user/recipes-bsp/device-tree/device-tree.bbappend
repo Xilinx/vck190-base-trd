@@ -7,6 +7,7 @@ SRC_URI += " \
 	file://display.dtsi \
 	file://ina226-power-monitor.dtsi \
 	file://single-capture.dtsi \
+	file://aie.dtsi \
 "
 
 python () {

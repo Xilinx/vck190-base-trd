@@ -30,6 +30,7 @@
 			clock-frequency = <297000000>;
 			compatible = "fixed-clock";
 		};
-
 	};
 };
+
+#include "aie.dtsi"
