@@ -8,5 +8,4 @@ do_install_append () {
 	echo "alias modetest='modetest -M xlnx'" >> ${D}${sysconfdir}/profile
 	echo "export XILINX_XRT=/usr" >> ${D}${sysconfdir}/profile
 	echo "export XCL_BINDIR=/boot" >> ${D}${sysconfdir}/profile
-	echo "export PAGER=more" >> ${D}${sysconfdir}/profile
 }
