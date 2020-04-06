@@ -156,10 +156,6 @@ CONFIG_PRE_MIRROR_URL="file:///wrk/paeg_builds/build-artifacts/yocto/${PETALINUX
 #
 # Local sstate feeds settings
 #
-
-#
-# Default sstate feeds ${PETALINUX}/components/yocto always added
-#
 CONFIG_YOCTO_LOCAL_SSTATE_FEEDS_URL="/wrk/paeg_builds/build-artifacts/yocto/${PETALINUX_VER%%.*}/versal/sstate-cache"
 CONFIG_YOCTO_NETWORK_SSTATE_FEEDS=y
 
