@@ -1,13 +1,13 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
-	file://system-user.dtsi \
-	file://pl-custom.dtsi \
-	file://quad-capture.dtsi \
+	file://aie.dtsi \
 	file://display.dtsi \
 	file://ina226-power-monitor.dtsi \
+	file://pl-custom.dtsi \
+	file://quad-capture.dtsi \
 	file://single-capture.dtsi \
-	file://aie.dtsi \
+	file://system-user.dtsi \
 "
 
 python () {
