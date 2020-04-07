@@ -28,5 +28,6 @@
 	};
 };
 
+#include "aie.dtsi"
 #include "quad-capture.dtsi"
 #include "display.dtsi"

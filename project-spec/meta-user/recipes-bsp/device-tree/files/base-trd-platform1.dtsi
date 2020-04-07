@@ -34,5 +34,6 @@
 	};
 };
 
+#include "aie.dtsi"
 #include "single-capture.dtsi"
 #include "display.dtsi"
