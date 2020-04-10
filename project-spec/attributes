@@ -5,3 +5,6 @@
 #defconfigs
 
 UBOOT_DEFAULT_DEFCONFIG="xilinx_versal_virt_defconfig"
+
+#atf
+CONFIG_SUBSYSTEM_PRELOADED_BL33_BASE="0x8000000"
