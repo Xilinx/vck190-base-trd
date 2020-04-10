@@ -19,7 +19,9 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
+	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-python-modules \
+	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
 	base-trd-notebooks \
@@ -31,7 +33,6 @@ BASE_TRD_PACKAGES = " \
 	jupyter-startup \
 	kernel-module-hdmi \
 	ldd \
-	libopencv-imgcodecs3.4 \
 	libxapm-python \
 	nodejs \
 	nodejs-npm \
