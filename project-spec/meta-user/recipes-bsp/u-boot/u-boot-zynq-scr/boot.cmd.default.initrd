@@ -3,6 +3,7 @@
 # mkimage -c none -A arm -T script -d boot.cmd.default boot.scr
 #
 ################
+@@PRE_BOOTENV@@
 
 for boot_target in ${boot_targets};
 do
