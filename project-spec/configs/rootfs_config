@@ -1662,13 +1662,6 @@ CONFIG_tcl=y
 # CONFIG_libjpeg-turbo-dev is not set
 
 #
-# libmali-xlnx 
-#
-# CONFIG_libmali-xlnx is not set
-# CONFIG_libmali-xlnx-dbg is not set
-# CONFIG_libmali-xlnx-dev is not set
-
-#
 # libmetal 
 #
 # CONFIG_libmetal is not set
@@ -4236,13 +4229,6 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-v4lutils is not set
 # CONFIG_packagegroup-petalinux-v4lutils-dbg is not set
 # CONFIG_packagegroup-petalinux-v4lutils-dev is not set
-
-#
-# packagegroup-petalinux-vitisai 
-#
-# CONFIG_packagegroup-petalinux-vitisai is not set
-# CONFIG_packagegroup-petalinux-vitisai-dbg is not set
-# CONFIG_packagegroup-petalinux-vitisai-dev is not set
 
 #
 # packagegroup-petalinux-weston 
