@@ -27,7 +27,6 @@ BASE_TRD_PACKAGES = " \
 	base-trd-notebooks \
 	e2fsprogs-resize2fs \
 	git \
-	gst-plugins-xlnx \
 	gst-sdx \
 	gstreamer1.0-python \
 	jupyter-startup \
