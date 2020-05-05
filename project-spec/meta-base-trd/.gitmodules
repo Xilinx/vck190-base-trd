@@ -4,9 +4,9 @@
 [submodule "recipes-multimedia/gstreamer/gst-sdx"]
 	path = recipes-multimedia/gstreamer/gst-sdx
 	url = https://gitenterprise.xilinx.com/PAEG/gst-sdx.git
-[submodule "recipes-multimedia/gstreamer/gst-plugins-xlnx"]
-	path = recipes-multimedia/gstreamer/gst-plugins-xlnx
-	url = https://gitenterprise.xilinx.com/PAEG/gst-plugins-xlnx.git
 [submodule "recipes-apps/libxapm/libxapm"]
 	path = recipes-apps/libxapm/libxapm
 	url = https://gitenterprise.xilinx.com/PAEG/libxapm.git
+[submodule "recipes-multimedia/gstreamer/mediasrcbin"]
+	path = recipes-multimedia/gstreamer/mediasrcbin
+	url = https://gitenterprise.xilinx.com/PAEG/mediasrcbin.git

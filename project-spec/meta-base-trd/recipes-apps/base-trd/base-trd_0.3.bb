@@ -9,11 +9,11 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f9990fcc34ccf1f82ccf1bc5a1cc3bfc"
 
 RDEPENDS_${PN} += " \
-	gst-plugins-xlnx \
 	gst-sdx \
 	gstreamer1.0-plugins-bad \
 	gstreamer1.0-plugins-good \
 	gstreamer1.0-python \
+	mediasrcbin \
 	python3-notebook \
 	python3-opencv \
 	python3-pydot \
