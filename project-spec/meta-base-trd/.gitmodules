@@ -10,3 +10,6 @@
 [submodule "recipes-apps/libxapm/libxapm"]
 	path = recipes-apps/libxapm/libxapm
 	url = https://gitenterprise.xilinx.com/PAEG/libxapm.git
+[submodule "recipes-multimedia/gstreamer/mediasrcbin"]
+	path = recipes-multimedia/gstreamer/mediasrcbin
+	url = https://gitenterprise.xilinx.com/PAEG/mediasrcbin.git
