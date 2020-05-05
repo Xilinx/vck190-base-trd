@@ -34,6 +34,7 @@ BASE_TRD_PACKAGES = " \
 	kernel-module-hdmi \
 	ldd \
 	libxapm-python \
+	mediasrcbin \
 	nodejs \
 	nodejs-npm \
 	ntp \
