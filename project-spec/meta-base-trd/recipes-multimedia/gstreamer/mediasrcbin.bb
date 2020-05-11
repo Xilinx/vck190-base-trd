@@ -14,7 +14,12 @@ DEPENDS += " \
 	media-ctl \
 	"
 
-SRC_URI = "file://mediasrcbin"
+SRC_URI = " \
+	file://cmake \
+	file://CMakeLists.txt \
+	file://LICENSE \
+	file://src \
+	"
 S = "${WORKDIR}"
 
 inherit pkgconfig cmake
