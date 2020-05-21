@@ -20,6 +20,7 @@ Contents:
    build-pfm.rst
    build-filter2d.rst
    build-plnx.rst
+   build-isp.rst
 
 Indices and Tables
 ==================
