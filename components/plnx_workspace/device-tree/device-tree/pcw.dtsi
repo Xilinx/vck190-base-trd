@@ -58,9 +58,6 @@
 	clock-frequency = <400000>;
 	status = "okay";
 };
-&gpio0 {
-	status = "okay";
-};
 &gpio1 {
 	status = "okay";
 };
@@ -83,6 +80,18 @@
 	cts-override ;
 	device_type = "serial";
 	port-number = <0>;
+	status = "okay";
+};
+&ttc0 {
+	status = "okay";
+};
+&ttc1 {
+	status = "okay";
+};
+&ttc2 {
+	status = "okay";
+};
+&ttc3 {
 	status = "okay";
 };
 &usb0 {

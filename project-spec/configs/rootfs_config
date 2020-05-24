@@ -212,13 +212,6 @@ CONFIG_haveged=y
 # CONFIG_kmod-dev is not set
 
 #
-# lsbinitscripts 
-#
-# CONFIG_lsbinitscripts is not set
-# CONFIG_lsbinitscripts-dev is not set
-# CONFIG_lsbinitscripts-dbg is not set
-
-#
 # linuxptp 
 #
 # CONFIG_linuxptp is not set
@@ -810,13 +803,6 @@ CONFIG_openssh-sftp-server=y
 # CONFIG_lmbench-dev is not set
 
 #
-# lsb 
-#
-# CONFIG_lsb is not set
-# CONFIG_lsb-dev is not set
-# CONFIG_lsb-dbg is not set
-
-#
 # ltp 
 #
 # CONFIG_ltp is not set
@@ -990,7 +976,6 @@ CONFIG_pciutils=y
 # CONFIG_distcc is not set
 # CONFIG_distcc-dbg is not set
 # CONFIG_distcc-dev is not set
-# CONFIG_distcc-distmon-gnome is not set
 
 #
 # expect 
@@ -1085,7 +1070,6 @@ CONFIG_pciutils=y
 # perl 
 #
 # CONFIG_perl is not set
-# CONFIG_perl-lib is not set
 # CONFIG_perl-misc is not set
 # CONFIG_perl-modules is not set
 # CONFIG_perl-module-unicore is not set
@@ -1171,25 +1155,25 @@ CONFIG_python=y
 # CONFIG_python-textutils is not set
 
 #
-# python-nose 
+# python3-nose 
 #
-# CONFIG_python-nose is not set
-# CONFIG_python-nose-dbg is not set
-# CONFIG_python-nose-dev is not set
+# CONFIG_python3-nose is not set
+# CONFIG_python3-nose-dbg is not set
+# CONFIG_python3-nose-dev is not set
 
 #
-# python-numpy 
+# python3-numpy 
 #
-# CONFIG_python-numpy is not set
-# CONFIG_python-numpy-dbg is not set
-# CONFIG_python-numpy-dev is not set
+# CONFIG_python3-numpy is not set
+# CONFIG_python3-numpy-dbg is not set
+# CONFIG_python3-numpy-dev is not set
 
 #
-# python-scons 
+# python3-scons 
 #
-# CONFIG_python-scons is not set
-# CONFIG_python-scons-dev is not set
-# CONFIG_python-scons-dbg is not set
+# CONFIG_python3-scons is not set
+# CONFIG_python3-scons-dev is not set
+# CONFIG_python3-scons-dbg is not set
 
 #
 # python3-dbus 
@@ -1373,11 +1357,8 @@ CONFIG_tcl=y
 # faad2 
 #
 # CONFIG_faad2 is not set
-# CONFIG_libfaad is not set
-# CONFIG_libfaad-dev is not set
 # CONFIG_faad2-dev is not set
 # CONFIG_faad2-dbg is not set
-# CONFIG_libmp4ff-dev is not set
 
 #
 # ffmpeg 
@@ -1994,20 +1975,6 @@ CONFIG_tcl=y
 # CONFIG_libxv-dev is not set
 
 #
-# libxxf86dga 
-#
-# CONFIG_libxxf86dga is not set
-# CONFIG_libxxf86dga-dbg is not set
-# CONFIG_libxxf86dga-dev is not set
-
-#
-# libxxf86misc 
-#
-# CONFIG_libxxf86misc is not set
-# CONFIG_libxxf86misc-dev is not set
-# CONFIG_libxxf86misc-dbg is not set
-
-#
 # libxxf86vm 
 #
 # CONFIG_libxxf86vm is not set
@@ -2534,23 +2501,6 @@ CONFIG_libstdcPLUSPLUS=y
 # gst-player 
 #
 # CONFIG_gst-player is not set
-
-#
-# gst-plugins-base 
-#
-# CONFIG_gst-plugins-base is not set
-# CONFIG_gst-plugins-base-meta is not set
-# CONFIG_gst-plugins-base-dbg is not set
-# CONFIG_gst-plugins-base-dev is not set
-# CONFIG_gst-plugins-base-apps is not set
-
-#
-# gst-plugins-good 
-#
-# CONFIG_gst-plugins-good is not set
-# CONFIG_gst-plugins-good-dev is not set
-# CONFIG_gst-plugins-good-dbg is not set
-# CONFIG_gst-plugins-good-meta is not set
 
 #
 # gstreamer1.0-meta-base 
@@ -3198,7 +3148,6 @@ CONFIG_packagegroup-core-ssh-dropbear=y
 # CONFIG_qttranslations-qtxmlpatterns is not set
 # CONFIG_qttranslations-qtquickcontrols is not set
 # CONFIG_qttranslations-designer is not set
-# CONFIG_qttranslations-qmlviewer is not set
 # CONFIG_qttranslations-qtquickcontrols2 is not set
 
 #
@@ -3567,13 +3516,6 @@ CONFIG_tcf-agent=y
 # CONFIG_xtrans-dbg is not set
 
 #
-# xvideo-tests 
-#
-# CONFIG_xvideo-tests is not set
-# CONFIG_xvideo-tests-dbg is not set
-# CONFIG_xvideo-tests-dev is not set
-
-#
 # xwininfo 
 #
 # CONFIG_xwininfo is not set
@@ -3606,13 +3548,6 @@ CONFIG_tcf-agent=y
 # CONFIG_alsa-plugins-dbg is not set
 # CONFIG_alsa-plugins-dev is not set
 # CONFIG_alsa-plugins-pulseaudio-conf is not set
-
-#
-# gstreamer 
-#
-# CONFIG_gstreamer is not set
-# CONFIG_gstreamer-dbg is not set
-# CONFIG_gstreamer-dev is not set
 
 #
 # gstreamer1.0 
@@ -4200,7 +4135,7 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-qt is not set
 # CONFIG_packagegroup-petalinux-qt-dev is not set
 # CONFIG_packagegroup-petalinux-qt-dbg is not set
-# CONFIG_inherit-populate-sdk-qt5 is not set
+# CONFIG_imageclass-populate-sdk-qt5 is not set
 
 #
 # packagegroup-petalinux-qt-extended 
