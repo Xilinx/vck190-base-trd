@@ -41,8 +41,8 @@ The following is a list of supported platforms including key I/O interfaces:
 
 * Platform 2:
 
-  Platform 2 is essentially an enhancement to platform 1 capture pipeline, 
-  while the rest of the hardware design and pre-instantiated set of I/O 
+  Platform 2 is essentially an enhancement to platform 1 capture pipeline,
+  while the rest of the hardware design and pre-instantiated set of I/O
   interfaces remain the same. The notable difference in the capture path is
   replacement of IMX274 image sensor with Avnet Multi-Camera image sensor.
 
@@ -72,8 +72,12 @@ The main software frameworks used in this reference design are:
 Design File Hierarchy
 ---------------------
 
-The reference design zip file can be downloaded from
-https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2020.1_v0.4.zip
+The reference design zip files can be downloaded from the below locations. Note
+there is a separate zip file per platform:
+
+* Platform 1: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2020.1_v0.4.zip
+
+* Platform 2: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform2_2020.1_v0.4.zip
 
 It has the following contents:
 
@@ -91,11 +95,10 @@ It has the following contents:
 
 * README file
 
-* Design sources zip file
+* Petalinux sources and licenses archive
 
-* Licenses zip file
-
-The design file hierarchy is shown below:
+The design file hierarchy is identical between the different platforms. For
+example, the hierarchy of platform 1 is shown below:
 
 .. code-block::
 
@@ -106,25 +109,32 @@ The design file hierarchy is shown below:
    │   │   ├── filter2d_combined
    │   │   └── filter2d_pl
    │   ├── LICENSE
-   │   └── vitis_libraries
+   │   └── vitis_libraries
    │       └── vision
+   ├── archiver.tar.gz
    ├── docs
    │   ├── doctrees
    │   ├── html
    │   └── index.html
-   ├── licenses.zip
    ├── petalinux
-   │   └── xilinx-vck190-qspi-base-trd-2020.1-v0.4.bsp
+   │   └── xilinx-vck190-es1-base-trd-platform1-2020.1.bsp
    ├── platform
    │   ├── pfm.tcl
    │   └── vck190_base_trd_platform1
    ├── README.txt
    ├── sdcard
-   │   └── sdcard.img.zip
-   ├── sources.zip
+   │   └── petalinux-sdimage.wic.gz
    └── vivado
        ├── scripts
+       ├── source
        └── xdc
+
+In the following tutorials, it is assumed that the design zip file is extracted
+into a directory referred to as ``$working_dir``, e.g.
+
+.. code-block:: bash
+
+   export working_dir=/path/to/extracted/zip/vck190_base_trd_platform1_2020.1_v0.4
 
 Licenses
 --------
@@ -132,9 +142,9 @@ Licenses
 The design includes files licensed by Xilinx and third parties under the terms
 of the GNU General Public License, GNU Lesser General Public License,
 BSD License, MIT License, and other licenses. The design directory includes one
-zip file named ``sources.zip`` containing the complete set of design source
-files and one zip file named ``licenses.zip`` containing licenses extracted from
-the design source files. You are solely responsible for checking any files you
-use for notices and licenses and for complying with any terms applicable to your
-use of the design and any third party files supplied with the design.
+tar ball named ``archiver.tar.gz`` containing the complete set of design source
+files and licenses extracted from the design source files. You are solely
+responsible for checking any files you use for notices and licenses and for
+complying with any terms applicable to your use of the design and any third
+party files supplied with the design.
 
