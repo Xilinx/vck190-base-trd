@@ -6,7 +6,7 @@ Prerequisites
 
 * Reference Design zip file
 
-* Vivado Design Suite 2019.2
+* Vivado Design Suite 2020.1
 
 Build Flow Tutorial
 -------------------
@@ -16,6 +16,11 @@ Build Flow Tutorial
    You can skip this tutorial and move straight to the next tutorial if desired.
    A pre-built XSA file is provided at
    *$working_dir/vck190_base_trd_platform1/platform/vck190_base_trd_platform1/hw/vck190_base_trd_platform1.xsa*
+
+.. note::
+
+   The below steps use platform 1 as an example. The same steps can be used for
+   other platforms as well, only the file/directory names will be different.
 
 **Download Reference Design Files:**
 
@@ -55,19 +60,19 @@ The directory structure is described in the Introduction Section
 #. Open the Vivado GUI.
 
    On Windows, open Vivado by navigating to *Start > Xilinx Design Tools >
-   Vivado 2019.2*.
+   Vivado 2020.1*.
    In the tcl console type:
 
    .. code-block:: bash
 
-     cd $working_dir/vck190_base_trd_platform1/vivado
+     cd $working_dir/vivado
      source scripts/main.tcl
 
    On Linux, at the command prompt enter:
 
    .. code-block:: bash
 
-     cd $working_dir/vck190_base_trd_platform1/vivado
+     cd $working_dir/vivado
      vivado -source scripts/main.tcl
 
    A Vivado cockpit as shown below will open with vck190_base_trd_platform1
@@ -105,7 +110,7 @@ The directory structure is described in the Introduction Section
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will
    be generated and available at
-   *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi*.
+   *$working_dir/vivado/project/vck190_base_trd_platform1.runs/impl_1/vck190_base_trd_platform1_wrapper.pdi*.
 
 #. After Device Image Generation completes successfully a window pops up. Click
    on *Cancel*
