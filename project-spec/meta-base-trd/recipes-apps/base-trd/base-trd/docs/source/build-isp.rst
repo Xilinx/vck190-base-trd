@@ -11,16 +11,18 @@ Prerequisites
 Build Flow Tutorial
 -------------------
 
-**Download Vitis Libraries:**
+**Download Reference Design Files:**
 
-#. To download the Vitis Libraries use the following git command:
+Skip the following steps if the design zip file has already been downloaded and
+extracted to a working directory
 
-   .. code-block:: bash
+#. Download the VCK190 Base Targeted Reference Design ZIP file
 
-      git clone https://github.com/Xilinx/Vitis_Libraries.git xf_opencv
-      
-   The Image Signal Processing (ISP) function will be available at 
-   *./xf_opencv/L1/examples/isppipeline*
+#. Unzip Contents
+
+The directory structure is described in the Introduction Section. The Image Signal Processing (ISP) 
+function will be available at 
+*$working_dir/accelerators/vitis_libraries/vision/L1/examples/isppipeline*
 
 
 **Set up the environment required to build the ISP:**
@@ -29,11 +31,11 @@ Build Flow Tutorial
 
    .. code-block:: bash
 
-      export OPENCV_INCLUDE=<path to Vitis libraries>/xf_opencv/L1/include
+      export OPENCV_INCLUDE=$working_dir/accelerators/vitis_libraries/vision/L1/include
       export HLS=vivado_hls
 
-#. Edit the Makefile in *./xf_opencv/L1/examples/isppipeline*. Since the ISP is not being 
-   simulated or run through Vitis, the following checks can be removed. 
+#. Edit the Makefile in the directory *isppipeline*. Since the ISP is not being simulated 
+   or run through Vitis, the following checks can be removed. 
 
    .. code-block:: bash
 
@@ -51,7 +53,7 @@ Build Flow Tutorial
    
    
 
-#. Edit the file *xf_config_param.h* in *./xf_opencv/L1/examples/isppipeline/build* based on platform 
+#. Edit the file *xf_config_param.h* in the directory *isppipeline/build* based on platform 
    requirements
 
    .. code-block:: bash
@@ -71,11 +73,17 @@ Build Flow Tutorial
 #. To create the ISP IP, run the Makefile in *./xf_opencv/L1/examples/isppipeline/*
 
    .. code-block:: bash
+      
+      For Platform 1 - Single Sensor MIPI running at 200 MHz:
+      make run XPART=xcvc1902-vsva2197-1LP-e-S-es1 VIVADO_SYN=1 CLKP=5.0
 
-      make run XPART=xcvc1902-vsva2197-1LP-e-S-es1 VIVADO_SYN=1
+   .. code-block:: bash
+      
+      For Platform 2 - Quad Sensor MIPI running @ 150 MHz:
+      make run XPART=xcvc1902-vsva2197-1LP-e-S-es1 VIVADO_SYN=1 CLKP=6.6
 
    After synthesis completes the zip file for the IP, *xilinx_com_hls_ISPPipeline_accel_1_0.zip* 
-   will be available in *./xf_opencv/L1/examples/isppipeline/isppipeline.prj/sol1/impl/ip*
+   will be available in *isppipeline/isppipeline.prj/sol1/impl/ip*
 
 #. To use the IP in the Vivado project, copy the zip in the user IP repository and 
    unzip it. To include the user IP repository in the project run the following commands 

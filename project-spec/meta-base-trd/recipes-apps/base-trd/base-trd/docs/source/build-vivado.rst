@@ -15,12 +15,13 @@ Build Flow Tutorial
 
    You can skip this tutorial and move straight to the next tutorial if desired.
    A pre-built XSA file is provided at
-   *$working_dir/vck190_base_trd_platform1/platform/vck190_base_trd_platform1/hw/vck190_base_trd_platform1.xsa*
+   *$working_dir/platform/vck190_base_trd_platform1/hw/vck190_base_trd_platform1.xsa*
 
 .. note::
 
    The below steps use platform 1 as an example. The same steps can be used for
-   other platforms as well, only the file/directory names will be different.
+   other platforms as well, only the file/directory names with platform1 will be
+   replaced with the targeted platform.
 
 **Download Reference Design Files:**
 
@@ -100,12 +101,14 @@ The directory structure is described in the Introduction Section
    * clk_wiz: Clocks used to drive clock inputs on the accelerator.
    * smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
      control port.
-   * smartconnect_accel: AXI Memory Mapped slave ports driven by the
+   * smartconnect_accel0: AXI Memory Mapped slave ports driven by the
+     accelerator data port.
+   * smartconnect_accel1: AXI Memory Mapped slave ports driven by the
      accelerator data port.
 
    .. tip::
       For more information on how to setup Platform Interfaces refer to Section
-      - Configuring Platform Interface Properties in https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1393-vitis-application-acceleration.pdf
+      - Configuring Platform Interface Properties in Xilinx Vitis Unified Software Platform Documentation(UG1393)
 
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will
@@ -125,6 +128,6 @@ The directory structure is described in the Introduction Section
 
       write_hw_platform -force -include_bit -file ./project/vck190_base_trd_platform1.sdk/vck190_base_trd_platform1.xsa
 
-   The file *vck190_base_trd_platform1.xsa* will be available in *$working_dir/vck190_base_trd_platform1/vivado/project/vck190_base_trd_platform1.sdk*.
+   The file *vck190_base_trd_platform1.xsa* will be available in *$working_dir/vivado/project/vck190_base_trd_platform1.sdk*.
    It will be used as an input when building the Vitis Platform.
 

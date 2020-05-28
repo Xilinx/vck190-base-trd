@@ -140,7 +140,7 @@ Perform the following steps to set the Vadj voltage rail to 1.2V using the
    If Vadj does not persists after reboot, try updating the System Controller
    SD card image following the instructions in the linked pdf file. The image
    and instructions can be downloaded from the VCK190 headstart lounge. After
-   updating the SD image, rerun the sintructions for setting Vadj.
+   updating the SD image, rerun the instructions for setting Vadj.
 
    * Instructions: https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf
    * SD Image: https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip
@@ -366,7 +366,7 @@ otherwise an exception would be thrown.
 
 To run the notebooks, follow the below steps:
 
-#. On the left pane of the browser, 4 notebooks are available under the folder
+#. On the left pane of the browser, 7 notebooks are available under the folder
    Base TRD.
 
 #. Double click to open the notebook
