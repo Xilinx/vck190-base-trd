@@ -372,7 +372,10 @@ To run the notebooks, follow the below steps:
 #. Double click to open the notebook
 
 #. Select 'Kernel' → 'Restart Kernel and Run All Cells' from the top menu bar to
-   run the demo. Scroll down to the end of the notebook to see the video output.
+   run the demo. For nb1, nb2 and nb6 scroll down to the end of the notebook to see 
+   the video output. For all other notebooks the video output is displayed on the 
+   monitor.
+
 
 #. Click the rectangular icon to interrupt the kernel and stop the video stream.
 
