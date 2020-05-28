@@ -29,7 +29,7 @@ At a high level, the builds steps are as follows:
 #. **PetaLinux BSP:**
    The PetaLinux BSP is a collection of yocto meta layers and recipes that are
    used to generate a bootable SD card image including boot image components
-   (BOOT.BIN), Linux image (image.ub) and external rootf filesystem partition
+   (BOOT.BIN), Linux image (image.ub) and external root filesystem partition
    (rootfs). The rootfs contains a collection of software packages required to
    run the target applications.
 
