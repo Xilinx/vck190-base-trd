@@ -24,7 +24,8 @@ Build Flow Tutorial
 .. note::
 
    The below steps use platform 1 as an example. The same steps can be used for
-   other platforms as well, only the file/directory names will be different.
+   other platforms as well, only the file/directory names with platform1 will be
+   replaced with the targeted platform.
 
 **Download Reference Design Files:**
 
