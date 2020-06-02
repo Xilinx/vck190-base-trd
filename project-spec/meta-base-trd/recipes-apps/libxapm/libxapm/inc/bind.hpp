@@ -29,6 +29,9 @@
 #include "xapm.hpp"
 #endif
 
+#define PFM_1_CLK 199990000
+#define PFM_2_CLK 149990000
+
 using namespace boost::python;
 
 std::vector<apm_t> toVector(list l){ 
@@ -46,8 +49,7 @@ std::vector<apm_t> toVector(list l){
   return a;        
 }
 
-boost::python::list setup(){
-	uint32_t core_clk = 206248000;
+boost::python::list setup(uint32_t core_clk){
 	uint32_t base_addr = 0xA4050000;
 	std::vector<uint32_t> HDMI_VMIX_SMC_0_RD = {base_addr, 0, 0x44, 0x03, 0x200, 0, core_clk};
 	std::vector<uint32_t> HDMI_VMIX_SMC_1_RD = {base_addr, 1, 0x44, 0x2300, 0x210, 0, core_clk};
@@ -85,8 +87,8 @@ BOOST_PYTHON_MODULE(libxapm)
        .def_readwrite("port", &APM::port)
        .def("getThroughput", &APM::getThroughput)
     ;
-    list l = setup();
-    scope().attr("preset") = l;
+    scope().attr("preset_pfm1") = setup(PFM_1_CLK);
+    scope().attr("preset_pfm2") = setup(PFM_2_CLK);
     scope().attr("MB/s") = 0;
     scope().attr("Gbps") = 1;
 
