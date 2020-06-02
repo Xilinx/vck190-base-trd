@@ -7,4 +7,5 @@ SRC_URI_append = " \
 	file://0004-ar0231-Fix-the-media-bus-format-to-GRBG.patch \
 	file://0005-avt_multi_sensor_fmc-Add-dependency-on-REGULATOR.patch \
 	file://0006-max20087-Remove-unused-members.patch \
+	file://0001-i2c-free_clk.patch \
 "
