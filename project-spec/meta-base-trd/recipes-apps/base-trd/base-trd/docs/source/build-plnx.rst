@@ -68,25 +68,13 @@ The directory structure is described in the Introduction Section.
 
    .. code-block:: bash
 
-      petalinux-package --boot --bif=project-spec/bifs/bootgen_filter2d_combined.bif --qemu-rootfs no --force
-
-   .. note::
-
-      The AIE elf (*2_2*) and cdo (*aie_cdo.bin*) files used for the boot image
-      creation are included with this BSP. Alternatively you can use the files
-      generated in the previous tutorial located at:
-      *$working_dir/accelerators/examples/filter2d_aie/kernel*
-
-#. Copy the xclbin file:
-
-   .. code-block:: bash
-
-      cp pre-built/binary_container_1.xclbin images/linux
+      petalinux-package --boot --u-boot --qemu-rootfs no --force
 
 #. Create a bootable SD card image:
 
    .. code-block:: bash
 
+      cp project-spec/hw-description/binary_container_1.xclbin images/linux
       petalinux-package --wic -w project-spec/configs/sdimage.wks --extra-bootfiles "binary_container_1.xclbin"
 
 The resulting build artifacts will be available in the *images/linux/* folder.
