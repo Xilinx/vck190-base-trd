@@ -42,15 +42,11 @@ The directory structure is described in the Introduction Section.
    .. code-block:: bash
 
       cd $working_dir/petalinux
-      petalinux-create -t project -s xilinx-vck190-base-trd-platform1-2020.1.bsp
-      cd xilinx-vck190-base-trd-platform1-2020.1
+      petalinux-create -t project -s xilinx-vck190-es1-base-trd-platform1-2020.1.bsp
+      cd xilinx-vck190-es1-base-trd-platform1-2020.1
 
 
 #. Configure and build the PetaLinux project.
-
-   .. code-block:: bash
-
-      petalinux-build
 
    .. note::
 
@@ -58,17 +54,21 @@ The directory structure is described in the Introduction Section.
       The build step performs the configuration step implicitly. If you want
       to configure your BSP with the XSA file generated in the previous
       tutorial, run the following command **prior** to the *petalinux-build*
-      command:
+      command, otherwise the config step can be skipped:
 
       .. code-block:: bash
 
          petalinux-config --get-hw-description=../../accelerators/examples/filter2d_combined/ --silentconfig
 
+   .. code-block:: bash
+
+      petalinux-build
+
 #. Create a boot image:
 
    .. code-block:: bash
 
-      petalinux-package --boot --bif=project-spec/bifs/bootgen_filter2d_combined.bif  --force
+      petalinux-package --boot --bif=project-spec/bifs/bootgen_filter2d_combined.bif --qemu-rootfs no --force
 
    .. note::
 
