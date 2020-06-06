@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Revision History" href="revision.html" /> 
+    <link rel="prev" title="8. Build the PetaLinux Image" href="build-plnx.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -295,7 +295,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> Versal Base TRD
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Versal Base TRD
           
 
           
@@ -330,7 +330,7 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
@@ -339,15 +339,19 @@
 <li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-isp.html">9. Appendix A - Build ISP IP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">9. Appendix A - Build ISP IP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">9.1. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-flow-tutorial">9.2. Build Flow Tutorial</a></li>
+</ul>
+</li>
 </ul>
 
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/index.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/build-isp.rst.txt"
 						rel="nofollow">Show Source</a></li>
-					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/index.rst"
+					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/build-isp.rst"
 						   rel="nofollow">View on GitHub</a></li>						
 				</ul>
           
@@ -362,7 +366,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Versal Base TRD</a>
+          <a href="index.html">Versal Base TRD</a>
         
       </nav>
 
@@ -391,15 +395,15 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Versal Base TRD Documentation</li>
+      <li>9. Appendix A - Build ISP IP</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/build-isp.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -412,63 +416,95 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="versal-base-trd-documentation">
-<h1>Versal Base TRD Documentation<a class="headerlink" href="#versal-base-trd-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#platforms">2.1. Platforms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#software-stack">2.2. Software Stack</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#design-file-hierarchy">2.3. Design File Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#licenses">2.4. Licenses</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="run.html#prerequisites">3.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#sd-card-creation">3.2. SD Card Creation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#board-setup">3.3. Board Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#connect-to-the-jupyterlab-server">3.4. Connect to the JupyterLab Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#run-the-jupyter-notebooks">3.5. Run the Jupyter Notebooks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="build-overview.html">4. Tool Flow Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-vivado.html">5. Build the Vivado Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#prerequisites">5.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-vivado.html#build-flow-tutorial">5.2. Build Flow Tutorial</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="build-pfm.html">6. Create the Vitis Platform</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-pfm.html#prerequisites">6.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-pfm.html#build-flow-tutorial">6.2. Build Flow Tutorial</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="build-filter2d.html">7. Integrate 2D Filter Kernels in the Platform</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-filter2d.html#prerequisites">7.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-filter2d.html#build-flow-tutorial">7.2. Build Flow Tutorial</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#prerequisites">8.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html#build-flow-tutorial">8.2. Build Flow Tutorial</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="build-isp.html">9. Appendix A - Build ISP IP</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-isp.html#prerequisites">9.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-isp.html#build-flow-tutorial">9.2. Build Flow Tutorial</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and Tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="appendix-a-build-isp-ip">
+<h1>9. Appendix A - Build ISP IP<a class="headerlink" href="#appendix-a-build-isp-ip" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>9.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<li><p>Vivado Design Suite 2020.1</p></li>
+<li><p>Vitis Libraries</p></li>
 </ul>
+</div>
+<div class="section" id="build-flow-tutorial">
+<h2>9.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
+<p><strong>Download Reference Design Files:</strong></p>
+<p>Skip the following steps if the design zip file has already been downloaded and
+extracted to a working directory</p>
+<ol class="arabic simple">
+<li><p>Download the VCK190 Base Targeted Reference Design ZIP file</p></li>
+<li><p>Unzip Contents</p></li>
+</ol>
+<p>The directory structure is described in the Introduction Section. The Image Signal Processing (ISP)
+function will be available at
+<em>$working_dir/accelerators/vitis_libraries/vision/L1/examples/isppipeline</em></p>
+<p><strong>Set up the environment required to build the ISP:</strong></p>
+<ol class="arabic">
+<li><p>Set the following variables:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OPENCV_INCLUDE</span><span class="o">=</span><span class="nv">$working_dir</span>/accelerators/vitis_libraries/vision/L1/include
+<span class="nb">export</span> <span class="nv">HLS</span><span class="o">=</span>vivado_hls
+</pre></div>
+</div>
+</li>
+<li><p>Edit the Makefile in the directory <em>isppipeline</em>. Since the ISP is not being simulated
+or run through Vitis, the following checks can be removed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Replace
+setup: <span class="p">|</span> check_part check_opencv
+with
+setup: <span class="p">|</span> check_part
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Replace
+runhls: data setup <span class="p">|</span> check_vivado check_vpp
+with
+runhls: data setup <span class="p">|</span> check_vivado
+</pre></div>
+</div>
+</li>
+<li><p>Edit the file <em>xf_config_param.h</em> in the directory <em>isppipeline/build</em> based on platform
+requirements</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For Platform <span class="m">1</span> - Single Sensor MIPI update parameter:
+<span class="c1">#define XF_NPPC XF_NPPC4</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For Platform <span class="m">2</span> - Quad Sensor MIPI update parameters:
+<span class="c1">#define XF_WIDTH 1920</span>
+<span class="c1">#define XF_HEIGHT 1080</span>
+<span class="c1">#define XF_BAYER_PATTERN XF_BAYER_GR</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Generate ISP IP to instantiate in Vivado IPI:</strong></p>
+<ol class="arabic">
+<li><p>To create the ISP IP, run the Makefile in <em>./xf_opencv/L1/examples/isppipeline/</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For Platform <span class="m">1</span> - Single Sensor MIPI running at <span class="m">200</span> MHz:
+make run <span class="nv">XPART</span><span class="o">=</span>xcvc1902-vsva2197-1LP-e-S-es1 <span class="nv">VIVADO_SYN</span><span class="o">=</span><span class="m">1</span> <span class="nv">CLKP</span><span class="o">=</span><span class="m">5</span>.0
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For Platform <span class="m">2</span> - Quad Sensor MIPI running @ <span class="m">150</span> MHz:
+make run <span class="nv">XPART</span><span class="o">=</span>xcvc1902-vsva2197-1LP-e-S-es1 <span class="nv">VIVADO_SYN</span><span class="o">=</span><span class="m">1</span> <span class="nv">CLKP</span><span class="o">=</span><span class="m">6</span>.6
+</pre></div>
+</div>
+<p>After synthesis completes the zip file for the IP, <em>xilinx_com_hls_ISPPipeline_accel_1_0.zip</em>
+will be available in <em>isppipeline/isppipeline.prj/sol1/impl/ip</em></p>
+</li>
+<li><p>To use the IP in the Vivado project, copy the zip in the user IP repository and
+unzip it. To include the user IP repository in the project run the following commands
+on the Vivado tcl console</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> ip_repo_path <span class="o">{</span>&lt;path to user IP repository&gt;<span class="o">}</span>
+set_property ip_repo_paths <span class="nv">$ip_repo_path</span> <span class="o">[</span>current_project<span class="o">]</span>
+</pre></div>
+</div>
+<p>To instantiate this IP in the IPI block design:
+Right click &gt; Add IP &gt; Select ISPPipeline_accel</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above instruction assumes that a user IP repository assocaited with a Vivado project
+doesn’t exists. If it exists copy the zip file in that directory and skip the tcl commands.</p>
+</div>
+</div>
 </div>
 
 
@@ -488,8 +524,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="revision.html" class="btn btn-neutral float-right" title="1. Revision History" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+        <a href="build-plnx.html" class="btn btn-neutral float-left" title="8. Build the PetaLinux Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

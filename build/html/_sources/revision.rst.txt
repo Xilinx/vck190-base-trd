@@ -1,6 +1,20 @@
 Revision History
 ================
 
+**2020.1 v0.4**
+
+* Update Vivado/Vitis/Petalinux tools versions to 2020.1
+
+* Add support for Avnet Multi-Camera MIPI FMC Module in platform 2
+
+* Update notebooks to support video capture from Multi-camera FMC
+
+* Add notebooks for plotting CPU utilization and Power Consumption
+
+* Add Vitis Vision based ISP in MIPI capture pipelines
+
+* Use mediasrcbin plugin instead of xlnxvideosrc
+
 **2019.2 v0.3**
 
 * Add support for Leopard IMX274 MIPI FMC in platform 1
