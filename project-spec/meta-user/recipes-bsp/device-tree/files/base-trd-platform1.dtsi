@@ -30,6 +30,11 @@
 			clock-frequency = <297000000>;
 			compatible = "fixed-clock";
 		};
+		misc_clk_6: misc_clk_6 {
+			#clock-cells = <0>;
+			clock-frequency = <156250000>;
+			compatible = "fixed-clock";
+		};
 
 	};
 };
