@@ -8,6 +8,7 @@ SRC_URI += " \
 	file://quad-capture.dtsi \
 	file://single-capture.dtsi \
 	file://system-user.dtsi \
+	file://vcap_hdmi.dtsi \
 "
 
 python () {
