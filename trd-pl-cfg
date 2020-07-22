@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SUP_PLATFORMS="vck190"
-SUP_DESIGNS="base-trd-platform0 base-trd-platform1 base-trd-platform2"
+SUP_DESIGNS="base-trd-platform0 base-trd-platform1 base-trd-platform2 base-trd-platform3"
 PLATFORM="vck190"
 DESIGN="base-trd-platform1"
 
