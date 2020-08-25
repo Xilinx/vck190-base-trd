@@ -2116,6 +2116,7 @@ CONFIG_tcl=y
 # openssl 
 #
 # CONFIG_openssl is not set
+# CONFIG_openssl-bin is not set
 # CONFIG_openssl-misc is not set
 # CONFIG_openssl-conf is not set
 # CONFIG_openssl-dbg is not set
@@ -3673,6 +3674,13 @@ CONFIG_bridge-utils=y
 #
 
 #
+# dosfstools 
+#
+# CONFIG_dosfstools is not set
+# CONFIG_dosfstools-dev is not set
+# CONFIG_dosfstools-dbg is not set
+
+#
 # patch 
 #
 # CONFIG_patch is not set
@@ -4206,6 +4214,12 @@ CONFIG_auto-login=y
 #
 # user packages 
 #
+#CONFIG_aie-matrix-multiplication is not set
+# CONFIG_aie-notebooks is not set
+# CONFIG_openamp-demo-notebooks is not set
+# CONFIG_packagegroup-petalinux-jupyter is not set
+# CONFIG_pm-notebooks is not set
+# CONFIG_python3-ipywidgets is not set
 CONFIG_packagegroup-base-trd=y
 
 #
