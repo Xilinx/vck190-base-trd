@@ -49,8 +49,4 @@ BASE_TRD_PACKAGES = " \
 	${XRT_PACKAGES} \
 	"
 
-BASE_TRD_PACKAGES_append_versal = " \
-	ai-engine-driver \
-	"
-
 RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
