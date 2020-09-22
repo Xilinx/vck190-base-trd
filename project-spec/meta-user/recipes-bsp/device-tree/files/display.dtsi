@@ -9,6 +9,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <6>;
+
 			si570_2: clock-generator@5d {
 				#clock-cells = <0>;
 				compatible = "silabs,si570";
@@ -17,6 +18,20 @@
 				factory-fout = <156250000>;
 				clock-frequency = <200000000>;
 				clock-output-names = "si570_mgt";
+			};
+		};
+
+		i2c@3 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <3>;
+
+			si570_1: clock-generator@60 {
+				#clock-cells = <0>;
+				compatible = "silabs,si570";
+				reg = <0x60>;
+				temperature-stability = <50>;
+				factory-fout = <200000000>;
 			};
 		};
 	};
@@ -36,6 +51,7 @@
 		xlnx,dma-addr-width = <32>;
 		xlnx,num-layers = <10>;
 		xlnx,ppc = <4>;
+
 		crtc_mixer_port: port@0 {
 			reg = <0>;
 			mixer_crtc: endpoint {
@@ -214,6 +230,29 @@
 		};
 	};
 
+	hdmi_acr_ctrl_0: hdmi_acr_ctrl@a4210000 {
+		clock-names = "axi_aclk", "aud_clk", "hdmi_clk";
+		clocks = <&misc_clk_1>, <&si570_1>, <&misc_clk_3>;
+		compatible = "xlnx,hdmi-acr-ctrl-1.1", "xlnx,hdmi_act_ctrl";
+		reg = <0x0 0xa4210000 0x0 0x10000>;
+	};
+// "read interface only" option for tx-audio 
+	audio_pipe_audio_formatter_0: audio_formatter@a4200000 {
+		clock-names = "s_axi_lite_aclk", "m_axis_mm2s_aclk", "aud_mclk";
+		clocks = <&misc_clk_1>, <&si570_1>, <&si570_1>;
+		compatible = "xlnx,audio-formatter-1.0", "xlnx,audio-formatter-1.0";
+		interrupt-parent = <&gic>;
+		interrupt-names = "irq_mm2s";
+		interrupts = <0 89 4>;
+		reg = <0x0 0xa4200000 0x0 0x10000>;
+		xlnx,include-mm2s = <0x1>;
+		xlnx,max-num-channels-mm2s = <0x2>;
+		xlnx,mm2s-addr-width = <0x40>;
+		xlnx,mm2s-async-clock = <0x1>;
+		xlnx,mm2s-dataformat = <0x3>;
+		xlnx,packing-mode-mm2s = <0x0>;
+		xlnx,tx = <&hdmi_tx_pipe_v_hdmi_tx_ss_0>;
+	};
 	hdmi_tx_pipe_v_hdmi_tx_ss_0: v_hdmi_tx_ss@a4020000 {
 		clock-names = "s_axi_cpu_aclk", "s_axis_audio_aclk", "video_clk", "s_axis_video_aclk", "txref-clk", "retimer-clk";
 		clocks = <&versal_clk 65>, <&misc_clk_0>, <&misc_clk_3>, <&misc_clk_0>, <&idt8t49n24x 2>, <&dp159>;
@@ -227,10 +266,14 @@
 		reg-names = "hdmi-txss";
 		xlnx,input-pixels-per-clock = <4>;
 		xlnx,max-bits-per-component = <8>;
+		xlnx,snd-pcm = <&audio_pipe_audio_formatter_0>;
+		xlnx,xlnx-hdmi-acr-ctrl = <&hdmi_acr_ctrl_0>;
+		xlnx,audio-enabled;
 
 		hdmitx_ports: ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
+
 			encoder_hdmi_port: port@0 {
 				reg = <0>;
 				hdmi_encoder: endpoint {
