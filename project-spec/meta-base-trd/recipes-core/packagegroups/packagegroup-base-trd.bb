@@ -24,6 +24,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-python3-jupyter \
+	alsa-utils \
 	base-trd-notebooks \
 	e2fsprogs-resize2fs \
 	git \
