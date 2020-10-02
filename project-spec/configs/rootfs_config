@@ -1544,6 +1544,13 @@ CONFIG_tcl=y
 # CONFIG_libfontenc-dbg is not set
 
 #
+# libfpga
+#
+# CONFIG_libfpga is not set
+# CONFIG_libfpga-dev is not set
+# CONFIG_libfpga-dbg is not set
+
+#
 # libgcrypt 
 #
 # CONFIG_libgcrypt is not set
@@ -3688,6 +3695,13 @@ CONFIG_bridge-utils=y
 # CONFIG_patch-dev is not set
 
 #
+# resize-part
+#
+# CONFIG_resize-part is not set
+# CONFIG_resize-part-dbg is not set
+# CONFIG_resize-part-dev is not set
+
+#
 # x11 
 #
 
@@ -4214,12 +4228,6 @@ CONFIG_auto-login=y
 #
 # user packages 
 #
-#CONFIG_aie-matrix-multiplication is not set
-# CONFIG_aie-notebooks is not set
-# CONFIG_openamp-demo-notebooks is not set
-# CONFIG_packagegroup-petalinux-jupyter is not set
-# CONFIG_pm-notebooks is not set
-# CONFIG_python3-ipywidgets is not set
 CONFIG_packagegroup-base-trd=y
 
 #
