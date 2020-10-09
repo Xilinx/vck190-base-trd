@@ -78,7 +78,8 @@ The directory structure is described in the Introduction Section
    * Builds the filter2d PL kernel. Output is *filter2d_pl_accel.xo* file.
    * Builds the filter2d AIE kernel and the datamover kernel. The datamover
      kernel is implemented on PL and is responsible to move data from/to DDR
-     to/from the AI Engine. Output is a *graph.o* and *filter2d_aie_accel.xo*
+     to/from the AI Engine. Outputs are *filter2d_aie_accel.xo* and *libadf.a*
+     containing the AIE elf and cdo files as well as the graph description.
    * Integrates the above kernels into the *vck190_base_trd_platform1* design
      using the Vitis linker. Generates *binary_container_1.xclbin* which
      contains meta data describing the kernels and platform. Generates a new
@@ -98,9 +99,7 @@ The directory structure is described in the Introduction Section
    * The xclbin that contains the platform and kernel meta data needed by XRT:
      *$working_dir/accelerators/examples/filter2d_combined/binary_container_1.xclbin*
 
-   * The AIE elf file required to build the *BOOT.BIN*:
-     *$working_dir/accelerators/examples/filter2d_aie/kernel/2_2*
-
-   * The AIE cdo file required to build the *BOOT.BIN*:
-     *$working_dir/accelerators/examples/filter2d_aie/kernel/aie_cdo.bin*
-
+   * The merged AIE elf and code file:
+     *$working_dir/accelerators/examples/filter2d_combined/aie.merged.cdo.bin*
+     The Vitis packager step creates a new image named *BOOT.BIN* which adds
+     the merged AIE binary into the Vitis generated PDI.
