@@ -10,7 +10,3 @@
 	path = recipes-apps/libxapm/libxapm
 	url = https://gitenterprise.xilinx.com/PAEG/libxapm.git
 	branch = 2020.2
-[submodule "recipes-multimedia/gstreamer/mediasrcbin"]
-	path = recipes-multimedia/gstreamer/mediasrcbin
-	url = https://gitenterprise.xilinx.com/PAEG/mediasrcbin.git
-	branch = 2020.1

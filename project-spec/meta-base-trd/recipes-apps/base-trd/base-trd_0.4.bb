@@ -13,7 +13,6 @@ RDEPENDS_${PN}-notebooks += " \
 	gstreamer1.0-plugins-bad \
 	gstreamer1.0-plugins-good \
 	gstreamer1.0-python \
-	mediasrcbin \
 	python3-notebook \
 	python3-opencv \
 	python3-pydot \
