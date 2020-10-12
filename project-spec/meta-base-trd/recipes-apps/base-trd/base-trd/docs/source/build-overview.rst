@@ -18,7 +18,7 @@ At a high level, the builds steps are as follows:
 #. **AIE kernels:**
    The AI Engine compiler is used to compile AI Engine kernels and to generate
    a graph description. The AI Engine elf and cdo files and the graph
-   description are packaged into an archive named ``libsdf.a`` which is consumed
+   description are packaged into an archive named ``libadf.a`` which is consumed
    by the Vitis toolchain during the link and package steps.
 
 #. **PL kernels:**

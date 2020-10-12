@@ -89,7 +89,7 @@ It has the following contents:
 
 * Vivado hardware design project
 
-* Vitis platform
+* Vitis extensible platform XSA
 
 * Vitis accelerator projects
 
@@ -118,15 +118,13 @@ example, the hierarchy of platform 1 is shown below:
    │   └── index.html
    ├── petalinux
    │   └── xilinx-vck190-es1-base-trd-platform1-2020.1.bsp
-   ├── platform
-   │   ├── pfm.tcl
-   │   └── vck190_base_trd_platform1
    ├── README.txt
    ├── sdcard
    │   └── petalinux-sdimage.wic.gz
    └── vivado
        ├── scripts
        ├── source
+       ├── vck190_base_trd_platform1.xsa
        └── xdc
 
 In the following tutorials, it is assumed that the design zip file is extracted
