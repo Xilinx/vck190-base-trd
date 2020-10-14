@@ -17,6 +17,7 @@ Contents:
    run.rst
    build-overview.rst
    build-vivado.rst
+   build-pfm.rst
    build-filter2d.rst
    build-plnx.rst
    build-isp.rst
