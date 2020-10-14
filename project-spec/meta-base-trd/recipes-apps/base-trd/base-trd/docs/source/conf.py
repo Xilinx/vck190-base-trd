@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('../_ext'))
 # -- Project information -----------------------------------------------------
 
 project = 'Versal Base TRD'
-copyright = '2019, Xilinx'
+copyright = '2020, Xilinx'
 author = 'Xilinx'
 
 # The short X.Y version
@@ -52,7 +52,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
 	'recommonmark',
-	'edit_on_github',
+	#'edit_on_github',
     # Auto-generate section labels.
     'sphinx.ext.autosectionlabel',
 ]
