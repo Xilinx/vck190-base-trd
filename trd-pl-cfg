@@ -69,6 +69,27 @@ rm -f pl-custom.dtsi
 ln -s ${dt} pl-custom.dtsi
 popd > /dev/null
 
+# symlink kernel-patches
+pushd project-spec/meta-base-trd/recipes-kernel/linux > /dev/null
+if [ $DESIGN = "base-trd-platform3" ]; then 
+
+	if [ ! -e ${DESIGN} ]; then
+		echo "kernel patch ${DESIGN} not found"
+		exit 6
+	fi
+	rm -f linux-xlnx_%.bbappend
+	ln -s ${DESIGN} linux-xlnx_%.bbappend
+else 
+	if [ ! -e base-trd-platform ]; then
+		echo "kernel patch ${DESIGN} not found"
+		exit 6
+	fi
+	rm -f linux-xlnx_%.bbappend
+	ln -s base-trd-platform linux-xlnx_%.bbappend
+	
+fi
+popd > /dev/null
+
 # change platfrom name:
 pushd project-spec/meta-base-trd/recipes-apps/trd-files/files > /dev/null
 xocl=xocl.txt
