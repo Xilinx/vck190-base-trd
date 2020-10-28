@@ -35,7 +35,6 @@
 			clock-frequency = <156250000>;
 			compatible = "fixed-clock";
 		};
-
 	};
 };
 

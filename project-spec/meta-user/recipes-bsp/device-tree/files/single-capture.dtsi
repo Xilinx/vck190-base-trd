@@ -13,7 +13,7 @@
 			compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
 		        interrupt-names = "iic2intc_irpt";
 			interrupt-parent = <&gic>;
-			interrupts = <0 90 4>;
+			interrupts = <0 91 4>;
 			reg = <0x0 0xa4070000 0x0 0x10000>;
 		        clock-names = "s_axi_aclk";
 			clocks = <&misc_clk_4>;
@@ -41,7 +41,7 @@
 			clock-names = "lite_aclk", "dphy_clk_200M", "video_aclk";
 			clocks = <&misc_clk_4>, <&misc_clk_5>, <&misc_clk_0>;
 			interrupt-parent = <&gic>;
-			interrupts = <0 89 4>;
+			interrupts = <0 90 4>;
 
 			xlnx,csi-pxl-format = "RAW10";
 			xlnx,axis-tdata-width = <0x20>;
@@ -158,7 +158,7 @@
 			reg = <0x0 0xa40d0000 0x0 0x10000>;
 			#dma-cells = <1>;
 			interrupt-parent = <&gic>;
-			interrupts = <0 91 4>;
+			interrupts = <0 92 4>;
 			xlnx,vid-formats = "yuyv", "bgr888";
 			reset-gpios = <&gpio0 29 1>;
 			xlnx,dma-addr-width = <32>;
