@@ -6,7 +6,7 @@ Prerequisites
 
 * Reference Design zip file
 
-* PetaLinux Tools 2020.1
+* PetaLinux Tools 2020.2
 
 * Linux host machine
 
@@ -35,15 +35,15 @@ The directory structure is described in the Introduction Section.
 #. Enable Versal device support
 
    To enable Versal device support in PetaLinux, follow the instructions
-   in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2020.1.tar.gz
+   in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2020.2.tar.gz
 
 #. Create a new PetaLinux project from the provided BSP:
 
    .. code-block:: bash
 
       cd $working_dir/petalinux
-      petalinux-create -t project -s xilinx-vck190-es1-base-trd-platform1-2020.1.bsp
-      cd xilinx-vck190-es1-base-trd-platform1-2020.1
+      petalinux-create -t project -s xilinx-vck190-es1-base-trd-platform1-2020.2.bsp
+      cd xilinx-vck190-es1-base-trd-platform1-2020.2
 
 
 #. Configure and build the PetaLinux project.

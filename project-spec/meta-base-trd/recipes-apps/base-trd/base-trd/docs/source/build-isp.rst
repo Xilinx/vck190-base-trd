@@ -4,7 +4,7 @@ Appendix A - Build ISP IP
 Prerequisites
 -------------
 
-* Vivado Design Suite 2020.1
+* Vivado Design Suite 2020.2
 
 * Vitis Libraries
 

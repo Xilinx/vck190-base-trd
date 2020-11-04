@@ -1,6 +1,18 @@
 Revision History
 ================
 
+**2020.5 v0.5**
+
+* Update Vivado/Vitis/Petalinux tools versions to 2020.2
+
+* Provide platforms targeting ES1 Silicon and Production Silicon
+
+* Add support for HDMI Rx and pass through audio in platform 3
+
+* Update notebooks to support video capture from HDMI Rx
+
+* Update notebooks to support audio capture and replay
+
 **2020.1 v0.4**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2020.1
