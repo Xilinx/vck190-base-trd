@@ -1544,11 +1544,11 @@ CONFIG_tcl=y
 # CONFIG_libfontenc-dbg is not set
 
 #
-# libfpga
+# libdfx
 #
-# CONFIG_libfpga is not set
-# CONFIG_libfpga-dev is not set
-# CONFIG_libfpga-dbg is not set
+# CONFIG_libdfx is not set
+# CONFIG_libdfx-dev is not set
+# CONFIG_libdfx-dbg is not set
 
 #
 # libgcrypt 
@@ -2405,13 +2405,6 @@ CONFIG_zocl=y
 # CONFIG_encodings-dbg is not set
 
 #
-# epiphany 
-#
-# CONFIG_epiphany is not set
-# CONFIG_epiphany-dev is not set
-# CONFIG_epiphany-dbg is not set
-
-#
 # eudev 
 #
 # CONFIG_eudev is not set
@@ -2657,14 +2650,11 @@ CONFIG_libstdcPLUSPLUS=y
 #
 # mesa-gl 
 #
-# CONFIG_mesa-gl is not set
-# CONFIG_mesa-gl-dev is not set
 # CONFIG_libgl-mesa is not set
 # CONFIG_mesa-megadriver is not set
 # CONFIG_libglapi-dev is not set
 # CONFIG_libglapi is not set
 # CONFIG_libgl-mesa-dev is not set
-# CONFIG_mesa-gl-dbg is not set
 
 #
 # mkfontdir 
@@ -3672,11 +3662,6 @@ CONFIG_bridge-utils=y
 # CONFIG_mtools-dbg is not set
 
 #
-# power management 
-#
-# CONFIG_hellopm is not set
-
-#
 # utils 
 #
 
@@ -4186,13 +4171,6 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-v4lutils is not set
 # CONFIG_packagegroup-petalinux-v4lutils-dbg is not set
 # CONFIG_packagegroup-petalinux-v4lutils-dev is not set
-
-#
-# packagegroup-petalinux-weston 
-#
-# CONFIG_packagegroup-petalinux-weston is not set
-# CONFIG_packagegroup-petalinux-weston-dbg is not set
-# CONFIG_packagegroup-petalinux-weston-dev is not set
 
 #
 # packagegroup-petalinux-x11 
