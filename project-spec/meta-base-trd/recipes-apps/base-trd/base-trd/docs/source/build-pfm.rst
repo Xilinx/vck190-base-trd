@@ -6,7 +6,7 @@ Prerequisites
 
 * Reference Design zip file
 
-* Vitis Unified Software Platform 2020.1
+* Vitis Unified Software Platform 2020.2
 
 Build Flow Tutorial
 -------------------

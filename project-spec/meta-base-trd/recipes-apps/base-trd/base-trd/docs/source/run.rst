@@ -111,6 +111,11 @@ Connect the FMC card to the FMCP2 slot (J53) as shown in the above figure.
 For more info on the FMC module, visit:
 https://www.avnet.com/wps/portal/silica/products/new-products/npi/2018/avnet-multi-camera-fmc-module/
 
+Platform 3 supports video capture via HDMI RX.
+Connect the HDMI cable as shown in the above figure. Connect the other end of the cable to a HDMI source
+like a laptop or Nvidia Shield or Roku 
+
+
 Perform the following steps to set the Vadj voltage rail to 1.2V using the
 *BoardUI* utility:
 
@@ -351,6 +356,9 @@ This TRD includes the following jupyter notebooks:
 #. **base-trd-nb7.ipynb**: Demonstrates using both 2D filter accelerator kernels
    in a time-multiplexed fashion in a multi-branch pipeline.
 
+#. **base-trd-nb8.ipynb**: Demonstrates streaming audio/video from a v4l2 device
+   or a file to a HDMI monitor/speaker using the GStreamer multimedia framework.
+
 #. **base-trd-apm.ipynb**: Demonstrates how to plot the memory bandwidth while
    a video pipeline is running using the libxapm library with python bindings.
 
@@ -366,7 +374,7 @@ otherwise an exception would be thrown.
 
 To run the notebooks, follow the below steps:
 
-#. On the left pane of the browser, 7 notebooks are available under the folder
+#. On the left pane of the browser, 8 notebooks are available under the folder
    Base TRD.
 
 #. Double click to open the notebook

@@ -6,9 +6,9 @@ Prerequisites
 
 * Reference Design zip file
 
-* Vitis Unified Software Platform 2020.1 (include AIE tool chain)
+* Vitis Unified Software Platform 2020.2 (include AIE tool chain)
 
-* Xilinx Runtime (XRT) 2020.1
+* Xilinx Runtime (XRT) 2020.2
 
 
 Build Flow Tutorial
@@ -19,7 +19,7 @@ Build Flow Tutorial
    You can skip this tutorial and move straight to the next tutorial if desired.
    Pre-built Vitis acceleration output products are located inside the PetaLinux
    BSP file located at:
-   *$working_dir/petalinux/xilinx-vck190-es1-base-trd-platform1-2020.1.bsp*
+   *$working_dir/petalinux/xilinx-vck190-es1-base-trd-platform1-2020.2.bsp*
 
 .. note::
 
@@ -49,7 +49,7 @@ The directory structure is described in the Introduction Section
       export XILINXD_LICENSE_FILE=<path to where the license file is installed>
 
 #. To set up the XRT environment, follow the installation instructions provided
-   here: https://xilinx.github.io/XRT/2020.1/html/build.html
+   here: https://xilinx.github.io/XRT/2020.2/html/build.html
 
 **Implement platform design with filter2d PL and filter2d AIE accelerators:**
 
