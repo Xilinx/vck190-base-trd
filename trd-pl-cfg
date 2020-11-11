@@ -90,6 +90,16 @@ else
 fi
 popd > /dev/null
 
+# change hostname in config for prod versions
+if [ $silicon = "prod" ]; then
+	#set host name in config
+	sed -i -e "s#CONFIG_SUBSYSTEM_HOSTNAME=.*#CONFIG_SUBSYSTEM_HOSTNAME=\"\xilinx-vck190-2020_2\"\"#" \
+		project-spec/configs/config
+	#set product name in config
+	sed -i -e "s#CONFIG_SUBSYSTEM_PRODUCT=.*#CONFIG_SUBSYSTEM_PRODUCT=\"\xilinx-vck190-2020_2\"\"#" \
+		project-spec/configs/config
+fi
+
 # change platfrom name:
 pushd project-spec/meta-base-trd/recipes-apps/trd-files/files > /dev/null
 xocl=xocl.txt
@@ -98,4 +108,23 @@ if [ ! -e ${xocl} ]; then
 	exit 6
 fi
 echo ${PLATFORM}_${DESIGN//-/_} > ${xocl}
+#remove mipi workaround
+script=trd-autostart.sh
+if [ $silicon = "prod" ]; then
+	if [ ! -e ${script} ]; then
+		echo "text file '${script}' not found"
+		exit 6
+	fi
+	head -n -2 ${script} | tee temp 
+	mv temp ${script}	
+	rm -f mipi_dphy_workaround.sh
+fi
+popd > /dev/null
+
+# change trd-recipe file:
+pushd project-spec/meta-base-trd/recipes-apps/trd-files > /dev/null
+if [ $silicon = "prod" ]; then
+	sed -i -e '/mipi/d' trd-files.bb 
+	sed -i -e '/hack/,+4d' trd-files.bb 
+fi
 popd > /dev/null
