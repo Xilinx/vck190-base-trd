@@ -7,7 +7,6 @@
 &amba {
 	zyxclmm_drm {
 		compatible = "xlnx,zocl-versal";
-		status = "okay";
 	};
 };
 #include "pl-custom.dtsi"

@@ -1544,13 +1544,6 @@ CONFIG_tcl=y
 # CONFIG_libfontenc-dbg is not set
 
 #
-# libdfx
-#
-# CONFIG_libdfx is not set
-# CONFIG_libdfx-dev is not set
-# CONFIG_libdfx-dbg is not set
-
-#
 # libgcrypt 
 #
 # CONFIG_libgcrypt is not set
