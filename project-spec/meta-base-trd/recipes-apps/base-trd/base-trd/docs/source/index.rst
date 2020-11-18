@@ -22,7 +22,6 @@ Contents:
    build-plnx.rst
    known-issues.rst
    support.rst
-   build-isp.rst
    
 Indices and Tables
 ==================
