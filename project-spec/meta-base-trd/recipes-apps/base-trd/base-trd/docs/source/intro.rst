@@ -87,14 +87,6 @@ Design File Hierarchy
 The reference design zip files can be downloaded from the below locations. Note
 there is a separate zip file per platform:
 
-* Platforms supporting Production Silicon
-
-  * Platform 1: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform1_2020.2_v0.5.zip
-
-  * Platform 2: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform2_2020.2_v0.5.zip
-
-  * Platform 3: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_base_trd_platform3_2020.2_v0.5.zip
-
 * Platforms supporting ES1 Silicon
 
   * Platform 1: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_es1_base_trd_platform1_2020.2_v0.5.zip
