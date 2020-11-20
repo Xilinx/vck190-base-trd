@@ -12,6 +12,20 @@ Known Issues
 #. The monitor should show a blue standby screen after boot. If that is not the
    case, re-plug the HDMI cable and the blue standby screen should appear.
 
+#. The gstreamer pipeline involving USB may sometimes fail with the following error.
+   In this case click the rectangular icon to interrupt the kernel then select 
+   ‘Kernel’ --> ‘Restart Kernel and Run All Cells’ from the top menu bar to restart
+   the pipeline.
+
+   * ERROR:
+   
+   .. code-block:: bash 
+   
+	Error: gst-resource-error-quark: Cannot identify device '/dev/video3'. 
+	(3): ../../../git/sys/v4l2/v4l2_calls.c(610): gst_v4l2_open (): 
+	/GstPipeline:nb3/GstMediaSrcBin:mediasrcbin0/GstV4l2Src:v4l2src0:
+	system error: No such file or directory
+
 #. Enabling the primary plane on the Video Mixer by default results in a bandwidth 
    utilization of 2GB. A patch is applied to disable the mixer primary plane by 
    default. To enable/disable the primary plane through module_param and devmem use 
