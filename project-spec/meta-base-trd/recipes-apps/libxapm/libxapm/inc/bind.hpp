@@ -31,6 +31,7 @@
 
 #define PFM_1_CLK 199990000
 #define PFM_2_CLK 149990000
+#define PFM_3_CLK 149990000
 
 using namespace boost::python;
 
@@ -89,6 +90,7 @@ BOOST_PYTHON_MODULE(libxapm)
     ;
     scope().attr("preset_pfm1") = setup(PFM_1_CLK);
     scope().attr("preset_pfm2") = setup(PFM_2_CLK);
+    scope().attr("preset_pfm3") = setup(PFM_3_CLK);
     scope().attr("MB/s") = 0;
     scope().attr("Gbps") = 1;
 
