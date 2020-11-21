@@ -27,9 +27,9 @@ copyright = '2020, Xilinx'
 author = 'Xilinx'
 
 # The short X.Y version
-version = '0.4'
+version = '0.5'
 # The full version, including alpha/beta/rc tags
-release = '2020.1-0.4'
+release = '2020.2-0.5'
 html_last_updated_fmt = '%B %d, %Y'
 
 # -- General configuration ---------------------------------------------------
