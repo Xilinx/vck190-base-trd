@@ -74,7 +74,7 @@ The directory structure is described in the Introduction Section.
 
    .. code-block:: bash
 
-      cp project-spec/hw-description/binary_container_1.xclbin images/linux
+      cp pre-built/binary_container_1.xclbin images/linux
       petalinux-package --wic -w project-spec/configs/sdimage.wks --extra-bootfiles "binary_container_1.xclbin"
 
 The resulting build artifacts will be available in the *images/linux/* folder.
@@ -96,9 +96,7 @@ The following is a list of important output files:
 
   * Device tree blob
 
-  * AI Engine filter2d application (2_2)
-
-  * AI Engine configuration data object (CDO) file
+  * Merged AI Engine application and configuration data object (CDO) file
 
 * **boot.scr**: A u-boot boot script
 
