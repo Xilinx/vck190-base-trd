@@ -1,7 +1,7 @@
 Revision History
 ================
 
-**2020.5 v0.5**
+**2020.2 v0.5**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2020.2
 
