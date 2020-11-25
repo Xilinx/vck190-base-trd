@@ -21,9 +21,9 @@
 		serial0 = &serial0;
 		spi0 = &qspi;
 	};
-	memoryNOC_0: memory@800000000 {
+	memoryNOC_0: memory@000000000 {
 		device_type = "memory";
-		reg = <0x0 0x00000000 0x0 0x80000000>, <0x00000008 0x00000000 0x00000001 0x00000000>;
+		reg = <0x0 0x00000000 0x0 0x80000000>;
 	};
 };
 #include "system-user.dtsi"
