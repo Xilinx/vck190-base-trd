@@ -9,6 +9,3 @@ echo "0" > /proc/sys/kernel/printk
 
 # Wake up monitor
 /usr/bin/modetest -M xlnx > /dev/null
-
-# Run MIPI DPHY workaround script
-/etc/trd/mipi_dphy_workaround.sh
