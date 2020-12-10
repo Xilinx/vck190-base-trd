@@ -6,7 +6,7 @@ Prerequisites
 
 * Reference Design zip file
 
-* Vivado Design Suite 2020.1
+* Vivado Design Suite 2020.2
 
 Build Flow Tutorial
 -------------------
@@ -61,7 +61,7 @@ The directory structure is described in the Introduction Section
 #. Open the Vivado GUI.
 
    On Windows, open Vivado by navigating to *Start > Xilinx Design Tools >
-   Vivado 2020.1*.
+   Vivado 2020.2*.
    In the tcl console type:
 
    .. code-block:: bash
@@ -96,7 +96,7 @@ The directory structure is described in the Introduction Section
 
 #. To view the Platform interfaces that are enabled for Vitis compiler to stitch
    in accelerators, on the tool bar at the top click on  *Window >
-   Platform Interfaces*. Platform interfaces are enabled under the following IPs
+   Platform Setup*. Platform interfaces are enabled under the following IPs
 
    * clk_wiz: Clocks used to drive clock inputs on the accelerator.
    * smartconnect_gp2: AXI Memory Mapped master ports to drive the accelerator
@@ -108,7 +108,7 @@ The directory structure is described in the Introduction Section
 
    .. tip::
       For more information on how to setup Platform Interfaces refer to Section
-      - Configuring Platform Interface Properties in Xilinx Vitis Unified Software Platform Documentation(UG1393)
+      - Creating an Embedded Platform in Xilinx Vitis Unified Software Platform Documentation(UG1393)
 
 #. In the Flow Navigator pane on the left-hand side under Program and Debug,
    click on *Generate Device Image*. The device image (pdi) for the design will

@@ -27,15 +27,15 @@
   
 
   
-      <script type="text/javascript" src="_static/js/jquery.min.js"></script>	
+      <script type="text/javascript" src="_static/js/jquery.min.js"></script>
 	  <script type="text/javascript" src="_static/js/gtm.js"></script>
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
     <script type="text/javascript" src="_static/js/d3dd8c60ed.js"></script>
-    <script type="text/javascript" src="_static/js/common-ui-all.min.js"></script>		
-    <script type="text/javascript" src="_static/js/header-footer.min.js"></script>	
-    <script type="text/javascript" src="_static/js/jquery-ui.min.js"></script>	
-    <script type="text/javascript" src="_static/js/CoveoJsSearch.Lazy.min.js"></script>	
-    <script type="text/javascript" src="_static/js/linkid.js"></script>		
+    <script type="text/javascript" src="_static/js/common-ui-all.min.js"></script>
+    <script type="text/javascript" src="_static/js/header-footer.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js/CoveoJsSearch.Lazy.min.js"></script>
+    <script type="text/javascript" src="_static/js/linkid.js"></script>
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
@@ -86,7 +86,7 @@
 																<div class="navbar navbar-collapse collapse" id="xilinx-main-menu">
 																	<div class="mobile-search-container">
 																		<div id="headerSearchBox" class="headerSearch"
-																			data-component="header-search" 
+																			data-component="header-search"
 																			data-redirect-if-empty="false"
 																			data-coveo-access-token="xxa237d4dd-f0aa-47fc-9baa-af9121851b33"
 																			data-coveo-organization-id="xilinxcomprode2rjoqok">
@@ -148,23 +148,23 @@
 																	<ul class="nav navbar-nav nav-justified">
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/applications.html">
-																			Applications</a> 
+																			Applications</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/products/silicon-devices.html">
-																			Products</a> 
+																			Products</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://developer.xilinx.com/">
-																			Developers</a> 
+																			Developers</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/support.html">
-																			Support</a> 
+																			Support</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/about/company-overview.html">
-																			About</a> 
+																			About</a>
 																		</li>
 																	</ul>
 																</div>
@@ -209,7 +209,7 @@
 															-->
 															<div class="search-container">
 																<div id="headerSearchBox" class="headerSearch"
-																	data-component="header-search" 
+																	data-component="header-search"
 																	data-redirect-if-empty="false"
 																	data-coveo-access-token="xxa237d4dd-f0aa-47fc-9baa-af9121851b33"
 																	data-coveo-organization-id="xilinxcomprode2rjoqok">
@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                0.4
+                0.5
               </div>
             
           
@@ -323,9 +323,9 @@
           
         </div>
 
-        
+      
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+            
             
             
               
@@ -344,16 +344,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="build-plnx.html">8. Build the PetaLinux Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-isp.html">9. Appendix A - Build ISP IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known-issues.html">9. Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">10. Support</a></li>
 </ul>
 
             
+			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
 				  <li class="toctree-l1"><a href="_sources/build-filter2d.rst.txt"
 						rel="nofollow">Show Source</a></li>
-					<li class="toctree-l1"><a href="https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter/blob/master/docs/source/build-filter2d.rst"
-						   rel="nofollow">View on GitHub</a></li>						
 				</ul>
           
         </div>
@@ -423,8 +423,8 @@
 <h2>7.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Reference Design zip file</p></li>
-<li><p>Vitis Unified Software Platform 2020.1 (include AIE tool chain)</p></li>
-<li><p>Xilinx Runtime (XRT) 2020.1</p></li>
+<li><p>Vitis Unified Software Platform 2020.2 (include AIE tool chain)</p></li>
+<li><p>Xilinx Runtime (XRT) 2020.2</p></li>
 </ul>
 </div>
 <div class="section" id="build-flow-tutorial">
@@ -434,7 +434,7 @@
 <p>You can skip this tutorial and move straight to the next tutorial if desired.
 Pre-built Vitis acceleration output products are located inside the PetaLinux
 BSP file located at:
-<em>$working_dir/petalinux/xilinx-vck190-es1-base-trd-platform1-2020.1.bsp</em></p>
+<em>$working_dir/petalinux/xilinx-vck190-es1-base-trd-platform1-2020.2.bsp</em></p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -460,7 +460,7 @@ extracted to a working directory</p>
 </div>
 </li>
 <li><p>To set up the XRT environment, follow the installation instructions provided
-here: <a class="reference external" href="https://xilinx.github.io/XRT/2020.1/html/build.html">https://xilinx.github.io/XRT/2020.1/html/build.html</a></p></li>
+here: <a class="reference external" href="https://xilinx.github.io/XRT/2020.2/html/build.html">https://xilinx.github.io/XRT/2020.2/html/build.html</a></p></li>
 </ol>
 <p><strong>Implement platform design with filter2d PL and filter2d AIE accelerators:</strong></p>
 <ol class="arabic">
@@ -487,7 +487,8 @@ step will error out.</p>
 <li><p>Builds the filter2d PL kernel. Output is <em>filter2d_pl_accel.xo</em> file.</p></li>
 <li><p>Builds the filter2d AIE kernel and the datamover kernel. The datamover
 kernel is implemented on PL and is responsible to move data from/to DDR
-to/from the AI Engine. Output is a <em>graph.o</em> and <em>filter2d_aie_accel.xo</em></p></li>
+to/from the AI Engine. Outputs are <em>filter2d_aie_accel.xo</em> and <em>libadf.a</em>
+containing the AIE elf and cdo files as well as the graph description.</p></li>
 <li><p>Integrates the above kernels into the <em>vck190_base_trd_platform1</em> design
 using the Vitis linker. Generates <em>binary_container_1.xclbin</em> which
 contains meta data describing the kernels and platform. Generates a new
@@ -501,13 +502,14 @@ XSA that includes the updated PDI.</p></li>
 <li><p>XSA required for building the Petalinux BSP:
 <em>$working_dir/accelerators/examples/filter2d_combined/binary_container_1.xsa</em>
 The XSA contains the updated PDI with the accelerators added into the
-platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
+platform design and the merged AIE binary.The XSA is required to build the
+final boot image <em>BOOT.BIN</em> in PetaLinux.</p></li>
 <li><p>The xclbin that contains the platform and kernel meta data needed by XRT:
 <em>$working_dir/accelerators/examples/filter2d_combined/binary_container_1.xclbin</em></p></li>
-<li><p>The AIE elf file required to build the <em>BOOT.BIN</em>:
-<em>$working_dir/accelerators/examples/filter2d_aie/kernel/2_2</em></p></li>
-<li><p>The AIE cdo file required to build the <em>BOOT.BIN</em>:
-<em>$working_dir/accelerators/examples/filter2d_aie/kernel/aie_cdo.bin</em></p></li>
+<li><p>The merged AIE elf and code file:
+<em>$working_dir/accelerators/examples/filter2d_combined/aie.merged.cdo.bin</em>
+The Vitis packager step creates a new image named <em>BOOT.BIN</em> which adds
+the merged AIE binary into the Vitis generated PDI.</p></li>
 </ul>
 </li>
 </ol>
@@ -520,13 +522,12 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
           </div>
           <footer>
 <!-- Atalwar: Moved the footer code to layout.html to resolve conflict with the Xilinx template -->
-
 </footer>
 
         </div>
       </div>
-	  
-	  
+
+
 	  <!-- Sphinx Page Footer block -->
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
@@ -544,11 +545,12 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on June 05, 2020.
+        Last updated on December 09, 2020.
       </span>
 
     </p>
-  </div>	  
+	<br>
+  </div>
       </div>
     </section>
 
@@ -561,13 +563,20 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
       });
   </script>
 
+   <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+
+  <script type="text/javascript" id="searchindexloader"></script>
+
+
   
   
     
   
-  
 
-  
+
+
   <!--  Xilinx template footer block -->
 							</div>
 						</div>
@@ -578,6 +587,16 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
 						<div class="aem-Grid aem-Grid--16 aem-Grid--default--16 ">
 							<div class="footer parbase aem-GridColumn--default--none aem-GridColumn aem-GridColumn--offset--default--0 aem-GridColumn--default--16">
 								<noindex>
+                  <!-- make footer fixed - NileshP -->
+                  <style>
+                        .footer {
+                        position: fixed;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        }
+                  </style>
+                  <!-- make footer fixed NileshP-->
 									<footer>
 										<div class="aem-Grid aem-Grid--16">
 											<div class="aem-GridColumn aem-GridColumn--xxxlarge--none aem-GridColumn--xsmall--16 aem-GridColumn--offset--xsmall--0 aem-GridColumn--xlarge--none aem-GridColumn--xxlarge--none aem-GridColumn--default--none aem-GridColumn--offset--large--1 aem-GridColumn--xlarge--12 aem-GridColumn--offset--default--0 aem-GridColumn--xxlarge--10 aem-GridColumn--offset--xlarge--2 aem-GridColumn--offset--xxlarge--3 aem-GridColumn--offset--xxxlarge--4 aem-GridColumn--xsmall--none aem-GridColumn--large--none aem-GridColumn aem-GridColumn--large--14 aem-GridColumn--xxxlarge--8 aem-GridColumn--default--16">
@@ -622,7 +641,7 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
 														<div class="col-md-pull-6 col-lg-pull-6 col-md-6 col-lg-6">
 															<span class="copyright">
                                   
-                                  &copy; 2019, Xilinx
+                                  &copy; 2020, Xilinx
                               </span>
 															<ul class="list-inline sub-menu">
 																<li>
@@ -669,7 +688,7 @@ platform design. The PDI is required to build the <em>BOOT.BIN</em></p></li>
 			  _.templateSettings.evaluate = /\{\{([^-=][\S\s]+?)\}\}/g;
 			  _.templateSettings.escape = /\{\{-([^=][\S\s]+?)\}\}/g;
 			}
-			
+
 			underscoreSetup();
 		</script>
 	</body>
