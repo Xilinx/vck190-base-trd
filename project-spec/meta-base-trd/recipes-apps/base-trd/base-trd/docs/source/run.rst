@@ -99,7 +99,7 @@ you get the board.
 * Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
   as shown in the above picture.
 
-**FMC and Vadj settings**
+**MIPI and HDMI connections**
 
 Platform 1 supports video capture from the Leopard IMX274 MIPI FMC,
 connect the FMC card to the FMCP1 slot (J51) as shown in the above figure.
@@ -115,10 +115,47 @@ Platform 3 supports video capture via HDMI RX.
 Connect the HDMI cable as shown in the above figure. Connect the other end of the cable to a HDMI source
 like a laptop or Nvidia Shield or Roku 
 
+**Serial console settings**
+
+VCK190 comes with a USB-C connector for JTAG+UART, when connected three UART
+ports should be visible in Device Manager:
+
+* Versal UART0
+
+* Versal UART1 &
+
+* System Controller UART
+
+Connect a USB-C cable to the USB-UART connector. Open two terminal emulator windows. Choose
+Versal UART0 on one and System Controller UART on the other and use the following settings
+on the Serial Port:
+
+* Baud Rate: 115200
+
+* Data: 8 bit
+
+* Parity: None
+
+* Stop: 1 bit
+
+* Flow Control: None
+
+**Vadj settings**
 
 Perform the following steps to set the Vadj voltage rail to 1.2V using the
 *BoardUI* utility:
 
+* Power on the board. On the  System Controller UART terminal type the 
+  following commands at the linux prompt. This will allow the *BoardUI*
+  utility to communicate with the System Controller.
+
+  .. code-block:: bash
+
+     sed -i -e 's/^#//' /etc/init.d/start_boardframework.sh
+     nohup /usr/bin/boardframework.sh
+
+* Close the System Controller UART terminal 
+  
 * Download the *BoardUI* utility from the VCK190 Headstart lounge:
   https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_2020-04-03.zip
 
@@ -143,36 +180,10 @@ Perform the following steps to set the Vadj voltage rail to 1.2V using the
 .. note::
 
    If Vadj does not persists after reboot, try updating the System Controller
-   SD card image following the instructions in the linked pdf file. The image
-   and instructions can be downloaded from the VCK190 headstart lounge. After
-   updating the SD image, rerun the instructions for setting Vadj.
+   SD card image. The image  and instructions can be downloaded from this Wiki
+   page - https://xilinx-wiki.atlassian.net/wiki/spaces/XWUC/pages/973078551/BEAM+Tool+for+VCK190+Evaluation+Kit
+   After updating the SD image, rerun the instructions for setting Vadj.
 
-   * Instructions: https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf
-   * SD Image: https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip
-
-**Serial console settings**
-
-VCK190 comes with a USB-C connector for JTAG+UART, when connected three UART
-ports should be visible in Device Manager:
-
-* Versal UART0
-
-* Versal UART1 &
-
-* System Controller UART
-
-Connect a USB-C cable to the USB-UART connector. In the terminal emulator choose
-Versal UART0 and use the following settings:
-
-* Baud Rate: 115200
-
-* Data: 8 bit
-
-* Parity: None
-
-* Stop: 1 bit
-
-* Flow Control: None
 
 Connect to the JupyterLab Server
 --------------------------------
