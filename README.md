@@ -8,5 +8,5 @@ exercise those interfaces. Accelerators are mapped to FPGA logic resources
 and/or AI Engine cores and stitched into the platform using the Vitis toolchain.
 
 Comprehensive documentation is available at:\
-https://pages.gitenterprise.xilinx.com/PAEG/base-trd-jupyter/build/html/index.html
+https://xilinx.github.io/vck190-base-trd/build/html/index.html
 
