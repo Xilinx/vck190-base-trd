@@ -128,10 +128,6 @@ example, the hierarchy of platform 1 is shown below:
    │   └── vitis_libraries
    │       └── vision
    ├── archiver.tar.gz
-   ├── docs
-   │   ├── doctrees
-   │   ├── html
-   │   └── index.html
    ├── petalinux
    │   └── xilinx-vck190-base-trd-platform1-2020.2.bsp
    ├── platform
