@@ -156,8 +156,8 @@ Perform the following steps to set the Vadj voltage rail to 1.2V using the
 
 * Close the System Controller UART terminal 
   
-* Download the *BoardUI* utility from the VCK190 Headstart lounge:
-  https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_2020-04-03.zip
+* Download the *BoardUI* tool from the following link:
+  http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
 
 * Extract the zip file and start the *BoardUI* tool. Make sure the USB-C
   cable is connected to your PC and the system controller Micro SD card is
@@ -180,8 +180,8 @@ Perform the following steps to set the Vadj voltage rail to 1.2V using the
 .. note::
 
    If Vadj does not persists after reboot, try updating the System Controller
-   SD card image. The image  and instructions can be downloaded from this Wiki
-   page - https://xilinx-wiki.atlassian.net/wiki/spaces/XWUC/pages/973078551/BEAM+Tool+for+VCK190+Evaluation+Kit
+   SD card image. The image  and instructions can be downloaded from this link:
+   http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
    After updating the SD image, rerun the instructions for setting Vadj.
 
 
