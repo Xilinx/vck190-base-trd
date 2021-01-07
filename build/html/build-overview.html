@@ -39,11 +39,21 @@
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'2020.2-0.5',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -419,35 +429,35 @@
 flow is exlpained in detail in subsequent build tutorials.</p>
 <p>At a high level, the builds steps are as follows:</p>
 <ol class="arabic simple">
-<li><p><strong>Vivado platform design:</strong>
+<li><strong>Vivado platform design:</strong>
 The Vivado design is augmented with platform parameters that describe the
 meta data and physical interfaces available to the Vitis compiler for
-stitching in PL and/or AIE kernels.</p></li>
-<li><p><strong>Platform creation:</strong>
+stitching in PL and/or AIE kernels.</li>
+<li><strong>Platform creation:</strong>
 The XSCT utility is used to create an extensible platform whose main
-component is the XSA created by Vivado in step 1.</p></li>
-<li><p><strong>AIE kernels:</strong>
+component is the XSA created by Vivado in step 1.</li>
+<li><strong>AIE kernels:</strong>
 The AI Engine compiler is used to compile AI Engine kernels and to generate
 a graph description. The AI Engine elf and cdo files and the graph
-description are packaged into an archive named <code class="docutils literal notranslate"><span class="pre">libadf.a</span></code> which is consumed
-by the Vitis toolchain during the link and package steps.</p></li>
-<li><p><strong>PL kernels:</strong>
+description are packaged into an archive named <code class="docutils literal"><span class="pre">libadf.a</span></code> which is consumed
+by the Vitis toolchain during the link and package steps.</li>
+<li><strong>PL kernels:</strong>
 The Vitis compiler is used to compile PL accelerator kernels from C/C++ using
 high-level synthesis (HLS) or to package RTL kernels. The kernels are
-compiled into xo files and consumed by the Vitis linker in the next step.</p></li>
-<li><p><strong>Vitis linker and packager:</strong>
+compiled into xo files and consumed by the Vitis linker in the next step.</li>
+<li><strong>Vitis linker and packager:</strong>
 The Vitis linker integrates the AIE and PL kernels into the platform and
 implements the design. It generates a new PDI device image as well as xclbin
 file containing meta data information about the PL/AIE kernels. The Vitis
 packager is then used to integrate the AIE elfs/cdos into an updated PDI.
 Finally, the updated PDI and xclbin are packaged as part of the XSA file
-which is consumed by PetaLinux.</p></li>
-<li><p><strong>PetaLinux BSP:</strong>
+which is consumed by PetaLinux.</li>
+<li><strong>PetaLinux BSP:</strong>
 The PetaLinux BSP is a collection of yocto meta layers, recipes, source and
 config files that are used to generate a bootable SD card image. The SD card
 image consists of two partitions. The boot partition includes the boot image
-<code class="docutils literal notranslate"><span class="pre">BOOT.BIN</span></code>, u-boot script <code class="docutils literal notranslate"><span class="pre">boot.scr</span></code>, Linux kernel <code class="docutils literal notranslate"><span class="pre">Image</span></code>, and the
-xclbin file; the second partition contains the root filesystem.</p></li>
+<code class="docutils literal"><span class="pre">BOOT.BIN</span></code>, u-boot script <code class="docutils literal"><span class="pre">boot.scr</span></code>, Linux kernel <code class="docutils literal"><span class="pre">Image</span></code>, and the
+xclbin file; the second partition contains the root filesystem.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/tool-flow.jpg"><img alt="Tool Flow" src="_images/tool-flow.jpg" style="width: 1000px;" /></a>
 </div>
@@ -481,7 +491,7 @@ xclbin file; the second partition contains the root filesystem.</p></li>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on December 09, 2020.
+        Last updated on January 06, 2021.
       </span>
 
     </p>

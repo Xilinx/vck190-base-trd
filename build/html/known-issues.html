@@ -39,11 +39,21 @@
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'2020.2-0.5',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -416,48 +426,47 @@
   <div class="section" id="known-issues">
 <h1>9. Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic">
-<li><p>On ES1 silicon there is an issue with the MIPI DPHY XPIO which requires
-additional register writes after the system is booted. A script named
-<em>mipi_dphy_workaround.sh</em> is provided and automatically executed during boot.</p></li>
-<li><p>The APM, CPU utilization and power graph plots result in high CPU
+<li><p class="first">The APM, CPU utilization and power graph plots result in high CPU
 utilization. If the plots are disabled, the CPU utilization is reduced. This
-can be verified by running the top command from a terminal.</p></li>
-<li><p>The monitor should show a blue standby screen after boot. If that is not the
-case, re-plug the HDMI cable and the blue standby screen should appear.</p></li>
-<li><p>The gstreamer pipeline involving USB may sometimes fail with the following
+can be verified by running the top command from a terminal.</p>
+</li>
+<li><p class="first">The monitor should show a blue standby screen after boot. If that is not the
+case, re-plug the HDMI cable and the blue standby screen should appear.</p>
+</li>
+<li><p class="first">The gstreamer pipeline involving USB may sometimes fail with the following
 error. In this case click the rectangular icon to interrupt the kernel then
 select ‘Kernel’ –&gt; ‘Restart Kernel and Run All Cells’ from the top menu bar
 to restart the pipeline.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ERROR: from element /GstPipeline:pipeline0/GstMediaSrcBin:mediasrcbin0/GstV4l2Src:v4l2src0: Cannot identify device <span class="s1">&#39;/dev/video3&#39;</span>.
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ERROR: from element /GstPipeline:pipeline0/GstMediaSrcBin:mediasrcbin0/GstV4l2Src:v4l2src0: Cannot identify device <span class="s1">&#39;/dev/video3&#39;</span>.
 Additional debug info:
 ../../../git/sys/v4l2/v4l2_calls.c<span class="o">(</span><span class="m">610</span><span class="o">)</span>: gst_v4l2_open <span class="o">()</span>: /GstPipeline:nb3/GstMediaSrcBin:mediasrcbin0/GstV4l2Src:v4l2src0:
 system error: No such file or directory
 </pre></div>
 </div>
 </li>
-<li><p>If vivid or USB webcam is selected as video source, the following gstreamer
+<li><p class="first">If vivid or USB webcam is selected as video source, the following gstreamer
 error message is printed on the serial console. It is benign and can be
 ignored.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>** <span class="o">(</span>python3:1404<span class="o">)</span>: CRITICAL **: <span class="m">11</span>:28:06.903: gst_video_info_from_caps: assertion <span class="s1">&#39;gst_caps_is_fixed (caps)&#39;</span> failed
+<div class="highlight-bash"><div class="highlight"><pre><span></span>** <span class="o">(</span>python3:1404<span class="o">)</span>: CRITICAL **: <span class="m">11</span>:28:06.903: gst_video_info_from_caps: assertion <span class="s1">&#39;gst_caps_is_fixed (caps)&#39;</span> failed
 <span class="m">0</span>:00:02.146225828  <span class="m">1404</span> 0xaaab03b29060 ERROR            mediasrcbin gstmediasrcbin.c:285:get_media_bus_format: Gst Fourcc <span class="m">64205312</span> not handled
 </pre></div>
 </div>
 </li>
-<li><p>Enabling the primary plane on the Video Mixer by default results in a
+<li><p class="first">Enabling the primary plane on the Video Mixer by default results in a
 bandwidth utilization of 2GB. A patch is applied to disable the mixer primary
 plane by default. To enable/disable the primary plane through module_param
 and devmem use the following commands. To render a test pattern on the
 display using a utility like modetest, the primary plane should be enabled.</p>
 <ul class="simple">
-<li><p>Enable:</p></li>
+<li>Enable:</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> Y &gt; /sys/module/xlnx_mixer/parameters/mixer_primary_enable
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> Y &gt; /sys/module/xlnx_mixer/parameters/mixer_primary_enable
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Disable:</p></li>
+<li>Disable:</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devmem 0xa0070040 <span class="m">32</span> 0x0
+<div class="highlight-bash"><div class="highlight"><pre><span></span>devmem 0xa0070040 <span class="m">32</span> 0x0
 <span class="nb">echo</span> N &gt; /sys/module/xlnx_mixer/parameters/mixer_primary_enable
 </pre></div>
 </div>
@@ -494,7 +503,7 @@ display using a utility like modetest, the primary plane should be enabled.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on December 09, 2020.
+        Last updated on January 06, 2021.
       </span>
 
     </p>

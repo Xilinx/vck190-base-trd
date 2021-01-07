@@ -1,10 +1,5 @@
 Known Issues
 ============
-
-#. On ES1 silicon there is an issue with the MIPI DPHY XPIO which requires
-   additional register writes after the system is booted. A script named
-   *mipi_dphy_workaround.sh* is provided and automatically executed during boot.
-
 #. The APM, CPU utilization and power graph plots result in high CPU
    utilization. If the plots are disabled, the CPU utilization is reduced. This
    can be verified by running the top command from a terminal.

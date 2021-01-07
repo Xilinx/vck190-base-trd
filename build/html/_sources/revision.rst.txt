@@ -11,6 +11,8 @@ Revision History
 
 * Update notebooks to support audio capture and replay
 
+* Add support for Pre-production Silicon
+
 **2020.1 v0.4**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2020.1
