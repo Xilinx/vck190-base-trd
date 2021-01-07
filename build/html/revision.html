@@ -39,11 +39,21 @@
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'2020.2-0.5',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -417,55 +427,54 @@
 <h1>1. Revision History<a class="headerlink" href="#revision-history" title="Permalink to this headline">¶</a></h1>
 <p><strong>2020.2 v0.5</strong></p>
 <ul class="simple">
-<li><p>Update Vivado/Vitis/Petalinux tools versions to 2020.2</p></li>
-<li><p>Add support for HDMI Rx and pass through audio in platform 3</p></li>
-<li><p>Update notebooks to support video capture from HDMI Rx</p></li>
-<li><p>Update notebooks to support audio capture and replay</p></li>
+<li>Update Vivado/Vitis/Petalinux tools versions to 2020.2</li>
+<li>Add support for HDMI Rx and pass through audio in platform 3</li>
+<li>Update notebooks to support video capture from HDMI Rx</li>
+<li>Update notebooks to support audio capture and replay</li>
+<li>Add support for Pre-production Silicon</li>
 </ul>
 <p><strong>2020.1 v0.4</strong></p>
 <ul class="simple">
-<li><p>Update Vivado/Vitis/Petalinux tools versions to 2020.1</p></li>
-<li><p>Add support for Avnet Multi-Camera MIPI FMC Module in platform 2</p></li>
-<li><p>Update notebooks to support video capture from Multi-camera FMC</p></li>
-<li><p>Add notebooks for plotting CPU utilization and Power Consumption</p></li>
-<li><p>Add Vitis Vision based ISP in MIPI capture pipelines</p></li>
-<li><p>Use mediasrcbin plugin instead of xlnxvideosrc</p></li>
+<li>Update Vivado/Vitis/Petalinux tools versions to 2020.1</li>
+<li>Add support for Avnet Multi-Camera MIPI FMC Module in platform 2</li>
+<li>Update notebooks to support video capture from Multi-camera FMC</li>
+<li>Add notebooks for plotting CPU utilization and Power Consumption</li>
+<li>Add Vitis Vision based ISP in MIPI capture pipelines</li>
+<li>Use mediasrcbin plugin instead of xlnxvideosrc</li>
 </ul>
 <p><strong>2019.2 v0.3</strong></p>
 <ul class="simple">
-<li><p>Add support for Leopard IMX274 MIPI FMC in platform 1</p></li>
-<li><p>Update notebooks to support video capture from IMX274 sensor</p></li>
-<li><p>Add notebook to demonstrate time-multiplexed filtering on a multi-branch
-pipeline</p></li>
-<li><p>Add AXI performance monitor support in platform 1</p></li>
-<li><p>Add library and notebook to plot memory bandwith using AXI performance monitor</p></li>
+<li>Add support for Leopard IMX274 MIPI FMC in platform 1</li>
+<li>Update notebooks to support video capture from IMX274 sensor</li>
+<li>Add notebook to demonstrate time-multiplexed filtering on a multi-branch
+pipeline</li>
+<li>Add AXI performance monitor support in platform 1</li>
+<li>Add library and notebook to plot memory bandwith using AXI performance monitor</li>
 </ul>
 <p><strong>2019.2 v0.2:</strong></p>
 <ul class="simple">
-<li><p>Replace ‘shell’ with ‘platform’ according to taxonomy</p></li>
-<li><p>Add link to PetaLinux Versal device support README</p></li>
-<li><p>Add Vitis platform and XSCT platform creation tcl script</p></li>
-<li><p>Add Vitis accelerator projects, GStreamer plugins and Jupyter notebook</p>
-<ul>
-<li><p>2D Filter (PL) using the Vitis Vision libraries</p></li>
-<li><p>2D Filter (AIE)</p></li>
+<li>Replace ‘shell’ with ‘platform’ according to taxonomy</li>
+<li>Add link to PetaLinux Versal device support README</li>
+<li>Add Vitis platform and XSCT platform creation tcl script</li>
+<li>Add Vitis accelerator projects, GStreamer plugins and Jupyter notebook<ul>
+<li>2D Filter (PL) using the Vitis Vision libraries</li>
+<li>2D Filter (AIE)</li>
 </ul>
 </li>
 </ul>
 <p><strong>2019.2 v0.1.1:</strong></p>
 <ul class="simple">
-<li><p>Compatible with Vivado and PetaLinux 2019.2 tools version</p></li>
-<li><p>Replace AXI GPIO with CIPS GPIO in Vivado design</p></li>
+<li>Compatible with Vivado and PetaLinux 2019.2 tools version</li>
+<li>Replace AXI GPIO with CIPS GPIO in Vivado design</li>
 </ul>
 <p><strong>2019.2 EA v0.1:</strong></p>
 <ul class="simple">
-<li><p>Compatible with Vivado and PetaLinux 2019.2 EA tools version</p></li>
-<li><p>Initial Release of platform 1 including:</p>
-<ul>
-<li><p>Vivado design</p></li>
-<li><p>PetaLinux BSP</p></li>
-<li><p>Prebuilt SD card image</p></li>
-<li><p>Jupyter notebooks (NB1-4)</p></li>
+<li>Compatible with Vivado and PetaLinux 2019.2 EA tools version</li>
+<li>Initial Release of platform 1 including:<ul>
+<li>Vivado design</li>
+<li>PetaLinux BSP</li>
+<li>Prebuilt SD card image</li>
+<li>Jupyter notebooks (NB1-4)</li>
 </ul>
 </li>
 </ul>
@@ -500,7 +509,7 @@ pipeline</p></li>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on December 09, 2020.
+        Last updated on January 06, 2021.
       </span>
 
     </p>

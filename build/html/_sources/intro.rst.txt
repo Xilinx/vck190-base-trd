@@ -48,11 +48,11 @@ The following is a list of supported platforms including key I/O interfaces:
 
 * Platform 3:
 
-  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware 
+  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
   supports capture of audio data.
 
-  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio 
+  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio
   source is a file. In case of Platform 3 the audio source can be a either a file or
   HDMI RX.
 
@@ -87,13 +87,13 @@ Design File Hierarchy
 The reference design zip files can be downloaded from the below locations. Note
 there is a separate zip file per platform:
 
-* Platforms supporting ES1 Silicon
+* Platforms supporting Pre-Production Silicon
 
-  * Platform 1: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_es1_base_trd_platform1_2020.2_v0.5.zip
+  * Platform 1: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
 
-  * Platform 2: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_es1_base_trd_platform2_2020.2_v0.5.zip
+  * Platform 2: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
 
-  * Platform 3: https://www.xilinx.com/member/forms/download/xef.html?filename=vck190_es1_base_trd_platform3_2020.2_v0.5.zip
+  * Platform 3: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
 
 It has the following contents:
 
@@ -116,7 +116,7 @@ It has the following contents:
 The design file hierarchy is identical between the different platforms. For
 example, the hierarchy of platform 1 is shown below:
 
-.. code-block::
+.. code-block:: bash
 
    vck190_base_trd_platform1_2020.2_v0.5
    ├── accelerators
@@ -128,12 +128,8 @@ example, the hierarchy of platform 1 is shown below:
    │   └── vitis_libraries
    │       └── vision
    ├── archiver.tar.gz
-   ├── docs
-   │   ├── doctrees
-   │   ├── html
-   │   └── index.html
    ├── petalinux
-   │   └── xilinx-vck190-es1-base-trd-platform1-2020.2.bsp
+   │   └── xilinx-vck190-base-trd-platform1-2020.2.bsp
    ├── platform
    │   ├── pfm.tcl
    │   └── vck190_base_trd_platform1
@@ -144,6 +140,9 @@ example, the hierarchy of platform 1 is shown below:
        ├── scripts
        ├── source
        └── xdc
+
+The User Guide for the reference design is available at
+https://www.xilinx.com/support/documentation/boards_and_kits/vck190/ug1442-vck190-trd.pdf
 
 In the following tutorials, it is assumed that the design zip file is extracted
 into a directory referred to as ``$working_dir``, e.g.

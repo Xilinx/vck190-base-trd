@@ -39,11 +39,21 @@
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'2020.2-0.5',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -422,16 +432,16 @@
 <div class="section" id="prerequisites">
 <h2>8.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Reference Design zip file</p></li>
-<li><p>PetaLinux Tools 2020.2</p></li>
-<li><p>Linux host machine</p></li>
+<li>Reference Design zip file</li>
+<li>PetaLinux Tools 2020.2</li>
+<li>Linux host machine</li>
 </ul>
 </div>
 <div class="section" id="build-flow-tutorial">
 <h2>8.2. Build Flow Tutorial<a class="headerlink" href="#build-flow-tutorial" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The below steps use platform 1 as an example. The same steps can be used for
+<p class="first admonition-title">Note</p>
+<p class="last">The below steps use platform 1 as an example. The same steps can be used for
 other platforms as well, only the file/directory names with platform1 will be
 replaced with the targeted platform.</p>
 </div>
@@ -439,46 +449,46 @@ replaced with the targeted platform.</p>
 <p>Skip the following steps if the design zip file has already been downloaded and
 extracted to a working directory</p>
 <ol class="arabic simple">
-<li><p>Download the VCK190 Base Targeted Reference Design ZIP file</p></li>
-<li><p>Unzip Contents</p></li>
+<li>Download the VCK190 Base Targeted Reference Design ZIP file</li>
+<li>Unzip Contents</li>
 </ol>
 <p>The directory structure is described in the Introduction Section.</p>
 <p><strong>Generate PetaLinux Image</strong></p>
 <ol class="arabic">
-<li><p>Enable Versal device support</p>
+<li><p class="first">Enable Versal device support</p>
 <p>To enable Versal device support in PetaLinux, follow the instructions
 in this README file: <a class="reference external" href="https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2020.2.tar.gz">https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2020.2.tar.gz</a></p>
 </li>
-<li><p>Create a new PetaLinux project from the provided BSP:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$working_dir</span>/petalinux
+<li><p class="first">Create a new PetaLinux project from the provided BSP:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$working_dir</span>/petalinux
 petalinux-create -t project -s xilinx-vck190-es1-base-trd-platform1-2020.2.bsp
 <span class="nb">cd</span> xilinx-vck190-es1-base-trd-platform1-2020.2
 </pre></div>
 </div>
 </li>
-<li><p>Configure and build the PetaLinux project.</p>
+<li><p class="first">Configure and build the PetaLinux project.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
+<p class="first admonition-title">Note</p>
 <p>The XSA file used for project configuration is included with this BSP.
 The build step performs the configuration step implicitly. If you want
 to configure your BSP with the XSA file generated in the previous
 tutorial, run the following command <strong>prior</strong> to the <em>petalinux-build</em>
 command, otherwise the config step can be skipped:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-config --get-hw-description<span class="o">=</span>../../accelerators/examples/filter2d_combined/ --silentconfig
+<div class="last highlight-bash"><div class="highlight"><pre><span></span>petalinux-config --get-hw-description<span class="o">=</span>../../accelerators/examples/filter2d_combined/ --silentconfig
 </pre></div>
 </div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-build
-</pre></div>
-</div>
-</li>
-<li><p>Create a boot image:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>petalinux-package --boot --u-boot --qemu-rootfs no --force
+<div class="highlight-bash"><div class="highlight"><pre><span></span>petalinux-build
 </pre></div>
 </div>
 </li>
-<li><p>Create a bootable SD card image:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp pre-built/binary_container_1.xclbin images/linux
+<li><p class="first">Create a boot image:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>petalinux-package --boot --u-boot --qemu-rootfs no --force
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a bootable SD card image:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cp pre-built/binary_container_1.xclbin images/linux
 petalinux-package --wic -w project-spec/configs/sdimage.wks --extra-bootfiles <span class="s2">&quot;binary_container_1.xclbin&quot;</span>
 </pre></div>
 </div>
@@ -487,22 +497,21 @@ petalinux-package --wic -w project-spec/configs/sdimage.wks --extra-bootfiles <s
 <p>The resulting build artifacts will be available in the <em>images/linux/</em> folder.
 The following is a list of important output files:</p>
 <ul class="simple">
-<li><p><strong>binary_container_1.xclbin</strong>: This is the kernel meta data file used by XRT</p></li>
-<li><p><strong>BOOT.BIN</strong>: This is the boot image which includes:</p>
-<ul>
-<li><p>Platform Loader and Manager (PLM)</p></li>
-<li><p>PS Management (PSM) firmware</p></li>
-<li><p>Platform Device Image (PDI)</p></li>
-<li><p>ARM trusted firmware</p></li>
-<li><p>u-boot</p></li>
-<li><p>Device tree blob</p></li>
-<li><p>Merged AI Engine application and configuration data object (CDO) file</p></li>
+<li><strong>binary_container_1.xclbin</strong>: This is the kernel meta data file used by XRT</li>
+<li><strong>BOOT.BIN</strong>: This is the boot image which includes:<ul>
+<li>Platform Loader and Manager (PLM)</li>
+<li>PS Management (PSM) firmware</li>
+<li>Platform Device Image (PDI)</li>
+<li>ARM trusted firmware</li>
+<li>u-boot</li>
+<li>Device tree blob</li>
+<li>Merged AI Engine application and configuration data object (CDO) file</li>
 </ul>
 </li>
-<li><p><strong>boot.scr</strong>: A u-boot boot script</p></li>
-<li><p><strong>Image</strong>: Linux kernel image</p></li>
-<li><p><strong>rootfs.tar.gz</strong>: Compressed root file system tar ball</p></li>
-<li><p><strong>petalinux-sdimage.wic</strong>: SD card image file in wic format</p></li>
+<li><strong>boot.scr</strong>: A u-boot boot script</li>
+<li><strong>Image</strong>: Linux kernel image</li>
+<li><strong>rootfs.tar.gz</strong>: Compressed root file system tar ball</li>
+<li><strong>petalinux-sdimage.wic</strong>: SD card image file in wic format</li>
 </ul>
 <p>The SD card image is now ready to be used to boot the device into Linux, see
 Section <em>Run the Prebuilt Image</em> for details.</p>
@@ -538,7 +547,7 @@ Section <em>Run the Prebuilt Image</em> for details.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on December 09, 2020.
+        Last updated on January 06, 2021.
       </span>
 
     </p>

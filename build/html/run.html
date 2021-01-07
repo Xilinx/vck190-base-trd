@@ -39,11 +39,21 @@
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'2020.2-0.5',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -428,34 +438,35 @@
 <div class="section" id="prerequisites">
 <h2>3.1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Reference design zip file</p></li>
-<li><p>Terminal emulator, for example</p>
-<ul>
-<li><p>Windows: teraterm (<a class="reference external" href="https://osdn.net/projects/ttssh2">https://osdn.net/projects/ttssh2</a>)</p></li>
-<li><p>Linux: picocom (<a class="reference external" href="https://github.com/npat-efault/picocom/releases">https://github.com/npat-efault/picocom/releases</a>)</p></li>
+<li>Reference design zip file</li>
+<li>Terminal emulator, for example<ul>
+<li>Windows: teraterm (<a class="reference external" href="https://osdn.net/projects/ttssh2">https://osdn.net/projects/ttssh2</a>)</li>
+<li>Linux: picocom (<a class="reference external" href="https://github.com/npat-efault/picocom/releases">https://github.com/npat-efault/picocom/releases</a>)</li>
 </ul>
 </li>
-<li><p>Windows: Win32 Disk Imager utility (<a class="reference external" href="https://sourceforge.net/projects/win32diskimager">https://sourceforge.net/projects/win32diskimager</a>)</p></li>
-<li><p>Windows: 7zip utility (<a class="reference external" href="https://sourceforge.net/projects/sevenzip/">https://sourceforge.net/projects/sevenzip/</a>)</p></li>
+<li>Windows: Win32 Disk Imager utility (<a class="reference external" href="https://sourceforge.net/projects/win32diskimager">https://sourceforge.net/projects/win32diskimager</a>)</li>
+<li>Windows: 7zip utility (<a class="reference external" href="https://sourceforge.net/projects/sevenzip/">https://sourceforge.net/projects/sevenzip/</a>)</li>
 </ul>
 </div>
 <div class="section" id="sd-card-creation">
 <h2>3.2. SD Card Creation<a class="headerlink" href="#sd-card-creation" title="Permalink to this headline">¶</a></h2>
 <p>The SD card image file is located at
-<code class="docutils literal notranslate"><span class="pre">$working_dir/sdcard/petalinux-sdimage.wic.gz</span></code>.</p>
+<code class="docutils literal"><span class="pre">$working_dir/sdcard/petalinux-sdimage.wic.gz</span></code>.</p>
 <p>Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
 <em>Win32 Disk Imager</em> utility for Windows or ‘dd’ command line utility for Linux
-to write the given raw disk image <code class="docutils literal notranslate"><span class="pre">petalinux-sdimage.wic</span></code> to the SD card.</p>
-<p>After unzipping the image file <code class="docutils literal notranslate"><span class="pre">petalinux-sdimage.wic.gz</span></code> using the 7zip
+to write the given raw disk image <code class="docutils literal"><span class="pre">petalinux-sdimage.wic</span></code> to the SD card.</p>
+<p>After unzipping the image file <code class="docutils literal"><span class="pre">petalinux-sdimage.wic.gz</span></code> using the 7zip
 utility on Windows, use the following steps to write a raw disk image to a
 removable device using the Win32 Disk Imager utility.</p>
 <ol class="arabic">
-<li><p>Browse to the location of the unzipped image in the Win32 utility. In the
-‘File name’ field, type <code class="docutils literal notranslate"><span class="pre">*.wic</span></code>, otherwise only files with the <code class="docutils literal notranslate"><span class="pre">.img</span></code>
+<li><p class="first">Browse to the location of the unzipped image in the Win32 utility. In the
+‘File name’ field, type <code class="docutils literal"><span class="pre">*.wic</span></code>, otherwise only files with the <code class="docutils literal"><span class="pre">.img</span></code>
 ending file be shown. Alternatively, change the drop down menu on the bottom
-right from ‘Disk Images (*.img *.IMG)’ to ‘*.*’.</p></li>
-<li><p>Choose the correct SD card drive letter under ‘Device’</p></li>
-<li><p>Select ‘Write’ to the SD card, click ‘Yes’ at the prompt to continue writing
+right from ‘Disk Images (*.img *.IMG)’ to ‘*.*’.</p>
+</li>
+<li><p class="first">Choose the correct SD card drive letter under ‘Device’</p>
+</li>
+<li><p class="first">Select ‘Write’ to the SD card, click ‘Yes’ at the prompt to continue writing
 and wait till the operation is complete</p>
 <a class="reference internal image-reference" href="_images/win32.jpg"><img alt="Win32 Image" src="_images/win32.jpg" style="width: 500px;" /></a>
 </li>
@@ -463,10 +474,11 @@ and wait till the operation is complete</p>
 <p>Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux</p>
 <ol class="arabic">
-<li><p>Gunzip the given image file <code class="docutils literal notranslate"><span class="pre">petalinux-sdimage.wic.gz</span></code> in linux</p></li>
-<li><p>Use dd to write <code class="docutils literal notranslate"><span class="pre">petalinux-sdimage.wic</span></code> to correct enumerated disk for SD
+<li><p class="first">Gunzip the given image file <code class="docutils literal"><span class="pre">petalinux-sdimage.wic.gz</span></code> in linux</p>
+</li>
+<li><p class="first">Use dd to write <code class="docutils literal"><span class="pre">petalinux-sdimage.wic</span></code> to correct enumerated disk for SD
 card in the Linux machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunzip petalinux-sdimage.wic.gz
+<div class="highlight-bash"><div class="highlight"><pre><span></span>gunzip petalinux-sdimage.wic.gz
 sudo dd <span class="k">if</span><span class="o">=</span>petalinux-sdimage.wic <span class="nv">of</span><span class="o">=</span>/dev/sdbx <span class="nv">bs</span><span class="o">=</span>1M
 </pre></div>
 </div>
@@ -477,10 +489,10 @@ sudo dd <span class="k">if</span><span class="o">=</span>petalinux-sdimage.wic <
 partitions. The first partition (FAT16 format) is the boot partition and it
 contains:</p>
 <ul class="simple">
-<li><p>Xilinx OpenCL binary container (<code class="docutils literal notranslate"><span class="pre">binary_container_1.xclbin</span></code>)</p></li>
-<li><p>Boot image (<code class="docutils literal notranslate"><span class="pre">BOOT.BIN</span></code>)</p></li>
-<li><p>u-boot boot script (<code class="docutils literal notranslate"><span class="pre">boot.scr</span></code>)</p></li>
-<li><p>Linux kernel image (<code class="docutils literal notranslate"><span class="pre">image.ub</span></code>)</p></li>
+<li>Xilinx OpenCL binary container (<code class="docutils literal"><span class="pre">binary_container_1.xclbin</span></code>)</li>
+<li>Boot image (<code class="docutils literal"><span class="pre">BOOT.BIN</span></code>)</li>
+<li>u-boot boot script (<code class="docutils literal"><span class="pre">boot.scr</span></code>)</li>
+<li>Linux kernel image (<code class="docutils literal"><span class="pre">image.ub</span></code>)</li>
 </ul>
 <p>while in the second patition (ext4 format) resides the root file system.</p>
 <p><strong>Note:</strong> A Windows OS would only allow FAT16 partitions to be viewed whereas
@@ -495,15 +507,15 @@ the ext4 format is not recognized.</p>
 this default settings, but it is good to double check for the first time when
 you get the board.</p>
 <ul class="simple">
-<li><p>Make sure you remove J326 (7-8) jumper.</p></li>
-<li><p>Setup SYSCTRL Boot mode switch SW11 to (ON,OFF,OFF,OFF) from switch bits
-1 to 4 as shown in the above picture.</p></li>
-<li><p>Make sure you have the SYSCTRL uSD card inserted in the slot and card has the
-SYSCTRL image.</p></li>
-<li><p>Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
-as shown in the above picture.</p></li>
+<li>Make sure you remove J326 (7-8) jumper.</li>
+<li>Setup SYSCTRL Boot mode switch SW11 to (ON,OFF,OFF,OFF) from switch bits
+1 to 4 as shown in the above picture.</li>
+<li>Make sure you have the SYSCTRL uSD card inserted in the slot and card has the
+SYSCTRL image.</li>
+<li>Setup Versal Boot Mode switch SW1 to (ON,OFF,OFF,OFF) from switch bits 1 to 4
+as shown in the above picture.</li>
 </ul>
-<p><strong>FMC and Vadj settings</strong></p>
+<p><strong>MIPI and HDMI connections</strong></p>
 <p>Platform 1 supports video capture from the Leopard IMX274 MIPI FMC,
 connect the FMC card to the FMCP1 slot (J51) as shown in the above figure.
 For more info on the FMC module, visit:
@@ -515,72 +527,90 @@ For more info on the FMC module, visit:
 <p>Platform 3 supports video capture via HDMI RX.
 Connect the HDMI cable as shown in the above figure. Connect the other end of the cable to a HDMI source
 like a laptop or Nvidia Shield or Roku</p>
-<p>Perform the following steps to set the Vadj voltage rail to 1.2V using the
-<em>BoardUI</em> utility:</p>
-<ul>
-<li><p>Download the <em>BoardUI</em> utility from the VCK190 Headstart lounge:
-<a class="reference external" href="https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_2020-04-03.zip">https://www.xilinx.com/member/vck190_headstart/VCK190_BIT_Test_2020-04-03.zip</a></p></li>
-<li><p>Extract the zip file and start the <em>BoardUI</em> tool. Make sure the USB-C
-cable is connected to your PC and the system controller Micro SD card is
-inserted.</p></li>
-<li><p>In the <em>BoardUI</em> GUI, navigate to the <em>FMC Boot Up</em> tab following the red
-circles as shown in the below figure. Enter <em>1.2</em> in the <em>Set On-Boot VADJ</em>
-field and click the button next to it to save the value.</p>
-<a class="reference internal image-reference" href="_images/boardui.jpg"><img alt="BoardUI Utility" src="_images/boardui.jpg" style="width: 900px;" /></a>
-</li>
-<li><p>Power-cycle the board and navigate to the <em>FMC Current</em> tab. Click the
-<em>Get VADJ_FMC Voltage</em> button to read out the current voltage setting and
-confirm it matches the 1.2V set in the previous step.</p></li>
-<li><p>Close the <em>BoardUI</em> utility.</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If Vadj does not persists after reboot, try updating the System Controller
-SD card image following the instructions in the linked pdf file. The image
-and instructions can be downloaded from the VCK190 headstart lounge. After
-updating the SD image, rerun the instructions for setting Vadj.</p>
-<ul class="simple">
-<li><p>Instructions: <a class="reference external" href="https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf">https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf</a></p></li>
-<li><p>SD Image: <a class="reference external" href="https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip">https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip</a></p></li>
-</ul>
-</div>
 <p><strong>Serial console settings</strong></p>
 <p>VCK190 comes with a USB-C connector for JTAG+UART, when connected three UART
 ports should be visible in Device Manager:</p>
 <ul class="simple">
-<li><p>Versal UART0</p></li>
-<li><p>Versal UART1 &amp;</p></li>
-<li><p>System Controller UART</p></li>
+<li>Versal UART0</li>
+<li>Versal UART1 &amp;</li>
+<li>System Controller UART</li>
 </ul>
-<p>Connect a USB-C cable to the USB-UART connector. In the terminal emulator choose
-Versal UART0 and use the following settings:</p>
+<p>Connect a USB-C cable to the USB-UART connector. Open two terminal emulator windows. Choose
+Versal UART0 on one and System Controller UART on the other and use the following settings
+on the Serial Port:</p>
 <ul class="simple">
-<li><p>Baud Rate: 115200</p></li>
-<li><p>Data: 8 bit</p></li>
-<li><p>Parity: None</p></li>
-<li><p>Stop: 1 bit</p></li>
-<li><p>Flow Control: None</p></li>
+<li>Baud Rate: 115200</li>
+<li>Data: 8 bit</li>
+<li>Parity: None</li>
+<li>Stop: 1 bit</li>
+<li>Flow Control: None</li>
 </ul>
+<p><strong>Vadj settings</strong></p>
+<p>Perform the following steps to set the Vadj voltage rail to 1.2V using the
+<em>BoardUI</em> utility:</p>
+<ul>
+<li><p class="first">Power on the board. On the  System Controller UART terminal type the
+following commands at the linux prompt. This will allow the <em>BoardUI</em>
+utility to communicate with the System Controller.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sed -i -e <span class="s1">&#39;s/^#//&#39;</span> /etc/init.d/start_boardframework.sh
+nohup /usr/bin/boardframework.sh
+</pre></div>
+</div>
+</li>
+<li><p class="first">Close the System Controller UART terminal</p>
+</li>
+<li><p class="first">Download the <em>BoardUI</em> tool from the following link:
+<a class="reference external" href="http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit">http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit</a></p>
+</li>
+<li><p class="first">Extract the zip file and start the <em>BoardUI</em> tool. Make sure the USB-C
+cable is connected to your PC and the system controller Micro SD card is
+inserted.</p>
+</li>
+<li><p class="first">In the <em>BoardUI</em> GUI, navigate to the <em>FMC Boot Up</em> tab following the red
+circles as shown in the below figure. Enter <em>1.2</em> in the <em>Set On-Boot VADJ</em>
+field and click the button next to it to save the value.</p>
+<a class="reference internal image-reference" href="_images/boardui.jpg"><img alt="BoardUI Utility" src="_images/boardui.jpg" style="width: 900px;" /></a>
+</li>
+<li><p class="first">Power-cycle the board and navigate to the <em>FMC Current</em> tab. Click the
+<em>Get VADJ_FMC Voltage</em> button to read out the current voltage setting and
+confirm it matches the 1.2V set in the previous step.</p>
+</li>
+<li><p class="first">Close the <em>BoardUI</em> utility.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If Vadj does not persists after reboot, try updating the System Controller
+SD card image. The image  and instructions can be downloaded from this link:
+<a class="reference external" href="http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit">http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit</a>
+After updating the SD image, rerun the instructions for setting Vadj.</p>
+</div>
 </div>
 <div class="section" id="connect-to-the-jupyterlab-server">
 <h2>3.4. Connect to the JupyterLab Server<a class="headerlink" href="#connect-to-the-jupyterlab-server" title="Permalink to this headline">¶</a></h2>
 <p>Follow these steps to boot the board into Linux</p>
 <ul>
-<li><p>Ensure all steps under the section ‘Board jumper and switch settings’ are
-verified.</p></li>
-<li><p>Insert the prepared micro SD card into the Versal SD card slot (refer to the
-image VCK190 Board Setup)</p></li>
-<li><p>Make physical connections to ethernet, HDMI, UART, webcam and power as shown
-in the image.</p></li>
-<li><p>Have the UART0 terminal emulator tab connected.</p></li>
-<li><p>Turn ON power switch SW13.</p></li>
-<li><p>On Versal UART0 terminal, we would see the Versal device booting from the
+<li><p class="first">Ensure all steps under the section ‘Board jumper and switch settings’ are
+verified.</p>
+</li>
+<li><p class="first">Insert the prepared micro SD card into the Versal SD card slot (refer to the
+image VCK190 Board Setup)</p>
+</li>
+<li><p class="first">Make physical connections to ethernet, HDMI, UART, webcam and power as shown
+in the image.</p>
+</li>
+<li><p class="first">Have the UART0 terminal emulator tab connected.</p>
+</li>
+<li><p class="first">Turn ON power switch SW13.</p>
+</li>
+<li><p class="first">On Versal UART0 terminal, we would see the Versal device booting from the
 micro SD card starting with the message
-“Xilinx Versal Platform Loader and Manager”</p></li>
-<li><p>In about 60 seconds boot is complete. Observe the Linux prompt
+“Xilinx Versal Platform Loader and Manager”</p>
+</li>
+<li><p class="first">In about 60 seconds boot is complete. Observe the Linux prompt
 <em>root&#64;xilinx-vck190-2020_1</em> and autostart of JupyterLab server as shown
 in the example below:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@xilinx-vck190-2020_1:~#
+<div class="highlight-bash"><div class="highlight"><pre><span></span>root@xilinx-vck190-2020_1:~#
 <span class="o">[</span>I <span class="m">17</span>:36:24.640 LabApp<span class="o">]</span> Writing notebook server cookie secret to /home/root/.local/share/jupyter/runtime/notebook_cookie_secret
 <span class="o">[</span>W <span class="m">17</span>:36:26.084 LabApp<span class="o">]</span> JupyterLab server extension not enabled, manually loading...
 <span class="o">[</span>I <span class="m">17</span>:44:03.942 LabApp<span class="o">]</span> JupyterLab extension loaded from /usr/lib/python3.7/site-packages/jupyterlab
@@ -605,22 +635,22 @@ in the example below:</p>
 laptop.</p>
 <p><strong>Note:</strong> This demo is tested with Chrome browser only.</p>
 <ul>
-<li><p>Copy the generated URL with token on the prompt of Versal target and paste it
+<li><p class="first">Copy the generated URL with token on the prompt of Versal target and paste it
 to the browser address bar of the laptop, for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://192.168.1.77:8888/?token<span class="o">=</span>06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
+<div class="highlight-bash"><div class="highlight"><pre><span></span>http://192.168.1.77:8888/?token<span class="o">=</span>06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
 </pre></div>
 </div>
 <p><strong>Note:</strong> If for any reason target fails to grab an IP address from the
 network, Jupyter server would fail to issue an URL. In such a case user is
 recommended to fix an IP address and restart the jupyter server as shown
 below:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/etc/init.d/jupyterlab-server stop
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/init.d/jupyterlab-server stop
 /etc/init.d/jupyterlab-server start
 </pre></div>
 </div>
 </li>
-<li><p>To look up the jupyter server IP address and token on the target, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook list
+<li><p class="first">To look up the jupyter server IP address and token on the target, run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>jupyter notebook list
 </pre></div>
 </div>
 </li>
@@ -633,18 +663,19 @@ DHCP and not on a private network</p>
 <p><strong>Setting up a private network with target board and the host machine for
 Windows users:</strong></p>
 <ul>
-<li><p>Make a direct connection between the windows host machine and the target
-board using an ethernet cable</p></li>
-<li><p>In windows, run command prompt as an admisntrator</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Press Windows+R to open the “Run” box.
+<li><p class="first">Make a direct connection between the windows host machine and the target
+board using an ethernet cable</p>
+</li>
+<li><p class="first">In windows, run command prompt as an admisntrator</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Press Windows+R to open the “Run” box.
 Type “cmd” into the box.
 press Ctrl+Shift+Enter to run the <span class="nb">command</span> as an administrator
 </pre></div>
 </div>
 </li>
-<li><p>Run ipconfig on the windows machine to list available ethernet adapters and
+<li><p class="first">Run ipconfig on the windows machine to list available ethernet adapters and
 set a static private ip</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># A sample output after executing ipconfig</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># A sample output after executing ipconfig</span>
 <span class="c1"># notice interface &quot;Ethernet&quot; has an auto address assigned with no Default Gateway</span>
 
 ipconfig
@@ -665,9 +696,9 @@ netsh interface ip <span class="nb">set</span> address <span class="nv">name</sp
 </pre></div>
 </div>
 </li>
-<li><p>Set a private ip address for the target within the subnet of host machine and
+<li><p class="first">Set a private ip address for the target within the subnet of host machine and
 verify connectivity.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifconfig eth0 <span class="m">10</span>.0.0.2 netmask <span class="m">255</span>.255.255.0
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ifconfig eth0 <span class="m">10</span>.0.0.2 netmask <span class="m">255</span>.255.255.0
 
 <span class="c1"># Perform a ping test to the host form the target</span>
 ping -c <span class="m">3</span> <span class="m">10</span>.0.0.1
@@ -678,18 +709,19 @@ ping -c <span class="m">3</span> <span class="m">10</span>.0.0.1
 <p><strong>Setting up a private network with target board and the host machine for Linux
 users:</strong></p>
 <ul>
-<li><p>Make a direct connection between the Linux host machine and the target board
-using an ethernet cable</p></li>
-<li><p>Run ifconfig on the Linux machine to list available ethernet adapters and set
+<li><p class="first">Make a direct connection between the Linux host machine and the target board
+using an ethernet cable</p>
+</li>
+<li><p class="first">Run ifconfig on the Linux machine to list available ethernet adapters and set
 a static private ip</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example to set an ip 10.0.0.1 to ethernet interface enp2s0:</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Example to set an ip 10.0.0.1 to ethernet interface enp2s0:</span>
 sudo ifconfig enp2s0 <span class="m">10</span>.0.0.1 netmask <span class="m">255</span>.255.255.0
 </pre></div>
 </div>
 </li>
-<li><p>Set a private ip address for the target within the subnet of host machine and
+<li><p class="first">Set a private ip address for the target within the subnet of host machine and
 verify connectivity.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifconfig eth0 <span class="m">10</span>.0.0.2 netmask <span class="m">255</span>.255.255.0
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ifconfig eth0 <span class="m">10</span>.0.0.2 netmask <span class="m">255</span>.255.255.0
 
 <span class="c1"># Perform a ping test to the host form the target</span>
 ping -c <span class="m">3</span> <span class="m">10</span>.0.0.1
@@ -703,46 +735,50 @@ ping -c <span class="m">3</span> <span class="m">10</span>.0.0.1
 <h2>3.5. Run the Jupyter Notebooks<a class="headerlink" href="#run-the-jupyter-notebooks" title="Permalink to this headline">¶</a></h2>
 <p>This TRD includes the following jupyter notebooks:</p>
 <ol class="arabic simple">
-<li><p><strong>base-trd-nb1.ipynb</strong>: Demonstrates videoplayback of a file source in rootfs
+<li><strong>base-trd-nb1.ipynb</strong>: Demonstrates videoplayback of a file source in rootfs
 of the target to the Jupyter notebook using the GStreamer multimedia
-framework.</p></li>
-<li><p><strong>base-trd-nb2.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
-the target to the Jupyter notebook using the GStreamer multimedia framework</p></li>
-<li><p><strong>base-trd-nb3.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
-the target to a HDMI monitor using the GStreamer multimedia framework.</p></li>
-<li><p><strong>base-trd-nb4.ipynb</strong>: Demonstrates two simultaneous streaming pipelines,
+framework.</li>
+<li><strong>base-trd-nb2.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
+the target to the Jupyter notebook using the GStreamer multimedia framework</li>
+<li><strong>base-trd-nb3.ipynb</strong>: Demonstrates streaming video from a v4l2 device on
+the target to a HDMI monitor using the GStreamer multimedia framework.</li>
+<li><strong>base-trd-nb4.ipynb</strong>: Demonstrates two simultaneous streaming pipelines,
 one from file source and another from a v4l2 device onto two individual
-planes of a HDMI monitor using the GStreamer multimedia framework.</p></li>
-<li><p><strong>base-trd-nb5.ipynb</strong>: Demonstrates streaming video from a Mulit-Camera FMC
+planes of a HDMI monitor using the GStreamer multimedia framework.</li>
+<li><strong>base-trd-nb5.ipynb</strong>: Demonstrates streaming video from a Mulit-Camera FMC
 module on the target to a HDMI monitor using the GStreamer multimedia
-framework.</p></li>
-<li><p><strong>base-trd-nb6.ipynb</strong>: Demonstrates the 2D filter accelerator kernels, both
-the PL and the AIE versions, inserted into the video pipeline of notebook 2.</p></li>
-<li><p><strong>base-trd-nb7.ipynb</strong>: Demonstrates using both 2D filter accelerator kernels
-in a time-multiplexed fashion in a multi-branch pipeline.</p></li>
-<li><p><strong>base-trd-nb8.ipynb</strong>: Demonstrates streaming audio/video from a v4l2 device
-or a file to a HDMI monitor/speaker using the GStreamer multimedia framework.</p></li>
-<li><p><strong>base-trd-apm.ipynb</strong>: Demonstrates how to plot the memory bandwidth while
-a video pipeline is running using the libxapm library with python bindings.</p></li>
-<li><p><strong>base-trd-cpu.ipynb</strong>: Demonstrates how to plot the CPU usage while running
-applications and pipelines.</p></li>
-<li><p><strong>base-trd-power.ipynb</strong>: Demonstrates how to plot power consumption of
-multiple voltage rails throughout the board.</p></li>
+framework.</li>
+<li><strong>base-trd-nb6.ipynb</strong>: Demonstrates the 2D filter accelerator kernels, both
+the PL and the AIE versions, inserted into the video pipeline of notebook 2.</li>
+<li><strong>base-trd-nb7.ipynb</strong>: Demonstrates using both 2D filter accelerator kernels
+in a time-multiplexed fashion in a multi-branch pipeline.</li>
+<li><strong>base-trd-nb8.ipynb</strong>: Demonstrates streaming audio/video from a v4l2 device
+or a file to a HDMI monitor/speaker using the GStreamer multimedia framework.</li>
+<li><strong>base-trd-apm.ipynb</strong>: Demonstrates how to plot the memory bandwidth while
+a video pipeline is running using the libxapm library with python bindings.</li>
+<li><strong>base-trd-cpu.ipynb</strong>: Demonstrates how to plot the CPU usage while running
+applications and pipelines.</li>
+<li><strong>base-trd-power.ipynb</strong>: Demonstrates how to plot power consumption of
+multiple voltage rails throughout the board.</li>
 </ol>
 <p><strong>Note:</strong> MIPI sources in the notebook is platform specific, User is allowed to
 choose “mipi” in platform 1 and “mipi_quad” in platform 2 respectively,
 otherwise an exception would be thrown.</p>
 <p>To run the notebooks, follow the below steps:</p>
 <ol class="arabic">
-<li><p>On the left pane of the browser, 8 notebooks are available under the folder
-Base TRD.</p></li>
-<li><p>Double click to open the notebook</p></li>
-<li><p>Select ‘Kernel’ → ‘Restart Kernel and Run All Cells’ from the top menu bar to
+<li><p class="first">On the left pane of the browser, 8 notebooks are available under the folder
+Base TRD.</p>
+</li>
+<li><p class="first">Double click to open the notebook</p>
+</li>
+<li><p class="first">Select ‘Kernel’ → ‘Restart Kernel and Run All Cells’ from the top menu bar to
 run the demo. For nb1, nb2 and nb6 scroll down to the end of the notebook to see
 the video output. For all other notebooks the video output is displayed on the
-monitor.</p></li>
-<li><p>Click the rectangular icon to interrupt the kernel and stop the video stream.</p></li>
-<li><p>Select ‘Kernel’ → ‘Shutdown Kernel’ → close the notebook tab and move to the
+monitor.</p>
+</li>
+<li><p class="first">Click the rectangular icon to interrupt the kernel and stop the video stream.</p>
+</li>
+<li><p class="first">Select ‘Kernel’ → ‘Shutdown Kernel’ → close the notebook tab and move to the
 next notebook.</p>
 <a class="reference internal image-reference" href="_images/jnbh.jpg"><img alt="Jupyter_nb_home" src="_images/jnbh.jpg" style="width: 1000px;" /></a>
 </li>
@@ -779,7 +815,7 @@ next notebook.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on December 09, 2020.
+        Last updated on January 06, 2021.
       </span>
 
     </p>
