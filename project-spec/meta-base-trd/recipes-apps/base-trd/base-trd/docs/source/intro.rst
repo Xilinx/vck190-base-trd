@@ -116,7 +116,7 @@ It has the following contents:
 The design file hierarchy is identical between the different platforms. For
 example, the hierarchy of platform 1 is shown below:
 
-.. code-block::
+.. code-block:: bash
 
    vck190_base_trd_platform1_2020.2_v0.5
    ├── accelerators
