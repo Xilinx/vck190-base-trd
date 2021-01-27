@@ -1,7 +1,7 @@
 #include <dt-bindings/media/xilinx-vip.h>
 
 &amba_pl {
-	hdmi_rxss: hdmi_rxss@a4070000 {
+	hdmi_rxss: v_hdmi_rx_ss@a4070000 {
 		compatible = "xlnx,v-hdmi-rx-ss-3.1";
 		reg = <0x0 0xa4070000 0x0 0x10000>;
 		reg-names = "hdmi-rxss";
