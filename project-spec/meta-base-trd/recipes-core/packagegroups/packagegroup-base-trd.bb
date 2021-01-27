@@ -19,6 +19,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-python3-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
+	custom-edid \
 	e2fsprogs-resize2fs \
 	git \
 	gst-sdx \
