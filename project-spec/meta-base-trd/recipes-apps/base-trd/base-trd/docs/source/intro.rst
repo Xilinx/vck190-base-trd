@@ -97,8 +97,6 @@ there is a separate zip file per platform:
 
 It has the following contents:
 
-* Documentation (html webpages)
-
 * Petalinux Board Support Package (BSP)
 
 * Pre-built SD card image
