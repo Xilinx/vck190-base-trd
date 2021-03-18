@@ -80,7 +80,7 @@
 		interrupts = <0 91 4>;
 		xlnx,vid-formats = "bgr888", "yuyv";
 		reset-gpios = <&gpio0 29 1>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,pixels-per-clock = <4>;
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;

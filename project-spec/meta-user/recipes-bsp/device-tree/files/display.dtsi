@@ -48,7 +48,7 @@
 		reg = <0x0 0xa4040000 0x0 0x10000>;
 		reset-gpios = <&gpio0 26 1>;
 		xlnx,bpc = <8>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,num-layers = <10>;
 		xlnx,ppc = <4>;
 

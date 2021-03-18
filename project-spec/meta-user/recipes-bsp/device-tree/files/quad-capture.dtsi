@@ -84,7 +84,7 @@
 		interrupts = <0 92 4>;
 		reg = <0x0 0xa40D0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 29 1>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <16>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
@@ -177,7 +177,7 @@
 		interrupts = <0 93 4>;
 		reg = <0x0 0xa40f0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 32 1>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <16>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
@@ -270,7 +270,7 @@
 		interrupts = <0 94 4>;
 		reg = <0x0 0xa4190000 0x0 0x10000>;
 		reset-gpios = <&gpio0 35 1>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <16>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
@@ -363,7 +363,7 @@
 		interrupts = <0 95 4>;
 		reg = <0x0 0xa41b0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 38 1>;
-		xlnx,dma-addr-width = <32>;
+		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <16>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;

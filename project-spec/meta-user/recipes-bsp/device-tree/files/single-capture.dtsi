@@ -161,7 +161,7 @@
 			interrupts = <0 92 4>;
 			xlnx,vid-formats = "yuyv", "bgr888";
 			reset-gpios = <&gpio0 29 1>;
-			xlnx,dma-addr-width = <32>;
+			xlnx,dma-addr-width = <64>;
 			xlnx,pixels-per-clock = <4>;
 			xlnx,max-width = <3840>;
 			xlnx,max-height = <2160>;
