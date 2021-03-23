@@ -4192,7 +4192,9 @@ CONFIG_bridge-utils=y
 CONFIG_imagefeature-ssh-server-dropbear=y
 # CONFIG_imagefeature-ssh-server-openssh is not set
 CONFIG_imagefeature-hwcodecs=y
-# CONFIG_imagefeature-package-management is not set
+CONFIG_imagefeature-package-management=y
+CONFIG_package-feed-uris="http://petalinux.xilinx.com/sswreleases/rel-v2020.2/generic/rpm"
+CONFIG_package-feed-archs="noarch aarch64 versal versal_ai_core versal_generic"
 CONFIG_imagefeature-debug-tweaks=y
 CONFIG_auto-login=y
 
