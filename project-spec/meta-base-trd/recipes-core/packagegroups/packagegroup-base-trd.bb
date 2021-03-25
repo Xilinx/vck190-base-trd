@@ -19,9 +19,10 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-python3-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
+	cmake \	
 	custom-edid \
-	e2fsprogs-resize2fs \
 	git \
+	glog \
 	gst-sdx \
 	gstreamer1.0-python \
 	jupyter-startup \
@@ -31,9 +32,9 @@ BASE_TRD_PACKAGES = " \
 	nodejs \
 	nodejs-npm \
 	ntp \
-	parted \
 	python3-dev \
 	python3-periphery \
+	resize-part \
 	tcf-agent \
 	trd-files \
 	tree \
