@@ -99,10 +99,10 @@ popd > /dev/null
 # change hostname in config for prod versions
 if [ $SILICON = "prod" ]; then
 	#set host name in config
-	sed -i -e "s#CONFIG_SUBSYSTEM_HOSTNAME=.*#CONFIG_SUBSYSTEM_HOSTNAME=\"\xilinx-vck190-2020_2\"\"#" \
+	sed -i -e "s#CONFIG_SUBSYSTEM_HOSTNAME=.*#CONFIG_SUBSYSTEM_HOSTNAME=\"\xilinx-vck190-2021_1\"\"#" \
 		project-spec/configs/config
 	#set product name in config
-	sed -i -e "s#CONFIG_SUBSYSTEM_PRODUCT=.*#CONFIG_SUBSYSTEM_PRODUCT=\"\xilinx-vck190-2020_2\"\"#" \
+	sed -i -e "s#CONFIG_SUBSYSTEM_PRODUCT=.*#CONFIG_SUBSYSTEM_PRODUCT=\"\xilinx-vck190-2021.1\"\"#" \
 		project-spec/configs/config
 fi
 
