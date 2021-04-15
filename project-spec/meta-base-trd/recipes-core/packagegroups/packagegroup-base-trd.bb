@@ -15,7 +15,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
-	packagegroup-petalinux-xrt \
 	packagegroup-python3-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
@@ -40,6 +39,7 @@ BASE_TRD_PACKAGES = " \
 	tree \
 	ttf-bitstream-vera \
 	tzdata \
+	xrt \
 	${MOVIE_PACKAGES} \
 	"
 
