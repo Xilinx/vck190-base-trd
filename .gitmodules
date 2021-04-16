@@ -1,0 +1,3 @@
+[submodule "overlays/Vitis_Libraries/vision"]
+	path = overlays/Vitis_Libraries/vision
+	url = https://gitenterprise.xilinx.com/FaaSApps/xf_opencv
