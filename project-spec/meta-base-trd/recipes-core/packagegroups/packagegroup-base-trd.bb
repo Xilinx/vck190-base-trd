@@ -22,7 +22,6 @@ BASE_TRD_PACKAGES = " \
 	custom-edid \
 	git \
 	glog \
-	gst-sdx \
 	gstreamer1.0-python \
 	jupyter-startup \
 	kernel-module-hdmi \
