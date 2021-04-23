@@ -266,6 +266,7 @@
 		reg-names = "hdmi-txss";
 		xlnx,input-pixels-per-clock = <4>;
 		xlnx,max-bits-per-component = <8>;
+		xlnx,vid-interface = <0x0>;
 		xlnx,snd-pcm = <&audio_pipe_audio_formatter_0>;
 		xlnx,xlnx-hdmi-acr-ctrl = <&hdmi_acr_ctrl_0>;
 		xlnx,audio-enabled;
