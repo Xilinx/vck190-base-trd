@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 set jobs 8
-set rev es1
 
 # parse arguments
 for { set i 0 } { $i < $argc } { incr i } {
@@ -11,29 +10,14 @@ for { set i 0 } { $i < $argc } { incr i } {
     incr i
     set jobs [lindex $argv $i]
   }
-  if { [lindex $argv $i] == "-rev" } {
-    incr i
-    set rev [lindex $argv $i]
-  }
 }
 
-puts "Silicon Rev: $rev"
-
-if {$rev == "es1"} {
-	set board_part vck190_es
-	set proj_name vck190_es1_mipiRxSingle_hdmiTx
-}
-
-if {$rev != "es1"} {
-	set board_part vck190
-	set proj_name vck190_mipiRxSingle_hdmiTx
-}
-
-
-set proj_board [get_board_parts "*:${board_part}:*" -latest_file_version]
+set proj_name vck190_mipiRxSingle_hdmiTx
+set proj_board [get_board_parts "*:vck190:*" -latest_file_version]
+puts "Board Part: $proj_board"
 create_project -name ${proj_name} -force -dir ./project -part [get_property PART_NAME [get_board_parts $proj_board]] 
 set_property board_part $proj_board [current_project]
-        
+       
 
 set proj_dir ./project
 set bd_tcl_dir ./scripts
@@ -68,20 +52,11 @@ import_files -force -norecurse $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_na
 update_compile_order
 set_property top ${proj_name}_wrapper [current_fileset]
 update_compile_order -fileset sources_1
-        
 
 save_bd_design
 validate_bd_design
-generate_target all [get_files $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]        
 
-set_property synth_checkpoint_mode Hierarchical [get_files $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]
-launch_runs synth_1 -jobs ${jobs}
-wait_on_run synth_1
-
-launch_runs impl_1 -to_step write_device_image
-            
-wait_on_run impl_1
-
+#Set Platform properties
 set_property platform.board_id $proj_name [current_project]
             
 set_property platform.default_output_type "xclbin" [current_project]
@@ -106,8 +81,22 @@ set_property platform.vendor "xilinx" [current_project]
             
 set_property platform.version "1.0" [current_project]
 
+# Generate IPs and Implement design
+generate_target all [get_files $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]        
+
+set_property synth_checkpoint_mode Hierarchical [get_files $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]
+launch_runs synth_1 -jobs ${jobs}
+wait_on_run synth_1
+
+launch_runs impl_1 -to_step write_device_image
+            
+wait_on_run impl_1
+
+# Generate XSA
 write_hw_platform -force -file $proj_dir/${proj_name}.xsa
 validate_hw_platform -verbose $proj_dir/${proj_name}.xsa
 
 exit
+
+
 

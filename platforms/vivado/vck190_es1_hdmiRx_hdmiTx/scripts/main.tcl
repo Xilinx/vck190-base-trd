@@ -12,8 +12,8 @@ for { set i 0 } { $i < $argc } { incr i } {
   }
 }
 
-set proj_name vck190_mipiRxQuad_hdmiTx
-set proj_board [get_board_parts "*:vck190:*" -latest_file_version]
+set proj_name vck190_es1_hdmiRx_hdmiTx
+set proj_board [get_board_parts "*:vck190_es:*" -latest_file_version]
 puts "Board Part: $proj_board"
 create_project -name ${proj_name} -force -dir ./project -part [get_property PART_NAME [get_board_parts $proj_board]] 
 set_property board_part $proj_board [current_project]
@@ -23,7 +23,7 @@ set proj_dir ./project
 set bd_tcl_dir ./scripts
 set device vc1902
 set output {zip xsa bit}
-set xdc_list {xdc/mipi_quad_vck190.xdc xdc/hdmi_tx_vck190.xdc xdc/pl_clk_uncertainty.xdc xdc/timing.xdc xdc/vck190_vmk180_lpddr4dualinter.xdc xdc/default.xdc}
+set xdc_list {xdc/hdmi_rx_vck190.xdc xdc/hdmi_tx_vck190.xdc xdc/pl_clk_uncertainty.xdc xdc/timing.xdc xdc/vck190_vmk180_lpddr4dualinter.xdc xdc/default.xdc}
 set ip_repo_path {./ip}
       
     

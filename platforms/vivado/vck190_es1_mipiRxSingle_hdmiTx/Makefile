@@ -5,7 +5,7 @@ RM = rm -rf
 VIVADO = $(XILINX_VIVADO)/bin/vivado
 JOBS ?= 8
 
-VIV_DESIGN = vck190_mipiRxQuad_hdmiTx
+VIV_DESIGN = vck190_es1_mipiRxSingle_hdmiTx
 
 VIV_PRJ_DIR = project
 VIV_SCRIPTS_DIR = scripts

@@ -4,9 +4,8 @@
 RM = rm -rf
 VIVADO = $(XILINX_VIVADO)/bin/vivado
 JOBS ?= 8
-REV ?= "es1"
 
-VIV_DESIGN = vck190_mipiRxSingle_hdmiTx
+VIV_DESIGN = vck190_hdmiRx_hdmiTx
 
 VIV_PRJ_DIR = project
 VIV_SCRIPTS_DIR = scripts
@@ -27,7 +26,7 @@ all: xsa
 
 xsa: $(VIV_XSA)
 $(VIV_XSA): $(VIV_SRC)
-	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS) -rev $(REV)
+	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS)
 
 .PHONY: clean
 clean:
