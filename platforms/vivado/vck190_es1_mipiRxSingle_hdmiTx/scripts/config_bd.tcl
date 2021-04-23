@@ -1,0 +1,1 @@
+../../vck190_mipiRxSingle_hdmiTx/scripts/config_bd.tcl

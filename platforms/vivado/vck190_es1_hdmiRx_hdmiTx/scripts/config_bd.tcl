@@ -1,0 +1,1 @@
+../../vck190_hdmiRx_hdmiTx/scripts/config_bd.tcl

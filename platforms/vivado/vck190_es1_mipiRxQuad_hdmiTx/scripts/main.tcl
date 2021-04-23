@@ -12,8 +12,8 @@ for { set i 0 } { $i < $argc } { incr i } {
   }
 }
 
-set proj_name vck190_mipiRxQuad_hdmiTx
-set proj_board [get_board_parts "*:vck190:*" -latest_file_version]
+set proj_name vck190_es1_mipiRxQuad_hdmiTx
+set proj_board [get_board_parts "*:vck190_es:*" -latest_file_version]
 puts "Board Part: $proj_board"
 create_project -name ${proj_name} -force -dir ./project -part [get_property PART_NAME [get_board_parts $proj_board]] 
 set_property board_part $proj_board [current_project]
