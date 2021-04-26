@@ -141,6 +141,22 @@ pipeline {
                                     popd
                                 '''
                             }
+                            post {
+                                success {
+                                    sh label: 'filter2d_combined deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            pushd src
+                                            DST=${DEPLOYDIR}/filter2d_combined/vck190_es1_hdmiRx_hdmiTx
+                                            mkdir -p ${DST}
+                                            cp -f overlays/examples/filter2d_combined/*.xsa \
+                                                  overlays/examples/filter2d_combined/*.xclbin \
+                                                  ${DST}
+                                            popd
+                                        fi
+                                    '''
+                                }
+                            }
                         }
                     }
                 }
@@ -209,6 +225,22 @@ pipeline {
                                     ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_hdmiRx_hdmiTx
                                     popd
                                 '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'filter2d_combined deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            pushd src
+                                            DST=${DEPLOYDIR}/filter2d_combined/vck190_hdmiRx_hdmiTx
+                                            mkdir -p ${DST}
+                                            cp -f overlays/examples/filter2d_combined/*.xsa \
+                                                  overlays/examples/filter2d_combined/*.xclbin \
+                                                  ${DST}
+                                            popd
+                                        fi
+                                    '''
+                                }
                             }
                         }
                     }
