@@ -8,11 +8,11 @@ pipeline {
         label 'Build_Master'
     }
     environment {
-        DEPLOYDIR="/wrk/paeg_builds/build-artifacts"
         deploy_branch="2021.1"
         tool_release="2021.1"
         tool_build="daily_latest"
         auto_branch="2020.2"
+        DEPLOYDIR="/wrk/paeg_builds/build-artifacts/vck190-base-trd/${tool_release}"
     }
     options {
         // don't let the implicit checkout happen
@@ -102,9 +102,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_hdmiRx_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_es1_hdmiRx_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -166,9 +165,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_hdmiRx_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_hdmiRx_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -227,9 +225,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_mipiRxSingle_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_es1_mipiRxSingle_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -263,9 +260,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_mipiRxSingle_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_mipiRxSingle_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -299,9 +295,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_mipiRxQuad_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_es1_mipiRxQuad_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -335,9 +330,8 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_mipiRxQuad_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/xilinx_vck190_mipiRxQuad_hdmiTx* ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
