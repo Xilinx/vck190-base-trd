@@ -11,7 +11,8 @@ pipeline {
         deploy_branch="2021.1"
         tool_release="2021.1"
         tool_build="daily_latest"
-        auto_branch="2020.2"
+        auto_branch="2021.1"
+        pfm_ver="202110_1"
         DEPLOYDIR="/wrk/paeg_builds/build-artifacts/vck190-base-trd/${tool_release}"
     }
     options {
@@ -80,7 +81,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_hdmiRx_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -129,6 +129,13 @@ pipeline {
                                 sh label: 'filter2d_combined build',
                                 script: '''
                                     pushd src
+                                    pfm=xilinx_vck190_es1_hdmiRx_hdmiTx_${pfm_ver}
+                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
                                     source ../paeg-helper/env-setup.sh -r ${tool_release}
                                     ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_es1_hdmiRx_hdmiTx
                                     popd
@@ -143,7 +150,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_hdmiRx_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -192,6 +198,13 @@ pipeline {
                                 sh label: 'filter2d_combined build',
                                 script: '''
                                     pushd src
+                                    pfm=xilinx_vck190_hdmiRx_hdmiTx_${pfm_ver}
+                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
                                     source ../paeg-helper/env-setup.sh -r ${tool_release}
                                     ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_hdmiRx_hdmiTx
                                     popd
@@ -206,7 +219,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -241,7 +253,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxSingle_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -276,7 +287,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxQuad_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -311,7 +321,6 @@ pipeline {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxQuad_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
