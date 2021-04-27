@@ -139,7 +139,10 @@ pipeline {
                                 sh label: 'overlay build',
                                 script: '''
                                     pushd src
-                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/${pfm} platforms/
                                     else
                                         echo "No valid platform found: ${pfm}"
@@ -233,7 +236,10 @@ pipeline {
                                 sh label: 'overlay build',
                                 script: '''
                                     pushd src
-                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/${pfm} platforms/
                                     else
                                         echo "No valid platform found: ${pfm}"
