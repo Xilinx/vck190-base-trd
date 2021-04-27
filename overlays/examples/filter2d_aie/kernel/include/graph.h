@@ -21,16 +21,16 @@
 
 #include "kernels.h"
 
-// Static heap space is limited so need to define these as  
-// parameters so that they map to Look-up tables  
+// Static heap space is limited so need to define these as
+// parameters so that they map to Look-up tables
 // (Refer to Look-up Table section in UG1076)
 extern int32 ROW1[IMAGE_WIDTH];
 extern int32 ROW2[IMAGE_WIDTH];
 extern int32 ROW3[IMAGE_WIDTH];
 
-using namespace cardano;
+using namespace adf;
 
-class two_node_graph : public cardano::graph {
+class two_node_graph : public graph {
 
   private:
     kernel filter2d;

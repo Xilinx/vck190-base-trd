@@ -8,11 +8,14 @@ pipeline {
         label 'Build_Master'
     }
     environment {
-        DEPLOYDIR="/wrk/paeg_builds/build-artifacts"
         deploy_branch="2021.1"
         tool_release="2021.1"
         tool_build="daily_latest"
-        auto_branch="2020.2"
+        auto_branch="2021.1"
+        pfm_ver="202110_1"
+        setup="${WORKSPACE}/paeg-helper/env-setup.sh"
+        lsf="${WORKSPACE}/paeg-helper/scripts/lsf"
+        DEPLOYDIR="/wrk/paeg_builds/build-artifacts/vck190-base-trd/${tool_release}"
     }
     options {
         // don't let the implicit checkout happen
@@ -75,12 +78,18 @@ pipeline {
         stage('Vitis Builds') {
             parallel {
                 stage('vck190_es1_hdmiRx_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_es1_hdmiRx_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        pfm_dir="${WORKSPACE}/src/platforms/${pfm}"
+                        xpfm="${pfm_dir}/${pfm_base}.xpfm"
+                        work_dir="work_${pfm}"
+                    }
                     stages {
                         stage('vck190_es1_hdmiRx_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_hdmiRx_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -88,23 +97,22 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_F2D = '1'
                                 }
-                                sh label: 'vck190_es1_hdmiRx_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_es1_hdmiRx_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_es1_hdmiRx_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_hdmiRx_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -115,6 +123,7 @@ pipeline {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
+                                example_dir="${work_dir}/overlays/examples/filter2d_combined"
                             }
                             when {
                                 anyOf {
@@ -127,24 +136,54 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_PLNX = '1'
                                 }
-                                sh label: 'filter2d_combined build',
+                                sh label: 'overlay build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_es1_hdmiRx_hdmiTx
+                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    mkdir -p ${work_dir}
+                                    cp -rf overlays ${work_dir}
+                                    pushd ${example_dir}
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make all PLATFORM=${xpfm}
+                                    popd
                                     popd
                                 '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            pushd src
+                                            DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
+                                            mkdir -p ${DST}
+                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            popd
+                                        fi
+                                    '''
+                                }
                             }
                         }
                     }
                 }
                 stage('vck190_hdmiRx_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_hdmiRx_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        pfm_dir="${WORKSPACE}/src/platforms/${pfm}"
+                        xpfm="${pfm_dir}/${pfm_base}.xpfm"
+                        work_dir="work_${pfm}"
+                    }
                     stages {
                         stage('vck190_hdmiRx_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_hdmiRx_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -152,23 +191,22 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_F2D = '1'
                                 }
-                                sh label: 'vck190_hdmiRx_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_hdmiRx_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_hdmiRx_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_hdmiRx_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -179,6 +217,7 @@ pipeline {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
+                                example_dir="${work_dir}/overlays/examples/filter2d_combined"
                             }
                             when {
                                 anyOf {
@@ -191,24 +230,51 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_PLNX = '1'
                                 }
-                                sh label: 'filter2d_combined build',
+                                sh label: 'overlay build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_hdmiRx_hdmiTx
+                                    if [[ ! -d platforms/${pfm} && -d ${DEPLOYDIR}/${pfm} ]]; then
+                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    mkdir -p ${work_dir}
+                                    cp -rf overlays ${work_dir}
+                                    pushd ${example_dir}
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make all PLATFORM=${xpfm}
+                                    popd
                                     popd
                                 '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            pushd src
+                                            DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
+                                            mkdir -p ${DST}
+                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            popd
+                                        fi
+                                    '''
+                                }
                             }
                         }
                     }
                 }
                 stage('vck190_es1_mipiRxSingle_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_es1_mipiRxSingle_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                    }
                     stages {
-                        stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
+                        stage('platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -216,20 +282,19 @@ pipeline {
                                 sh label: 'vck190_es1_mipiRxSingle_hdmiTx build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_es1_mipiRxSingle_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_es1_mipiRxSingle_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_mipiRxSingle_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -239,33 +304,35 @@ pipeline {
                     }
                 }
                 stage('vck190_mipiRxSingle_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_mipiRxSingle_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                    }
                     stages {
                         stage('vck190_mipiRxSingle_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxSingle_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
-                                sh label: 'vck190_mipiRxSingle_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_mipiRxSingle_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_mipiRxSingle_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_mipiRxSingle_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -275,33 +342,35 @@ pipeline {
                     }
                 }
                 stage('vck190_es1_mipiRxQuad_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                    }
                     stages {
                         stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxQuad_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
-                                sh label: 'vck190_es1_mipiRxQuad_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_es1_mipiRxQuad_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_es1_mipiRxQuad_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_es1_mipiRxQuad_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''
@@ -311,33 +380,35 @@ pipeline {
                     }
                 }
                 stage('vck190_mipiRxQuad_hdmiTx') {
+                    environment {
+                        pfm_base="vck190_mipiRxQuad_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                    }
                     stages {
                         stage('vck190_mipiRxQuad_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxQuad_hdmiTx/**"
-                                    changeset "**/overlays/examples/filter2d_*/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
-                                sh label: 'vck190_mipiRxQuad_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
-                                    source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make platform PFM=vck190_mipiRxQuad_hdmiTx JOBS=32
+                                    source ${setup} -r ${tool_release} && set -e
+                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
                             }
                             post {
                                 success {
-                                    sh label: 'vck190_mipiRxQuad_hdmiTx deploy',
+                                    sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd src
-                                            DST=${DEPLOYDIR}/vck190-base-trd/${tool_release}
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/xilinx_vck190_mipiRxQuad_hdmiTx* ${DST}
+                                            mkdir -p ${DEPLOYDIR}
+                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
                                     '''

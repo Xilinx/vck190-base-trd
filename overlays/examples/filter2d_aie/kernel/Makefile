@@ -8,6 +8,7 @@ CARDANO_ELF_FLAGS ?= -dataflow \
 		     -genArchive=true \
 		     -phydevice=$(PHYDEVICE) \
 		     -pl-freq=$(PL_FREQ) \
+		     -Xchess=main:backend.mist2.xargs="+NOdra" \
 		     -v
 
 IMAGE_WIDTH ?= 1280

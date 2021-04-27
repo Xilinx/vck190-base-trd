@@ -22,8 +22,8 @@
 #include "kernels.h"
 #include "graph.h"
 
-PLIO *in1 = new PLIO("DataIn1", cardano::plio_128_bits, "data/input.txt");
-PLIO *out1 = new PLIO("DataOut1", cardano::plio_128_bits, "data/output.txt");
+PLIO *in1 = new PLIO("DataIn1", plio_128_bits, "data/input.txt");
+PLIO *out1 = new PLIO("DataOut1", plio_128_bits, "data/output.txt");
 
 simulation::platform<1,1> platform(in1,out1);
 
@@ -37,7 +37,7 @@ int main(void) {
   grph.init();
   grph.run();
   grph.end();
-  
+
   return 0;
 }
 

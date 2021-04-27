@@ -19,7 +19,7 @@
  *         Kristof Denolf <kristof@xilinx.com>
  */
 
-#include <cardano.h>
+#include <adf.h>
 
 #ifndef IMAGE_WIDTH
 #define IMAGE_WIDTH 	1280
