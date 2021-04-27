@@ -136,8 +136,16 @@ pipeline {
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
                                     fi
+
                                     source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_es1_hdmiRx_hdmiTx
+                                    pfm_dir=${PWD}/platforms/${pfm}
+                                    work_dir=work_es1_hdmi
+                                    mkdir -p ${work_dir}
+                                    cp -rf overlays ${work_dir}
+                                    pushd ${work_dir}/overlays/examples/filter2d_combined
+                                    ../paeg-helper/scripts/lsf make all PLATFORM=${pfm_dir}/vck190_es1_hdmiRx_hdmiTx.xpfm
+                                    popd
+
                                     popd
                                 '''
                             }
@@ -149,8 +157,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/vck190_es1_hdmiRx_hdmiTx
                                             mkdir -p ${DST}
-                                            cp -f overlays/examples/filter2d_combined/*.xsa \
-                                                  overlays/examples/filter2d_combined/*.xclbin \
+                                            work_dir=work_es1_hdmi
+                                            cp -f ${work_dir}/overlays/examples/filter2d_combined/*.xsa \
+                                                  ${work_dir}/overlays/examples/filter2d_combined/*.xclbin \
                                                   ${DST}
                                             popd
                                         fi
@@ -221,8 +230,16 @@ pipeline {
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
                                     fi
+
                                     source ../paeg-helper/env-setup.sh -r ${tool_release}
-                                    ../paeg-helper/scripts/lsf make overlay OVERLAY=filter2d_combined PFM=vck190_hdmiRx_hdmiTx
+                                    pfm_dir=${PWD}/platforms/${pfm}
+                                    work_dir=work_hdmi
+                                    mkdir -p ${work_dir}
+                                    cp -rf overlays ${work_dir}
+                                    pushd ${work_dir}/overlays/examples/filter2d_combined
+                                    ../paeg-helper/scripts/lsf make all PLATFORM=${pfm_dir}/vck190_hdmiRx_hdmiTx.xpfm
+                                    popd
+
                                     popd
                                 '''
                             }
@@ -234,8 +251,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/vck190_hdmiRx_hdmiTx
                                             mkdir -p ${DST}
-                                            cp -f overlays/examples/filter2d_combined/*.xsa \
-                                                  overlays/examples/filter2d_combined/*.xclbin \
+                                            work_dir=work_hdmi
+                                            cp -f ${work_dir}/overlays/examples/filter2d_combined/*.xsa \
+                                                  ${work_dir}/overlays/examples/filter2d_combined/*.xclbin \
                                                   ${DST}
                                             popd
                                         fi
