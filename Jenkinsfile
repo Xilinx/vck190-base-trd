@@ -281,7 +281,7 @@ pipeline {
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
                     }
                     stages {
-                        stage('platform build')  {
+                        stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
@@ -289,7 +289,7 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'vck190_es1_mipiRxSingle_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
                                     source ${setup} -r ${tool_release} && set -e
