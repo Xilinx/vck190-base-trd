@@ -87,6 +87,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_es1_hdmiRx_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_hdmiRx_hdmiTx/**"
@@ -165,7 +169,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            cp -f ${example_dir}/binary_container_1.xsa \
+                                                ${example_dir}/binary_container_1.xclbin \
+                                                ${DST}
                                             popd
                                         fi
                                     '''
@@ -184,6 +190,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_hdmiRx_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_hdmiRx_hdmiTx/**"
@@ -262,7 +272,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            cp -f ${example_dir}/binary_container_1.xsa \
+                                                ${example_dir}/binary_container_1.xclbin \
+                                                ${DST}
                                             popd
                                         fi
                                     '''
@@ -277,7 +289,11 @@ pipeline {
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
                     }
                     stages {
-                        stage('platform build')  {
+                        stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
@@ -285,7 +301,7 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'vck190_es1_mipiRxSingle_hdmiTx build',
+                                sh label: 'platform build',
                                 script: '''
                                     pushd src
                                     source ${setup} -r ${tool_release} && set -e
@@ -316,6 +332,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_mipiRxSingle_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxSingle_hdmiTx/**"
@@ -354,6 +374,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxQuad_hdmiTx/**"
@@ -392,6 +416,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_mipiRxQuad_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxQuad_hdmiTx/**"
