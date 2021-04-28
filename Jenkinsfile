@@ -87,6 +87,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_es1_hdmiRx_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_hdmiRx_hdmiTx/**"
@@ -186,6 +190,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_hdmiRx_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_hdmiRx_hdmiTx/**"
@@ -282,6 +290,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
@@ -320,6 +332,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_mipiRxSingle_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxSingle_hdmiTx/**"
@@ -358,6 +374,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_es1_mipiRxQuad_hdmiTx/**"
@@ -396,6 +416,10 @@ pipeline {
                     }
                     stages {
                         stage('vck190_mipiRxQuad_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
                             when {
                                 anyOf {
                                     changeset "**/platforms/vivado/vck190_mipiRxQuad_hdmiTx/**"
