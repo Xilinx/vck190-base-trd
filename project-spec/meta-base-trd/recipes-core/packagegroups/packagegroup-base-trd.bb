@@ -15,10 +15,11 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
+	packagegroup-petalinux-vitisai \
 	packagegroup-python3-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
-	cmake \	
+	cmake \
 	custom-edid \
 	git \
 	glog \
