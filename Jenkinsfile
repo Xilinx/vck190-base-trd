@@ -165,7 +165,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            cp -f ${example_dir}/binary_container_1.xsa \
+                                                ${example_dir}/binary_container_1.xclbin \
+                                                ${DST}
                                             popd
                                         fi
                                     '''
@@ -262,7 +264,9 @@ pipeline {
                                             pushd src
                                             DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/*.xsa ${example_dir}/*.xclbin ${DST}
+                                            cp -f ${example_dir}/binary_container_1.xsa \
+                                                ${example_dir}/binary_container_1.xclbin \
+                                                ${DST}
                                             popd
                                         fi
                                     '''
