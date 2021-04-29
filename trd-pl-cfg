@@ -75,27 +75,6 @@ rm -f pl-custom.dtsi
 ln -s ${dt} pl-custom.dtsi
 popd > /dev/null
 
-# symlink kernel-patches
-pushd project-spec/meta-base-trd/recipes-kernel/linux > /dev/null
-if [ $DESIGN = "base-trd-platform3" ]; then 
-
-	if [ ! -e ${DESIGN} ]; then
-		echo "kernel patch ${DESIGN} not found"
-		exit 6
-	fi
-	rm -f linux-xlnx_%.bbappend
-	ln -s ${DESIGN} linux-xlnx_%.bbappend
-else 
-	if [ ! -e base-trd-platform ]; then
-		echo "kernel patch ${DESIGN} not found"
-		exit 6
-	fi
-	rm -f linux-xlnx_%.bbappend
-	ln -s base-trd-platform linux-xlnx_%.bbappend
-	
-fi
-popd > /dev/null
-
 # change hostname in config for prod versions
 if [ $SILICON = "prod" ]; then
 	#set host name in config
@@ -105,12 +84,3 @@ if [ $SILICON = "prod" ]; then
 	sed -i -e "s#CONFIG_SUBSYSTEM_PRODUCT=.*#CONFIG_SUBSYSTEM_PRODUCT=\"\xilinx-vck190-2021.1\"\"#" \
 		project-spec/configs/config
 fi
-
-# change platfrom name:
-pushd project-spec/meta-base-trd/recipes-apps/trd-files/files > /dev/null
-xocl=xocl.txt
-if [ ! -e ${xocl} ]; then
-	echo "text file '${xocl}' not found"
-	exit 6
-fi
-echo ${PLATFORM}_${DESIGN//-/_} > ${xocl}
