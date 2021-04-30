@@ -1,6 +1,7 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:${SYSCONFIG_PATH}:"
 
-SRC_URI += " \
+SRC_URI_append = " \
+	file://config \
 	file://aie.dtsi \
 	file://display.dtsi \
 	file://ina226-power-monitor.dtsi \

@@ -8,5 +8,4 @@ pre-built/linux/
 *.o
 *.jou
 *.log
-/components/plnx_workspace
 /components/yocto

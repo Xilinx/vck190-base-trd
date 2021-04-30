@@ -118,7 +118,7 @@ CONFIG_system-versal=y
 #
 # CONFIG_e2fsprogs is not set
 # CONFIG_e2fsprogs-dev is not set
-# CONFIG_e2fsprogs-mke2fs is not set
+CONFIG_e2fsprogs-mke2fs=y
 # CONFIG_e2fsprogs-dbg is not set
 # CONFIG_e2fsprogs-resize2fs is not set
 # CONFIG_e2fsprogs-tune2fs is not set
@@ -2237,7 +2237,7 @@ CONFIG_zocl=y
 #
 # opencl-clhpp
 #
-# CONFIG_opencl-clhpp is not set
+# CONFIG_opencl-clhpp-dev is not set
 
 #
 # opencl-headers
@@ -3269,6 +3269,44 @@ CONFIG_tcf-agent=y
 # CONFIG_tiff-dev is not set
 
 #
+# tpm2 
+#
+
+#
+# tpm2-abrmd
+#
+# CONFIG_tpm2-abrmd is not set
+# CONFIG_tpm2-abrmd-dev is not set
+# CONFIG_tpm2-abrmd-dbg is not set
+
+#
+# tpm2-pkcs11
+#
+# CONFIG_tpm2-pkcs11 is not set
+# CONFIG_tpm2-pkcs11-dev is not set
+# CONFIG_tpm2-pkcs11-dbg is not set
+
+#
+# tpm2-tools
+#
+# CONFIG_tpm2-tools is not set
+# CONFIG_tpm2-tools-dev is not set
+# CONFIG_tpm2-tools-dbg is not set
+
+#
+# tpm2-tss
+#
+# CONFIG_tpm2-tss is not set
+# CONFIG_tpm2-tss-dbg is not set
+
+#
+# tpm2-tss-engine
+#
+# CONFIG_tpm2-tss-engine is not set
+# CONFIG_tpm2-tss-engine-dev is not set
+# CONFIG_tpm2-tss-engine-dbg is not set
+
+#
 # util-macros 
 #
 # CONFIG_util-macros is not set
@@ -3678,6 +3716,13 @@ CONFIG_bridge-utils=y
 # CONFIG_resize-part is not set
 # CONFIG_resize-part-dbg is not set
 # CONFIG_resize-part-dev is not set
+
+#
+# u-boot-tools
+#
+CONFIG_u-boot-tools=y
+# CONFIG_u-boot-tools-dbg is not set
+# CONFIG_u-boot-tools-dev is not set
 
 #
 # x11 
@@ -4178,13 +4223,6 @@ CONFIG_bridge-utils=y
 # CONFIG_packagegroup-petalinux-xen is not set
 # CONFIG_packagegroup-petalinux-xen-dev is not set
 # CONFIG_packagegroup-petalinux-xen-dbg is not set
-
-#
-# packagegroup-petalinux-xrt 
-#
-# CONFIG_packagegroup-petalinux-xrt is not set
-# CONFIG_packagegroup-petalinux-xrt-dev is not set
-# CONFIG_packagegroup-petalinux-xrt-dbg is not set
 
 #
 # Image Features
