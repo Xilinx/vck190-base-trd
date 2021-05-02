@@ -1,10 +1,6 @@
 #!/bin/bash
 
-SUP_PLATFORMS="vck190"
-SUP_DESIGNS="base-trd-platform0 base-trd-platform1 base-trd-platform2 base-trd-platform3"
-PLATFORM="vck190"
-DESIGN="base-trd-platform1"
-SILICON="es1"
+SUP_PLATFORMS="vck190_es1_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_es1_hdmiRx_hdmiTx vck190_es1_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx"
 
 if [ ! -e ./.petalinux/metadata ]; then
 	echo -e "This script must be run from the project top level"
@@ -16,11 +12,6 @@ function print_list() {
 	for pfm in ${SUP_PLATFORMS}; do
 		echo -e "  ${pfm}"
 	done
-	echo -e ""
-	echo -e "Designs:"
-	for dsgn in ${SUP_DESIGNS}; do
-		echo -e "  ${dsgn}"
-	done
 }
 
 function print_help() {
@@ -30,8 +21,6 @@ function print_help() {
 	echo -e "  -h, --help       Display this help and exit"
 	echo -e "  -l, --list       List supported targets platforms and designs"
 	echo -e "  -p, --platform   Target platform (default: vck190)"
-	echo -e "  -d, --design     Target design (default: base-trd-platform1)"
-	echo -e "  -s, --silicon    Target silicon (default: es1)"
 }
 
 while [ "$1" != "" ]; do
@@ -48,14 +37,6 @@ while [ "$1" != "" ]; do
 		shift
 		PLATFORM=$1
 		;;
-	-d | --design )
-		shift
-		DESIGN=$1
-		;;
-	-s | --silicon )
-		shift
-		SILICON=$1
-		;;
 	*)
 		echo "invalid argument '$1'"
 		exit 1
@@ -66,7 +47,7 @@ done
 
 # symlink DT
 pushd project-spec/meta-user/recipes-bsp/device-tree/files > /dev/null
-dt=${DESIGN}.dtsi
+dt=${PLATFORM}.dtsi
 if [ ! -e ${dt} ]; then
 	echo "device tree ${dt} not found"
 	exit 6
@@ -75,12 +56,3 @@ rm -f pl-custom.dtsi
 ln -s ${dt} pl-custom.dtsi
 popd > /dev/null
 
-# change hostname in config for prod versions
-if [ $SILICON = "prod" ]; then
-	#set host name in config
-	sed -i -e "s#CONFIG_SUBSYSTEM_HOSTNAME=.*#CONFIG_SUBSYSTEM_HOSTNAME=\"\xilinx-vck190-2021_1\"\"#" \
-		project-spec/configs/config
-	#set product name in config
-	sed -i -e "s#CONFIG_SUBSYSTEM_PRODUCT=.*#CONFIG_SUBSYSTEM_PRODUCT=\"\xilinx-vck190-2021.1\"\"#" \
-		project-spec/configs/config
-fi
