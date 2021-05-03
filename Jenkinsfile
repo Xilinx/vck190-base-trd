@@ -10,7 +10,7 @@ pipeline {
     environment {
         deploy_branch="2021.1"
         tool_release="2021.1"
-        tool_build="daily_latest"
+        tool_build="0414_1"
         auto_branch="2021.1"
         pfm_ver="202110_1"
         setup="${WORKSPACE}/paeg-helper/env-setup.sh"
@@ -81,9 +81,11 @@ pipeline {
                     environment {
                         pfm_base="vck190_es1_hdmiRx_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        pfm_dir="${WORKSPACE}/src/platforms/${pfm}"
-                        xpfm="${pfm_dir}/${pfm_base}.xpfm"
-                        work_dir="work_${pfm}"
+                        overlay="filter2d_combined"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_es1_hdmiRx_hdmiTx platform build')  {
@@ -93,7 +95,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_es1_hdmiRx_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -101,10 +103,18 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_F2D = '1'
                                 }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -114,8 +124,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
@@ -127,7 +137,6 @@ pipeline {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
-                                example_dir="${work_dir}/overlays/examples/filter2d_combined"
                             }
                             when {
                                 anyOf {
@@ -140,9 +149,17 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_PLNX = '1'
                                 }
-                                sh label: 'overlay build',
+                                sh label: 'create work dir',
                                 script: '''
-                                    pushd src
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
                                     if [ -d platforms/${pfm} ]; then
                                         echo "Using platform from local build"
                                     elif [ -d ${DEPLOYDIR}/${pfm} ]; then
@@ -152,12 +169,14 @@ pipeline {
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
                                     fi
-                                    mkdir -p ${work_dir}
-                                    cp -rf overlays ${work_dir}
-                                    pushd ${example_dir}
-                                    source ${setup} -r ${tool_release} && set -e
-                                    ${lsf} make all PLATFORM=${xpfm}
                                     popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
                                     popd
                                 '''
                             }
@@ -166,15 +185,98 @@ pipeline {
                                     sh label: 'overlay deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay]
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/binary_container_1.xsa \
-                                                ${example_dir}/binary_container_1.xclbin \
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
                                                 ${DST}
-                                            popd
                                         fi
                                     '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Build_Slave_7'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_ES1_HDMI_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                        rm -rf ${plnx_dir}/.git*
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${overlay_dir}/binary_container_1.xsa
+                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}/binary_container_1.xclbin
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
                                 }
                             }
                         }
@@ -184,9 +286,11 @@ pipeline {
                     environment {
                         pfm_base="vck190_hdmiRx_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        pfm_dir="${WORKSPACE}/src/platforms/${pfm}"
-                        xpfm="${pfm_dir}/${pfm_base}.xpfm"
+                        overlay="filter2d_combined"
                         work_dir="work_${pfm}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_hdmiRx_hdmiTx platform build')  {
@@ -196,7 +300,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_hdmiRx_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -204,10 +308,18 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_F2D = '1'
                                 }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -217,8 +329,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
@@ -230,7 +342,6 @@ pipeline {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
-                                example_dir="${work_dir}/overlays/examples/filter2d_combined"
                             }
                             when {
                                 anyOf {
@@ -243,9 +354,17 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_PLNX = '1'
                                 }
-                                sh label: 'overlay build',
+                                sh label: 'create work dir',
                                 script: '''
-                                    pushd src
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
                                     if [ -d platforms/${pfm} ]; then
                                         echo "Using platform from local build"
                                     elif [ -d ${DEPLOYDIR}/${pfm} ]; then
@@ -255,12 +374,14 @@ pipeline {
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
                                     fi
-                                    mkdir -p ${work_dir}
-                                    cp -rf overlays ${work_dir}
-                                    pushd ${example_dir}
-                                    source ${setup} -r ${tool_release} && set -e
-                                    ${lsf} make all PLATFORM=${xpfm}
                                     popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} overlay=${overlay}
                                     popd
                                 '''
                             }
@@ -269,15 +390,98 @@ pipeline {
                                     sh label: 'overlay deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            DST=${DEPLOYDIR}/filter2d_combined/${pfm_base}
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
-                                            cp -f ${example_dir}/binary_container_1.xsa \
-                                                ${example_dir}/binary_container_1.xclbin \
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
                                                 ${DST}
-                                            popd
                                         fi
                                     '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Build_Slave_7'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_HDMI_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                        rm -rf ${plnx_dir}/.git*
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${overlay_dir}/binary_container_1.xsa
+                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}/binary_container_1.xclbin
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
                                 }
                             }
                         }
@@ -287,6 +491,8 @@ pipeline {
                     environment {
                         pfm_base="vck190_es1_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
                     }
                     stages {
                         stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
@@ -296,15 +502,23 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_es1_mipiRxSingle_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -314,8 +528,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
@@ -329,6 +543,8 @@ pipeline {
                     environment {
                         pfm_base="vck190_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
                     }
                     stages {
                         stage('vck190_mipiRxSingle_hdmiTx platform build')  {
@@ -338,15 +554,23 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_mipiRxSingle_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -356,8 +580,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
@@ -371,6 +595,8 @@ pipeline {
                     environment {
                         pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
                     }
                     stages {
                         stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
@@ -380,15 +606,23 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_es1_mipiRxQuad_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -398,8 +632,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi
@@ -413,6 +647,8 @@ pipeline {
                     environment {
                         pfm_base="vck190_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
                     }
                     stages {
                         stage('vck190_mipiRxQuad_hdmiTx platform build')  {
@@ -422,15 +658,23 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/vck190_mipiRxQuad_hdmiTx/**"
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
                             steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
                                 sh label: 'platform build',
                                 script: '''
-                                    pushd src
                                     source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
                                     ${lsf} make platform PFM=${pfm_base} JOBS=32
                                     popd
                                 '''
@@ -440,8 +684,8 @@ pipeline {
                                     sh label: 'platform deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            pushd src
-                                            mkdir -p ${DEPLOYDIR}
+                                            pushd ${work_dir}
+                                            mkdir -p ${DEPLOYDIR}/platforms
                                             cp -rf platforms/${pfm} ${DEPLOYDIR}
                                             popd
                                         fi

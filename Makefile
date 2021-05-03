@@ -20,19 +20,24 @@ PLNX_WIC = $(PLNX_DIR)/images/linux/petalinux-sdimage.wic
 
 VITIS_DIR = overlays/examples
 VITIS_OVERLAY_DIR = $(VITIS_DIR)/$(OVERLAY)
-VITIS_OVERLAY_BIT = $(VITIS_OVERLAY_DIR)/binary_container_1/link/int/system.bit
-VITIS_OVERLAY_XCLBIN = $(VITIS_AA_DIR)/binary_container_1/binary_container_1.xclbin
+VITIS_OVERLAY_XCLBIN = $(VITIS_OVERLAY_DIR)/binary_container_1.xclbin
+VITIS_OVERLAY_XSA = $(VITIS_OVERLAY_DIR)/binary_container_1.xsa
 
 .PHONY: help
 help:
 	@echo 'Usage:'
 	@echo ''
-	@echo '  make sdcard'
+	@echo '  make sdcard PFM=<val> OVERLAY=<val> YES=<val>'
 	@echo '    Generate an SD card wic image using PetaLinux.'
 	@echo ''
-	@echo '  make overlay OVERLAY=<val>'
+	@echo '    Valid options for PFM: ${PFM_LIST}'
+	@echo '    Valid options for OVERLAY: ${OVERLAY_LIST}'
+	@echo '    YES: optional param to accept SDK changes if set to 1 (default: 0)'
+	@echo ''
+	@echo '  make overlay PFM=<val> OVERLAY=<val>'
 	@echo '    Build the Vitis application overlay.'
 	@echo ''
+	@echo '    Valid options for PFM: ${PFM_LIST}'
 	@echo '    Valid options for OVERLAY: ${OVERLAY_LIST}'
 	@echo ''
 	@echo '  make platform PFM=<val> JOBS=<n>'
@@ -50,9 +55,11 @@ all: sdcard
 
 .PHONY: sdcard
 sdcard: $(PLNX_WIC)
-$(PLNX_WIC): $(PLNX_DIR)
-	$(MAKE) -C $(PLNX_DIR) wic
-	@echo 'The PetaLinux wic image is available at $(PLNX_WIC)'
+$(PLNX_WIC): $(PLNX_DIR) $(VITIS_OVERLAY_XSA) $(VITIS_OVERLAY_XCLBIN)
+	@echo 'Build PetaLinux wic image for $(PFM) - $(OVERLAY)'
+	@cp $(VITIS_OVERLAY_XSA) $(PLNX_DIR)/project-spec/hw-description/system.xsa
+	@cp $(VITIS_OVERLAY_XCLBIN) $(PLNX_DIR)/project-spec/hw-description
+	$(MAKE) -C $(PLNX_DIR) wic PFM=$(PFM)
 
 $(PLNX_DIR):
 	$(MAKE) -C petalinux project
