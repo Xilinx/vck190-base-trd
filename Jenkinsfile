@@ -287,7 +287,7 @@ pipeline {
                         pfm_base="vck190_hdmiRx_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
                         overlay="filter2d_combined"
-                        work_dir="work_${pfm}"
+                        work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
                         overlay_dir="${work_dir}/overlays/examples/${overlay}"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
