@@ -10,7 +10,7 @@ pipeline {
     environment {
         deploy_branch="2021.1"
         tool_release="2021.1"
-        tool_build="0414_1"
+        tool_build="daily_latest"
         auto_branch="2021.1"
         pfm_ver="202110_1"
         setup="${WORKSPACE}/paeg-helper/env-setup.sh"
