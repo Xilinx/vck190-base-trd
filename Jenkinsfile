@@ -233,10 +233,9 @@ pipeline {
                                     elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${overlay_dir}/binary_container_1.xsa
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
-                                            ${overlay_dir}/binary_container_1.xclbin
+                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
                                         exit 1
@@ -438,10 +437,9 @@ pipeline {
                                     elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${overlay_dir}/binary_container_1.xsa
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
-                                            ${overlay_dir}/binary_container_1.xclbin
+                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
                                         exit 1
