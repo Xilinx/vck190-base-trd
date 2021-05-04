@@ -20,7 +20,7 @@
 		serial0 = &serial0;
 		spi0 = &qspi;
 	};
-	memoryaxi_noc_0: memory@50000000000 {
+	memoryaxi_noc_0: memory@00000000000 {
 		device_type = "memory";
 		reg = <0x0 0x00000000 0x0 0x80000000>, <0x00000500 0x00000000 0x00000001 0x00000000>;
 	};
