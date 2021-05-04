@@ -62,7 +62,7 @@ $(PLNX_BOOT): $(PLNX_BOOT_OBJS)
 image $(PLNX_IMG_OBJS):
 	@echo 'Build PetaLinux image'
 	@./trd-pl-cfg -p ${PFM}
-	@if [ $$YES -eq 1 ]; then \
+	@if [ ${YES} -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
@@ -74,7 +74,7 @@ sdk: $(PLNX_SDK)
 $(PLNX_SDK):
 	@echo 'Build PetaLinux SDK'
 	@./trd-pl-cfg -p ${PFM}
-	@if [ $$YES -eq 1 ]; then \
+	@if [ ${YES} -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
