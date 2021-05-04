@@ -43,7 +43,7 @@
 			interrupt-parent = <&gic>;
 			interrupts = <0 90 4>;
 
-			xlnx,csi-pxl-format = "RAW10";
+			xlnx,csi-pxl-format = <0x2b>;
 			xlnx,axis-tdata-width = <0x20>;
 			xlnx,max-lanes = <0x4>;
 			xlnx,en-active-lanes;
@@ -55,8 +55,8 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 
-				port@0 {
-					reg = <0>;
+				port@1 {
+					reg = <1>;
 
 					xlnx,video-format = <XVIP_VF_MONO_SENSOR>;
 					xlnx,video-width = <8>;
@@ -66,8 +66,8 @@
 						remote-endpoint = <&demosaic_in>;
 					};
 				};
-				port@1 {
-					reg = <1>;
+				port@0 {
+					reg = <0>;
 
 					xlnx,video-format = <XVIP_VF_MONO_SENSOR>;
 					xlnx,video-width = <8>;
