@@ -16,7 +16,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
 	packagegroup-petalinux-vitisai \
-	packagegroup-python3-jupyter \
+	packagegroup-petalinux-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
 	cmake \
@@ -24,7 +24,6 @@ BASE_TRD_PACKAGES = " \
 	git \
 	glog \
 	gstreamer1.0-python \
-	jupyter-startup \
 	kernel-module-hdmi \
 	ldd \
 	libxapm-python \
