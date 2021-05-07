@@ -10,7 +10,9 @@ LINK_CFG = link.cfg
 PACKAGE_CFG = package.cfg
 JOBS = 32
 VPP_LINK_FLAGS = -l -t hw --platform $(PLATFORM) --save-temps \
-	--report_level estimate -j $(JOBS) --config $(LINK_CFG)
+	--report_level estimate -j $(JOBS) --config $(LINK_CFG) \
+	--advanced.param compiler.userPostSysLinkOverlayTcl=post_con.tcl
+
 VPP_PACK_FLAGS = -p -t hw --platform $(PLATFORM) --config $(PACKAGE_CFG)
 XBU = xclbinutil
 XBU_FLAGS = --remove-section BITSTREAM --force
