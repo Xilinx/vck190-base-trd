@@ -95,7 +95,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/${pfm_base}/**"
+                                    changeset "**/platforms/vivado/vck190*hdmiRx_hdmiTx/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -500,7 +500,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/${pfm_base}/**"
+                                    changeset "**/platforms/vivado/vck190*mipiRxSingle_hdmiTx/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
@@ -604,7 +604,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/platforms/vivado/${pfm_base}/**"
+                                    changeset "**/platforms/vivado/vck190*mipiRxQuad_hdmiTx/**"
                                     triggeredBy 'TimerTrigger'
                                 }
                             }
