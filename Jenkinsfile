@@ -198,7 +198,7 @@ pipeline {
                         stage('petalinux build') {
                             agent {
                                 node {
-                                    label 'Build_Slave_7'
+                                    label 'Slave'
                                     customWorkspace "${WORKSPACE}"
                                 }
                             }
@@ -402,7 +402,7 @@ pipeline {
                         stage('petalinux build') {
                             agent {
                                 node {
-                                    label 'Build_Slave_7'
+                                    label 'Slave'
                                     customWorkspace "${WORKSPACE}"
                                 }
                             }
