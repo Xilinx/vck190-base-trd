@@ -10,7 +10,7 @@ pipeline {
     environment {
         deploy_branch="2021.1"
         tool_release="2021.1"
-        tool_build="0414_1"
+        tool_build="daily_latest"
         auto_branch="2021.1"
         pfm_ver="202110_1"
         setup="${WORKSPACE}/paeg-helper/env-setup.sh"
@@ -198,7 +198,7 @@ pipeline {
                         stage('petalinux build') {
                             agent {
                                 node {
-                                    label 'Build_Slave_7'
+                                    label 'Slave'
                                     customWorkspace "${WORKSPACE}"
                                 }
                             }
@@ -233,10 +233,9 @@ pipeline {
                                     elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${overlay_dir}/binary_container_1.xsa
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
-                                            ${overlay_dir}/binary_container_1.xclbin
+                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
                                         exit 1
@@ -403,7 +402,7 @@ pipeline {
                         stage('petalinux build') {
                             agent {
                                 node {
-                                    label 'Build_Slave_7'
+                                    label 'Slave'
                                     customWorkspace "${WORKSPACE}"
                                 }
                             }
@@ -438,10 +437,9 @@ pipeline {
                                     elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${overlay_dir}/binary_container_1.xsa
-                                        ln -s ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
-                                            ${overlay_dir}/binary_container_1.xclbin
+                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
                                         exit 1
