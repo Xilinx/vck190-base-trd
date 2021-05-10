@@ -231,11 +231,11 @@ pipeline {
                                     if [[ -f ${overlay_dir}/binary_container_1.xsa && \
                                           -f ${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
-                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
                                             ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
@@ -436,11 +436,11 @@ pipeline {
                                     if [[ -f ${overlay_dir}/binary_container_1.xsa && \
                                           -f ${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
-                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
                                             ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
