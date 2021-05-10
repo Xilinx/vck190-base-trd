@@ -123,7 +123,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
@@ -185,7 +185,7 @@ pipeline {
                                 success {
                                     sh label: 'overlay deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
                                             cp -f ${overlay_dir}/binary_container_1.xsa \
@@ -267,7 +267,7 @@ pipeline {
                                 success {
                                     sh label: 'copy artifacts',
                                     script:'''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
                                             cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
@@ -328,7 +328,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
@@ -390,7 +390,7 @@ pipeline {
                                 success {
                                     sh label: 'overlay deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
                                             cp -f ${overlay_dir}/binary_container_1.xsa \
@@ -472,7 +472,7 @@ pipeline {
                                 success {
                                     sh label: 'copy artifacts',
                                     script:'''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
                                             cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
@@ -527,7 +527,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
@@ -580,7 +580,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
@@ -633,7 +633,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
@@ -686,7 +686,7 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
                                             DST=${DEPLOYDIR}/platforms
                                             mkdir -p ${DST}
