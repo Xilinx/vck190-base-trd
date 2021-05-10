@@ -382,7 +382,7 @@ pipeline {
                                 script: '''
                                     source ${setup} -r ${tool_release} && set -e
                                     pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} overlay=${overlay}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
                                     popd
                                 '''
                             }
