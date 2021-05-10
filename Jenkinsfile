@@ -125,8 +125,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -329,8 +330,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -527,8 +529,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -579,8 +582,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -631,8 +635,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -683,8 +688,9 @@ pipeline {
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
