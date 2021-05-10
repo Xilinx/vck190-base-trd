@@ -123,10 +123,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -162,9 +163,9 @@ pipeline {
                                     pushd ${work_dir}
                                     if [ -d platforms/${pfm} ]; then
                                         echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
                                     else
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
@@ -184,8 +185,8 @@ pipeline {
                                 success {
                                     sh label: 'overlay deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay]
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
                                             cp -f ${overlay_dir}/binary_container_1.xsa \
                                                 ${overlay_dir}/binary_container_1.xclbin \
@@ -230,11 +231,11 @@ pipeline {
                                     if [[ -f ${overlay_dir}/binary_container_1.xsa && \
                                           -f ${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
-                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
                                             ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
@@ -266,7 +267,7 @@ pipeline {
                                 success {
                                     sh label: 'copy artifacts',
                                     script:'''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
                                             cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
@@ -327,10 +328,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -366,9 +368,9 @@ pipeline {
                                     pushd ${work_dir}
                                     if [ -d platforms/${pfm} ]; then
                                         echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${pfm} platforms/
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
                                     else
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
@@ -380,7 +382,7 @@ pipeline {
                                 script: '''
                                     source ${setup} -r ${tool_release} && set -e
                                     pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} overlay=${overlay}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
                                     popd
                                 '''
                             }
@@ -388,7 +390,7 @@ pipeline {
                                 success {
                                     sh label: 'overlay deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
                                             cp -f ${overlay_dir}/binary_container_1.xsa \
@@ -434,11 +436,11 @@ pipeline {
                                     if [[ -f ${overlay_dir}/binary_container_1.xsa && \
                                           -f ${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
-                                    elif [[ -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin ]]; then
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/${overlay}/${pfm_base}/binary_container_1.xclbin \
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
                                             ${overlay_dir}
                                     else
                                         echo "No valid xsa and xclbin found"
@@ -470,7 +472,7 @@ pipeline {
                                 success {
                                     sh label: 'copy artifacts',
                                     script:'''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
                                             cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
@@ -525,10 +527,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -577,10 +580,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -629,10 +633,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
@@ -681,10 +686,11 @@ pipeline {
                                 success {
                                     sh label: 'platform deploy',
                                     script: '''
-                                        if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             pushd ${work_dir}
-                                            mkdir -p ${DEPLOYDIR}/platforms
-                                            cp -rf platforms/${pfm} ${DEPLOYDIR}
+                                            DST=${DEPLOYDIR}/platforms
+                                            mkdir -p ${DST}
+                                            cp -rf platforms/${pfm} ${DST}
                                             popd
                                         fi
                                     '''
