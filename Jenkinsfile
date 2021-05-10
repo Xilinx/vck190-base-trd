@@ -186,7 +186,7 @@ pipeline {
                                     sh label: 'overlay deploy',
                                     script: '''
                                         if [ "${BRANCH_NAME}" == "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay]
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
                                             mkdir -p ${DST}
                                             cp -f ${overlay_dir}/binary_container_1.xsa \
                                                 ${overlay_dir}/binary_container_1.xclbin \
