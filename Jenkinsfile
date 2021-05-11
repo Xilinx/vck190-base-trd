@@ -242,11 +242,11 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d platforms/${pfm} ]; then
+                                    if [ -d ${pfm_dir} ]; then
                                         echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${pfm} ${pfm_dir}
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
                                     else
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
@@ -447,11 +447,11 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d platforms/${pfm} ]; then
+                                    if [ -d ${pfm_dir} ]; then
                                         echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/${pfm} ]; then
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/${pfm} ${pfm_dir}
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
                                     else
                                         echo "No valid platform found: ${pfm}"
                                         exit 1
