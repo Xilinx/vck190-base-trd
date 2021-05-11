@@ -222,8 +222,8 @@ pipeline {
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
                                         cp -rf src/* ${work_dir}
-                                        rm -rf ${plnx_dir}/.git*
                                     fi
+                                    rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
@@ -427,8 +427,8 @@ pipeline {
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
                                         cp -rf src/* ${work_dir}
-                                        rm -rf ${plnx_dir}/.git*
                                     fi
+                                    rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
