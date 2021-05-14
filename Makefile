@@ -18,6 +18,7 @@ PLNX_WIC = $(PLNX_IMG_DIR)/petalinux-sdimage.wic.gz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/boot.scr
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/Image
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/rootfs.tar.gz
+PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/ramdisk.cpio.gz.u-boot
 PLNX_WIC_ARGS =
 
 PLNX_IMG_OBJS += $(PLNX_BOOT_OBJS)
