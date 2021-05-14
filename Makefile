@@ -46,6 +46,9 @@ help:
 	@echo '    Valid options for PFM: ${PFM_LIST}'
 	@echo '    JOBS: optional param to set number of synthesis jobs (default 8)'
 	@echo ''
+	@echo '  make docs'
+	@echo '    Generate html documentation using sphinx'
+	@echo ''
 	@echo '  make clean'
 	@echo '    Clean runs'
 	@echo ''
@@ -98,8 +101,13 @@ $(PFM_XPFM):
 	echo 'Create Vitis platform $(PFM)'; \
 	$(MAKE) -C $(PFM_DIR) platform PLATFORM=$(PFM) VERSION=$(PFM_VER)
 
+.PHONY: docs
+docs:
+	$(MAKE) -C docs html
+
 .PHONY: clean
 clean:
+	$(MAKE) -C docs clean
 	$(MAKE) -C $(PLNX_DIR) clean
 	$(foreach o, $(OVERLAY_LIST), $(MAKE) -C $(VITIS_DIR)/$(o) clean;)
 	$(foreach p, $(PFM_LIST), $(MAKE) -C $(PFM_DIR) clean PLATFORM=$(p) VERSION=$(PFM_VER);)
