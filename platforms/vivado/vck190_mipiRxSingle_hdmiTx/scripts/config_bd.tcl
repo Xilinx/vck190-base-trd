@@ -1789,29 +1789,6 @@ proc create_root_design { parentCell } {
    CONFIG.USE_RESET {true} \
  ] $clk_wiz
 
-  # Create instance: clk_wiz_accel, and set properties
-  set clk_wiz_accel [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard clk_wiz_accel ]
-  set_property -dict [ list \
-   CONFIG.BANDWIDTH {LOW} \
-   CONFIG.CLKFBOUT_MULT {166.500000} \
-   CONFIG.CLKOUT1_DIVIDE {10.000000} \
-   CONFIG.CLKOUT2_DIVIDE {5.000000} \
-   CONFIG.CLKOUT3_DIVIDE {12} \
-   CONFIG.CLKOUT_DRIVES {BUFG,BUFG,BUFG,BUFG,BUFG,BUFG,BUFG} \
-   CONFIG.CLKOUT_DYN_PS {None,None,None,None,None,None,None} \
-   CONFIG.CLKOUT_GROUPING {Auto,Auto,Auto,Auto,Auto,Auto,Auto} \
-   CONFIG.CLKOUT_MATCHED_ROUTING {false,false,false,false,false,false,false} \
-   CONFIG.CLKOUT_PORT {clk_out_333,clk_out_666,clk_out3,clk_out4,clk_out5,clk_out6,clk_out7} \
-   CONFIG.CLKOUT_REQUESTED_DUTY_CYCLE {50.000,50.000,50.000,50.000,50.000,50.000,50.000} \
-   CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {333,666,200,100.000,100.000,100.000,100.000} \
-   CONFIG.CLKOUT_REQUESTED_PHASE {0.000,0.000,0.000,0.000,0.000,0.000,0.000} \
-   CONFIG.CLKOUT_USED {true,true,false,false,false,false,false} \
-   CONFIG.DIVCLK_DIVIDE {5} \
-   CONFIG.PRIM_SOURCE {Global_buffer} \
-   CONFIG.RESET_TYPE {ACTIVE_LOW} \
-   CONFIG.USE_RESET {true} \
- ] $clk_wiz_accel
-
   # Create instance: display_pipe
   create_hier_cell_display_pipe [current_bd_instance .] display_pipe
 
@@ -1829,12 +1806,6 @@ proc create_root_design { parentCell } {
 
   # Create instance: rst_processor_pl_200Mhz, and set properties
   set rst_processor_pl_200Mhz [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_pl_200Mhz ]
-
-  # Create instance: rst_processor_pl_333Mhz, and set properties
-  set rst_processor_pl_333Mhz [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_pl_333Mhz ]
-
-  # Create instance: rst_processor_pl_666Mhz, and set properties
-  set rst_processor_pl_666Mhz [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_pl_666Mhz ]
 
   # Create instance: smartconnect_gp0, and set properties
   set smartconnect_gp0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect smartconnect_gp0 ]
@@ -1901,12 +1872,9 @@ proc create_root_design { parentCell } {
   # Create port connections
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins audio_pipe/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins clk_wiz/resetn] -boundary_type upper
-  connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins clk_wiz_accel/resetn] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_150MHz/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_pl_100Mhz/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_pl_200Mhz/ext_reset_in] -boundary_type upper
-  connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_pl_333Mhz/ext_reset_in] -boundary_type upper
-  connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_pl_666Mhz/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_ps_pmc_noc_axi0_clk [get_bd_pins ${::PS_INST}/pmc_axi_noc_axi0_clk] [get_bd_pins ${::NOC_INST_0}/aclk7]
   connect_bd_net -net ${::PS_INST}_ps_ps_noc_cci_axi0_clk [get_bd_pins ${::PS_INST}/fpd_cci_noc_axi0_clk] [get_bd_pins ${::NOC_INST_0}/aclk0]
   connect_bd_net -net ${::PS_INST}_ps_ps_noc_cci_axi1_clk [get_bd_pins ${::PS_INST}/fpd_cci_noc_axi1_clk] [get_bd_pins ${::NOC_INST_0}/aclk1]
@@ -1933,8 +1901,6 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_intc_0_irq [get_bd_pins ${::PS_INST}/pl_ps_irq15] [get_bd_pins axi_intc_0/irq]
   connect_bd_net -net axi_perf_mon_0_interrupt [get_bd_pins ${::PS_INST}/pl_ps_irq4] [get_bd_pins axi_perf_mon_0/interrupt]
   connect_bd_net -net cap_pipe_Dout [get_bd_ports sensor_gpio_rst] [get_bd_pins mipi_capture_pipe/sensor_gpio_rst]
-  connect_bd_net -net clk_wiz_accel_clk_out_333 [get_bd_pins clk_wiz_accel/clk_out_333] [get_bd_pins rst_processor_pl_333Mhz/slowest_sync_clk]
-  connect_bd_net -net clk_wiz_accel_clk_out_666 [get_bd_pins clk_wiz_accel/clk_out_666] [get_bd_pins rst_processor_pl_666Mhz/slowest_sync_clk]
   connect_bd_net -net clk_wiz_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_fpd_aclk] [get_bd_pins audio_pipe/s_axi_lite_aclk] -boundary_type upper
   connect_bd_net -net clk_wiz_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_fpd_aclk] [get_bd_pins clk_wiz/clk_out_100] -boundary_type upper
   connect_bd_net -net clk_wiz_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_fpd_aclk] [get_bd_pins display_pipe/altclk] -boundary_type upper
@@ -1980,7 +1946,6 @@ proc create_root_design { parentCell } {
   connect_bd_net -net net_mb_ss_0_dcm_locked [get_bd_pins axi_intc_0/s_axi_aresetn] [get_bd_pins display_pipe/aresetn1] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_dcm_locked [get_bd_pins axi_intc_0/s_axi_aresetn] [get_bd_pins rst_processor_150MHz/peripheral_aresetn] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_s_axi_aclk [get_bd_pins ${::PS_INST}/pl0_ref_clk] [get_bd_pins clk_wiz/clk_in1] -boundary_type upper
-  connect_bd_net -net net_mb_ss_0_s_axi_aclk [get_bd_pins ${::PS_INST}/pl0_ref_clk] [get_bd_pins clk_wiz_accel/clk_in1] -boundary_type upper
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins display_pipe/ARESETN] -boundary_type upper
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins mipi_capture_pipe/s_axi_aresetn] -boundary_type upper
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins rst_processor_pl_100Mhz/peripheral_aresetn] -boundary_type upper
@@ -2070,7 +2035,6 @@ proc create_root_design { parentCell } {
   set_property PFM_NAME {xilinx:vck190:vck190_mipiRxSingle_hdmiTx:1.0} [get_files [current_bd_design].bd]
   set_property PFM.IRQ {intr { id 0 range 32 }} [get_bd_cells /axi_intc_0]
   set_property PFM.CLOCK {clk_out_150 {id "0" is_default "true" proc_sys_reset "/rst_processor_150MHz" status "fixed" freq_hz "149998499"} clk_out_100 {id "1" is_default "false" proc_sys_reset "/rst_processor_pl_100Mhz" status "fixed" freq_hz "99999000"} clk_out_200 {id "2" is_default "false" proc_sys_reset "/rst_processor_pl_200Mhz" status "fixed" freq_hz "199998000"}} [get_bd_cells /clk_wiz]
-  set_property PFM.CLOCK {clk_out_333 {id "3" is_default "false" proc_sys_reset "/rst_processor_pl_333Mhz" status "fixed" freq_hz "333000000"} clk_out_666 {id "4" is_default "false" proc_sys_reset "/rst_processor_pl_666Mhz" status "fixed" freq_hz "666000000"}} [get_bd_cells /clk_wiz_accel]
   set_property PFM.AXI_PORT {M01_AXI {memport "M_AXI_GP" sptag "" memory ""} M02_AXI {memport "M_AXI_GP" sptag "" memory ""} M03_AXI {memport "M_AXI_GP" sptag "" memory ""} M04_AXI {memport "M_AXI_GP" sptag "" memory ""} M05_AXI {memport "M_AXI_GP" sptag "" memory ""} M06_AXI {memport "M_AXI_GP" sptag "" memory ""} M07_AXI {memport "M_AXI_GP" sptag "" memory ""} M08_AXI {memport "M_AXI_GP" sptag "" memory ""} M09_AXI {memport "M_AXI_GP" sptag "" memory ""} M10_AXI {memport "M_AXI_GP" sptag "" memory ""} M11_AXI {memport "M_AXI_GP" sptag "" memory ""} M12_AXI {memport "M_AXI_GP" sptag "" memory ""} M13_AXI {memport "M_AXI_GP" sptag "" memory ""} M14_AXI {memport "M_AXI_GP" sptag "" memory ""} M15_AXI {memport "M_AXI_GP" sptag "" memory ""}} [get_bd_cells /smartconnect_gp2]
   set_property PFM.AXI_PORT {M00_AXI {memport "NOC_MASTER"} S13_AXI {memport "MIG" sptag "NOC_S13" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S14_AXI {memport "MIG" sptag "NOC_S14" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S15_AXI {memport "MIG" sptag "NOC_S15" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S16_AXI {memport "MIG" sptag "NOC_S16" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S17_AXI {memport "MIG" sptag "NOC_S17" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S18_AXI {memport "MIG" sptag "NOC_S18" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S19_AXI {memport "MIG" sptag "NOC_S19" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S20_AXI {memport "MIG" sptag "NOC_S20" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S21_AXI {memport "MIG" sptag "NOC_S21" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S22_AXI {memport "MIG" sptag "NOC_S22" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"}} [get_bd_cells /NOC_0]
 
