@@ -22,7 +22,19 @@
 	};
 	memoryaxi_noc_0: memory@00000000000 {
 		device_type = "memory";
-		reg = <0x0 0x00000000 0x0 0x80000000>, <0x00000500 0x00000000 0x00000001 0x00000000>;
+		reg = <0x0 0x00000000 0x0 0x80000000>, <0x00000500 0x00000000 0x00000001 0x80000000>;
+	};
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		reserved: buffer@50000000000 {
+			compatible = "shared-dma-pool";
+			reusable;
+			reg = <0x500 0x00000000 0x1 0x80000000>;
+			linux,cma-default;
+		};
 	};
 };
 #include "system-user.dtsi"
