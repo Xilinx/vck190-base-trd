@@ -15,7 +15,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-v4lutils \
-	packagegroup-petalinux-vitisai \
 	packagegroup-petalinux-jupyter \
 	alsa-utils \
 	base-trd-notebooks \
