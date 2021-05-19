@@ -297,12 +297,18 @@ CONFIG.MC_INPUTCLK0_PERIOD {4963} \
 CONFIG.MC_INTERLEAVE_SIZE {1024} \
 CONFIG.MC_MEMORY_DEVICETYPE {Components} \
 CONFIG.MC_NO_CHANNELS {Dual} \
-CONFIG.MC_PRE_DEF_ADDR_MAP_SEL {ROW_COLUMN_BANK} \
+CONFIG.MC_PRE_DEF_ADDR_MAP_SEL {ROW_BANK_COLUMN} \
 CONFIG.MC_RANK {1} \
 CONFIG.MC_ROWADDRESSWIDTH {16} \
 CONFIG.NUM_MC {2} \
 CONFIG.NUM_MCP {4} \
+CONFIG.MC_CHANNEL_INTERLEAVING {true} \
+CONFIG.MC_CH_INTERLEAVING_SIZE {128_Bytes} \
+CONFIG.MC_LPDDR4_REFRESH_TYPE {PER_BANK} \
+CONFIG.MC_TRC {60000} \
+CONFIG.MC_ADDR_BIT9 {CA6} \
 ] [get_bd_cells NOC_0]
+
 
 ##################################################################
 # DESIGN PROCs
@@ -2197,26 +2203,26 @@ proc create_root_design { parentCell } {
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video9] [get_bd_addr_segs ${::NOC_INST_0}/S10_AXI/C2_DDR_LOW0x2] -force
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces hdmi_capture_pipe/cap_pipe/v_frmbuf_wr_0/Data_m_axi_mm_video] [get_bd_addr_segs ${::NOC_INST_0}/S11_AXI/C3_DDR_LOW0x2] -force
 
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_NCI0] [get_bd_addr_segs ${::NOC_INST_0}/S04_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI0] [get_bd_addr_segs ${::NOC_INST_0}/S00_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_NCI1] [get_bd_addr_segs ${::NOC_INST_0}/S05_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI1] [get_bd_addr_segs ${::NOC_INST_0}/S01_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_RPU0] [get_bd_addr_segs ${::NOC_INST_0}/S06_AXI/C2_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI2] [get_bd_addr_segs ${::NOC_INST_0}/S02_AXI/C2_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_PMC] [get_bd_addr_segs ${::NOC_INST_0}/S07_AXI/C3_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI3] [get_bd_addr_segs ${::NOC_INST_0}/S03_AXI/C3_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces audio_pipe/audio_formatter_0/m_axi_mm2s] [get_bd_addr_segs ${::NOC_INST_0}/S12_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces audio_pipe/audio_formatter_0/m_axi_s2mm] [get_bd_addr_segs ${::NOC_INST_0}/S12_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video1] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video6] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video5] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video2] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video3] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video4] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video7] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video8] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video9] [get_bd_addr_segs ${::NOC_INST_0}/S10_AXI/C2_DDR_CH1x2] -force
-  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces hdmi_capture_pipe/cap_pipe/v_frmbuf_wr_0/Data_m_axi_mm_video] [get_bd_addr_segs ${::NOC_INST_0}/S11_AXI/C3_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_NCI0] [get_bd_addr_segs ${::NOC_INST_0}/S04_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI0] [get_bd_addr_segs ${::NOC_INST_0}/S00_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_NCI1] [get_bd_addr_segs ${::NOC_INST_0}/S05_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI1] [get_bd_addr_segs ${::NOC_INST_0}/S01_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_RPU0] [get_bd_addr_segs ${::NOC_INST_0}/S06_AXI/C2_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI2] [get_bd_addr_segs ${::NOC_INST_0}/S02_AXI/C2_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_PMC] [get_bd_addr_segs ${::NOC_INST_0}/S07_AXI/C3_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/DATA_CCI3] [get_bd_addr_segs ${::NOC_INST_0}/S03_AXI/C3_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces audio_pipe/audio_formatter_0/m_axi_mm2s] [get_bd_addr_segs ${::NOC_INST_0}/S12_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces audio_pipe/audio_formatter_0/m_axi_s2mm] [get_bd_addr_segs ${::NOC_INST_0}/S12_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video1] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video6] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video5] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video2] [get_bd_addr_segs ${::NOC_INST_0}/S08_AXI/C0_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video3] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video4] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video7] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video8] [get_bd_addr_segs ${::NOC_INST_0}/S09_AXI/C1_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces display_pipe/v_mix_0/Data_m_axi_mm_video9] [get_bd_addr_segs ${::NOC_INST_0}/S10_AXI/C2_DDR_CH1x2] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces hdmi_capture_pipe/cap_pipe/v_frmbuf_wr_0/Data_m_axi_mm_video] [get_bd_addr_segs ${::NOC_INST_0}/S11_AXI/C3_DDR_CH1x2] -force
 
 
   # Restore current instance
