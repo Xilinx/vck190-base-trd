@@ -270,7 +270,7 @@ pipeline {
                                         if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
                                         fi
                                     '''
                                 }
@@ -475,7 +475,7 @@ pipeline {
                                         if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
                                             DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
                                             mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.gz ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
                                         fi
                                     '''
                                 }
