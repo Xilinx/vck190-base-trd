@@ -16,7 +16,7 @@ OVERLAY_LIST = filter2d_combined
 PFM_XPFM = $(PFM_DIR)/xilinx_$(PFM)_$(PFM_VER)/$(PFM).xpfm
 
 PLNX_DIR = petalinux/xilinx-vck190-base-trd
-PLNX_WIC = $(PLNX_DIR)/images/linux/petalinux-sdimage.wic
+PLNX_WIC = $(PLNX_DIR)/images/linux/petalinux-sdimage.wic.xz
 
 VITIS_DIR = overlays/examples
 VITIS_OVERLAY_DIR = $(VITIS_DIR)/$(OVERLAY)
