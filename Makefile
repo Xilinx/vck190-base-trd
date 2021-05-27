@@ -14,12 +14,12 @@ PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/psmfw.elf
 PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/u-boot.elf
 PLNX_BOOT_ARGS = --u-boot --qemu-rootfs no
 
-PLNX_WIC = $(PLNX_IMG_DIR)/petalinux-sdimage.wic.gz
+PLNX_WIC = $(PLNX_IMG_DIR)/petalinux-sdimage.wic.xz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/boot.scr
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/Image
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/rootfs.tar.gz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/ramdisk.cpio.gz.u-boot
-PLNX_WIC_ARGS =
+PLNX_WIC_ARGS = --wic-extra-args "-c xz"
 
 PLNX_IMG_OBJS += $(PLNX_BOOT_OBJS)
 PLNX_IMG_OBJS += $(PLNX_WIC_OBJS)
@@ -51,7 +51,6 @@ wic: $(PLNX_WIC)
 $(PLNX_WIC): $(PLNX_WIC_OBJS) $(PLNX_BOOT)
 	@echo 'Build PetaLinux wic image'
 	petalinux-package --wic ${PLNX_WIC_ARGS}
-	@gzip -kf images/linux/petalinux-sdimage.wic
 
 .PHONY: boot
 boot: $(PLNX_BOOT)
