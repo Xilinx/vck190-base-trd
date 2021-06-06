@@ -491,8 +491,11 @@ pipeline {
                     environment {
                         pfm_base="vck190_es1_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        overlay="filter2d_combined"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
@@ -507,6 +510,9 @@ pipeline {
                                 }
                             }
                             steps {
+                                script {
+                                    env.BUILD_ES1_SINGLE_F2D = '1'
+                                }
                                 sh label: 'create work dir',
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
@@ -538,14 +544,163 @@ pipeline {
                                 }
                             }
                         }
+                        stage('filter2d_combined overlay build') {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_ES1_SINGLE_F2D', value: '1'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_ES1_SINGLE_PLNX = '1'
+                                }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
+                                            mkdir -p ${DST}
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
+                                                ${DST}
+                                        fi
+                                    '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Slave'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_ES1_SINGLE_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                    rm -rf ${plnx_dir}/.git*
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
+                                            ${overlay_dir}
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d ${pfm_dir} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
+                                }
+                            }
+                        }
                     }
                 }
                 stage('vck190_mipiRxSingle_hdmiTx') {
                     environment {
                         pfm_base="vck190_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        overlay="filter2d_combined"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_mipiRxSingle_hdmiTx platform build')  {
@@ -560,6 +715,9 @@ pipeline {
                                 }
                             }
                             steps {
+                                script {
+                                    env.BUILD_SINGLE_F2D = '1'
+                                }
                                 sh label: 'create work dir',
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
@@ -591,14 +749,163 @@ pipeline {
                                 }
                             }
                         }
+                        stage('filter2d_combined overlay build') {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_SINGLE_F2D', value: '1'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_SINGLE_PLNX = '1'
+                                }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
+                                            mkdir -p ${DST}
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
+                                                ${DST}
+                                        fi
+                                    '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Slave'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_SINGLE_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                    rm -rf ${plnx_dir}/.git*
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
+                                            ${overlay_dir}
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d ${pfm_dir} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
+                                }
+                            }
+                        }
                     }
                 }
                 stage('vck190_es1_mipiRxQuad_hdmiTx') {
                     environment {
                         pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        overlay="filter2d_combined"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
@@ -613,6 +920,9 @@ pipeline {
                                 }
                             }
                             steps {
+                                script {
+                                    env.BUILD_ES1_QUAD_F2D = '1' 
+                                }
                                 sh label: 'create work dir',
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
@@ -644,14 +954,163 @@ pipeline {
                                 }
                             }
                         }
+                        stage('filter2d_combined overlay build') {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_ES1_QUAD_F2D', value: '1'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_ES1_QUAD_PLNX = '1'
+                                }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
+                                            mkdir -p ${DST}
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
+                                                ${DST}
+                                        fi
+                                    '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Slave'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_ES1_QUAD_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                    rm -rf ${plnx_dir}/.git*
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
+                                            ${overlay_dir}
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d ${pfm_dir} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
+                                }
+                            }
+                        }
                     }
                 }
                 stage('vck190_mipiRxQuad_hdmiTx') {
                     environment {
                         pfm_base="vck190_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        overlay="filter2d_combined"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
                         stage('vck190_mipiRxQuad_hdmiTx platform build')  {
@@ -666,6 +1125,9 @@ pipeline {
                                 }
                             }
                             steps {
+                                script {
+                                    env.BUILD_QUAD_F2D = '1'
+                                }
                                 sh label: 'create work dir',
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
@@ -694,6 +1156,152 @@ pipeline {
                                             popd
                                         fi
                                     '''
+                                }
+                            }
+                        }
+                        stage('filter2d_combined overlay build') {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_QUAD_F2D', value: '1'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_QUAD_PLNX = '1'
+                                }
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    pushd ${work_dir}
+                                    if [ -d platforms/${pfm} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                    popd
+                                '''
+
+                                sh label: 'overlay build',
+                                script: '''
+                                    source ${setup} -r ${tool_release} && set -e
+                                    pushd ${work_dir}
+                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'overlay deploy',
+                                    script: '''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
+                                            mkdir -p ${DST}
+                                            cp -f ${overlay_dir}/binary_container_1.xsa \
+                                                ${overlay_dir}/binary_container_1.xclbin \
+                                                ${DST}
+                                        fi
+                                    '''
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Slave'
+                                    customWorkspace "${WORKSPACE}"
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_QUAD_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                sh label: 'create work dir',
+                                script: '''
+                                    if [ ! -d ${work_dir} ]; then
+                                        mkdir -p ${work_dir}
+                                        cp -rf src/* ${work_dir}
+                                    fi
+                                    rm -rf ${plnx_dir}/.git*
+                                '''
+
+                                sh label: 'check dependencies',
+                                script: '''
+                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                        echo "Using local xsa and xclbin"
+                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
+                                        echo "Using xsa and xclbin from build artifacts"
+                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
+                                            ${overlay_dir}
+                                    else
+                                        echo "No valid xsa and xclbin found"
+                                        exit 1
+                                    fi
+
+                                    if [ -d ${pfm_dir} ]; then
+                                        echo "Using platform from local build"
+                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+                                        echo "Using platform from build artifacts"
+                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
+                                    else
+                                        echo "No valid platform found: ${pfm}"
+                                        exit 1
+                                    fi
+                                '''
+
+                                sh label: 'build project',
+                                script: '''
+                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+                                        ${plnx_dir}/project-spec/configs/config
+                                    pushd ${work_dir}
+                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+                                    popd
+                                '''
+                            }
+                            post {
+                                success {
+                                    sh label: 'copy artifacts',
+                                    script:'''
+                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+                                            mkdir -p ${DST}
+                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
+                                        fi
+                                    '''
+                                }
+                                cleanup {
+                                    sh label: 'delete TMPDIR',
+                                    script: 'rm -rf ${NEWTMPDIR}'
                                 }
                             }
                         }
