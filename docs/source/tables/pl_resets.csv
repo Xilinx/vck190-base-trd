@@ -1,0 +1,27 @@
+Reset Source,Purpose
+pl0_resetn,PL reset for proc_sys_reset modules
+rst_processor_150MHz,Synchronous resets for clk_out0 clock domain
+rst_processor_105MHz,Synchronous resets for clk_out1 clock domain
+rst_processor_200MHz,Synchronous resets for clk_out3 clock domain
+lpd_gpio_o 0,Asynchronous reset for the video mixer IP
+**`GPIO for Single Sensor platform`**
+lpd_gpio_o 1,Asynchronous reset for the demosaic IP
+lpd_gpio_o 2,Asynchronous reset for the VPSS CSC IP
+lpd_gpio_o 3,Asynchronous reset for the frame buffer write IP
+lpd_gpio_o 4,Asynchronous reset for the sensor GPIO
+`GPIO for Quad Sensor platform`
+lpd_gpio_o 1,Asynchronous reset for the demosaic IP stream 0
+lpd_gpio_o 2,Asynchronous reset for the VPSS CSC IP stream 0
+lpd_gpio_o 3,Asynchronous reset for the frame buffer write IP stream 0
+lpd_gpio_o 4,Asynchronous reset for the demosaic IP stream 1
+lpd_gpio_o 5,Asynchronous reset for the VPSS CSC IP stream 1
+lpd_gpio_o 6,Asynchronous reset for the frame buffer write IP stream 1
+lpd_gpio_o 7,Asynchronous reset for the demosaic IP stream 2
+lpd_gpio_o 8,Asynchronous reset for the VPSS CSC IP stream 3
+lpd_gpio_o 9,Asynchronous reset for the frame buffer write IP stream
+lpd_gpio_o 10,Asynchronous reset for the demosaic IP stream 3
+lpd_gpio_o 10,Asynchronous reset for the VPSS CSC IP stream 3
+lpd_gpio_o 12,Asynchronous reset for the frame buffer write IP stream 3
+`GPIO for HDMI RX platform`
+lpd_gpio_0 1,Asynchronous reset for the VPSS CSC IP
+lpd_gpio_0 2,Asynchronous reset for the frame buffer write IP

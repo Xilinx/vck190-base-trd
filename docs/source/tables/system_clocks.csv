@@ -1,0 +1,10 @@
+Clock,Clock Source,Clock Frequency,Function
+pl0_ref_clk,CIPS,100 MHz,Clock source for clocking wizard.
+clk_out1,Clocking wizard,150 MHz,"AXI MM clock and AXI Stream clock used in the capture of platform2, display pipeline, and processing pipeline."
+clk_out2,Clocking wizard,105 MHz,AXI-Lite clock to configure the different IPs in the design.
+clk_out3,Clocking wizard,200 MHz,MIPI D-PHY core clock. Also the AXI MM clock and AXI Stream clock used in the capture pipeline of plaform2.
+sys_clk0,SI570 (External),200 MHz,Differential clock source used internally by the memory controller to generate various clocks to access DDR memory.
+HDMI DRU clock,SI570 (External),200 MHz,Clock for data recovery unit for low line rates.
+HDMI GT TX reference clock,IDT 8T49N241(External),Variable,GT Transmit clock source to support various HDMI resolutions.
+HDMI GT RX reference clock,Si570 (External);,Variable,GT receive clock to support various HDMI resolutions.
+Audio clock,Si570 (External),Variable,Master reference clock to generate audio stream at the required sampling rate.
