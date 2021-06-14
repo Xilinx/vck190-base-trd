@@ -4,7 +4,7 @@
 	cap_pipe_pipe_0_v_demosaic_0: v_demosaic@a40c0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic-1.0", "xlnx,v-demosaic";
+		compatible = "xlnx,v-demosaic";
 		reg = <0x0 0xa40c0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 27 1>;
 		xlnx,max-height = <1080>;
@@ -78,7 +78,7 @@
 		#dma-cells = <1>;
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-frmbuf-wr-2.1", "xlnx,axi-frmbuf-wr-v2.1";
+		compatible = "xlnx,axi-frmbuf-wr-v2.1";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 92 4>;
@@ -97,7 +97,7 @@
 	cap_pipe_pipe_1_v_demosaic_1: v_demosaic@a40e0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic-1.0", "xlnx,v-demosaic";
+		compatible = "xlnx,v-demosaic";
 		reg = <0x0 0xa40e0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 30 1>;
 		xlnx,max-height = <1080>;
@@ -171,7 +171,7 @@
 		#dma-cells = <1>;
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-frmbuf-wr-2.1", "xlnx,axi-frmbuf-wr-v2.1";
+		compatible = "xlnx,axi-frmbuf-wr-v2.1";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 93 4>;
@@ -190,7 +190,7 @@
 	cap_pipe_pipe_2_v_demosaic_2: v_demosaic@a4180000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic-1.0", "xlnx,v-demosaic";
+		compatible = "xlnx,v-demosaic";
 		reg = <0x0 0xa4180000 0x0 0x10000>;
 		reset-gpios = <&gpio0 33 1>;
 		xlnx,max-height = <1080>;
@@ -264,7 +264,7 @@
 		#dma-cells = <1>;
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-frmbuf-wr-2.1", "xlnx,axi-frmbuf-wr-v2.1";
+		compatible = "xlnx,axi-frmbuf-wr-v2.1";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 94 4>;
@@ -283,7 +283,7 @@
 	cap_pipe_pipe_3_v_demosaic_3: v_demosaic@a41a0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic-1.0", "xlnx,v-demosaic";
+		compatible = "xlnx,v-demosaic";
 		reg = <0x0 0xa41a0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 36 1>;
 		xlnx,max-height = <1080>;
@@ -357,7 +357,7 @@
 		#dma-cells = <1>;
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-frmbuf-wr-2.1", "xlnx,axi-frmbuf-wr-v2.1";
+		compatible = "xlnx,axi-frmbuf-wr-v2.1";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 95 4>;
@@ -379,7 +379,7 @@
 		#size-cells = <0>;
 		clock-names = "s_axi_aclk";
 		clocks = <&versal_clk 65>;
-		compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
+		compatible = "xlnx,xps-iic-2.00.a";
 		interrupt-names = "iic2intc_irpt";
 		interrupt-parent = <&gic>;
 		interrupts = <0 91 4>;
@@ -397,112 +397,14 @@
 				#size-cells = <0>;
 				reg = <0>;
 
-				ar0231_0: sensor@11 {
-					compatible = "ar0231";
-					reg = <0x11>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-						sensor_out0: endpoint {
-							remote-endpoint = <&serdes_in0>;
-						};
-					};
-				};
-
-				ar0231_1: sensor@12 {
-					compatible = "ar0231";
-					reg = <0x12>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-						sensor_out1: endpoint {
-							remote-endpoint = <&serdes_in1>;
-						};
-					};
-				};
-
-				ar0231_2: sensor@13 {
-					compatible = "ar0231";
-					reg = <0x13>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-						sensor_out2: endpoint {
-							remote-endpoint = <&serdes_in2>;
-						};
-					};
-				};
-
-				ar0231_3: sensor@14 {
-					compatible = "ar0231";
-					reg = <0x14>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-						sensor_out3: endpoint {
-							remote-endpoint = <&serdes_in3>;
-						};
-					};
-				};
-
-				ar0231_4: sensor@10 {
-					compatible = "ar0231-i2c";
-					reg = <0x10>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-				};
-
-				max96705_serdes_0: serdes@40 {
-					compatible = "max96705-serdes";
-					reg = <0x40>;
-				};
-				max96705_serdes_1: serdes@41 {
-					compatible = "max96705-serdes";
-					reg = <0x41>;
-				};
-				max96705_serdes_2: serdes@42 {
-					compatible = "max96705-serdes";
-					reg = <0x42>;
-				};
-				max96705_serdes_3: serdes@43 {
-					compatible = "max96705-serdes";
-					reg = <0x43>;
-				};
-				max96705_serdes_4: serdes@44 {
-					compatible = "max96705-serdes";
-					reg = <0x44>;
-				};
-				max96705_serdes_5: serdes@45 {
-					compatible = "max96705-serdes";
-					reg = <0x45>;
-				};
-
 				max9286_serdes_0: serdes@48 {
-					compatible = "max9286-serdes";
+					compatible = "maxim,max9286";
 					reg = <0x48>;
-					num-si-slots = <0x4>;
-					num-mi-slots = <0x1>;
-					cam-config = <0x6>;
-					mipi-lanes = <0x4>;
-					pixel-freq = <75>;
-					sensor_0-supply = <&camvcc_0>;
-					sensor_1-supply = <&camvcc_1>;
-					sensor_2-supply = <&camvcc_2>;
-					sensor_3-supply = <&camvcc_3>;
 
 					enable-gpios = <&gpio0 54 0>;
-
-					serializer_adapter_default	= <&max96705_serdes_0>;
-					serializer_adapter_brdcast	= <&max96705_serdes_5>;
-					sensor_adapter_brdcast = <&ar0231_4>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					maxim,reverse-channel-microvolt = <100000>;
 
 					ports {
 						#address-cells = <1>;
@@ -510,60 +412,117 @@
 
 						port@0 {
 							reg = <0>;
-							enable = <1>;
-							video-format = <12>;
-							video-width = <8>;
-							cfa-pattern = "rggb";
-							serializer_adapter_link0 = <&max96705_serdes_1>;
-							sensor_adapter_0 = <&ar0231_0>;
+							port-poc-supply = <&camvcc_0>;
+
 							serdes_in0: endpoint {
 								remote-endpoint = <&sensor_out0>;
 							};
 						};
 						port@1 {
 							reg = <1>;
-							enable = <1>;
-							video-format = <12>;
-							video-width = <8>;
-							cfa-pattern = "rggb";
-							serializer_adapter_link1 = <&max96705_serdes_2>;
-							sensor_adapter_1 = <&ar0231_1>;
+							port-poc-supply = <&camvcc_1>;
+
 							serdes_in1: endpoint {
 								remote-endpoint = <&sensor_out1>;
 							};
 						};
 						port@2 {
 							reg = <2>;
-							enable = <1>;
-							video-format = <12>;
-							video-width = <8>;
-							cfa-pattern = "rggb";
-							serializer_adapter_link2 = <&max96705_serdes_3>;
-							sensor_adapter_2 = <&ar0231_2>;
+							port-poc-supply = <&camvcc_2>;
+
 							serdes_in2: endpoint {
 								remote-endpoint = <&sensor_out2>;
 							};
 						};
 						port@3 {
 							reg = <3>;
-							enable = <1>;
-							video-format = <12>;
-							video-width = <8>;
-							cfa-pattern = "rggb";
-							serializer_adapter_link3 = <&max96705_serdes_4>;
-							sensor_adapter_3 = <&ar0231_3>;
+							port-poc-supply = <&camvcc_3>;
+
 							serdes_in3: endpoint {
 								remote-endpoint = <&sensor_out3>;
 							};
 						};
 						port@4 {
 							reg = <4>;
-							enable = <1>;
-							video-format = <12>;
-							video-width = <8>;
-							cfa-pattern = "rggb";
+
 							serdes_out0: endpoint {
+								data-lanes = <1 2 3 4>;
 								remote-endpoint = <&csiss_in>;
+							};
+						};
+					};
+
+					i2c-mux {
+						#address-cells = <1>;
+						#size-cells = <0>;
+
+						i2c@0 {
+							#address-cells = <1>;
+							#size-cells = <0>;
+							reg = <0>;
+							poc = <3>;
+
+							ar0231_0: sensor@41 {
+								compatible = "onnn,mars";
+								reg = <0x41>, <0x11>;
+
+								port {
+									sensor_out0: endpoint {
+										remote-endpoint = <&serdes_in0>;
+									};
+								};
+							};
+						};
+
+						i2c@1 {
+							#address-cells = <1>;
+							#size-cells = <0>;
+							reg = <1>;
+							poc = <5>;
+
+							ar0231_1: sensor@42 {
+								compatible = "onnn,mars";
+								reg = <0x42>, <0x12>;
+
+								port {
+									sensor_out1: endpoint {
+										remote-endpoint = <&serdes_in1>;
+									};
+								};
+							};
+						};
+
+						i2c@2 {
+							#address-cells = <1>;
+							#size-cells = <0>;
+							reg = <2>;
+
+							ar0231_2: sensor@43 {
+								compatible = "onnn,mars";
+								reg = <0x43>, <0x13>;
+
+								port {
+									sensor_out2: endpoint {
+										remote-endpoint = <&serdes_in2>;
+									};
+								};
+							};
+						};
+
+						i2c@3 {
+							#address-cells = <1>;
+							#size-cells = <0>;
+							reg = <3>;
+
+							ar0231_3: sensor@44 {
+								compatible = "onnn,mars";
+								reg = <0x44>, <0x14>;
+
+								port {
+									sensor_out3: endpoint {
+										remote-endpoint = <&serdes_in3>;
+									};
+								};
 							};
 						};
 					};
@@ -578,33 +537,32 @@
 				poc1: poc@28 {
 					compatible = "max20087";
 					reg = <0x28>;
-
 					enable-gpios = <&gpio0 52 0>;
 
 					regulators {
 						camvcc_0: OUT1 {
-							regulator-name = "CAP0_VOUT1";
+							regulator-name = "VOUT1";
 							regulator-min-microvolt = <1200000>;
 							regulator-max-microvolt = <1200000>;
 							regulator-min-microamp	= <600000>;
 							regulator-max-microamp	= <600000>;
 						};
 						camvcc_1: OUT2 {
-							regulator-name = "CAP0_VOUT2";
+							regulator-name = "VOUT2";
 							regulator-min-microvolt = <1200000>;
 							regulator-max-microvolt = <1200000>;
 							regulator-min-microamp	= <600000>;
 							regulator-max-microamp	= <600000>;
 						};
 						camvcc_2: OUT3 {
-							regulator-name = "CAP0_VOUT3";
+							regulator-name = "VOUT3";
 							regulator-min-microvolt = <1200000>;
 							regulator-max-microvolt = <1200000>;
 							regulator-min-microamp	= <600000>;
 							regulator-max-microamp	= <600000>;
 						};
 						camvcc_3: OUT4 {
-							regulator-name = "CAP0_VOUT4";
+							regulator-name = "VOUT4";
 							regulator-min-microvolt = <1200000>;
 							regulator-max-microvolt = <1200000>;
 							regulator-min-microamp	= <600000>;
@@ -619,7 +577,7 @@
 	mipi_csi_rx_ss_mipi_csi2_rx_subsyst_0: mipi_csi2_rx_subsystem@a4060000 {
 		clock-names = "lite_aclk", "dphy_clk_200M", "video_aclk";
 		clocks = <&versal_clk 65>, <&misc_clk_4>, <&misc_clk_0>;
-		compatible = "xlnx,mipi-csi2-rx-subsystem-4.0", "xlnx,mipi-csi2-rx-subsystem-4.0";
+		compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
 		interrupt-names = "csirxss_csi_irq";
 		interrupt-parent = <&gic>;
 		interrupts = <0 90 4>;
@@ -634,7 +592,7 @@
 		xlnx,csi-filter-userdatatype = "true";
 		xlnx,csi-opt1-regs = "false";
 
-		xlnx,csi-pxl-format = "RAW8";
+		xlnx,csi-pxl-format = <0x2c>;
 		xlnx,csi2rx-dbg = <0x0>;
 		xlnx,data-lane0-io-position = <0x2>;
 		xlnx,data-lane1-io-position = <0x4>;
@@ -689,8 +647,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			port@0 {
-				reg = <0>;
+			port@1 {
+				reg = <1>;
 
 				xlnx,video-format = <12>;
 				xlnx,video-width = <8>;
@@ -700,8 +658,8 @@
 					remote-endpoint = <&switch_in0>;
 				};
 			};
-			port@1 {
-				reg = <1>;
+			port@0 {
+				reg = <0>;
 
 				xlnx,video-format = <12>;
 				xlnx,video-width = <8>;
