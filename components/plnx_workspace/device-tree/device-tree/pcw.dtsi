@@ -50,6 +50,10 @@
 &smmu {
 	status = "okay";
 };
+&i2c0 {
+	clock-frequency = <400000>;
+	status = "okay";
+};
 &i2c1 {
 	clock-frequency = <400000>;
 	status = "okay";
@@ -71,7 +75,7 @@
 	status = "okay";
 };
 &sdhci1 {
-	clock-frequency = <199998001>;
+	clock-frequency = <199999817>;
 	status = "okay";
 	xlnx,mio-bank = <0x1>;
 };
