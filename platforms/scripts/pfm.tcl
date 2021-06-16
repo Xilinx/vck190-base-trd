@@ -9,6 +9,9 @@ proc help_proc { } {
   puts "-help              this text"
 }
 
+# Increase timeout to avoid sporadic errors
+configparams vitis-launch-timeout 400
+
 # Set defaults
 set platform "default"
 set proc "psv_cortexa72"
