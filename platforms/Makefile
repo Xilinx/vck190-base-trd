@@ -12,7 +12,7 @@ PLATFORM ?= vck190_mipiRxSingle_hdmiTx
 VERSION ?= 202110_1
 
 PFM_DIR = xilinx_$(PLATFORM)_$(VERSION)
-PFM_PRJ_DIR = ws/$(PLATFORM)/export/$(PLATFORM)
+PFM_PRJ_DIR = xsct/$(PLATFORM)/$(PLATFORM)/export/$(PLATFORM)
 PFM_SCRIPTS_DIR = scripts
 
 PFM_TCL = $(PFM_SCRIPTS_DIR)/pfm.tcl
@@ -41,7 +41,7 @@ $(PFM_XPFM): $(VIV_XSA)
 
 $(VIV_XSA):
 	make -C $(VIV_DIR) xsa JOBS=$(JOBS)
-	
+
 .PHONY: clean
 clean:
 	-@$(RM) .Xil boot image linux.bif ws $(PFM_DIR)
