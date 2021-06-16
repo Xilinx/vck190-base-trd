@@ -1,0 +1,24 @@
+Interrupt ID,Instance
+pl_ps_irq0,HDMI GT Controller
+pl_ps_irq1,HDMI Tx subsystem
+pl_ps_irq2,Video Mixer
+pl_ps_irq3,HDMI I2C
+pl_ps_irq4,AXI Performance Monitor
+`Interrupts specific to Single Sensor platform`,
+pl_ps_irq5,Audio formatter memory-mapped to stream
+pl_ps_irq6,MIPI RX subsytem
+pl_ps_irq7,MIPI I2C
+pl_ps_irq8,Frame buffer write interrupt
+`Interrupts specific to Quad Sensor platform`,
+pl_ps_irq5,Audio formatter memory-mapped to stream
+pl_ps_irq6,MIPI RX subsytem
+pl_ps_irq7,MIPI I2C
+pl_ps_irq8,Frame buffer write stream 0
+pl_ps_irq9,Frame buffer write stream 1
+pl_ps_irq10,Frame buffer write stream 2
+pl_ps_irq10,Frame buffer write stream 3
+`Interrupts specific to HDMI RX platform`,
+pl_ps_irq5,Audio formatter memory-mapped to stream
+pl_ps_irq6,Audio formatter stream to memory map
+pl_ps_irq7,Frame buffer write interrupt
+pl_ps_irq8,HDMI RX subsytem
