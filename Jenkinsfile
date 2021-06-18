@@ -13,8 +13,9 @@ pipeline {
         tool_build="daily_latest"
         auto_branch="2021.1"
         pfm_ver="202110_1"
-        setup="${WORKSPACE}/paeg-helper/env-setup.sh"
-        lsf="${WORKSPACE}/paeg-helper/scripts/lsf"
+        ws="${WORKSPACE}"
+        setup="${ws}/paeg-helper/env-setup.sh"
+        lsf="${ws}/paeg-helper/scripts/lsf"
         DEPLOYDIR="/wrk/paeg_builds/build-artifacts/vck190-base-trd/${tool_release}"
     }
     options {
@@ -200,7 +201,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -221,16 +221,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -242,8 +245,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -277,6 +281,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }
@@ -405,7 +410,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -426,16 +430,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -447,8 +454,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -482,6 +490,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }
@@ -610,7 +619,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -631,16 +639,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -652,8 +663,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -687,6 +699,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }
@@ -815,7 +828,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -836,16 +848,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -857,8 +872,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -892,6 +908,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }
@@ -1020,7 +1037,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -1041,16 +1057,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -1062,8 +1081,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -1097,6 +1117,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }
@@ -1225,7 +1246,6 @@ pipeline {
                             agent {
                                 node {
                                     label 'Slave'
-                                    customWorkspace "${WORKSPACE}"
                                 }
                             }
                             environment {
@@ -1246,16 +1266,19 @@ pipeline {
                                 script: '''
                                     if [ ! -d ${work_dir} ]; then
                                         mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
+                                        cp -rf ${ws}/src/* ${work_dir}
                                     fi
                                     rm -rf ${plnx_dir}/.git*
                                 '''
 
                                 sh label: 'check dependencies',
                                 script: '''
-                                    if [[ -f ${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${overlay_dir}/binary_container_1.xclbin ]]; then
+                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
                                         echo "Using local xsa and xclbin"
+                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                                            ${overlay_dir}
                                     elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
                                             -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
                                         echo "Using xsa and xclbin from build artifacts"
@@ -1267,8 +1290,9 @@ pipeline {
                                         exit 1
                                     fi
 
-                                    if [ -d ${pfm_dir} ]; then
+                                    if [ -d ${ws}/${pfm_dir} ]; then
                                         echo "Using platform from local build"
+                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
                                     elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
                                         echo "Using platform from build artifacts"
                                         ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
@@ -1302,6 +1326,7 @@ pipeline {
                                 cleanup {
                                     sh label: 'delete TMPDIR',
                                     script: 'rm -rf ${NEWTMPDIR}'
+                                    cleanWs()
                                 }
                             }
                         }

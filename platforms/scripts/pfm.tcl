@@ -9,6 +9,9 @@ proc help_proc { } {
   puts "-help              this text"
 }
 
+# Increase timeout to avoid sporadic errors
+configparams vitis-launch-timeout 400
+
 # Set defaults
 set platform "default"
 set proc "psv_cortexa72"
@@ -19,6 +22,8 @@ for { set i 0 } { $i < $argc } { incr i } {
   if { [lindex $argv $i] == "-xsa" } {
     incr i
     set xsafile [lindex $argv $i]
+    set ws [file rootname [file tail $xsafile]]
+    set ws "xsct/$ws"
   # processor
   } elseif { [lindex $argv $i] == "-proc" } {
     incr i
@@ -45,7 +50,7 @@ set f [open $biffile a]
 close $f
 
 # Set workspace
-setws ws
+setws $ws
 
 # Create platform
 platform create \
