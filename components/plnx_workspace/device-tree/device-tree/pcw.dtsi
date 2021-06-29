@@ -75,7 +75,7 @@
 	status = "okay";
 };
 &sdhci1 {
-	clock-frequency = <199999817>;
+	clock-frequency = <199999802>;
 	status = "okay";
 	xlnx,mio-bank = <0x1>;
 };
@@ -88,18 +88,6 @@
 	cts-override ;
 	device_type = "serial";
 	port-number = <0>;
-	status = "okay";
-};
-&ttc0 {
-	status = "okay";
-};
-&ttc1 {
-	status = "okay";
-};
-&ttc2 {
-	status = "okay";
-};
-&ttc3 {
 	status = "okay";
 };
 &usb0 {
