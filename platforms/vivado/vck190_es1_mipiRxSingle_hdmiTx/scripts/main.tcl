@@ -23,7 +23,7 @@ set proj_dir ./project
 set bd_tcl_dir ./scripts
 set device vc1902
 set output {zip xsa bit}
-set xdc_list {xdc/mipi_vck190.xdc xdc/hdmi_tx_vck190.xdc xdc/pl_clk_uncertainty.xdc xdc/timing.xdc xdc/vck190_vmk180_lpddr4dualinter.xdc xdc/default.xdc}
+set xdc_list {xdc/mipi_vck190.xdc xdc/hdmi_tx_vck190.xdc xdc/pl_clk_uncertainty.xdc xdc/timing.xdc  xdc/default.xdc}
 set ip_repo_path {./ip}
       
     
