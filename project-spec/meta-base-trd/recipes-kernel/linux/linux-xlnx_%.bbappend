@@ -19,4 +19,7 @@ SRC_URI += " \
 	file://0012-media-i2c-max9286-WIP-for-mars-compatibility.patch \
 	file://0013-media-i2c-max9271-WIP-for-mars-compatibility.patch \
 	file://0014-xilinx-vipp-debug-blacklist.patch \
+	file://0016-media-i2c-mars-add-v4l-ctrls.patch \
+	file://0017-media-i2c-mars-modify-resolution.patch \
+	file://0018-media-i2c-max9286-modify-resolution.patch \
 "
