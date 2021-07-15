@@ -7,6 +7,7 @@ KERNEL_XO = $(KERNEL)/$(KERNEL).xo
 # v++ flags
 VPP ?= v++
 PPC ?= XF_NPPC8
+FREQ?= 150000000
 FILTER2D_PL_XO_FLAGS ?= -DPPC=$(PPC)
 XFOPENCV_INCDIR = ../../../Vitis_Libraries/vision/L1/include
 KERNEL_XO_FLAGS = -k $(KERNEL) -I$(XFOPENCV_INCDIR) $(FILTER2D_PL_XO_FLAGS) \
@@ -14,7 +15,8 @@ KERNEL_XO_FLAGS = -k $(KERNEL) -I$(XFOPENCV_INCDIR) $(FILTER2D_PL_XO_FLAGS) \
 PLATFORM =
 JOBS = 32
 VPP_XO_FLAGS = -c -t hw --platform $(PLATFORM) --save-temps \
-	--report_level estimate -j $(JOBS) $(KERNEL_XO_FLAGS)
+	--clock.defaultFreqHz $(FREQ) --report_level estimate \
+	-j $(JOBS) $(KERNEL_XO_FLAGS)
 
 # Rules
 $(KERNEL_XO): xf_filter2d_pl_accel.cpp

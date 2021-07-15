@@ -8,6 +8,7 @@ PLATFORM ?=
 LINK_CFG = link.cfg
 PACKAGE_CFG = package.cfg
 JOBS = 32
+
 VPP ?= v++
 VPP_LINK_FLAGS = -l -t hw --platform $(PLATFORM) --save-temps \
 	--report_level estimate -j $(JOBS) --config $(LINK_CFG)
@@ -16,8 +17,10 @@ XBU = xclbinutil
 XBU_FLAGS = --remove-section BITSTREAM --force
 
 # kernels and xclbin
-KERNEL_OBJS += datamover/filter2d_aie_accel/filter2d_aie_accel.xo
-AIE_SDF += kernel/libadf.a
+KERNEL_OBJS += datamover/tiler.xo
+KERNEL_OBJS += datamover/stitcher.xo
+
+AIE_ADF += kernel/libadf.a
 BINARY_CONTAINER = binary_container_1.xclbin
 XSA_FILE = binary_container_1.xsa
 PACKAGE += BOOT.BIN
@@ -29,7 +32,7 @@ all: package
 package: $(PACKAGE)
 link: $(BINARY_CONTAINER)
 
-$(PACKAGE): $(BINARY_CONTAINER) $(AIE_SDF)
+$(PACKAGE): $(BINARY_CONTAINER) $(AIE_ADF)
 	$(VPP) $(VPP_PACK_FLAGS) $(+)
 	$(XBU) $(XBU_FLAGS) --input $(BINARY_CONTAINER) --output strip.xclbin
 	-@$(MV) $(BINARY_CONTAINER) tmp.xclbin
@@ -39,12 +42,11 @@ $(PACKAGE): $(BINARY_CONTAINER) $(AIE_SDF)
 	-@$(ZIP) $(XSA_FILE) $(BINARY_CONTAINER)
 	-@$(MV) tmp.xclbin $(BINARY_CONTAINER)
 
-$(BINARY_CONTAINER): $(KERNEL_OBJS) $(AIE_SDF)
+$(BINARY_CONTAINER): $(KERNEL_OBJS) $(AIE_ADF)
 	$(VPP) $(VPP_LINK_FLAGS) -o $@ $(+)
 	-@$(RM) .Xil
 
-$(KERNEL_OBJS):
-	$(MAKE) -C datamover
+$(AIE_ADF):
 	$(MAKE) -C kernel
 
 .PHONY: clean clean-subdirs
@@ -56,5 +58,4 @@ clean: clean-subdirs
 	-$(RM) *.link_summary* *.package_summary*
 
 clean-subdirs:
-	$(MAKE) -C datamover clean
 	$(MAKE) -C kernel clean
