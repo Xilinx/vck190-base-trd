@@ -3,6 +3,141 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+def createWorkDir() {
+    sh label: 'create work dir',
+    script: '''
+        if [ ! -d ${work_dir} ]; then
+            mkdir -p ${work_dir}
+            cp -rf ${ws}/src/* ${work_dir}
+        fi
+    '''
+}
+
+def buildPlatform() {
+    sh label: 'platform build',
+    script: '''
+        source ${setup} -r ${tool_release} && set -e
+        pushd ${work_dir}
+        ${lsf} make platform PFM=${pfm_base} JOBS=31
+        popd
+    '''
+}
+
+def deployPlatform() {
+    sh label: 'platform deploy',
+    script: '''
+        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+            pushd ${work_dir}
+            DST=${DEPLOYDIR}/platforms
+            mkdir -p ${DST}
+            cp -rf platforms/${pfm} ${DST}
+            popd
+        fi
+    '''
+}
+
+def checkOverlayDeps() {
+    sh label: 'check dependencies',
+    script: '''
+        pushd ${work_dir}
+        if [ -d platforms/${pfm} ]; then
+            echo "Using platform from local build"
+        elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+            echo "Using platform from build artifacts"
+            ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
+        else
+            echo "No valid platform found: ${pfm}"
+            exit 1
+        fi
+        popd
+    '''
+}
+
+def buildOverlay() {
+    sh label: 'overlay build',
+    script: '''
+        source ${setup} -r ${tool_release} && set -e
+        pushd ${work_dir}
+        ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
+        popd
+    '''
+}
+
+def deployOverlay() {
+    sh label: 'overlay deploy',
+    script: '''
+        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
+            mkdir -p ${DST}
+            cp -f ${overlay_dir}/binary_container_1.xsa \
+                ${overlay_dir}/binary_container_1.xclbin \
+                ${DST}
+        fi
+    '''
+}
+
+def checkPlnxDeps() {
+    sh label: 'check dependencies',
+    script: '''
+        if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
+                -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
+            echo "Using local xsa and xclbin"
+            cp ${ws}/${overlay_dir}/binary_container_1.xsa \
+                ${ws}/${overlay_dir}/binary_container_1.xclbin \
+                ${overlay_dir}
+        elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
+                -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
+            echo "Using xsa and xclbin from build artifacts"
+            cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
+                ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
+                ${overlay_dir}
+        else
+            echo "No valid xsa and xclbin found"
+            exit 1
+        fi
+
+        if [ -d ${ws}/${pfm_dir} ]; then
+            echo "Using platform from local build"
+            ln -s ${ws}/${pfm_dir} ${pfm_dir}
+        elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
+            echo "Using platform from build artifacts"
+            ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
+        else
+            echo "No valid platform found: ${pfm}"
+            exit 1
+        fi
+    '''
+}
+
+def buildPlnx() {
+    sh label: 'build project',
+    script: '''
+        source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
+        sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
+            ${plnx_dir}/project-spec/configs/config
+        rm -rf ${plnx_dir}/.git*
+        pushd ${work_dir}
+        make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
+        popd
+    '''
+}
+
+def deployPlnx() {
+    sh label: 'copy artifacts',
+    script:'''
+        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
+            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
+            mkdir -p ${DST}
+            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
+        fi
+    '''
+}
+
+def deletePlnxTmpDir() {
+    sh label: 'delete TMPDIR',
+    script: 'rm -rf ${NEWTMPDIR}'
+}
+
 pipeline {
     agent {
         label 'Build_Master'
@@ -104,34 +239,12 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -151,49 +264,13 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_HDMI_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -217,70 +294,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
@@ -313,34 +336,12 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -360,49 +361,13 @@ pipeline {
                                 script {
                                     env.BUILD_HDMI_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -426,70 +391,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
@@ -522,34 +433,12 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_SINGLE_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -569,49 +458,13 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_SINGLE_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -635,70 +488,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
@@ -731,34 +530,12 @@ pipeline {
                                 script {
                                     env.BUILD_SINGLE_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -778,49 +555,13 @@ pipeline {
                                 script {
                                     env.BUILD_SINGLE_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -844,70 +585,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
@@ -938,36 +625,14 @@ pipeline {
                             }
                             steps {
                                 script {
-                                    env.BUILD_ES1_QUAD_F2D = '1' 
+                                    env.BUILD_ES1_QUAD_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -987,49 +652,13 @@ pipeline {
                                 script {
                                     env.BUILD_ES1_QUAD_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -1053,70 +682,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
@@ -1149,34 +724,12 @@ pipeline {
                                 script {
                                     env.BUILD_QUAD_F2D = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'platform build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make platform PFM=${pfm_base} JOBS=32
-                                    popd
-                                '''
+                                createWorkDir()
+                                buildPlatform()
                             }
                             post {
                                 success {
-                                    sh label: 'platform deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            pushd ${work_dir}
-                                            DST=${DEPLOYDIR}/platforms
-                                            mkdir -p ${DST}
-                                            cp -rf platforms/${pfm} ${DST}
-                                            popd
-                                        fi
-                                    '''
+                                    deployPlatform()
                                 }
                             }
                         }
@@ -1196,49 +749,13 @@ pipeline {
                                 script {
                                     env.BUILD_QUAD_PLNX = '1'
                                 }
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf src/* ${work_dir}
-                                    fi
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    pushd ${work_dir}
-                                    if [ -d platforms/${pfm} ]; then
-                                        echo "Using platform from local build"
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} platforms/
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                    popd
-                                '''
-
-                                sh label: 'overlay build',
-                                script: '''
-                                    source ${setup} -r ${tool_release} && set -e
-                                    pushd ${work_dir}
-                                    ${lsf} make overlay PFM=${pfm_base} OVERLAY=${overlay}
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
                             }
                             post {
                                 success {
-                                    sh label: 'overlay deploy',
-                                    script: '''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST=${DEPLOYDIR}/overlays/${pfm_base}_${overlay}
-                                            mkdir -p ${DST}
-                                            cp -f ${overlay_dir}/binary_container_1.xsa \
-                                                ${overlay_dir}/binary_container_1.xclbin \
-                                                ${DST}
-                                        fi
-                                    '''
+                                    deployOverlay()
                                 }
                             }
                         }
@@ -1262,70 +779,16 @@ pipeline {
                                 }
                             }
                             steps {
-                                sh label: 'create work dir',
-                                script: '''
-                                    if [ ! -d ${work_dir} ]; then
-                                        mkdir -p ${work_dir}
-                                        cp -rf ${ws}/src/* ${work_dir}
-                                    fi
-                                    rm -rf ${plnx_dir}/.git*
-                                '''
-
-                                sh label: 'check dependencies',
-                                script: '''
-                                    if [[ -f ${ws}/${overlay_dir}/binary_container_1.xsa && \
-                                          -f ${ws}/${overlay_dir}/binary_container_1.xclbin ]]; then
-                                        echo "Using local xsa and xclbin"
-                                        cp ${ws}/${overlay_dir}/binary_container_1.xsa \
-                                            ${ws}/${overlay_dir}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    elif [[ -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa && \
-                                            -f ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin ]]; then
-                                        echo "Using xsa and xclbin from build artifacts"
-                                        cp ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xsa \
-                                            ${DEPLOYDIR}/overlays/${pfm_base}_${overlay}/binary_container_1.xclbin \
-                                            ${overlay_dir}
-                                    else
-                                        echo "No valid xsa and xclbin found"
-                                        exit 1
-                                    fi
-
-                                    if [ -d ${ws}/${pfm_dir} ]; then
-                                        echo "Using platform from local build"
-                                        ln -s ${ws}/${pfm_dir} ${pfm_dir}
-                                    elif [ -d ${DEPLOYDIR}/platforms/${pfm} ]; then
-                                        echo "Using platform from build artifacts"
-                                        ln -s ${DEPLOYDIR}/platforms/${pfm} ${pfm_dir}
-                                    else
-                                        echo "No valid platform found: ${pfm}"
-                                        exit 1
-                                    fi
-                                '''
-
-                                sh label: 'build project',
-                                script: '''
-                                    source ${setup} -p -r ${tool_release} -b ${tool_build} && set -e
-                                    sed -i -e "s#CONFIG_TMP_DIR_LOCATION=.*#CONFIG_TMP_DIR_LOCATION=\\"${NEWTMPDIR}\\"#" \
-                                        ${plnx_dir}/project-spec/configs/config
-                                    pushd ${work_dir}
-                                    make sdcard PFM=${pfm_base} OVERLAY=${overlay} YES=1
-                                    popd
-                                '''
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
                             }
                             post {
                                 success {
-                                    sh label: 'copy artifacts',
-                                    script:'''
-                                        if [ "${BRANCH_NAME}" = "${deploy_branch}" ]; then
-                                            DST="${DEPLOYDIR}/petalinux/${pfm_base}_${overlay}"
-                                            mkdir -p ${DST}
-                                            cp ${plnx_dir}/images/linux/petalinux-sdimage.wic.xz ${DST}
-                                        fi
-                                    '''
+                                    deployPlnx()
                                 }
                                 cleanup {
-                                    sh label: 'delete TMPDIR',
-                                    script: 'rm -rf ${NEWTMPDIR}'
+                                    deletePlnxTmpDir()
                                     cleanWs()
                                 }
                             }
