@@ -6,7 +6,3 @@
 	path = petalinux/xilinx-vck190-base-trd
 	url = https://gitenterprise.xilinx.com/PAEG/xilinx-vck190-base-trd-bsp.git
 	branch = 2021.1
-[submodule "overlays/Vitis_Libraries/vision_aie"]
-	path = overlays/Vitis_Libraries/vision_aie
-	url = https://gitenterprise.xilinx.com/FaaSApps/xf_opencv
-	branch = aie_dev
