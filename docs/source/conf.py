@@ -23,13 +23,13 @@ sys.path.insert(0, os.path.abspath('../_ext'))
 # -- Project information -----------------------------------------------------
 
 project = 'Versal Base TRD'
-copyright = '2020, Xilinx'
+copyright = '2020-2021, Xilinx'
 author = 'Xilinx'
 
 # The short X.Y version
-version = '0.5'
+version = '1.0'
 # The full version, including alpha/beta/rc tags
-release = '2020.2-0.5'
+release = '2021.1-1.0'
 html_last_updated_fmt = '%B %d, %Y'
 
 # -- General configuration ---------------------------------------------------
@@ -63,7 +63,7 @@ autosectionlabel_prefix_document = True
 
 
 # Configure 'Edit on GitHub' extension
-edit_on_github_project = 'PAEG/base-trd-jupyter'
+edit_on_github_project = 'Xilinx/vck190-base-trd'
 edit_on_github_branch = 'master/docs/source'
 
 # Add any paths that contain templates here, relative to this directory.

@@ -1,5 +1,7 @@
 # Sphinx Template for GitHub based HTML documentation
 
+**05/25/2021** - Updated URL for Xilinx logo in theme layout files.
+
 **10/09/2020** - Minor bug fixes and enhancements.
 *	Updated layout.html to fix whitespace issue with copyright footer.
 *	Updated layout.html to fix spacing in bulleted lists.
@@ -28,10 +30,10 @@
 * Left align Xilinx logo.
 * Shift over the “Developers , Support, Forums” to align with the end of the left column.
 * Set a max char width for the left column so it isn’t so wide.
-* Reduce font size of the copyright footer text. 
+* Reduce font size of the copyright footer text.
 
 **09/24/2019** - Initial version
 * Xilinx.com branding and look & feel shared by the Web team.
 * references to .js and .css files used by Xilinx.com.
-* meta data that can help users search these pages using the Xilinx.com search. 
+* meta data that can help users search these pages using the Xilinx.com search.
 * Link to GitHub source file.
