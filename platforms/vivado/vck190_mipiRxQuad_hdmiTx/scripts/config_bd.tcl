@@ -1934,7 +1934,10 @@ proc create_hier_cell_audio_pipe { parentCell nameHier } {
  ] $audio_formatter_0
 
   # Create instance: hdmi_acr_ctrl_0, and set properties
-  set hdmi_acr_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:hdmi_acr_ctrl hdmi_acr_ctrl_0 ]
+  set hdmi_acr_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:hdmi_acr_ctrl:1.0 hdmi_acr_ctrl_0 ]
+  set_property -dict [ list \
+   CONFIG.C_HDMI_VERSION {0} \
+] $hdmi_acr_ctrl_0
 
   # Create instance: proc_sys_reset_aud_clk, and set properties
   set proc_sys_reset_aud_clk [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset proc_sys_reset_aud_clk ]
@@ -2493,7 +2496,7 @@ proc create_root_design { parentCell } {
   assign_bd_address -offset 0xA4050000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs axi_perf_mon_0/S_AXI/Reg] -force
   assign_bd_address -offset 0x90000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs axi_vip_s0/S_AXI/Reg] -force
   assign_bd_address -offset 0xA4010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs display_pipe/hdmi_tx_pipe/fmch_axi_iic/S_AXI/Reg] -force
-  assign_bd_address -offset 0xA4210000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs audio_pipe/hdmi_acr_ctrl_0/axi/reg0] -force
+  assign_bd_address -offset 0xA4210000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs audio_pipe/hdmi_acr_ctrl_0/axi/Reg] -force
   assign_bd_address -offset 0xA4000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs display_pipe/hdmi_tx_pipe/hdmi_gt_controller_1/axi4lite/Reg] -force
   assign_bd_address -offset 0xA4060000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/mipi_csi_rx_ss/mipi_csi2_rx_subsyst_0/csirxss_s_axi/Reg] -force
   assign_bd_address -offset 0xA40D0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/cap_pipe/pipe_0/v_frmbuf_wr_0/s_axi_CTRL/Reg] -force
