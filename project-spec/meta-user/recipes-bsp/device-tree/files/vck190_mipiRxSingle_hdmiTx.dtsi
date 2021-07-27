@@ -46,7 +46,7 @@
 				xlnx,num-intr-inputs = <0x20>;
 				interrupt-names = "irq";
 				interrupt-parent = <&gic>;
-				interrupts = <0 94 4>;
+				interrupts = <0 99 4>;
 		};
 	};
 };
