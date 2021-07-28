@@ -1375,7 +1375,11 @@ proc create_hier_cell_audio_pipe { parentCell nameHier } {
  ] $axis_data_fifo_0
 
   # Create instance: hdmi_acr_ctrl_0, and set properties
-  set hdmi_acr_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:hdmi_acr_ctrl hdmi_acr_ctrl_0 ]
+  set hdmi_acr_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:hdmi_acr_ctrl:1.0 hdmi_acr_ctrl_0 ]
+  set_property -dict [ list \
+   CONFIG.C_HDMI_VERSION {0} \
+] $hdmi_acr_ctrl_0
+
 
   # Create instance: rst_processor_refclk, and set properties
   set rst_processor_refclk [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_refclk ]
@@ -1736,7 +1740,7 @@ proc create_root_design { parentCell } {
    CONFIG.C_ENABLE_ADVANCED {1} \
    CONFIG.C_ENABLE_EVENT_COUNT {1} \
    CONFIG.C_ENABLE_PROFILE {0} \
-   CONFIG.C_NUM_MONITOR_SLOTS {6} \
+   CONFIG.C_NUM_MONITOR_SLOTS {7} \
    CONFIG.C_NUM_OF_COUNTERS {10} \
    CONFIG.ENABLE_EXT_TRIGGERS {0} \
  ] $axi_perf_mon_0
@@ -1750,21 +1754,21 @@ proc create_root_design { parentCell } {
   # Create instance: clk_wiz, and set properties
   set clk_wiz [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard clk_wiz ]
   set_property -dict [ list \
-   CONFIG.CLKFBOUT_MULT {30.000000} \
-   CONFIG.CLKOUT1_DIVIDE {20.000000} \
-   CONFIG.CLKOUT2_DIVIDE {30.000000} \
-   CONFIG.CLKOUT3_DIVIDE {12} \
+   CONFIG.CLKFBOUT_MULT {24.000000} \
+   CONFIG.CLKOUT1_DIVIDE {16.000000} \
+   CONFIG.CLKOUT2_DIVIDE {24.000000} \
+   CONFIG.CLKOUT3_DIVIDE {6.000000} \
    CONFIG.CLKOUT4_DIVIDE {12} \
    CONFIG.CLKOUT_DRIVES {BUFG,BUFG,BUFG,BUFG,BUFG,BUFG,BUFG} \
    CONFIG.CLKOUT_DYN_PS {None,None,None,None,None,None,None} \
    CONFIG.CLKOUT_GROUPING {Auto,Auto,Auto,Auto,Auto,Auto,Auto} \
    CONFIG.CLKOUT_MATCHED_ROUTING {false,false,false,false,false,false,false} \
-   CONFIG.CLKOUT_MBUFGCE_MODE {PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE} \
-   CONFIG.CLKOUT_PORT {clk_out_150,clk_out_100,clk_out3,clk_out4,clk_out5,clk_out6,clk_out7} \
+   CONFIG.CLKOUT_MBUFGCE_MODE {PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE,PERFORMANCE}\
+   CONFIG.CLKOUT_PORT {clk_out_150,clk_out_100,clk_out_400,clk_out4,clk_out5,clk_out6,clk_out7} \
    CONFIG.CLKOUT_REQUESTED_DUTY_CYCLE {50.000,50.000,50.000,50.000,50.000,50.000,50.000} \
-   CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {150.000,100,150,150.000,100.000,100.000,100.000} \
+   CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {150.000,100,400,150.000,100.000,100.000,100.000} \
    CONFIG.CLKOUT_REQUESTED_PHASE {0.000,0.000,0.000,0.000,0.000,0.000,0.000} \
-   CONFIG.CLKOUT_USED {true,true,false,false,false,false,false} \
+   CONFIG.CLKOUT_USED {true,true,true,false,false,false,false} \
    CONFIG.DIVCLK_DIVIDE {1} \
    CONFIG.JITTER_SEL {Min_O_Jitter} \
    CONFIG.PRIM_SOURCE {Global_buffer} \
@@ -1787,8 +1791,15 @@ proc create_root_design { parentCell } {
    CONFIG.C_NUM_PERP_ARESETN {1} \
  ] $rst_processor_150MHz
 
+  # Create instance: rst_processor_400MHz, and set properties
+  set rst_processor_400MHz [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_400MHz ]
+  set_property -dict [ list \
+   CONFIG.C_NUM_PERP_ARESETN {1} \
+ ] $rst_processor_400MHz
+
   # Create instance: rst_processor_pl_100Mhz, and set properties
   set rst_processor_pl_100Mhz [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_processor_pl_100Mhz ]
+
   # Create instance: smartconnect_gp0, and set properties
   set smartconnect_gp0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect smartconnect_gp0 ]
   set_property -dict [ list \
@@ -1859,6 +1870,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins clk_wiz/resetn] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_150MHz/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_pl_100Mhz/ext_reset_in] -boundary_type upper
+  connect_bd_net -net ${::PS_INST}_pl_resetn0 [get_bd_pins ${::PS_INST}/pl0_resetn] [get_bd_pins rst_processor_400MHz/ext_reset_in] -boundary_type upper
   connect_bd_net -net ${::PS_INST}_ps_pmc_noc_axi0_clk [get_bd_pins ${::PS_INST}/pmc_axi_noc_axi0_clk] [get_bd_pins ${::NOC_INST_0}/aclk7]
   connect_bd_net -net ${::PS_INST}_ps_ps_noc_cci_axi0_clk [get_bd_pins ${::PS_INST}/fpd_cci_noc_axi0_clk] [get_bd_pins ${::NOC_INST_0}/aclk0]
   connect_bd_net -net ${::PS_INST}_ps_ps_noc_cci_axi1_clk [get_bd_pins ${::PS_INST}/fpd_cci_noc_axi1_clk] [get_bd_pins ${::NOC_INST_0}/aclk1]
@@ -1894,6 +1906,10 @@ proc create_root_design { parentCell } {
   connect_bd_net -net clk_wiz_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_fpd_aclk] [get_bd_pins rst_processor_pl_100Mhz/slowest_sync_clk] -boundary_type upper
   connect_bd_net -net clk_wiz_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_fpd_aclk] [get_bd_pins smartconnect_gp0/aclk] -boundary_type upper
   connect_bd_net -net clk_wiz_clk_out3 [get_bd_pins audio_pipe/aud_clk] [get_bd_pins display_pipe/s_axis_audio_aclk]
+  connect_bd_net -net clk_wiz_clk_out_400 [get_bd_pins axi_perf_mon_0/core_aclk] [get_bd_pins axi_perf_mon_0/slot_4_axi_aclk] -boundary_type upper
+  connect_bd_net -net clk_wiz_clk_out_400 [get_bd_pins axi_perf_mon_0/core_aclk] [get_bd_pins axi_perf_mon_0/slot_6_axi_aclk] -boundary_type upper
+  connect_bd_net -net clk_wiz_clk_out_400 [get_bd_pins axi_perf_mon_0/core_aclk] [get_bd_pins clk_wiz/clk_out_400] -boundary_type upper
+  connect_bd_net -net clk_wiz_clk_out_400 [get_bd_pins axi_perf_mon_0/core_aclk] [get_bd_pins rst_processor_400MHz/slowest_sync_clk] -boundary_type upper
   connect_bd_net -net display_pipe_TX_EN_OUT [get_bd_ports TX_EN_OUT] [get_bd_pins display_pipe/TX_EN_OUT]
   connect_bd_net -net display_pipe_iic2intc_irpt [get_bd_pins ${::PS_INST}/pl_ps_irq3] [get_bd_pins display_pipe/iic2intc_irpt]
   connect_bd_net -net display_pipe_irq [get_bd_pins ${::PS_INST}/pl_ps_irq0] [get_bd_pins display_pipe/irq]
@@ -1910,18 +1926,18 @@ proc create_root_design { parentCell } {
   connect_bd_net -net hdmi_capture_pipe_irq [get_bd_pins ${::PS_INST}/pl_ps_irq8] [get_bd_pins hdmi_capture_pipe/hdmi_rx_ss_irq]
   connect_bd_net -net link_clk_1 [get_bd_pins display_pipe/rx_usrclk] [get_bd_pins hdmi_capture_pipe/link_clk]
   connect_bd_net -net net_clk_wiz_locked [get_bd_pins clk_wiz/locked] [get_bd_pins rst_processor_150MHz/dcm_locked] -boundary_type upper
+  connect_bd_net -net net_clk_wiz_locked [get_bd_pins clk_wiz/locked] [get_bd_pins rst_processor_400MHz/dcm_locked] -boundary_type upper
   connect_bd_net -net net_clk_wiz_locked [get_bd_pins clk_wiz/locked] [get_bd_pins rst_processor_pl_100Mhz/dcm_locked] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins ${::NOC_INST_0}/aclk8] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins ${::NOC_INST_0}/aclk9] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins audio_pipe/aclk2] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_intc_0/s_axi_aclk] -boundary_type upper
-  connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/core_aclk] -boundary_type upper
+  
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/s_axi_aclk] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_0_axi_aclk] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_1_axi_aclk] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_2_axi_aclk] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_3_axi_aclk] -boundary_type upper
-  connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_4_axi_aclk] -boundary_type upper
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_perf_mon_0/slot_5_axi_aclk] -boundary_type upper
   
   connect_bd_net -net net_mb_ss_0_clk_out2 [get_bd_pins ${::PS_INST}/m_axi_lpd_aclk] [get_bd_pins axi_vip_s0/aclk] -boundary_type upper
@@ -1938,17 +1954,18 @@ proc create_root_design { parentCell } {
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins display_pipe/ARESETN] -boundary_type upper
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins hdmi_capture_pipe/s_axi_aresetn] -boundary_type upper
   connect_bd_net -net rst_processor_1_100M_peripheral_aresetn [get_bd_pins audio_pipe/s_axi_lite_aresetn] [get_bd_pins rst_processor_pl_100Mhz/peripheral_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/s_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_0_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_1_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_2_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_3_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_4_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_5_axi_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_vip_s0/aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins display_pipe/sc_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins rst_processor_150MHz/interconnect_aresetn] -boundary_type upper
-  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins smartconnect_gp2/aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_perf_mon_0/slot_0_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_perf_mon_0/slot_1_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_perf_mon_0/slot_2_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_perf_mon_0/slot_3_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_perf_mon_0/slot_5_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins axi_vip_s0/aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins display_pipe/sc_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins rst_processor_150MHz/interconnect_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_1_150M_interconnect_aresetn [get_bd_pins axi_perf_mon_0/s_axi_aresetn] [get_bd_pins smartconnect_gp2/aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_400MHz_peripheral_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_4_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_400MHz_peripheral_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins axi_perf_mon_0/slot_6_axi_aresetn] -boundary_type upper
+  connect_bd_net -net rst_processor_400MHz_peripheral_aresetn [get_bd_pins axi_perf_mon_0/core_aresetn] [get_bd_pins rst_processor_400MHz/peripheral_aresetn] -boundary_type upper
   connect_bd_net -net s_axis_audio_aresetn_1 [get_bd_pins audio_pipe/aud_resetn_out] [get_bd_pins display_pipe/s_axis_audio_aresetn]
   connect_bd_net -net versal_cips_ss_interconnect_aresetn [get_bd_pins rst_processor_pl_100Mhz/interconnect_aresetn] [get_bd_pins smartconnect_gp0/aresetn]
   connect_bd_net -net video_clk_1 [get_bd_pins display_pipe/rx_video_clk] [get_bd_pins hdmi_capture_pipe/video_clk]
@@ -1960,7 +1977,7 @@ proc create_root_design { parentCell } {
   assign_bd_address -offset 0xA4050000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs axi_perf_mon_0/S_AXI/Reg] -force
   assign_bd_address -offset 0x90000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs axi_vip_s0/S_AXI/Reg] -force
   assign_bd_address -offset 0xA4010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs display_pipe/hdmi_tx_rx_phy/fmch_axi_iic/S_AXI/Reg] -force
-  assign_bd_address -offset 0xA4210000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs audio_pipe/hdmi_acr_ctrl_0/axi/reg0] -force
+  assign_bd_address -offset 0xA4210000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs audio_pipe/hdmi_acr_ctrl_0/axi/Reg] -force
   assign_bd_address -offset 0xA4000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs display_pipe/hdmi_tx_rx_phy/hdmi_gt_controller_1/axi4lite/Reg] -force
   assign_bd_address -offset 0xA40D0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs hdmi_capture_pipe/cap_pipe/v_frmbuf_wr_0/s_axi_CTRL/Reg] -force
   assign_bd_address -offset 0xA4070000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs hdmi_capture_pipe/v_hdmi_rx_ss_0/S_AXI_CPU_IN/Reg] -force
@@ -2023,7 +2040,7 @@ proc create_root_design { parentCell } {
   # Create PFM attributes
   set_property PFM_NAME {xilinx:vck190:vck190_hdmiRx_hdmiTx:1.0} [get_files [current_bd_design].bd]
   set_property PFM.IRQ {intr { id 0 range 32 }} [get_bd_cells /axi_intc_0]
-  set_property PFM.CLOCK {clk_out_150 {id "0" is_default "true" proc_sys_reset "/rst_processor_150MHz" status "fixed"} clk_out_100 {id "1" is_default "false" proc_sys_reset "/rst_processor_pl_100Mhz" status "fixed"}} [get_bd_cells /clk_wiz]
+  set_property PFM.CLOCK {clk_out_150 {id "0" is_default "true" proc_sys_reset "/rst_processor_150MHz" status "fixed" freq_hz "150000000"} clk_out_100 {id "1" is_default "false" proc_sys_reset "/rst_processor_pl_100Mhz" status "fixed" freq_hz "100000000"} clk_out_400 {id "2" is_default "false" proc_sys_reset "/rst_processor_400Mhz" status "fixed" freq_hz "400000000"}} [get_bd_cells /clk_wiz]
   set_property PFM.AXI_PORT {M01_AXI {memport "M_AXI_GP" sptag "" memory ""} M02_AXI {memport "M_AXI_GP" sptag "" memory ""} M03_AXI {memport "M_AXI_GP" sptag "" memory ""} M04_AXI {memport "M_AXI_GP" sptag "" memory ""} M05_AXI {memport "M_AXI_GP" sptag "" memory ""} M06_AXI {memport "M_AXI_GP" sptag "" memory ""} M07_AXI {memport "M_AXI_GP" sptag "" memory ""} M08_AXI {memport "M_AXI_GP" sptag "" memory ""} M09_AXI {memport "M_AXI_GP" sptag "" memory ""} M10_AXI {memport "M_AXI_GP" sptag "" memory ""} M11_AXI {memport "M_AXI_GP" sptag "" memory ""} M12_AXI {memport "M_AXI_GP" sptag "" memory ""} M13_AXI {memport "M_AXI_GP" sptag "" memory ""} M14_AXI {memport "M_AXI_GP" sptag "" memory ""} M15_AXI {memport "M_AXI_GP" sptag "" memory ""}} [get_bd_cells /smartconnect_gp2]
   set_property PFM.AXI_PORT {M00_AXI {memport "NOC_MASTER"} S13_AXI {memport "MIG" sptag "NOC_S13" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S14_AXI {memport "MIG" sptag "NOC_S14" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S15_AXI {memport "MIG" sptag "NOC_S15" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S16_AXI {memport "MIG" sptag "NOC_S16" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S17_AXI {memport "MIG" sptag "NOC_S17" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S18_AXI {memport "MIG" sptag "NOC_S18" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S19_AXI {memport "MIG" sptag "NOC_S19" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S20_AXI {memport "MIG" sptag "NOC_S20" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S21_AXI {memport "MIG" sptag "NOC_S21" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S22_AXI {memport "MIG" sptag "NOC_S22" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S23_AXI {memport "MIG" sptag "NOC_S23" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S24_AXI {memport "MIG" sptag "NOC_S24" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S25_AXI {memport "MIG" sptag "NOC_S25" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S26_AXI {memport "MIG" sptag "NOC_S26" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S27_AXI {memport "MIG" sptag "NOC_S27" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S28_AXI {memport "MIG" sptag "NOC_S28" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"} S29_AXI {memport "MIG" sptag "NOC_S29" memory "NOC_0 C1_DDR_LOW0x2" is_range "true"} S30_AXI {memport "MIG" sptag "NOC_S30" memory "NOC_0 C2_DDR_LOW0x2" is_range "true"} S31_AXI {memport "MIG" sptag "NOC_S31" memory "NOC_0 C3_DDR_LOW0x2" is_range "true"} S32_AXI {memport "MIG" sptag "NOC_S32" memory "NOC_0 C0_DDR_LOW0x2" is_range "true"}} [get_bd_cells /NOC_0]
 

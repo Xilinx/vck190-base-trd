@@ -9,6 +9,7 @@ PLATFORM ?=
 LINK_CFG = link.cfg
 PACKAGE_CFG = package.cfg
 JOBS = 32
+
 VPP_LINK_FLAGS = -l -t hw --platform $(PLATFORM) --save-temps \
 	--report_level estimate -j $(JOBS) --config $(LINK_CFG) \
 	--advanced.param compiler.userPostSysLinkOverlayTcl=post_con.tcl
@@ -19,7 +20,9 @@ XBU_FLAGS = --remove-section BITSTREAM --force
 
 # kernels and xclbin
 KERNEL_OBJS += ../filter2d_pl/kernel/filter2d_pl_accel/filter2d_pl_accel.xo
-KERNEL_OBJS += ../filter2d_aie/datamover/filter2d_aie_accel/filter2d_aie_accel.xo
+KERNEL_OBJS += ../filter2d_aie/datamover/tiler.xo
+KERNEL_OBJS += ../filter2d_aie/datamover/stitcher.xo
+
 AIE_SDF += ../filter2d_aie/kernel/libadf.a
 BINARY_CONTAINER = binary_container_1.xclbin
 XSA_FILE = binary_container_1.xsa
@@ -49,7 +52,6 @@ $(BINARY_CONTAINER): $(KERNEL_OBJS) $(AIE_SDF)
 $(KERNEL_OBJS):
 	$(MAKE) -C ../filter2d_pl/kernel
 	$(MAKE) -C ../filter2d_aie/kernel
-	$(MAKE) -C ../filter2d_aie/datamover
 
 .PHONY: clean clean-subdirs
 clean: clean-subdirs
@@ -62,4 +64,3 @@ clean: clean-subdirs
 clean-subdirs:
 	$(MAKE) -C ../filter2d_pl/kernel clean
 	$(MAKE) -C ../filter2d_aie/kernel clean
-	$(MAKE) -C ../filter2d_aie/datamover clean
