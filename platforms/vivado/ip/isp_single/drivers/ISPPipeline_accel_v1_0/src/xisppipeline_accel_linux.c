@@ -1,6 +1,6 @@
 // ==============================================================
-// Vivado(TM) HLS - High-Level Synthesis from C, C++ and SystemC v2020.2 (64-bit)
-// Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+// Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2021.1 (64-bit)
+// Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // ==============================================================
 #ifdef __linux__
 
@@ -15,7 +15,7 @@
 
 /**************************** Type Definitions ******************************/
 typedef struct {
-    u32 addr;
+    u64 addr;
     u32 size;
 } XIsppipeline_accel_uio_map;
 
@@ -123,7 +123,7 @@ int XIsppipeline_accel_Initialize(XIsppipeline_accel *InstancePtr, const char* I
     }
 
     // NOTE: slave interface 'Ctrl' should be mapped to uioX/map0
-    InstancePtr->Ctrl_BaseAddress = (u32)mmap(NULL, InfoPtr->maps[0].size, PROT_READ|PROT_WRITE, MAP_SHARED, InfoPtr->uio_fd, 0 * getpagesize());
+    InstancePtr->Ctrl_BaseAddress = (u64)mmap(NULL, InfoPtr->maps[0].size, PROT_READ|PROT_WRITE, MAP_SHARED, InfoPtr->uio_fd, 0 * getpagesize());
     assert(InstancePtr->Ctrl_BaseAddress);
 
     InstancePtr->IsReady = XIL_COMPONENT_IS_READY;
