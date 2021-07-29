@@ -1,0 +1,226 @@
+From c3c6a586cdca4170a9fe2f77b334a82ce57b7440 Mon Sep 17 00:00:00 2001
+From: Thomas Nizan <tnizan@witekio.com>
+Date: Fri, 21 May 2021 13:11:05 -0700
+Subject: [PATCH 13/15] media: i2c: max9271: WIP for mars compatibility
+
+---
+ drivers/media/i2c/max9271.c | 124 ++++++++++++++++++++++++++++++++----
+ drivers/media/i2c/max9271.h |   4 ++
+ 2 files changed, 117 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
+index c495582dcff6..1efb092fb631 100644
+--- a/drivers/media/i2c/max9271.c
++++ b/drivers/media/i2c/max9271.c
+@@ -16,41 +16,77 @@
+  * functions exported from this library driver to maximize code re-use.
+  */
+ 
++#define DEBUG
++
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ 
+ #include "max9271.h"
+ 
+-static int max9271_read(struct max9271_device *dev, u8 reg)
++int max9271_read(struct max9271_device *dev, u8 reg)
+ {
+ 	int ret;
++	int retry = 5;
+ 
+ 	dev_dbg(&dev->client->dev, "%s(0x%02x)\n", __func__, reg);
+ 
+-	ret = i2c_smbus_read_byte_data(dev->client, reg);
++	while (retry--)
++	{
++		ret = i2c_smbus_read_byte_data(dev->client, reg);
++		if (ret < 0)
++		{
++			dev_err(&dev->client->dev,
++				"%s: register 0x%02x read failed (%d)\n",
++				__func__, reg, ret);
++		}
++		else
++		{
++			break;
++		}
++		usleep_range(5000, 10000);
++	}
++
+ 	if (ret < 0)
+-		dev_dbg(&dev->client->dev,
+-			"%s: register 0x%02x read failed (%d)\n",
++		dev_err(&dev->client->dev,
++			"%s: register 0x%02x read failed (%d) - all retries failed\n",
+ 			__func__, reg, ret);
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(max9271_read);
+ 
+-static int max9271_write(struct max9271_device *dev, u8 reg, u8 val)
++int max9271_write(struct max9271_device *dev, u8 reg, u8 val)
+ {
+ 	int ret;
++	int retry = 5;
+ 
+ 	dev_dbg(&dev->client->dev, "%s(0x%02x, 0x%02x)\n", __func__, reg, val);
+ 
+-	ret = i2c_smbus_write_byte_data(dev->client, reg, val);
++	while (retry--)
++	{
++		ret = i2c_smbus_write_byte_data(dev->client, reg, val);
++		if (ret < 0)
++		{
++			dev_err(&dev->client->dev,
++				"%s: register 0x%02x write failed (%d)\n",
++				__func__, reg, ret);
++		}
++		else
++		{
++			break;
++		}
++		usleep_range(5000, 10000);
++	}
++
+ 	if (ret < 0)
+ 		dev_err(&dev->client->dev,
+-			"%s: register 0x%02x write failed (%d)\n",
++			"%s: register 0x%02x write failed (%d) - all retries failed\n",
+ 			__func__, reg, ret);
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(max9271_write);
+ 
+ /*
+  * max9271_pclk_detect() - Detect valid pixel clock from image sensor
+@@ -144,6 +180,7 @@ int max9271_set_high_threshold(struct max9271_device *dev, bool enable)
+ 	 * immunity to power supply noise.
+ 	 */
+ 	max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
++	max9271_write(dev, 0x97, 0x5F);
+ 	usleep_range(2000, 2500);
+ 
+ 	return 0;
+@@ -152,6 +189,7 @@ EXPORT_SYMBOL_GPL(max9271_set_high_threshold);
+ 
+ int max9271_configure_gmsl_link(struct max9271_device *dev)
+ {
++	int ret;
+ 	/*
+ 	 * Configure the GMSL link:
+ 	 *
+@@ -162,17 +200,73 @@ int max9271_configure_gmsl_link(struct max9271_device *dev)
+ 	 *
+ 	 * TODO: Make the GMSL link configuration parametric.
+ 	 */
+-	max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
+-		      MAX9271_EDC_1BIT_PARITY);
++	// On  Max96705, bit 6 is to enable HIBW (=MAX9271_DRS)
++	max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_DRS |
++				  MAX9271_HVEN | MAX9271_EDC_1BIT_PARITY);
++	usleep_range(5000, 8000);
++
++					//
++					// Reference GMSL_Timing_ReGen_1.1 or
++					// later for
++					//
++					// vsync delay
++					//
++					// Delay should be on the order of 4
++					// lines or more
++	max9271_write(dev, 0x44, 0x00);	// [7:0] VS_DLY[23:16] = 0x00
++	usleep_range(5000, 8000);
++	max9271_write(dev, 0x45, 0x21);	// [7:0] VS_DLY[15:8] = 0x21
+ 	usleep_range(5000, 8000);
++	max9271_write(dev, 0x46, 0xC8);	// [7:0] VS_DLY[7:0] = 0xC8
++					// VS_DLY = 2162 * 4 = 8648 (0x21C8
++					//
++					// vsync high
++					//
++					// High time >200Pclks
++					// Ensure there are >200 PCLK's
++	max9271_write(dev, 0x47, 0x00);	// [7:0] VS_H[23:16]
++	max9271_write(dev, 0x48, 0x00);	// [7:0] VS_H[15:8]
++	max9271_write(dev, 0x49, 0xC8);	// [7:0] VS_H[7:0]
++					// VS_H = 200 (0xC8)
++					//
++
++	max9271_write(dev, 0x43, 0x21);	// enable vsync re-gen
++					//   [7] RSVD = 0
++					//   [6] RSVD = 0
++					//   [5] GEN_VS = 1
++					//       enable VS output generation
++					//       (VS internally generated)
++					//   [4] GEN_HS = 0
++					//       disable HS output generation
++					//       (HS used from input)
++					//   [3] GEN_DE = 0
++					//       disable DE output generation
++					//       (DE used from input)
++					//   [2] VS_TRIG = 0
++					//       VS trigger uses falling edge
++					// [1:0] VTG_MODE = 1
++					//       VS edge triggers one VS frame
++					//       (current frame is extended/cut
++					//        shfot to adjust timing to net
++					//        trigger)
++					//
++	max9271_write(dev, 0x67, 0xC4);	// align at HS rising edge
++					// [7:6] RVSD = 3
++					//   [5] AUTO_CLINK = 0
++					//       enable configuration link only
++					//       when CLINKEN=1 and SEREN=0
++					//   [4] RSVD = 0
++					//   [3] RSVD = 0
++					// [2:0] DBL_ALIGN_TO = 4 = align at
++					//       each rising edge of HS
+ 
+ 	/*
+ 	 * Adjust spread spectrum to +4% and auto-detect pixel clock
+ 	 * and serial link rate.
+ 	 */
+-	max9271_write(dev, 0x02, MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
++	/*max9271_write(dev, 0x02, MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
+ 		      MAX9271_PCLK_AUTODETECT | MAX9271_SERIAL_AUTODETECT);
+-	usleep_range(5000, 8000);
++	usleep_range(5000, 8000);*/
+ 
+ 	return 0;
+ }
+@@ -297,6 +391,14 @@ int max9271_set_address(struct max9271_device *dev, u8 addr)
+ 	}
+ 	usleep_range(3500, 5000);
+ 
++	ret = max9271_write(dev, 0x0c, addr << 1);
++	if (ret < 0) {
++		dev_err(&dev->client->dev,
++			"MAX9271 I2C address change failed (%d)\n", ret);
++		return ret;
++	}
++	usleep_range(3500, 5000);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(max9271_set_address);
+diff --git a/drivers/media/i2c/max9271.h b/drivers/media/i2c/max9271.h
+index d78fb21441e9..d0d085636afa 100644
+--- a/drivers/media/i2c/max9271.h
++++ b/drivers/media/i2c/max9271.h
+@@ -85,6 +85,10 @@ struct max9271_device {
+ 	struct i2c_client *client;
+ };
+ 
++int max9271_read(struct max9271_device *dev, u8 reg);
++
++int max9271_write(struct max9271_device *dev, u8 reg, u8 val);
++
+ /**
+  * max9271_set_serial_link() - Enable/disable serial link
+  * @dev: The max9271 device
+-- 
+2.20.1
+
