@@ -5,8 +5,8 @@
 
 SUMMARY = "Base TRD Jupyter notebooks"
 SECTION = "PETALINUX/apps"
-LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f9990fcc34ccf1f82ccf1bc5a1cc3bfc"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=ba05a6f05e084b7a9f5a28a629077646"
 
 S = "${WORKDIR}"
 
