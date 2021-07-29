@@ -1,6 +1,6 @@
 // ==============================================================
-// Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2021.1 (64-bit)
-// Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+// Vivado(TM) HLS - High-Level Synthesis from C, C++ and SystemC v2020.2 (64-bit)
+// Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // ==============================================================
 /***************************** Include Files *********************************/
 #include "xisppipeline_accel.h"
@@ -107,167 +107,21 @@ u32 XIsppipeline_accel_Get_height(XIsppipeline_accel *InstancePtr) {
     return Data;
 }
 
-void XIsppipeline_accel_Set_mode_reg(XIsppipeline_accel *InstancePtr, u32 Data) {
+void XIsppipeline_accel_Set_bayer_phase(XIsppipeline_accel *InstancePtr, u32 Data) {
     Xil_AssertVoid(InstancePtr != NULL);
     Xil_AssertVoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
 
-    XIsppipeline_accel_WriteReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_MODE_REG_DATA, Data);
+    XIsppipeline_accel_WriteReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_BAYER_PHASE_DATA, Data);
 }
 
-u32 XIsppipeline_accel_Get_mode_reg(XIsppipeline_accel *InstancePtr) {
+u32 XIsppipeline_accel_Get_bayer_phase(XIsppipeline_accel *InstancePtr) {
     u32 Data;
 
     Xil_AssertNonvoid(InstancePtr != NULL);
     Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
 
-    Data = XIsppipeline_accel_ReadReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_MODE_REG_DATA);
+    Data = XIsppipeline_accel_ReadReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_BAYER_PHASE_DATA);
     return Data;
-}
-
-void XIsppipeline_accel_Set_rgain(XIsppipeline_accel *InstancePtr, u32 Data) {
-    Xil_AssertVoid(InstancePtr != NULL);
-    Xil_AssertVoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    XIsppipeline_accel_WriteReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_RGAIN_DATA, Data);
-}
-
-u32 XIsppipeline_accel_Get_rgain(XIsppipeline_accel *InstancePtr) {
-    u32 Data;
-
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    Data = XIsppipeline_accel_ReadReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_RGAIN_DATA);
-    return Data;
-}
-
-void XIsppipeline_accel_Set_bgain(XIsppipeline_accel *InstancePtr, u32 Data) {
-    Xil_AssertVoid(InstancePtr != NULL);
-    Xil_AssertVoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    XIsppipeline_accel_WriteReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_BGAIN_DATA, Data);
-}
-
-u32 XIsppipeline_accel_Get_bgain(XIsppipeline_accel *InstancePtr) {
-    u32 Data;
-
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    Data = XIsppipeline_accel_ReadReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_BGAIN_DATA);
-    return Data;
-}
-
-void XIsppipeline_accel_Set_pawb(XIsppipeline_accel *InstancePtr, u32 Data) {
-    Xil_AssertVoid(InstancePtr != NULL);
-    Xil_AssertVoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    XIsppipeline_accel_WriteReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_PAWB_DATA, Data);
-}
-
-u32 XIsppipeline_accel_Get_pawb(XIsppipeline_accel *InstancePtr) {
-    u32 Data;
-
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    Data = XIsppipeline_accel_ReadReg(InstancePtr->Ctrl_BaseAddress, XISPPIPELINE_ACCEL_CTRL_ADDR_PAWB_DATA);
-    return Data;
-}
-
-u32 XIsppipeline_accel_Get_gamma_lut_BaseAddress(XIsppipeline_accel *InstancePtr) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    return (InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE);
-}
-
-u32 XIsppipeline_accel_Get_gamma_lut_HighAddress(XIsppipeline_accel *InstancePtr) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    return (InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH);
-}
-
-u32 XIsppipeline_accel_Get_gamma_lut_TotalBytes(XIsppipeline_accel *InstancePtr) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    return (XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH - XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + 1);
-}
-
-u32 XIsppipeline_accel_Get_gamma_lut_BitWidth(XIsppipeline_accel *InstancePtr) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    return XISPPIPELINE_ACCEL_CTRL_WIDTH_GAMMA_LUT;
-}
-
-u32 XIsppipeline_accel_Get_gamma_lut_Depth(XIsppipeline_accel *InstancePtr) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
-
-    return XISPPIPELINE_ACCEL_CTRL_DEPTH_GAMMA_LUT;
-}
-
-u32 XIsppipeline_accel_Write_gamma_lut_Words(XIsppipeline_accel *InstancePtr, int offset, word_type *data, int length) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr -> IsReady == XIL_COMPONENT_IS_READY);
-
-    int i;
-
-    if ((offset + length)*4 > (XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH - XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + 1))
-        return 0;
-
-    for (i = 0; i < length; i++) {
-        *(int *)(InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + (offset + i)*4) = *(data + i);
-    }
-    return length;
-}
-
-u32 XIsppipeline_accel_Read_gamma_lut_Words(XIsppipeline_accel *InstancePtr, int offset, word_type *data, int length) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr -> IsReady == XIL_COMPONENT_IS_READY);
-
-    int i;
-
-    if ((offset + length)*4 > (XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH - XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + 1))
-        return 0;
-
-    for (i = 0; i < length; i++) {
-        *(data + i) = *(int *)(InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + (offset + i)*4);
-    }
-    return length;
-}
-
-u32 XIsppipeline_accel_Write_gamma_lut_Bytes(XIsppipeline_accel *InstancePtr, int offset, char *data, int length) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr -> IsReady == XIL_COMPONENT_IS_READY);
-
-    int i;
-
-    if ((offset + length) > (XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH - XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + 1))
-        return 0;
-
-    for (i = 0; i < length; i++) {
-        *(char *)(InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + offset + i) = *(data + i);
-    }
-    return length;
-}
-
-u32 XIsppipeline_accel_Read_gamma_lut_Bytes(XIsppipeline_accel *InstancePtr, int offset, char *data, int length) {
-    Xil_AssertNonvoid(InstancePtr != NULL);
-    Xil_AssertNonvoid(InstancePtr -> IsReady == XIL_COMPONENT_IS_READY);
-
-    int i;
-
-    if ((offset + length) > (XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_HIGH - XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + 1))
-        return 0;
-
-    for (i = 0; i < length; i++) {
-        *(data + i) = *(char *)(InstancePtr->Ctrl_BaseAddress + XISPPIPELINE_ACCEL_CTRL_ADDR_GAMMA_LUT_BASE + offset + i);
-    }
-    return length;
 }
 
 void XIsppipeline_accel_InterruptGlobalEnable(XIsppipeline_accel *InstancePtr) {

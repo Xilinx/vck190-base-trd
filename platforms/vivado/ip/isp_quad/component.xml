@@ -153,7 +153,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>ADDR_WIDTH</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_CTRL.ADDR_WIDTH">12</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_CTRL.ADDR_WIDTH">6</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>DATA_WIDTH</spirit:name>
@@ -321,7 +321,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>TDATA_NUM_BYTES</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_VIDEO.TDATA_NUM_BYTES">4</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_VIDEO.TDATA_NUM_BYTES">3</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>TDEST_WIDTH</spirit:name>
@@ -423,7 +423,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>TDATA_NUM_BYTES</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_VIDEO.TDATA_NUM_BYTES">4</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_VIDEO.TDATA_NUM_BYTES">6</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>TDEST_WIDTH</spirit:name>
@@ -556,33 +556,7 @@
             <spirit:name>RESERVED_2</spirit:name>
             <spirit:description>Reserved.  0s on read.</spirit:description>
             <spirit:bitOffset>8</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">1</spirit:bitWidth>
-            <spirit:access>read-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:readAction>modify</spirit:readAction>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-          <spirit:field>
-            <spirit:name>RESERVED_3</spirit:name>
-            <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>9</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">1</spirit:bitWidth>
-            <spirit:access>read-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:readAction>modify</spirit:readAction>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-          <spirit:field>
-            <spirit:name>RESERVED_4</spirit:name>
-            <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>10</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">22</spirit:bitWidth>
+            <spirit:bitWidth spirit:format="long">24</spirit:bitWidth>
             <spirit:access>read-only</spirit:access>
             <spirit:writeValueConstraint>
               <spirit:minimum>0</spirit:minimum>
@@ -743,7 +717,7 @@
           </spirit:reset>
           <spirit:field>
             <spirit:name>width</spirit:name>
-            <spirit:description>Bit 15 to 0 of width</spirit:description>
+            <spirit:description>Bit 15 to 0 Data signal of width</spirit:description>
             <spirit:bitOffset>0</spirit:bitOffset>
             <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
             <spirit:access>write-only</spirit:access>
@@ -779,7 +753,7 @@
           </spirit:reset>
           <spirit:field>
             <spirit:name>height</spirit:name>
-            <spirit:description>Bit 15 to 0 of height</spirit:description>
+            <spirit:description>Bit 15 to 0 Data signal of height</spirit:description>
             <spirit:bitOffset>0</spirit:bitOffset>
             <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
             <spirit:access>write-only</spirit:access>
@@ -804,45 +778,9 @@
           </spirit:field>
         </spirit:register>
         <spirit:register>
-          <spirit:name>mode_reg</spirit:name>
-          <spirit:displayName>mode_reg</spirit:displayName>
-          <spirit:description>Data signal of mode_reg</spirit:description>
-          <spirit:addressOffset>32</spirit:addressOffset>
-          <spirit:size spirit:format="long">32</spirit:size>
-          <spirit:access>write-only</spirit:access>
-          <spirit:reset>
-            <spirit:value spirit:format="long">0</spirit:value>
-          </spirit:reset>
-          <spirit:field>
-            <spirit:name>mode_reg</spirit:name>
-            <spirit:description>Bit 7 to 0 of mode_reg</spirit:description>
-            <spirit:bitOffset>0</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">8</spirit:bitWidth>
-            <spirit:access>write-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-          <spirit:field>
-            <spirit:name>RESERVED</spirit:name>
-            <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>8</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">24</spirit:bitWidth>
-            <spirit:access>read-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:readAction>modify</spirit:readAction>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-        </spirit:register>
-        <spirit:register>
-          <spirit:name>rgain</spirit:name>
-          <spirit:displayName>rgain</spirit:displayName>
-          <spirit:description>Data signal of rgain</spirit:description>
+          <spirit:name>bayer_phase</spirit:name>
+          <spirit:displayName>bayer_phase</spirit:displayName>
+          <spirit:description>Data signal of bayer_phase</spirit:description>
           <spirit:addressOffset>48</spirit:addressOffset>
           <spirit:size spirit:format="long">32</spirit:size>
           <spirit:access>write-only</spirit:access>
@@ -850,8 +788,8 @@
             <spirit:value spirit:format="long">0</spirit:value>
           </spirit:reset>
           <spirit:field>
-            <spirit:name>rgain</spirit:name>
-            <spirit:description>Bit 15 to 0 of rgain</spirit:description>
+            <spirit:name>bayer_phase</spirit:name>
+            <spirit:description>Bit 15 to 0 Data signal of bayer_phase</spirit:description>
             <spirit:bitOffset>0</spirit:bitOffset>
             <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
             <spirit:access>write-only</spirit:access>
@@ -874,89 +812,6 @@
             <spirit:readAction>modify</spirit:readAction>
             <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
           </spirit:field>
-        </spirit:register>
-        <spirit:register>
-          <spirit:name>bgain</spirit:name>
-          <spirit:displayName>bgain</spirit:displayName>
-          <spirit:description>Data signal of bgain</spirit:description>
-          <spirit:addressOffset>56</spirit:addressOffset>
-          <spirit:size spirit:format="long">32</spirit:size>
-          <spirit:access>write-only</spirit:access>
-          <spirit:reset>
-            <spirit:value spirit:format="long">0</spirit:value>
-          </spirit:reset>
-          <spirit:field>
-            <spirit:name>bgain</spirit:name>
-            <spirit:description>Bit 15 to 0 of bgain</spirit:description>
-            <spirit:bitOffset>0</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
-            <spirit:access>write-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-          <spirit:field>
-            <spirit:name>RESERVED</spirit:name>
-            <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>16</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
-            <spirit:access>read-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:readAction>modify</spirit:readAction>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-        </spirit:register>
-        <spirit:register>
-          <spirit:name>pawb</spirit:name>
-          <spirit:displayName>pawb</spirit:displayName>
-          <spirit:description>Data signal of pawb</spirit:description>
-          <spirit:addressOffset>84</spirit:addressOffset>
-          <spirit:size spirit:format="long">32</spirit:size>
-          <spirit:access>write-only</spirit:access>
-          <spirit:reset>
-            <spirit:value spirit:format="long">0</spirit:value>
-          </spirit:reset>
-          <spirit:field>
-            <spirit:name>pawb</spirit:name>
-            <spirit:description>Bit 15 to 0 of pawb</spirit:description>
-            <spirit:bitOffset>0</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
-            <spirit:access>write-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-          <spirit:field>
-            <spirit:name>RESERVED</spirit:name>
-            <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>16</spirit:bitOffset>
-            <spirit:bitWidth spirit:format="long">16</spirit:bitWidth>
-            <spirit:access>read-only</spirit:access>
-            <spirit:writeValueConstraint>
-              <spirit:minimum>0</spirit:minimum>
-              <spirit:maximum>0</spirit:maximum>
-            </spirit:writeValueConstraint>
-            <spirit:readAction>modify</spirit:readAction>
-            <spirit:testable spirit:testConstraint="unconstrained">false</spirit:testable>
-          </spirit:field>
-        </spirit:register>
-        <spirit:register>
-          <spirit:name>Memory_gamma_lut</spirit:name>
-          <spirit:displayName>Memory_gamma_lut</spirit:displayName>
-          <spirit:description>Memory gamma_lut</spirit:description>
-          <spirit:addressOffset>2048</spirit:addressOffset>
-          <spirit:size spirit:format="long">1024</spirit:size>
-          <spirit:access>read-write</spirit:access>
-          <spirit:reset>
-            <spirit:value spirit:format="long">0</spirit:value>
-          </spirit:reset>
         </spirit:register>
       </spirit:addressBlock>
     </spirit:memoryMap>
@@ -970,15 +825,12 @@
         <spirit:language>verilog</spirit:language>
         <spirit:modelName>ISPPipeline_accel</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_verilogsynthesis_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_verilogsynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>52e0e75d</spirit:value>
+            <spirit:value>157743dd</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -989,15 +841,12 @@
         <spirit:language>verilog</spirit:language>
         <spirit:modelName>ISPPipeline_accel</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_verilogbehavioralsimulation_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_verilogbehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f3d12e56</spirit:value>
+            <spirit:value>9ece2548</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1008,15 +857,12 @@
         <spirit:language>vhdl</spirit:language>
         <spirit:modelName>ISPPipeline_accel</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_vhdlsynthesis_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlsynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e8f879d1</spirit:value>
+            <spirit:value>e9ad50cc</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1027,15 +873,12 @@
         <spirit:language>vhdl</spirit:language>
         <spirit:modelName>ISPPipeline_accel</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_vhdlbehavioralsimulation_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>2f59c0b5</spirit:value>
+            <spirit:value>2179eaf5</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1049,7 +892,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c2d0537b</spirit:value>
+            <spirit:value>4cf8143a</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1071,7 +914,21 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>34797a57</spirit:value>
+            <spirit:value>0f05e113</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_block_diagram</spirit:name>
+        <spirit:displayName>Block Diagram</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:block.diagram</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_block_diagram_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>42aad8f6</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1085,7 +942,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>26d0dfca</spirit:value>
+            <spirit:value>9cdb3ddd</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1099,7 +956,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>34797a57</spirit:value>
+            <spirit:value>0f05e113</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1110,7 +967,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH&apos;)) - 1)">11</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH&apos;)) - 1)">5</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1256,7 +1113,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH&apos;)) - 1)">11</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH&apos;)) - 1)">5</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1424,7 +1281,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:left spirit:format="long">23</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1461,7 +1318,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long">2</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1472,7 +1329,7 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
           <spirit:driver>
-            <spirit:defaultValue spirit:format="long">15</spirit:defaultValue>
+            <spirit:defaultValue spirit:format="long">7</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
       </spirit:port>
@@ -1481,7 +1338,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long">2</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1492,7 +1349,7 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
           <spirit:driver>
-            <spirit:defaultValue spirit:format="long">15</spirit:defaultValue>
+            <spirit:defaultValue spirit:format="long">7</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
       </spirit:port>
@@ -1587,7 +1444,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:left spirit:format="long">47</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1621,7 +1478,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long">5</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1638,7 +1495,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long">5</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -1705,7 +1562,7 @@
     <spirit:modelParameters>
       <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
         <spirit:name>C_S_AXI_CTRL_ADDR_WIDTH</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH">12</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI_CTRL_ADDR_WIDTH">6</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_S_AXI_CTRL_DATA_WIDTH</spirit:name>
@@ -1717,104 +1574,128 @@
     <spirit:fileSet>
       <spirit:name>xilinx_verilogsynthesis_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>constraints/ISPPipeline_accel_ooc.xdc</spirit:name>
         <spirit:userFileType>xdc</spirit:userFileType>
         <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogram_10_10_2160_3840_2_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogram.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_COL_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogramkernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_HIST_INITIALIZE_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogramkernercU.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_INITIALIZE_HIST.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBNormalization.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_MERGE_HIST_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBNormalizationkern.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/AXIVideo2BayerMat.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s_tmp_hist_V_0.v</spirit:name>
+        <spirit:name>hdl/verilog/badpixelcorrectioeOg.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalization_10_10_2160_3840_2_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/badpixelcorrection.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_Col_Loop1.v</spirit:name>
+        <spirit:name>hdl/verilog/blackLevelCorrection.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_319_3.v</spirit:name>
+        <spirit:name>hdl/verilog/colorcorrectionmatri.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_329_4.v</spirit:name>
+        <spirit:name>hdl/verilog/ColorMat2AXIvideo.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/Core_Process.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_col_zxi2mat.v</spirit:name>
+        <spirit:name>hdl/verilog/demosaicing.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_last_hunt.v</spirit:name>
+        <spirit:name>hdl/verilog/demosaicing_lineblbW.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_start_hunt.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d2_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d4_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d5_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18_Pipeline_VITIS_LOOP_75_1.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d6_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_colorcorrectionmatrix_0_10_10_2160_3840_2_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d7_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_Pipeline_loop_col_mat2axi.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d8_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d10_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w16_d11_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w20_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w48_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w60_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w60_d4096_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/g_kernel_ap_uint_6_s.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/gaincontrol.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/gaincontrolkernel.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/ISPpipeline.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -1822,480 +1703,311 @@
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Col_Loop.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelbkb.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_LineBuffer_VITIS_LOOP_269_1.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelcud.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Zero.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_acceldEe.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelDeQ.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s_linebuffer_V_0.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelEe0.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_entry_proc.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelFfa.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_awb_10_10_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelGfk.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_Pipeline_Col_Loop.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelHfu.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelIfE.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d2_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_acceljbC.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d4_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelJfO.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d5_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelkbM.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d6_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelKfY.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d8_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelpcA.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d9_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelqcK.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d10_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelZio.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d11_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w16_d4_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w32_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w32_d6_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w48_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w96_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w96_d2_S_x.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_flow_control_loop_pipe_sequential_init.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_function_awb_10_10_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_g_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_Pipeline_ColLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_colLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_VITIS_LOOP_39_1_VITIS_LOOP_40_2.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s_lut_0_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hist0_awb_0.dat</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelZio_ram.dat</spirit:name>
         <spirit:userFileType>mif</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hist0_awb_0.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPpipeline_Block_Ma.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_detection_unit.v</spirit:name>
+        <spirit:name>hdl/verilog/process_image.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_detector.vh</spirit:name>
+        <spirit:name>hdl/verilog/process_row.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx0_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/rb_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx1_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/regslice_core.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx2_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/rgb_bgr_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_kernel_monitor_top.vh</spirit:name>
+        <spirit:name>hdl/verilog/rgr_bgb_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_report_unit.vh</spirit:name>
+        <spirit:name>hdl/verilog/start_for_AWBhistUhA.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ISPpipeline.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_badpixeRg6.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ISPpipeline_Block_ZN2xf2cv3MatILi1ELi2160ELi3840ELi2ELi2EEC2Eii_exit1_proc.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_blackLeXh4.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_12ns_22ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_colorcoYie.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_13s_22ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_ColorMaWhU.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14ns_15ns_22_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_demosaiThq.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14ns_22s_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_gainconShg.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14s_15ns_22_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_xf_QuatVhK.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_15ns_23ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/update_row_idx.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_15s_23s_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDither.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_16ns_29s_45_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDitLf8.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_16ns_30ns_45_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDitMgi.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_27ns_24ns_51_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xfccmkernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_32s_24s_56_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_48s_50ns_97_2_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_51ns_53ns_103_2_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_11ns_12ns_23_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_12ns_12ns_24_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_16ns_32_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_23s_39_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_24s_40_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_26s_42_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_24s_24ns_48_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_32_24_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_32_32_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_42_16_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_42_32_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_63_16_1_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rb_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_regslice_both.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgb2yuyv_9_1_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgb_bgr_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgr_bgb_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_sdiv_38ns_24s_32_42_seq_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_start_for_blackLevelCorrection_1_2160_3840_2_16_15_1_18_U0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_start_for_colorcorrectionmatrix_0_10_10_2160_3840_2_2_U0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_LOOP_ROW_LOOP_COL.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_VITIS_LOOP_110_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_Pipeline_colLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfExtractPixels_2_17_15_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_Pipeline_columnloop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/xfExtractPixels.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>hdl/verilog/ISPPipeline_accel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_verilogsynthesis_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="floating_point" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="copy_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_verilogbehavioralsimulation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogram_10_10_2160_3840_2_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogram.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_COL_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogramkernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_HIST_INITIALIZE_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBhistogramkernercU.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_INITIALIZE_HIST.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBNormalization.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_MERGE_HIST_LOOP.v</spirit:name>
+        <spirit:name>hdl/verilog/AWBNormalizationkern.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/AXIVideo2BayerMat.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s_tmp_hist_V_0.v</spirit:name>
+        <spirit:name>hdl/verilog/badpixelcorrectioeOg.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalization_10_10_2160_3840_2_1_4096_s.v</spirit:name>
+        <spirit:name>hdl/verilog/badpixelcorrection.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_Col_Loop1.v</spirit:name>
+        <spirit:name>hdl/verilog/blackLevelCorrection.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_319_3.v</spirit:name>
+        <spirit:name>hdl/verilog/colorcorrectionmatri.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_329_4.v</spirit:name>
+        <spirit:name>hdl/verilog/ColorMat2AXIvideo.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/Core_Process.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_col_zxi2mat.v</spirit:name>
+        <spirit:name>hdl/verilog/demosaicing.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_last_hunt.v</spirit:name>
+        <spirit:name>hdl/verilog/demosaicing_lineblbW.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_start_hunt.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d2_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d4_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d5_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18_Pipeline_VITIS_LOOP_75_1.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d6_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_colorcorrectionmatrix_0_10_10_2160_3840_2_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d7_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_Pipeline_loop_col_mat2axi.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d8_A.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/fifo_w16_d10_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w16_d11_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w20_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w48_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w60_d2_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/fifo_w60_d4096_A.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/g_kernel_ap_uint_6_s.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/gaincontrol.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/gaincontrolkernel.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/verilog/ISPpipeline.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -2305,446 +2017,191 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Col_Loop.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelbkb.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_LineBuffer_VITIS_LOOP_269_1.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelcud.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Zero.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_acceldEe.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelDeQ.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s_linebuffer_V_0.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelEe0.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_entry_proc.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelFfa.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_awb_10_10_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelGfk.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_Pipeline_Col_Loop.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelHfu.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelIfE.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d2_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_acceljbC.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d4_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelJfO.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d5_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelkbM.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d6_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelKfY.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d8_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelpcA.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d9_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelqcK.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d10_S.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelZio.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w12_d11_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w16_d4_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w32_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w32_d6_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w48_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w96_d2_S.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fifo_w96_d2_S_x.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_flow_control_loop_pipe_sequential_init.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_function_awb_10_10_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_g_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_Pipeline_ColLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_colLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_VITIS_LOOP_39_1_VITIS_LOOP_40_2.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s_lut_0_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hist0_awb_0.dat</spirit:name>
+        <spirit:name>hdl/verilog/ISPPipeline_accelZio_ram.dat</spirit:name>
         <spirit:userFileType>mif</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hist0_awb_0.v</spirit:name>
+        <spirit:name>hdl/verilog/ISPpipeline_Block_Ma.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_detection_unit.v</spirit:name>
+        <spirit:name>hdl/verilog/process_image.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_detector.vh</spirit:name>
+        <spirit:name>hdl/verilog/process_row.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx0_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/rb_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx1_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/regslice_core.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_idx2_monitor.v</spirit:name>
+        <spirit:name>hdl/verilog/rgb_bgr_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_kernel_monitor_top.vh</spirit:name>
+        <spirit:name>hdl/verilog/rgr_bgb_kernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_hls_deadlock_report_unit.vh</spirit:name>
+        <spirit:name>hdl/verilog/start_for_AWBhistUhA.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ISPpipeline.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_badpixeRg6.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_ISPpipeline_Block_ZN2xf2cv3MatILi1ELi2160ELi3840ELi2ELi2EEC2Eii_exit1_proc.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_blackLeXh4.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_12ns_22ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_colorcoYie.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_13s_22ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_ColorMaWhU.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14ns_15ns_22_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_demosaiThq.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14ns_22s_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_gainconShg.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_14s_15ns_22_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/start_for_xf_QuatVhK.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_15ns_23ns_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/update_row_idx.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mac_muladd_8ns_15s_23s_23_4_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDither.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_16ns_29s_45_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDitLf8.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_16ns_30ns_45_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xf_QuatizationDitMgi.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_27ns_24ns_51_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/xfccmkernel.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_32s_24s_56_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_48s_50ns_97_2_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_51ns_53ns_103_2_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_11ns_12ns_23_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_12ns_12ns_24_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_16ns_32_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_23s_39_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_24s_40_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_16ns_26s_42_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mul_mul_24s_24ns_48_4_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_32_24_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_32_32_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_42_16_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_42_32_1_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_mux_63_16_1_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rb_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_regslice_both.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgb2yuyv_9_1_2160_3840_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgb_bgr_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_rgr_bgb_kernel_ap_uint_16_6_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_sdiv_38ns_24s_32_42_seq_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_start_for_blackLevelCorrection_1_2160_3840_2_16_15_1_18_U0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_start_for_colorcorrectionmatrix_0_10_10_2160_3840_2_2_U0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_LOOP_ROW_LOOP_COL.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_VITIS_LOOP_110_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_1.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_Pipeline_colLoop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfExtractPixels_2_17_15_s.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_Pipeline_columnloop.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/verilog/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_s.v</spirit:name>
+        <spirit:name>hdl/verilog/xfExtractPixels.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -2753,133 +2210,132 @@
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_verilogbehavioralsimulation_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="floating_point" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="copy_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlsynthesis_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
       <spirit:file>
         <spirit:name>constraints/ISPPipeline_accel_ooc.xdc</spirit:name>
         <spirit:userFileType>xdc</spirit:userFileType>
         <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogram_10_10_2160_3840_2_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogram.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_COL_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogramkernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_HIST_INITIALIZE_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogramkernercU.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_INITIALIZE_HIST.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBNormalization.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_MERGE_HIST_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBNormalizationkern.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AXIVideo2BayerMat.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s_tmp_hist_V_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/badpixelcorrectioeOg.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalization_10_10_2160_3840_2_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/badpixelcorrection.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_Col_Loop1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/blackLevelCorrection.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_319_3.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/colorcorrectionmatri.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_329_4.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ColorMat2AXIvideo.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/Core_Process.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_col_zxi2mat.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/demosaicing.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_last_hunt.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/demosaicing_lineblbW.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_start_hunt.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d2_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d4_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d5_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18_Pipeline_VITIS_LOOP_75_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d6_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_colorcorrectionmatrix_0_10_10_2160_3840_2_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d7_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_Pipeline_loop_col_mat2axi.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d8_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d10_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w16_d11_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w20_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w48_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w60_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w60_d4096_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/g_kernel_ap_uint_6_s.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/gaincontrol.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/gaincontrolkernel.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/ISPpipeline.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -2887,449 +2343,308 @@
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Col_Loop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelbkb.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_LineBuffer_VITIS_LOOP_269_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelcud.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Zero.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_acceldEe.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelDeQ.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s_linebuffer_V_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelEe0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_entry_proc.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelFfa.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_awb_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelGfk.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_Pipeline_Col_Loop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelHfu.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelIfE.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_acceljbC.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d4_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelJfO.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d5_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelkbM.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d6_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelKfY.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d8_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelpcA.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d9_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelqcK.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d10_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelZio.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d11_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPpipeline_Block_Ma.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w16_d4_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/process_image.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w32_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/process_row.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w32_d6_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rb_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w48_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/regslice_core.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w96_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rgb_bgr_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w96_d2_S_x.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rgr_bgb_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_flow_control_loop_pipe_sequential_init.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_AWBhistUhA.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_badpixeRg6.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_blackLeXh4.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_function_awb_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_colorcoYie.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_g_kernel_ap_uint_16_6_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_ColorMaWhU.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_Pipeline_ColLoop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_demosaiThq.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_gainconShg.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_colLoop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_xf_QuatVhK.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_VITIS_LOOP_39_1_VITIS_LOOP_40_2.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/update_row_idx.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDither.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s_lut_0_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDitLf8.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_hist0_awb_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDitMgi.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ISPpipeline.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xfccmkernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ISPpipeline_Block_ZN2xf2cv3MatILi1ELi2160ELi3840ELi2ELi2EEC2Eii_exit1_proc.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_12ns_22ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_13s_22ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14ns_15ns_22_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14ns_22s_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14s_15ns_22_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_15ns_23ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_15s_23s_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_16ns_29s_45_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_16ns_30ns_45_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_27ns_24ns_51_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_32s_24s_56_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_48s_50ns_97_2_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_51ns_53ns_103_2_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_11ns_12ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_12ns_12ns_24_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_16ns_32_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_23s_39_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_24s_40_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_26s_42_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_24s_24ns_48_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_32_24_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_32_32_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_42_16_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_42_32_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_63_16_1_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rb_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_regslice_both.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgb2yuyv_9_1_2160_3840_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgb_bgr_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgr_bgb_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_sdiv_38ns_24s_32_42_seq_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_start_for_blackLevelCorrection_1_2160_3840_2_16_15_1_18_U0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_start_for_colorcorrectionmatrix_0_10_10_2160_3840_2_2_U0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_LOOP_ROW_LOOP_COL.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_VITIS_LOOP_110_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_Pipeline_colLoop.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfExtractPixels_2_17_15_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_Pipeline_columnloop.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xfExtractPixels.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>hdl/vhdl/ISPPipeline_accel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_a03cacd7</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_c96d33d0</spirit:userFileType>
       </spirit:file>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_vhdlsynthesis_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="floating_point" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="copy_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogram_10_10_2160_3840_2_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogram.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_COL_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogramkernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_HIST_INITIALIZE_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBhistogramkernercU.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_INITIALIZE_HIST.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBNormalization.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_Pipeline_MERGE_HIST_LOOP.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AWBNormalizationkern.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/AXIVideo2BayerMat.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBhistogramkernel_10_10_2160_3840_2_20_1_4096_s_tmp_hist_V_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/badpixelcorrectioeOg.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalization_10_10_2160_3840_2_1_4096_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/badpixelcorrection.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_Col_Loop1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/blackLevelCorrection.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_319_3.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/colorcorrectionmatri.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_Pipeline_VITIS_LOOP_329_4.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ColorMat2AXIvideo.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AWBNormalizationkernel_10_10_2160_3840_2_20_1_4096_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/Core_Process.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_col_zxi2mat.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/demosaicing.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_last_hunt.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/demosaicing_lineblbW.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_Pipeline_loop_start_hunt.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d2_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_AXIVideo2BayerMat_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d4_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d5_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_blackLevelCorrection_1_2160_3840_2_16_15_1_18_Pipeline_VITIS_LOOP_75_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d6_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_colorcorrectionmatrix_0_10_10_2160_3840_2_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d7_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_Pipeline_loop_col_mat2axi.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d8_A.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ColorMat2AXIvideo_yuv_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/fifo_w16_d10_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w16_d11_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w20_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w48_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w60_d2_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/fifo_w60_d4096_A.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/g_kernel_ap_uint_6_s.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/gaincontrol.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/gaincontrolkernel.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/vhdl/ISPpipeline.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -3339,407 +2654,187 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Col_Loop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelbkb.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_LineBuffer_VITIS_LOOP_269_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelcud.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_Pipeline_Zero.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_acceldEe.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelDeQ.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_demosaicing_3_1_10_2160_3840_2_false_s_linebuffer_V_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelEe0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_entry_proc.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelFfa.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_awb_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelGfk.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_Pipeline_Col_Loop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelHfu.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_copy_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelIfE.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_acceljbC.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d4_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelJfO.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d5_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelkbM.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d6_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelKfY.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d8_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelpcA.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d9_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelqcK.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d10_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPPipeline_accelZio.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w12_d11_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/ISPpipeline_Block_Ma.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w16_d4_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/process_image.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w32_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/process_row.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w32_d6_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rb_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w48_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/regslice_core.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w96_d2_S.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rgb_bgr_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fifo_w96_d2_S_x.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/rgr_bgb_kernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_flow_control_loop_pipe_sequential_init.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_AWBhistUhA.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_badpixeRg6.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_blackLeXh4.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_function_awb_10_10_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_colorcoYie.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_g_kernel_ap_uint_16_6_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_ColorMaWhU.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_Pipeline_ColLoop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_demosaiThq.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gaincontrol_3_1_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_gainconShg.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_colLoop.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/start_for_xf_QuatVhK.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_Pipeline_VITIS_LOOP_39_1_VITIS_LOOP_40_2.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/update_row_idx.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDither.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_gammacorrection_9_9_2160_3840_2_s_lut_0_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDitLf8.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_hist0_awb_0.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xf_QuatizationDitMgi.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ISPpipeline.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xfccmkernel.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_ISPpipeline_Block_ZN2xf2cv3MatILi1ELi2160ELi3840ELi2ELi2EEC2Eii_exit1_proc.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_12ns_22ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_13s_22ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14ns_15ns_22_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14ns_22s_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_14s_15ns_22_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_15ns_23ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mac_muladd_8ns_15s_23s_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_16ns_29s_45_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_16ns_30ns_45_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_27ns_24ns_51_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_32s_24s_56_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_48s_50ns_97_2_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_51ns_53ns_103_2_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_11ns_12ns_23_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_12ns_12ns_24_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_16ns_32_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_23s_39_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_24s_40_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_16ns_26s_42_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mul_mul_24s_24ns_48_4_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_32_24_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_32_32_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_42_16_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_42_32_1_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_mux_63_16_1_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rb_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_regslice_both.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgb2yuyv_9_1_2160_3840_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgb_bgr_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_rgr_bgb_kernel_ap_uint_16_6_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_sdiv_38ns_24s_32_42_seq_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_start_for_blackLevelCorrection_1_2160_3840_2_16_15_1_18_U0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_start_for_colorcorrectionmatrix_0_10_10_2160_3840_2_2_U0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_LOOP_ROW_LOOP_COL.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_Pipeline_VITIS_LOOP_110_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xf_QuatizationDithering_10_9_2160_3840_256_65536_2_s_offset_buffer_V_0_1.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_Pipeline_colLoop.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfccmkernel_10_2160_3840_20_2_23_23_1920_2_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfExtractPixels_2_17_15_s.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_Pipeline_columnloop.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/vhdl/ISPPipeline_accel_xfrgb2yuyv_9_1_2160_3840_2_17_12_2073600_2_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/xfExtractPixels.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -3748,31 +2843,6 @@
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fmul_32ns_32ns_32_1_primitive_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_fpext_32ns_64_1_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/ip/ISPPipeline_accel_uitofp_32ns_32_4_no_dsp_1_ip.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-      </spirit:file>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_vhdlbehavioralsimulation_xilinx_com_ip_floating_point_7_1__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="floating_point" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="copy_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_softwaredriver_view_fileset</spirit:name>
@@ -3824,11 +2894,18 @@
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
+      <spirit:name>xilinx_block_diagram_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>bd/bd.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
         <spirit:name>xgui/ISPPipeline_accel_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_26d0dfca</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_9cdb3ddd</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -3841,7 +2918,7 @@
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>An IP generated by Vitis HLS</spirit:description>
+  <spirit:description>An IP generated by Vivado HLS</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -3861,7 +2938,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>latency</spirit:name>
-      <spirit:value spirit:id="PARAM_VALUE.latency" spirit:order="5">4189938</spirit:value>
+      <spirit:value spirit:id="PARAM_VALUE.latency" spirit:order="5">1079882</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>II</spirit:name>
@@ -3874,25 +2951,21 @@
         <xilinx:family xilinx:lifeCycle="Pre-Production">versal</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
-        <xilinx:taxonomy>/VITIS_HLS_IP</xilinx:taxonomy>
+        <xilinx:taxonomy>/VIVADO_HLS_IP</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>Isppipeline_accel</xilinx:displayName>
       <xilinx:definitionSource>HLS</xilinx:definitionSource>
-      <xilinx:coreRevision>2107261256</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-07-26T19:56:51Z</xilinx:coreCreationDateTime>
-      <xilinx:sdxKernelAttributes>
-        <xilinx:sdx_kernel>true</xilinx:sdx_kernel>
-        <xilinx:sdx_kernel_type>hls</xilinx:sdx_kernel_type>
-      </xilinx:sdxKernelAttributes>
+      <xilinx:coreRevision>2011161317</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2020-11-16T21:18:36Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
-      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="d9d3896b"/>
-      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="46bd2e7e"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="714ce0cb"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="91154df7"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="014f018f"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="274c3a9b"/>
+      <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="c58fb138"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="261bc437"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="a9a739b8"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="8ac6f817"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="9f3463c0"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="c02e8b66"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
