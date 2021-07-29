@@ -1,8 +1,0 @@
-[submodule "recipes-apps/base-trd/base-trd"]
-	path = recipes-apps/base-trd/base-trd
-	url = https://gitenterprise.xilinx.com/PAEG/base-trd-jupyter.git
-	branch = 2021.1
-[submodule "recipes-apps/libxapm/libxapm"]
-	path = recipes-apps/libxapm/libxapm
-	url = https://gitenterprise.xilinx.com/PAEG/libxapm.git
-	branch = 2021.1
