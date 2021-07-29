@@ -1,0 +1,881 @@
+From c7bd584ac65f444d4ef996e1dea20d967e9b48ab Mon Sep 17 00:00:00 2001
+From: Thomas Nizan <tnizan@witekio.com>
+Date: Thu, 18 Feb 2021 00:00:50 +0000
+Subject: [PATCH 11/15] media: i2c: Add driver for Mars camera module
+
+The Mars Module is a GMSL camera supporting 1920x1080 resolution images
+based on an ON Semiconductor AR0231 sensor connected to a Maxim MAX96705
+GMSL serializer.
+
+The driver uses the max9271 library module, to maximize code reuse with
+other camera module drivers using the same serializer, such as rdacm20.
+---
+ drivers/media/i2c/Kconfig  |  14 ++
+ drivers/media/i2c/Makefile |   1 +
+ drivers/media/i2c/mars.c   | 418 +++++++++++++++++++++++++++++++++++++
+ drivers/media/i2c/mars.h   | 391 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 824 insertions(+)
+ create mode 100644 drivers/media/i2c/mars.c
+ create mode 100644 drivers/media/i2c/mars.h
+
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 5157f8487270..7bb1d09ffc2c 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -1213,6 +1213,20 @@ config VIDEO_RDACM21
+ 	  This camera should be used in conjunction with a GMSL
+ 	  deserialiser such as the MAX9286.
+ 
++config VIDEO_MARS
++	tristate "ON Semiconductor MARS camera support"
++	depends on I2C
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	select MEDIA_CONTROLLER
++	select VIDEO_MAX9271_LIB
++	help
++	  This driver supports the ON Semiconductor MARS GMSL camera module, used in
++	  ADAS systems.
++
++	  This camera module should be used in conjunction with a GMSL
++	  deserialiser such as the MAX9286.
++
+ config VIDEO_RJ54N1
+ 	tristate "Sharp RJ54N1CB0C sensor support"
+ 	depends on I2C && VIDEO_V4L2
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 9c24edb6f134..b25de79b660f 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -124,6 +124,7 @@ obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+ obj-$(CONFIG_VIDEO_MAX9271_LIB)	+= max9271.o
+ obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
+ obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
++obj-$(CONFIG_VIDEO_MARS) += mars.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+ 
+ obj-$(CONFIG_SDR_MAX2175) += max2175.o
+diff --git a/drivers/media/i2c/mars.c b/drivers/media/i2c/mars.c
+new file mode 100644
+index 000000000000..7fcc021d82a3
+--- /dev/null
++++ b/drivers/media/i2c/mars.c
+@@ -0,0 +1,418 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Mars GMSL Camera Driver
++ *
++ */
++
++/*
++ * The camera is made of an ON Semiconductor AR0231 sensor connected to a Maxim
++ * MAX96705 GMSL serializer.
++ */
++#define DEBUG
++
++#include "mars.h"
++
++#include <linux/delay.h>
++#include <linux/fwnode.h>
++#include <linux/init.h>
++#include <linux/i2c.h>
++#include <linux/regmap.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/videodev2.h>
++
++#include <media/v4l2-async.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-subdev.h>
++
++#include "max9271.h"
++
++#define AR0231_WIDTH			1920
++#define AR0231_HEIGHT			1080
++
++/*
++ * As the drivers supports a single MEDIA_BUS_FMT_UYVY8_2X8 format we
++ * can harcode the pixel rate.
++ *
++ * PCLK is fed through the system clock, programmed @88MHz.
++ * MEDIA_BUS_FMT_UYVY8_2X8 format = 2 samples per pixel.
++ *
++ * Pixelrate = PCLK / 2
++ * FPS = (OV10635_VTS * OV10635_HTS) / PixelRate
++ *     = 29,9998
++ */
++#define AR0231_PIXEL_RATE		(75000000)
++
++
++
++struct mars_device {
++	struct device			*dev;
++	struct max9271_device		*serializer;
++	struct i2c_client		*sensor;
++	struct v4l2_subdev		sd;
++	struct media_pad		pad;
++	struct v4l2_ctrl_handler	ctrls;
++	u32				addrs[2];
++    struct regmap *sensor_regmap;
++};
++
++static inline struct mars_device *sd_to_mars(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct mars_device, sd);
++}
++
++static inline struct mars_device *i2c_to_mars(struct i2c_client *client)
++{
++	return sd_to_mars(i2c_get_clientdata(client));
++}
++
++
++static const struct regmap_config sensor_regmap_config = {
++    .reg_bits = 16,
++    .val_bits = 16,
++    .cache_type = REGCACHE_NONE,
++};
++
++static int sensor_read(struct mars_device *dev,
++               unsigned int reg, unsigned int *val)
++{
++    int ret;
++
++    ret = regmap_read(dev->sensor_regmap, reg, val);
++    return ret;
++}
++
++static int sensor_write(struct mars_device *dev,
++                u16 reg, u16 val)
++{
++    return regmap_write(dev->sensor_regmap, reg, val);
++}
++
++static int sensor_set_regs(struct mars_device *dev,
++             const struct ar0231_reg *regs,
++             unsigned int nr_regs)
++{
++ unsigned int i;
++ int ret;
++
++ for (i = 0; i < nr_regs; i++) {
++     ret = sensor_write(dev, regs[i].reg, regs[i].val);
++     if (ret) {
++         dev_err(dev->dev,
++             "%s: register %u (0x%04x) write failed (%d)\n",
++             __func__, i, regs[i].reg, ret);
++         return ret;
++     }
++ }
++
++ return 0;
++}
++
++static int mars_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct mars_device *dev = sd_to_mars(sd);
++
++    dev_dbg(dev->dev, "mars_s_stream, enable %d\n", enable);
++
++	return max9271_set_serial_link(dev->serializer, enable);
++}
++
++static int mars_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_pad_config *cfg,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->pad || code->index > 0)
++		return -EINVAL;
++
++	code->code = MEDIA_BUS_FMT_SGRBG8_1X8;
++
++	return 0;
++}
++
++static int mars_get_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_pad_config *cfg,
++			   struct v4l2_subdev_format *format)
++{
++	struct v4l2_mbus_framefmt *mf = &format->format;
++
++	if (format->pad)
++		return -EINVAL;
++
++	mf->width		= AR0231_WIDTH;
++	mf->height		= AR0231_HEIGHT;
++	mf->code		= MEDIA_BUS_FMT_SGRBG8_1X8;
++	mf->colorspace		= V4L2_COLORSPACE_SRGB;
++	mf->field		= V4L2_FIELD_NONE;
++
++	return 0;
++}
++
++static struct v4l2_subdev_video_ops mars_video_ops = {
++	.s_stream	= mars_s_stream,
++};
++
++static const struct v4l2_subdev_pad_ops mars_subdev_pad_ops = {
++	.enum_mbus_code = mars_enum_mbus_code,
++	.get_fmt	= mars_get_fmt,
++	.set_fmt	= mars_get_fmt,
++};
++
++static struct v4l2_subdev_ops mars_subdev_ops = {
++	.video		= &mars_video_ops,
++	.pad		= &mars_subdev_pad_ops,
++};
++
++static int mars_initialize(struct mars_device *dev)
++{
++	unsigned int retry = 3;
++	int ret;
++
++	/* Verify communication with the MAX9271: ping to wakeup. */
++	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
++	i2c_smbus_read_byte(dev->serializer->client);
++
++	/* Serial link disabled during config as it needs a valid pixel clock. */
++	ret = max9271_set_serial_link(dev->serializer, false);
++	if (ret)
++		return ret;
++
++    usleep_range(10000, 15000);
++
++	max9271_configure_gmsl_link(dev->serializer);
++
++    usleep_range(10000, 15000);
++
++	// ret = max9271_verify_id(dev->serializer);
++	// if (ret < 0)
++	// 	return ret;
++    ret = max9271_read(dev->serializer, 0x1e);
++    if (ret < 0) {
++        dev_err(dev->dev, "MAX9271 ID read failed (%d)\n",
++            ret);
++        return ret;
++    }
++
++    // 01000001 MAX96705 ID =0x41
++    if (ret != 0x41) {
++        dev_err(dev->dev, "MAX9271 ID mismatch (0x%02x)\n",
++            ret);
++        return -ENXIO;
++    }
++
++    ret = max9271_read(dev->serializer, 0x0d);
++    if (ret < 0) {
++        dev_err(dev->dev, "MAX9271 i2c read failed (%d)\n",
++            ret);
++        return ret;
++    }
++
++	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
++	if (ret < 0)
++		return ret;
++	dev->serializer->client->addr = dev->addrs[0];
++
++    ret = max9271_set_translation(dev->serializer, dev->addrs[1], 0x10);
++    if (ret < 0)
++        return ret;
++
++    usleep_range(10000, 15000);
++
++    /* Initialize regmap */
++    dev->sensor_regmap = devm_regmap_init_i2c(dev->sensor, &sensor_regmap_config);
++    if (IS_ERR(dev->sensor_regmap)) {
++        dev_err(dev->dev, "sensor_regmap init failed: %ld\n",
++            PTR_ERR(dev->sensor_regmap));
++        return -ENODEV;
++    }
++
++    unsigned int chip_version = 0;
++    ret = sensor_read(dev, 0x3000, &chip_version);
++    if (ret < 0) {
++        dev_err(dev->dev, "sensor_read failed (%d)\n",
++            ret);
++        return ret;
++    }
++
++    if (chip_version != 0x0354) {
++        dev_err(dev->dev, "sensor ID mismatch (0x%04x)\n",
++            chip_version);
++        return -ENXIO;
++    }
++
++    // RESET_REGISTER
++    ret = sensor_write(dev, 0x301A, 0x10D8);
++    if (ret)
++        return ret;
++
++    usleep_range(200000, 300000);
++
++    ret = sensor_set_regs(dev, ar0231_config_part1,
++             ARRAY_SIZE(ar0231_config_part1));
++    if (ret)
++        return ret;
++
++    usleep_range(200000, 300000);
++
++    ret = sensor_set_regs(dev, ar0231_config_part1b,
++             ARRAY_SIZE(ar0231_config_part1b));
++    if (ret)
++        return ret;
++
++    ret = sensor_set_regs(dev, ar0231_config_part2,
++             ARRAY_SIZE(ar0231_config_part2));
++    if (ret)
++        return ret;
++
++    usleep_range(200000, 300000);
++
++    ret = sensor_set_regs(dev, ar0231_config_part6_exposure,
++             ARRAY_SIZE(ar0231_config_part6_exposure));
++    if (ret)
++        return ret;
++
++    usleep_range(200000, 300000);
++
++    ret = sensor_set_regs(dev, ar0231_config_part7_gains,
++             ARRAY_SIZE(ar0231_config_part7_gains));
++    if (ret)
++        return ret;
++
++    return max9271_set_high_threshold(dev->serializer, true);
++}
++
++static int mars_probe(struct i2c_client *client)
++{
++	struct mars_device *dev;
++	struct fwnode_handle *ep;
++	int ret;
++
++	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
++	if (!dev)
++		return -ENOMEM;
++	dev->dev = &client->dev;
++
++	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
++				       GFP_KERNEL);
++	if (!dev->serializer)
++		return -ENOMEM;
++
++	dev->serializer->client = client;
++
++	ret = of_property_read_u32_array(client->dev.of_node, "reg",
++					 dev->addrs, 2);
++	if (ret < 0) {
++		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
++		return -EINVAL;
++	}
++
++	/* Create the dummy I2C client for the sensor. */
++	dev->sensor = i2c_new_dummy_device(client->adapter,
++					   dev->addrs[1]);
++	if (IS_ERR(dev->sensor)) {
++		ret = PTR_ERR(dev->sensor);
++		goto error;
++	}
++
++	/* Initialize the hardware. */
++	ret = mars_initialize(dev);
++	if (ret < 0) {
++        dev_err(dev->dev, "mars_initialize: %d\n", ret);
++        goto error;
++    }
++
++    dev_info(dev->dev, "Mars module initialized\n");
++
++	/* Initialize and register the subdevice. */
++	v4l2_i2c_subdev_init(&dev->sd, client, &mars_subdev_ops);
++	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++
++	v4l2_ctrl_handler_init(&dev->ctrls, 1);
++	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
++			  AR0231_PIXEL_RATE, AR0231_PIXEL_RATE, 1,
++			  AR0231_PIXEL_RATE);
++	dev->sd.ctrl_handler = &dev->ctrls;
++
++	ret = dev->ctrls.error;
++	if (ret)
++		goto error_free_ctrls;
++
++	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
++	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
++	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
++	if (ret < 0)
++		goto error_free_ctrls;
++
++	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
++	if (!ep) {
++		dev_err(&client->dev,
++			"Unable to get endpoint in node %pOF\n",
++			client->dev.of_node);
++		ret = -ENOENT;
++		goto error_free_ctrls;
++	}
++	dev->sd.fwnode = ep;
++
++	ret = v4l2_async_register_subdev(&dev->sd);
++	if (ret)
++		goto error_put_node;
++
++    dev_info(&client->dev, "Mars Module Probe Success\n");
++
++	return 0;
++
++error_put_node:
++	fwnode_handle_put(ep);
++error_free_ctrls:
++	v4l2_ctrl_handler_free(&dev->ctrls);
++error:
++	media_entity_cleanup(&dev->sd.entity);
++	if (dev->sensor)
++		i2c_unregister_device(dev->sensor);
++
++	dev_err(&client->dev, "probe failed\n");
++
++	return ret;
++}
++
++static int mars_remove(struct i2c_client *client)
++{
++	struct mars_device *dev = i2c_to_mars(client);
++
++	fwnode_handle_put(dev->sd.fwnode);
++	v4l2_async_unregister_subdev(&dev->sd);
++	v4l2_ctrl_handler_free(&dev->ctrls);
++	media_entity_cleanup(&dev->sd.entity);
++	i2c_unregister_device(dev->sensor);
++
++	return 0;
++}
++
++static void mars_shutdown(struct i2c_client *client)
++{
++	struct mars_device *dev = i2c_to_mars(client);
++
++	/* make sure stream off during shutdown (reset/reboot) */
++	mars_s_stream(&dev->sd, 0);
++}
++
++static const struct of_device_id mars_of_ids[] = {
++	{ .compatible = "onnn,mars", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, mars_of_ids);
++
++static struct i2c_driver mars_i2c_driver = {
++	.driver	= {
++		.name	= "mars",
++		.of_match_table = mars_of_ids,
++	},
++	.probe_new	= mars_probe,
++	.remove		= mars_remove,
++	.shutdown	= mars_shutdown,
++};
++
++module_i2c_driver(mars_i2c_driver);
++
++MODULE_DESCRIPTION("GMSL Camera driver for Mars");
++MODULE_AUTHOR("Thomas Nizan");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/i2c/mars.h b/drivers/media/i2c/mars.h
+new file mode 100644
+index 000000000000..37c9add34aa5
+--- /dev/null
++++ b/drivers/media/i2c/mars.h
+@@ -0,0 +1,391 @@
++#include <linux/types.h>
++
++struct ar0231_reg {
++ u16 reg;
++ u16  val;
++};
++
++static const struct ar0231_reg ar0231_config_part1[] = {
++    { 0x3056, 0x0080 }, // GREEN1_GAIN
++    { 0x3058, 0x0080 }, // BLUE_GAIN
++    { 0x305A, 0x0080 }, // RED_GAIN
++    { 0x305C, 0x0080 }, // GREEN2_GAIN
++    { 0x3138, 0x000B }, // OTPM_TCFG_OPT
++    { 0x30FE, 0x0020 }, // NOISE_PEDESTAL
++    { 0x3372, 0xF54F }, // DBLC_FS0_CONTROL
++    { 0x337A, 0x0D70 }, // DBLC_SCALE0
++    { 0x337E, 0x1FFD }, // DBLC_OFFSET0
++    { 0x3382, 0x00C0 }, // DBLC_WEIGHT0
++    { 0x3092, 0x0024 }, // ROW_NOISE_CONTROL
++    { 0x3C04, 0x0E80 }, // RESERVED_MFR_3C04
++    { 0x3F90, 0x06E1 }, // TEMPVSENS0_TMG_CTRL
++    { 0x3F92, 0x06E1 }, // TEMPVSENS1_TMG_CTRL
++    { 0x350E, 0xFF14 }, // RESERVED_MFR_350E
++    { 0x3506, 0x4444 }, // RESERVED_MFR_3506
++    { 0x3508, 0x4444 }, // RESERVED_MFR_3508
++    { 0x350A, 0x4465 }, // RESERVED_MFR_350A
++    { 0x350C, 0x055F }, // RESERVED_MFR_350C
++    { 0x30BA, 0x11F0 }, // DIGITAL_CTRL
++    { 0x3566, 0x1D28 }, // RESERVED_MFR_3566
++    { 0x3518, 0x1FFE }, // RESERVED_MFR_3518
++    { 0x318E, 0x0200 }, // DLO_CONTROL0
++    { 0x3190, 0x5000 }, // RESERVED_MFR_3190
++    { 0x319E, 0x6060 }, // RESERVED_MFR_319E
++    { 0x3520, 0x4688 }, // RESERVED_MFR_3520
++    { 0x3522, 0x8840 }, // RESERVED_MFR_3522
++    { 0x3524, 0x4046 }, // RESERVED_MFR_3524
++    { 0x352C, 0xC6C6 }, // RESERVED_MFR_352C
++    { 0x352A, 0x089F }, // RESERVED_MFR_352A
++    { 0x352E, 0x0011 }, // RESERVED_MFR_352E
++    { 0x352E, 0x0011 }, // RESERVED_MFR_352E
++    { 0x3530, 0x4400 }, // RESERVED_MFR_3530
++    { 0x3530, 0x4400 }, // RESERVED_MFR_3530
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3536, 0xFF06 }, // RESERVED_MFR_3536
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x3538, 0xFFFF }, // RESERVED_MFR_3538
++    { 0x353A, 0x9000 }, // RESERVED_MFR_353A
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x353C, 0x3F00 }, // RESERVED_MFR_353C
++    { 0x32EC, 0x72A1 }, // RESERVED_MFR_32EC
++    { 0x3540, 0xC63E }, // RESERVED_MFR_3540
++    { 0x3540, 0xC63E }, // RESERVED_MFR_3540
++    { 0x3556, 0x101F }, // RESERVED_MFR_3556
++    { 0x3566, 0x1D28 }, // RESERVED_MFR_3566
++    { 0x3566, 0x1D28 }, // RESERVED_MFR_3566
++    { 0x3566, 0x1D28 }, // RESERVED_MFR_3566
++    { 0x3566, 0x1128 }, // RESERVED_MFR_3566
++    { 0x3566, 0x1328 }, // RESERVED_MFR_3566
++    { 0x3566, 0x3328 }, // RESERVED_MFR_3566
++    { 0x3528, 0xDDDD }, // RESERVED_MFR_3528
++    { 0x3540, 0xC63E }, // RESERVED_MFR_3540
++    { 0x3542, 0x545B }, // RESERVED_MFR_3542
++    { 0x3544, 0x645A }, // RESERVED_MFR_3544
++    { 0x3546, 0x5A5A }, // RESERVED_MFR_3546
++    { 0x3548, 0x6400 }, // RESERVED_MFR_3548
++};
++
++
++static const struct ar0231_reg ar0231_config_part1b[] = {
++    { 0x2512, 0x8000 }, // SEQ_CTRL_PORT
++    { 0x2510, 0x0905 }, // SEQ_DATA_PORT
++    { 0x2510, 0x3350 }, // SEQ_DATA_PORT
++    { 0x2510, 0x2004 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1460 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1578 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1360 }, // SEQ_DATA_PORT
++    { 0x2510, 0x7B24 }, // SEQ_DATA_PORT
++    { 0x2510, 0xFF24 }, // SEQ_DATA_PORT
++    { 0x2510, 0xFF24 }, // SEQ_DATA_PORT
++    { 0x2510, 0xEA24 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1022 }, // SEQ_DATA_PORT
++    { 0x2510, 0x2410 }, // SEQ_DATA_PORT
++    { 0x2510, 0x155A }, // SEQ_DATA_PORT
++    { 0x2510, 0x1342 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1400 }, // SEQ_DATA_PORT
++    { 0x2510, 0x24FF }, // SEQ_DATA_PORT
++    { 0x2510, 0x24FF }, // SEQ_DATA_PORT
++    { 0x2510, 0x24EA }, // SEQ_DATA_PORT
++    { 0x2510, 0x2324 }, // SEQ_DATA_PORT
++    { 0x2510, 0x647A }, // SEQ_DATA_PORT
++    { 0x2510, 0x2404 }, // SEQ_DATA_PORT
++    { 0x2510, 0x052C }, // SEQ_DATA_PORT
++    { 0x2510, 0x400A }, // SEQ_DATA_PORT
++    { 0x2510, 0xFF0A }, // SEQ_DATA_PORT
++    { 0x2510, 0xFF0A }, // SEQ_DATA_PORT
++    { 0x2510, 0x1808 }, // SEQ_DATA_PORT
++    { 0x2510, 0x3851 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1440 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0004 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0801 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0408 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1180 }, // SEQ_DATA_PORT
++    { 0x2510, 0x15DC }, // SEQ_DATA_PORT
++    { 0x2510, 0x134C }, // SEQ_DATA_PORT
++    { 0x2510, 0x1002 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1016 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1181 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1189 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1056 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1210 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0D08 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0913 }, // SEQ_DATA_PORT
++    { 0x2510, 0x13C8 }, // SEQ_DATA_PORT
++    { 0x2510, 0x092B }, // SEQ_DATA_PORT
++    { 0x2510, 0x1588 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1388 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0909 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11D9 }, // SEQ_DATA_PORT
++    { 0x2510, 0x091D }, // SEQ_DATA_PORT
++    { 0x2510, 0x1441 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0903 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1214 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x10D6 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1210 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1212 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1210 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11DD }, // SEQ_DATA_PORT
++    { 0x2510, 0x11D9 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1056 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0905 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11DB }, // SEQ_DATA_PORT
++    { 0x2510, 0x092B }, // SEQ_DATA_PORT
++    { 0x2510, 0x119B }, // SEQ_DATA_PORT
++    { 0x2510, 0x11BB }, // SEQ_DATA_PORT
++    { 0x2510, 0x121A }, // SEQ_DATA_PORT
++    { 0x2510, 0x1210 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1460 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1250 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1076 }, // SEQ_DATA_PORT
++    { 0x2510, 0x10E6 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x15AB }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x13A8 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1240 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1260 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0923 }, // SEQ_DATA_PORT
++    { 0x2510, 0x158D }, // SEQ_DATA_PORT
++    { 0x2510, 0x138D }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0B09 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0108 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1440 }, // SEQ_DATA_PORT
++    { 0x2510, 0x091D }, // SEQ_DATA_PORT
++    { 0x2510, 0x1588 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1388 }, // SEQ_DATA_PORT
++    { 0x2510, 0x092D }, // SEQ_DATA_PORT
++    { 0x2510, 0x1066 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0905 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0C08 }, // SEQ_DATA_PORT
++    { 0x2510, 0x090B }, // SEQ_DATA_PORT
++    { 0x2510, 0x1441 }, // SEQ_DATA_PORT
++    { 0x2510, 0x090D }, // SEQ_DATA_PORT
++    { 0x2510, 0x10E6 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0901 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1262 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1260 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11BF }, // SEQ_DATA_PORT
++    { 0x2510, 0x11BB }, // SEQ_DATA_PORT
++    { 0x2510, 0x1066 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11FB }, // SEQ_DATA_PORT
++    { 0x2510, 0x0935 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11BB }, // SEQ_DATA_PORT
++    { 0x2510, 0x1263 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1260 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1400 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1510 }, // SEQ_DATA_PORT
++    { 0x2510, 0x11B8 }, // SEQ_DATA_PORT
++    { 0x2510, 0x12A0 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1200 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1026 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1000 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1342 }, // SEQ_DATA_PORT
++    { 0x2510, 0x1100 }, // SEQ_DATA_PORT
++    { 0x2510, 0x7A06 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0913 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0507 }, // SEQ_DATA_PORT
++    { 0x2510, 0x0841 }, // SEQ_DATA_PORT
++    { 0x2510, 0x3750 }, // SEQ_DATA_PORT
++    { 0x2510, 0x2C2C }, // SEQ_DATA_PORT
++    { 0x2510, 0xFE05 }, // SEQ_DATA_PORT
++    { 0x2510, 0xFE13 }, // SEQ_DATA_PORT
++    { 0x1008, 0x0361 }, // RESERVED_PARAM_1008
++    { 0x100C, 0x0589 }, // RESERVED_PARAM_100C
++    { 0x100E, 0x07B1 }, // RESERVED_PARAM_100E
++    { 0x1010, 0x0139 }, // RESERVED_PARAM_1010
++    { 0x3230, 0x0304 }, // FINE_CORRECTION
++    { 0x3232, 0x052C }, // FINE_CORRECTION2
++    { 0x3234, 0x0754 }, // FINE_CORRECTION3
++    { 0x3236, 0x00DC }, // FINE_CORRECTION4
++    { 0x3566, 0x3328 }, // RESERVED_MFR_3566
++    { 0x350C, 0x055F }, // RESERVED_MFR_350C
++    { 0x32D0, 0x3A02 }, // RESERVED_MFR_32D0
++    { 0x32D2, 0x3508 }, // RESERVED_MFR_32D2
++    { 0x32D4, 0x3702 }, // RESERVED_MFR_32D4
++    { 0x32D6, 0x3C04 }, // RESERVED_MFR_32D6
++    { 0x32DC, 0x370A }, // RESERVED_MFR_32DC
++};
++
++static const struct ar0231_reg ar0231_config_part2[] = {
++    // ar0231_config_part2_75mhz[] = {
++    // PLL 27MHz In - 75MHz out
++    { 0x302A, 0x0008 }, //VT_PIX_CLK_DIV = 8
++    { 0x302C, 0x0001 }, //VT_SYS_CLK_DIV = 1
++    { 0x302E, 0x0009 }, //PRE_PLL_CLK_DIV = 9
++    { 0x3030, 0x00C8 }, //PLL_MULTIPLIER = 200
++    { 0x3036, 0x0008 }, //OP_PIX_CLK_DIV = 8
++    { 0x3038, 0x0001 }, //OP_SYS_CLK_DIV = 1
++    // ar0231_config_part3[] = {
++    { 0x30B0, 0x0B00 }, // DIGITAL_TEST - [8] PIXCLK_ON
++                          //       continuous clock mode
++    { 0x30A2, 0x0001 }, // X_ODD_INC_ (1 == no skip)
++    { 0x30A6, 0x0001 }, // Y_ODD_INC_ (1 == no skip)
++    { 0x3040, 0x0000 }, // READ_MODE
++    { 0x3040, 0x0000 }, // READ_MODE
++    { 0x3082, 0x0000 }, // OPERATION_MODE_CTRL
++    { 0x3082, 0x0000 }, // OPERATION_MODE_CTRL
++    { 0x3082, 0x0000 }, // OPERATION_MODE_CTRL
++    { 0x3082, 0x0000 }, // OPERATION_MODE_CTRL
++    { 0x30BA, 0x11F0 }, // DIGITAL_CTRL
++    { 0x30BA, 0x11F0 }, // DIGITAL_CTRL
++    { 0x30BA, 0x11F0 }, // DIGITAL_CTRL
++    { 0x3044, 0x0400 }, // DARK_CONTROL
++    { 0x3044, 0x0400 }, // DARK_CONTROL
++    { 0x3044, 0x0400 }, // DARK_CONTROL
++    { 0x3044, 0x0400 }, // DARK_CONTROL
++    { 0x3064, 0x1802 }, // SMIA_TEST
++    { 0x3064, 0x1802 }, // SMIA_TEST
++    { 0x3064, 0x1802 }, // SMIA_TEST
++    { 0x3064, 0x1802 }, // SMIA_TEST
++    { 0x33E0, 0x0C80 }, // TEST_ASIL_ROWS
++    { 0x33E0, 0x0C80 }, // TEST_ASIL_ROWS
++    { 0x3180, 0x0080 }, // RESERVED_MFR_3180
++    { 0x33E4, 0x0080 }, // RESERVED_MFR_33E4
++    { 0x33E0, 0x0C80 }, // TEST_ASIL_ROWS
++    { 0x33E0, 0x0C80 }, // TEST_ASIL_ROWS
++    //ar0231_config_part4_1080p[] = {
++    { 0x3004, 0x0000 }, // X_ADDR_START = 0
++    { 0x3008, 0x077F }, // X_ADDR_END = 1919
++    { 0x3002, 0x003C }, // Y_ADDR_START = 60
++    { 0x3006, 0x0473 }, // Y_ADDR_END = 1139 ... 1139-60
++                       // =1079
++    { 0x3032, 0x0000 }, // SCALING_MODE
++    { 0x3400, 0x0010 }, // RESERVED_MFR_3400
++    { 0x3402, 0x0F10 }, // X_OUTPUT_CONTROL
++    { 0x3402, 0x0F10 }, // X_OUTPUT_CONTROL
++    { 0x3404, 0x0880 }, // Y_OUTPUT_CONTROL
++    { 0x3404, 0x0880 }, // Y_OUTPUT_CONTROL
++    // ar0231_config_part5a[] = {
++    { 0x3082, 0x0000 },  // OPERATION_MODE_CTRL
++    { 0x30BA, 0x11F1 },  // DIGITAL_CTRL
++        //0x00, 100, // DELAY= 100
++    { 0x30BA, 0x11F0 },  // DIGITAL_CTRL
++    //ar0231_config_part5b_1080p[] = {
++    { 0x300C, 0x080E },  // LINE_LENGTH_PCK_ = 2062
++    { 0x300A, 0x0484 },  // FRAME_LENGTH_LINES_ = 1156
++    { 0x3042, 0x0000 },  // EXTRA_DELAY = 0
++                        // TOTAL CYCLES = 2062*1156 + 0
++                        // = 2,383,672
++    //ar0231_config_part5c[] = {
++    { 0x3238, 0x0222 },  // EXPOSURE_RATIO
++    { 0x3238, 0x0222 },  // EXPOSURE_RATIO
++    { 0x3238, 0x0222 },  // EXPOSURE_RATIO
++    { 0x3238, 0x0222 },  // EXPOSURE_RATIO
++    { 0x3012, 0x0163 },  // COARSE_INTEGRATION_TIME_
++    { 0x3014, 0x06A4 },  // FINE_INTEGRATION_TIME_
++    { 0x30B0, 0x0B00 },  // DIGITAL_TEST - [8] PIXCLK_ON
++                            //  - continuous clock mode
++    { 0x32EA, 0x3C08 },  // RESERVED_MFR_32EA
++    { 0x32EA, 0x3C08 },  // RESERVED_MFR_32EA
++    { 0x32EA, 0x3C08 },  // RESERVED_MFR_32EA
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x32EC, 0x72A1 },  // RESERVED_MFR_32EC
++    { 0x31D0, 0x0000 },  // COMPANDING
++    { 0x31AE, 0x0001 },  // SERIAL_FORMAT
++    { 0x31AE, 0x0001 },  // SERIAL_FORMAT
++    { 0x31AC, 0x0C0C },  // DATA_FORMAT_BITS
++    { 0x31AC, 0x0C0C },  // DATA_FORMAT_BITS
++    // Enable external synchronization
++    { 0x340A, 0x0077 },  // GPIO_CONTROL1
++                        // [ 7] GPIO3_INPUT_DISABLE = 0
++                        // [ 6] GPIO2_INPUT_DISABLE = 1
++                        // [ 5] GPIO1_INPUT_DISABLE = 1
++                        // [ 4] GPIO0_INPUT_DISABLE = 1
++                        // [ 7] GPIO3_OUTPUT_ENABLE = 0
++                        // [ 6] GPIO2_OUTPUT_ENABLE = 1
++                        // [ 5] GPIO1_OUTPUT_ENABLE = 1
++                        // [ 4] GPIO0_OUTPUT_ENABLE = 1
++    { 0x340C, 0x0080 },  // GPIO_CONTROL2
++                        //    [11] GPIO_HIDRV_EN = 0
++                        //         (1.8V)
++                        // [10: 8] GPIO_SLEW = 000
++                        // [ 7: 6] GPIO3_ISEL = 10
++                        //     (TRIGGER)
++                        // [ 5: 4] GPIO2_ISEL = 00
++                        //     (none)
++                        // [ 3: 2] GPIO1_ISEL = 00
++                        //     (none)
++                        // [ 1: 0] GPIO0_ISEL = 00
++                        //     (none)
++    { 0x30CE, 0x0120 },  // GRR_CONTROL1, Trigger
++                        // Shutter Sync
++                        // (Surround View Slave) Mode
++                        //  [ 8] SLAVE_SH_SYNC_MODE = 1
++                        //  [ 7] SHUTTER_ALWAYS_OPEN
++                        //  [ 6] SHUTTER_DISABLE
++                        //  [ 5] FRAME_START_MODE /
++                        //       FRAME_START_SYNCED = 1
++                        //  [ 4] SLAVE_MODE
++                        //  [ 2] EXT_SHUT_PULSED
++                        //  [ 1] LINE_SYNC_MODE
++                        //  [ 0] GRR_MODE
++    { 0x301A, 0x19DC },  // RESET_REGISTER
++                        //  [15] GROUPED_PARAMETER_HOLD
++                        //       = 0
++                        //  [14] RSVD
++                        //  [13] LPF_ENABLE = 0
++                        //  [12] SMIA_SERIALIZER_DIS= 1
++                        //  [11] FORCED_PLL_ON = 1
++                        //  [10] RESTART_BAD   = 0
++                        //  [ 9] MASK_BAD      = 0
++                        //  [ 8] GPI_EN        = 1
++                        //  [ 7] PARALLEL_EN = 1
++                        //  [ 6] DRIVE_PINS  = 1
++                        //  [ 5] RSVD
++                        //  [ 4] UNUSED      = 1
++                        //  [ 3] LOCK_REG = 1
++                        //  [ 2] STREAM   = 1
++                        //  [ 1] RESTART  = 0
++                        //  [ 0] RESET    = 0
++};
++
++static const struct ar0231_reg ar0231_config_part6_exposure[] = {
++    // Adjust Integration Time
++    { 0x3022, 0x0001 }, // GROUPED_PARAMETER_HOLD_
++    { 0x3012, 0x0335 }, // COARSE_INTEGRATION_TIME_
++    { 0x3014, 0x06A4 }, // FINE_INTEGRATION_TIME_
++    { 0x3022, 0x0000 }, // GROUPED_PARAMETER_HOLD_
++};
++
++static const struct ar0231_reg ar0231_config_part7_gains[] = {
++    // Adust Gains
++    { 0x3022, 0x0001 }, // GROUPED_PARAMETER_HOLD_
++    { 0x3362, 0x0000 }, // DC_GAIN
++    { 0x3366, 0x7777 }, // ANALOG_GAIN
++    { 0x3056, 0x0091 }, // GREEN1_GAIN
++    { 0x305C, 0x0091 }, // GREEN2_GAIN
++    { 0x305A, 0x0080 }, // RED_GAIN
++    { 0x3058, 0x026B }, // BLUE_GAIN
++    { 0x3308, 0x0200 }, // DIG_GAIN_GLOBAL
++    { 0x3022, 0x0000 }, // GROUPED_PARAMETER_HOLD_
++};
+-- 
+2.20.1
+

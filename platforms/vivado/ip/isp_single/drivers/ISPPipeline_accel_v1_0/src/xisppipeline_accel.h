@@ -1,6 +1,6 @@
 // ==============================================================
-// Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2021.1 (64-bit)
-// Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+// Vivado(TM) HLS - High-Level Synthesis from C, C++ and SystemC v2020.2 (64-bit)
+// Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // ==============================================================
 #ifndef XISPPIPELINE_ACCEL_H
 #define XISPPIPELINE_ACCEL_H
@@ -34,7 +34,6 @@ extern "C" {
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
-typedef uint64_t u64;
 #else
 typedef struct {
     u16 DeviceId;
@@ -43,11 +42,9 @@ typedef struct {
 #endif
 
 typedef struct {
-    u64 Ctrl_BaseAddress;
+    u32 Ctrl_BaseAddress;
     u32 IsReady;
 } XIsppipeline_accel;
-
-typedef u32 word_type;
 
 /***************** Macros (Inline Functions) Definitions *********************/
 #ifndef __linux__
@@ -91,23 +88,8 @@ void XIsppipeline_accel_Set_width(XIsppipeline_accel *InstancePtr, u32 Data);
 u32 XIsppipeline_accel_Get_width(XIsppipeline_accel *InstancePtr);
 void XIsppipeline_accel_Set_height(XIsppipeline_accel *InstancePtr, u32 Data);
 u32 XIsppipeline_accel_Get_height(XIsppipeline_accel *InstancePtr);
-void XIsppipeline_accel_Set_mode_reg(XIsppipeline_accel *InstancePtr, u32 Data);
-u32 XIsppipeline_accel_Get_mode_reg(XIsppipeline_accel *InstancePtr);
-void XIsppipeline_accel_Set_rgain(XIsppipeline_accel *InstancePtr, u32 Data);
-u32 XIsppipeline_accel_Get_rgain(XIsppipeline_accel *InstancePtr);
-void XIsppipeline_accel_Set_bgain(XIsppipeline_accel *InstancePtr, u32 Data);
-u32 XIsppipeline_accel_Get_bgain(XIsppipeline_accel *InstancePtr);
-void XIsppipeline_accel_Set_pawb(XIsppipeline_accel *InstancePtr, u32 Data);
-u32 XIsppipeline_accel_Get_pawb(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Get_gamma_lut_BaseAddress(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Get_gamma_lut_HighAddress(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Get_gamma_lut_TotalBytes(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Get_gamma_lut_BitWidth(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Get_gamma_lut_Depth(XIsppipeline_accel *InstancePtr);
-u32 XIsppipeline_accel_Write_gamma_lut_Words(XIsppipeline_accel *InstancePtr, int offset, word_type *data, int length);
-u32 XIsppipeline_accel_Read_gamma_lut_Words(XIsppipeline_accel *InstancePtr, int offset, word_type *data, int length);
-u32 XIsppipeline_accel_Write_gamma_lut_Bytes(XIsppipeline_accel *InstancePtr, int offset, char *data, int length);
-u32 XIsppipeline_accel_Read_gamma_lut_Bytes(XIsppipeline_accel *InstancePtr, int offset, char *data, int length);
+void XIsppipeline_accel_Set_bayer_phase(XIsppipeline_accel *InstancePtr, u32 Data);
+u32 XIsppipeline_accel_Get_bayer_phase(XIsppipeline_accel *InstancePtr);
 
 void XIsppipeline_accel_InterruptGlobalEnable(XIsppipeline_accel *InstancePtr);
 void XIsppipeline_accel_InterruptGlobalDisable(XIsppipeline_accel *InstancePtr);
