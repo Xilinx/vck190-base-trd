@@ -7,10 +7,32 @@ and image that includes the required kernel drivers and user-space libraries to
 exercise those interfaces. Accelerators are mapped to FPGA logic resources
 and/or AI Engine cores and stitched into the platform using the Vitis toolchain.
 
-Following is the list of Platform design available in 2021.1:
+Following is the list of Platform designs available in 2021.1:
 
-| Platform Name  | Description  |  Links |
+| Platform Name  | Description   |  Links |
 | -------------- | ------------- | ---------------- |
-| vck190_mipiRxSingle_hdmiTx | This platform captures video from either a file source, USB webcam or MIPI image sensor and displays it on a Jupyter Notebook or a HDMI monitor. Along with video, audio from a file can be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. |   <ul><li><a href="https://xilinx.github.io/vck190-base-trd/build/html/index.html">Tutorials</a></li><li><a href="https://www.xilinx.com/member/vck190_headstart/ug1442-versal-acap-vck190_WtMkX.pdf">User Guide</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">Reference Design</a></li></ul>
-| vck190_mipiRxQuad_hdmiTx | This platform captures video from either a file source, USB webcam or Quad MIPI image sensor and displays it on a Jupyter Notebook or a HDMI monitor.  Along with video, audio from a file can be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. | <ul><li><a href="https://xilinx.github.io/vck190-base-trd/build/html/index.html">Tutorials</a></li><li><a href="https://www.xilinx.com/member/vck190_headstart/ug1442-versal-acap-vck190_WtMkX.pdf">User Guide</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip">Reference Design</a></li></ul>
-| vck190_hdmiRx_hdmiTx | This platform captures video from either a file source, USB webcam or HDMI receiver and displays it on a Jupyter Notebook or a HDMI monitor. Along with video, audio from a file or HDMI receiver can  be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. |  <ul><li><a href="https://xilinx.github.io/vck190-base-trd/build/html/index.html">Tutorials</a></li><li><a href="https://www.xilinx.com/member/vck190_headstart/ug1442-versal-acap-vck190_WtMkX.pdf">User Guide</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip">Reference Design</a></li></ul>
+| vck190_mipiRxSingle_hdmiTx | This platform captures video from either a file source, USB webcam or MIPI image sensor and displays it on a Jupyter Notebook or a HDMI monitor. Along with video, audio from a file can be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. | <ul><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">ES1 Prebuilt Image</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">Prebuilt Image</a></li></ul>
+| vck190_mipiRxQuad_hdmiTx | This platform captures video from either a file source, USB webcam or Quad MIPI image sensor and displays it on a Jupyter Notebook or a HDMI monitor.  Along with video, audio from a file can be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. | <ul><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">ES1 Prebuilt Image</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">Prebuilt Image</a></li></ul>
+| vck190_hdmiRx_hdmiTx | This platform captures video from either a file source, USB webcam or HDMI receiver and displays it on a Jupyter Notebook or a HDMI monitor. Along with video, audio from a file or HDMI receiver can  be replayed using a HDMI transmitter. Accelerator functions can also be added to this platform using Vitis. Supported acceleration function in this design is a 2D Filter. |  <ul><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">ES1 Prebuilt Image</a></li><li><a href="https://www.xilinx.com/member/forms/download/design-license-xef.html?filename=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip">Prebuilt Image</a></li></ul>
+
+Other relevant links are listed below:
+
+| Description   |  Links |
+| ------------- | ---------------- |
+| Instructions to run the prebuilt Images and build the design from source files | <ul><li><a href="https://xilinx.github.io/vck190-base-trd/build/html/index.html">Tutorials</a></li></ul>|
+| License and sources assocaited with the Prebuilt Image|<ul><li><a href="https://www.xilinx.com/member/vck190_headstart/license.zip">Third-party Licenses and Sources</a></li></ul>|
+
+
+# License
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+except in compliance with the License.
+
+You may obtain a copy of the License at
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the 
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+either express or implied. See the License for the specific language governing permissions 
+and limitations under the License.    
