@@ -1,14 +1,18 @@
 #include <dt-bindings/media/xilinx-vip.h>
 
 &amba_pl {
-	cap_pipe_pipe_0_v_demosaic_0: v_demosaic@a40c0000 {
+	cap_pipe_pipe_0_isp_0: isp@a40c0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic";
+		compatible = "xlnx,ISPPipeline_accel";
 		reg = <0x0 0xa40c0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 27 1>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
+		xlnx,rgain = <160>;
+		xlnx,bgain = <154>;
+		xlnx,pawb = <512>;
+		xlnx,mode-reg = <1>;
 		xlnx,s-axi-ctrl-addr-width = <6>;
 		xlnx,s-axi-ctrl-data-width = <32>;
 		ports {
@@ -18,7 +22,7 @@
 			port@0 {
 				reg = <0>;
 
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "grbg";
 
 				demosaic_0_in: endpoint {
@@ -94,14 +98,18 @@
 		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
 		xlnx,video-width = <8>;
 	};
-	cap_pipe_pipe_1_v_demosaic_1: v_demosaic@a40e0000 {
+	cap_pipe_pipe_1_isp_1: isp@a40e0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic";
+		compatible = "xlnx,ISPPipeline_accel";
 		reg = <0x0 0xa40e0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 30 1>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
+		xlnx,rgain = <160>;
+		xlnx,bgain = <154>;
+		xlnx,pawb = <512>;
+		xlnx,mode-reg = <1>;
 		xlnx,s-axi-ctrl-addr-width = <6>;
 		xlnx,s-axi-ctrl-data-width = <32>;
 
@@ -112,7 +120,7 @@
 			port@0 {
 				reg = <0>;
 
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "grbg";
 
 				demosaic_1_in: endpoint {
@@ -187,14 +195,18 @@
 		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
 		xlnx,video-width = <8>;
 	};
-	cap_pipe_pipe_2_v_demosaic_2: v_demosaic@a4180000 {
+	cap_pipe_pipe_2_isp_2: isp@a4180000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic";
+		compatible = "xlnx,ISPPipeline_accel";
 		reg = <0x0 0xa4180000 0x0 0x10000>;
 		reset-gpios = <&gpio0 33 1>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
+		xlnx,rgain = <160>;
+		xlnx,bgain = <154>;
+		xlnx,pawb = <512>;
+		xlnx,mode-reg = <1>;
 		xlnx,s-axi-ctrl-addr-width = <6>;
 		xlnx,s-axi-ctrl-data-width = <32>;
 
@@ -205,7 +217,7 @@
 			port@0 {
 				reg = <0>;
 
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "grbg";
 
 				demosaic_2_in: endpoint {
@@ -280,14 +292,18 @@
 		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
 		xlnx,video-width = <8>;
 	};
-	cap_pipe_pipe_3_v_demosaic_3: v_demosaic@a41a0000 {
+	cap_pipe_pipe_3_isp_3: isp@a41a0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,v-demosaic";
+		compatible = "xlnx,ISPPipeline_accel";
 		reg = <0x0 0xa41a0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 36 1>;
 		xlnx,max-height = <1080>;
 		xlnx,max-width = <1920>;
+		xlnx,rgain = <160>;
+		xlnx,bgain = <154>;
+		xlnx,pawb = <512>;
+		xlnx,mode-reg = <1>;
 		xlnx,s-axi-ctrl-addr-width = <6>;
 		xlnx,s-axi-ctrl-data-width = <32>;
 
@@ -298,7 +314,7 @@
 			port@0 {
 				reg = <0>;
 
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "grbg";
 
 				demosaic_3_in: endpoint {
@@ -651,7 +667,7 @@
 				reg = <1>;
 
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "rggb";
 
 				csiss_out: endpoint {
@@ -662,7 +678,7 @@
 				reg = <0>;
 
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				xlnx,cfa-pattern = "rggb";
 
 				csiss_in: endpoint {
@@ -689,7 +705,7 @@
 			port@0 {
 				reg = <0>;
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				switch_in0: endpoint {
 					remote-endpoint = <&csiss_out>;
 				};
@@ -697,7 +713,7 @@
 			port@1 {
 				reg = <1>;
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				switch_out0: endpoint {
 					remote-endpoint = <&demosaic_0_in>;
 				};
@@ -705,7 +721,7 @@
 			port@2 {
 				reg = <2>;
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				switch_out1: endpoint {
 					remote-endpoint = <&demosaic_1_in>;
 				};
@@ -713,7 +729,7 @@
 			port@3 {
 				reg = <3>;
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				switch_out2: endpoint {
 					remote-endpoint = <&demosaic_2_in>;
 				};
@@ -721,7 +737,7 @@
 			port@4 {
 				reg = <4>;
 				xlnx,video-format = <12>;
-				xlnx,video-width = <8>;
+				xlnx,video-width = <10>;
 				switch_out3: endpoint {
 					remote-endpoint = <&demosaic_3_in>;
 				};

@@ -59,7 +59,7 @@
 					reg = <1>;
 
 					xlnx,video-format = <XVIP_VF_MONO_SENSOR>;
-					xlnx,video-width = <8>;
+					xlnx,video-width = <10>;
 					xlnx,cfa-pattern = "rggb";
 
 					csiss_out: endpoint {
@@ -70,7 +70,7 @@
 					reg = <0>;
 
 					xlnx,video-format = <XVIP_VF_MONO_SENSOR>;
-					xlnx,video-width = <8>;
+					xlnx,video-width = <10>;
 					xlnx,cfa-pattern = "rggb";
 
 					csiss_in: endpoint {
@@ -81,13 +81,17 @@
 			};
 		};
 
-		v_demosaic_0: v_demosaic@a40c0000 {
-			compatible = "xlnx,v-demosaic";
+		isp_0: isp@a40c0000 {
+			compatible = "xlnx,ISPPipeline_accel";
 			reg = <0x0 0xa40c0000 0x0 0x10000>;
 			clocks = <&misc_clk_0>;
 			reset-gpios = <&gpio0 27 1>;
 			xlnx,max-width = <3840>;
 			xlnx,max-height = <2160>;
+			xlnx,rgain = <160>;
+			xlnx,bgain = <154>;
+			xlnx,pawb = <512>;
+			xlnx,mode-reg = <1>;
 
 			ports {
 				#address-cells = <1>;
@@ -96,7 +100,7 @@
 				port@0 {
 					reg = <0>;
 
-					xlnx,video-width = <8>;
+					xlnx,video-width = <10>;
 					xlnx,cfa-pattern = "rggb";
 
 					demosaic_in: endpoint {
