@@ -22,4 +22,5 @@ SRC_URI += " \
 	file://0016-media-i2c-mars-add-v4l-ctrls.patch \
 	file://0017-media-i2c-mars-modify-resolution.patch \
 	file://0018-media-i2c-max9286-modify-resolution.patch \
+	file://0001-media-xilinx-Add-isppipeline-driver.patch \
 "
