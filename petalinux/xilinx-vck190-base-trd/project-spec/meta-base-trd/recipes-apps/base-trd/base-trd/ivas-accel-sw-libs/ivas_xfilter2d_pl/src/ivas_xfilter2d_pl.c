@@ -168,11 +168,16 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
 {
     Filter2dKernelPriv *kpriv;
     kpriv = (Filter2dKernelPriv *) handle->kernel_priv;
+    uint32_t hi_addr;
 
     /* Input frme */
-    ivas_register_write(handle, &(input[0]->paddr[0]), sizeof(uint64_t), 0x10);
+    ivas_register_write(handle, &(input[0]->paddr[0]), sizeof(uint32_t), 0x10);
+    hi_addr = (uint32_t)((input[0]->paddr[0]) >> 32);
+    ivas_register_write(handle, &(hi_addr), sizeof(uint32_t), 0x14);
     /* Output frame */
-    ivas_register_write(handle, &(output[0]->paddr[0]), sizeof(uint64_t), 0x1c);
+    ivas_register_write(handle, &(output[0]->paddr[0]), sizeof(uint32_t), 0x1c);
+    hi_addr = (uint32_t)((output[0]->paddr[0]) >> 32);
+    ivas_register_write(handle, &(hi_addr), sizeof(uint32_t), 0x20);
     /* Kernel Params (coeffiecients) */
     ivas_register_write(handle, &(kpriv->params->paddr[0]),
         sizeof(uint64_t), 0x28);
