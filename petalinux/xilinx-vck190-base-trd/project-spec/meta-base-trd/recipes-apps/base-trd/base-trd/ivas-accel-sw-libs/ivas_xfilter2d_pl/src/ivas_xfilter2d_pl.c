@@ -43,6 +43,9 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
             "Error: Unable to allocate filter2d kernel memory");
     }
 
+    /* set multiprocess mode */
+    handle->is_multiprocess = 1;
+
     /* parse json config */
 
     /* debug_level */
@@ -188,22 +191,12 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
     /* out_fourcc */
     ivas_register_write(handle, &(kpriv->out_fourcc),
         sizeof(uint32_t), 0x4c);
-    /* start */
-    ivas_register_write(handle, &start, sizeof(uint32_t), 0x0);
 
-    return 0;
+    /* start */
+    return ivas_kernel_start(handle);
 }
 
 int32_t xlnx_kernel_done(IVASKernel *handle)
 {
-    uint32_t val = 0, count = 0;
-    do {
-        ivas_register_read(handle, &val, sizeof(uint32_t), 0x0); /* start */
-        count++;
-        if (count > 1000000) {
-            printf("ERROR: kernel done wait TIME OUT !!\n");
-            return 0;
-        }
-    } while (!(0x4 & val));
-    return 1;
+    return ivas_kernel_done(handle, 100);
 }
