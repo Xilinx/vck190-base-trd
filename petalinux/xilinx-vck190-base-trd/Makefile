@@ -53,19 +53,20 @@ all: wic
 wic: $(PLNX_WIC)
 $(PLNX_WIC): $(PLNX_WIC_OBJS) $(PLNX_BOOT)
 	@echo 'Build PetaLinux wic image'
-	petalinux-package --wic ${PLNX_WIC_ARGS}
+	petalinux-package --wic $(PLNX_WIC_ARGS)
 
 .PHONY: boot
 boot: $(PLNX_BOOT)
 $(PLNX_BOOT): $(PLNX_BOOT_OBJS)
 	@echo 'Build PetaLinux boot image'
-	petalinux-package --boot ${PLNX_BOOT_ARGS} --force
+	petalinux-package --boot $(PLNX_BOOT_ARGS) --force
 
 .PHONY: image
-image $(PLNX_IMG_OBJS):
+image: $(PLNX_IMG_OBJS)
+$(PLNX_IMG_OBJS):
 	@echo 'Build PetaLinux image'
-	@./trd-pl-cfg -p ${PFM}
-	@if [ ${YES} -eq 1 ]; then \
+	@./trd-pl-cfg -p $(PFM)
+	@if [ $(YES) -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
@@ -76,8 +77,8 @@ image $(PLNX_IMG_OBJS):
 sdk: $(PLNX_SDK)
 $(PLNX_SDK):
 	@echo 'Build PetaLinux SDK'
-	@./trd-pl-cfg -p ${PFM}
-	@if [ ${YES} -eq 1 ]; then \
+	@./trd-pl-cfg -p $(PFM)
+	@if [ $(YES) -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
