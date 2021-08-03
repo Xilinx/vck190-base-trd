@@ -19,7 +19,10 @@ PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/boot.scr
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/Image
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/rootfs.tar.gz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/ramdisk.cpio.gz.u-boot
-PLNX_WIC_ARGS = --wic-extra-args "-c xz"
+PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/system.dtb
+PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/binary_container_1.xclbin
+PLNX_WIC_ARGS += --bootfiles "binary_container_1.xclbin ramdisk.cpio.gz.u-boot boot.scr Image system.dtb BOOT.BIN"
+PLNX_WIC_ARGS += --wic-extra-args "-c xz"
 
 PLNX_IMG_OBJS += $(PLNX_BOOT_OBJS)
 PLNX_IMG_OBJS += $(PLNX_WIC_OBJS)

@@ -61,7 +61,8 @@ sdcard: $(PLNX_WIC)
 $(PLNX_WIC): $(PLNX_DIR) $(VITIS_OVERLAY_XSA) $(VITIS_OVERLAY_XCLBIN)
 	@echo 'Build PetaLinux wic image for $(PFM) - $(OVERLAY)'
 	@cp $(VITIS_OVERLAY_XSA) $(PLNX_DIR)/project-spec/hw-description/system.xsa
-	@cp $(VITIS_OVERLAY_XCLBIN) $(PLNX_DIR)/project-spec/hw-description
+	@mkdir -p $(PLNX_DIR)/images/linux
+	@cp $(VITIS_OVERLAY_XCLBIN) $(PLNX_DIR)/images/linux
 	$(MAKE) -C $(PLNX_DIR) wic PFM=$(PFM)
 
 $(PLNX_DIR):
