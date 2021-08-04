@@ -19,7 +19,10 @@ PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/boot.scr
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/Image
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/rootfs.tar.gz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/ramdisk.cpio.gz.u-boot
-PLNX_WIC_ARGS = --wic-extra-args "-c xz"
+PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/system.dtb
+PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/binary_container_1.xclbin
+PLNX_WIC_ARGS += --bootfiles "binary_container_1.xclbin ramdisk.cpio.gz.u-boot boot.scr Image system.dtb BOOT.BIN"
+PLNX_WIC_ARGS += --wic-extra-args "-c xz"
 
 PLNX_IMG_OBJS += $(PLNX_BOOT_OBJS)
 PLNX_IMG_OBJS += $(PLNX_WIC_OBJS)
@@ -50,19 +53,20 @@ all: wic
 wic: $(PLNX_WIC)
 $(PLNX_WIC): $(PLNX_WIC_OBJS) $(PLNX_BOOT)
 	@echo 'Build PetaLinux wic image'
-	petalinux-package --wic ${PLNX_WIC_ARGS}
+	petalinux-package --wic $(PLNX_WIC_ARGS)
 
 .PHONY: boot
 boot: $(PLNX_BOOT)
 $(PLNX_BOOT): $(PLNX_BOOT_OBJS)
 	@echo 'Build PetaLinux boot image'
-	petalinux-package --boot ${PLNX_BOOT_ARGS} --force
+	petalinux-package --boot $(PLNX_BOOT_ARGS) --force
 
 .PHONY: image
-image $(PLNX_IMG_OBJS):
+image: $(PLNX_IMG_OBJS)
+$(PLNX_IMG_OBJS):
 	@echo 'Build PetaLinux image'
-	@./trd-pl-cfg -p ${PFM}
-	@if [ ${YES} -eq 1 ]; then \
+	@./trd-pl-cfg -p $(PFM)
+	@if [ $(YES) -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
@@ -73,8 +77,8 @@ image $(PLNX_IMG_OBJS):
 sdk: $(PLNX_SDK)
 $(PLNX_SDK):
 	@echo 'Build PetaLinux SDK'
-	@./trd-pl-cfg -p ${PFM}
-	@if [ ${YES} -eq 1 ]; then \
+	@./trd-pl-cfg -p $(PFM)
+	@if [ $(YES) -eq 1 ]; then \
 	  yes | petalinux-config --silentconfig; \
 	else \
 	  petalinux-config --silentconfig; \
