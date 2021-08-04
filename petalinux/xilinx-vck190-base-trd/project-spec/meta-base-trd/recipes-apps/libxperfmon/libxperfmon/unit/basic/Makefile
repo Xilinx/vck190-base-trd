@@ -1,4 +1,4 @@
-LIBS= -lxapm -lpthread
+LIBS= -lxperfmon -lpthread
 PRJROOT=../../
 INCLUDE=$(PRJROOT)/inc
 OBJ = basic.o

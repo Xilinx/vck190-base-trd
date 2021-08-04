@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Xilinx, Inc.  All rights reserved.
+ * Copyright (C) 2020 - 2021 Xilinx, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp> 
 #ifndef __XAPM_HPP__
-#include "xapm.hpp"
+#include "xperfmon.hpp"
 #endif
 
 #define PFM_1_CLK 199990000
@@ -82,7 +82,7 @@ boost::python::list setup(uint32_t core_clk){
 	return fin;
 }
 
-BOOST_PYTHON_MODULE(libxapm)
+BOOST_PYTHON_MODULE(libxperfmon)
 {
     class_<APM>("APM", init<list>())
        .def_readwrite("port", &APM::port)
