@@ -1,14 +1,14 @@
-From 35e1a8bb842f4c9c3750ff31015109cafa180e1f Mon Sep 17 00:00:00 2001
+From 55156bc197c87340debc1182ef7435e51d270e58 Mon Sep 17 00:00:00 2001
 From: Thomas Nizan <tnizan@witekio.com>
 Date: Tue, 6 Jul 2021 13:00:48 +0000
-Subject: [PATCH 3/3] media: i2c: max9286: modify resolution
+Subject: [PATCH 11/14] max9286: WIP, modify resolution
 
 ---
- drivers/media/i2c/max9286.c | 95 ++++++++++++++++++++++++++++++++++---
+ drivers/media/i2c/max9286.c | 95 ++++++++++++++++++++++++++++++++++++++++++---
  1 file changed, 89 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 33b10684a25b..bba4c5e713e6 100644
+index b304a1f..ba6428a 100644
 --- a/drivers/media/i2c/max9286.c
 +++ b/drivers/media/i2c/max9286.c
 @@ -136,6 +136,8 @@
@@ -37,7 +37,7 @@ index 33b10684a25b..bba4c5e713e6 100644
 +	// FSYNC_PERIOD = 0x2625A0 =
 +	// 2,500,000 cycles / 75MHz =
 +	// 0.0333 => 30fps
-+	{ 0x06, 0xA0 },    	// [7:0] FSYNC_PERIODL
++	{ 0x06, 0xA0 },		// [7:0] FSYNC_PERIODL
 +	{ 0x07, 0x25 },		// [7:0] FSYNC_PERIODM
 +	{ 0x08, 0x26 },		// [7:0] FSYNC_PERIODH
 +};
@@ -50,7 +50,7 @@ index 33b10684a25b..bba4c5e713e6 100644
 +    // FSYNC_PERIOD = 0x1312D0 =
 +    // 1,250,000 cycles / 75MHz =
 +    // 0.0166 => 60fps
-+	{ 0x06, 0xD0 },    	// [7:0] FSYNC_PERIODL
++	{ 0x06, 0xD0 },		// [7:0] FSYNC_PERIODL
 +	{ 0x07, 0x12 },		// [7:0] FSYNC_PERIODM
 +	{ 0x08, 0x13 },		// [7:0] FSYNC_PERIODH
 +};
@@ -79,13 +79,12 @@ index 33b10684a25b..bba4c5e713e6 100644
  static struct max9286_source *next_source(struct max9286_priv *priv,
  					  struct max9286_source *source)
  {
-@@ -244,6 +298,25 @@ static int max9286_write(struct max9286_priv *priv, u8 reg, u8 val)
+@@ -245,6 +299,24 @@ static int max9286_write(struct max9286_priv *priv, u8 reg, u8 val)
  
  	return ret;
  }
-+static int max9286_set_regs(struct max9286_priv *priv,
-+							const struct reg_8 *regs,
-+             				unsigned int nr_regs)
++static int max9286_set_regs(struct max9286_priv *priv, const struct reg_8 *regs,
++			    unsigned int nr_regs)
 +{
 +	unsigned int i;
 +	int ret;
@@ -96,7 +95,7 @@ index 33b10684a25b..bba4c5e713e6 100644
 +			dev_err(&priv->client->dev,
 +			"%s: register %u (0x%02x) write failed (%d)\n",
 +			__func__, i, regs[i].addr, ret);
-+		 	return ret;
++			return ret;
 +		}
 +	}
 +
@@ -105,7 +104,7 @@ index 33b10684a25b..bba4c5e713e6 100644
  
  /* -----------------------------------------------------------------------------
   * I2C Multiplexer
-@@ -752,11 +825,13 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+@@ -754,11 +826,13 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
  	struct max9286_priv *priv = sd_to_max9286(sd);
  	struct v4l2_mbus_framefmt *cfg_fmt;
  
@@ -120,7 +119,7 @@ index 33b10684a25b..bba4c5e713e6 100644
  	case MEDIA_BUS_FMT_UYVY8_1X16:
  	case MEDIA_BUS_FMT_VYUY8_1X16:
  	case MEDIA_BUS_FMT_YUYV8_1X16:
-@@ -766,13 +841,23 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+@@ -768,13 +842,23 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
  		format->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
  		break;
  	}
@@ -144,7 +143,7 @@ index 33b10684a25b..bba4c5e713e6 100644
  	mutex_unlock(&priv->mutex);
  
  	return 0;
-@@ -823,8 +908,8 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
+@@ -825,8 +909,8 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
  
  static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
  {
@@ -155,17 +154,18 @@ index 33b10684a25b..bba4c5e713e6 100644
  	fmt->code		= MEDIA_BUS_FMT_SGRBG8_1X8;
  	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
  	fmt->field		= V4L2_FIELD_NONE;
-@@ -1004,9 +1089,7 @@ static int max9286_setup(struct max9286_priv *priv)
+@@ -1006,9 +1090,8 @@ static int max9286_setup(struct max9286_priv *priv)
  	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_OUT |
  		      MAX9286_FSYNCMETH_MANUAL);
  
 -	max9286_write(priv, 0x06, 0xA0);	// [7:0] FSYNC_PERIODL
 -	max9286_write(priv, 0x07, 0x25);	// [7:0] FSYNC_PERIODM
 -	max9286_write(priv, 0x08, 0x26);	// [7:0] FSYNC_PERIODH
-+	max9286_set_regs(priv, max9286_modes[0].reg_table, MAX9286_MODE_REG_TABLE_SIZE);
++	max9286_set_regs(priv, max9286_modes[0].reg_table,
++			 MAX9286_MODE_REG_TABLE_SIZE);
  
- 	/* Enable HS/VS encoding, use HS as line valid source, use D14/15 for HS/VS, invert VS. */
- 	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_DESEL |
+ 	/*
+ 	 * Enable HS/VS encoding, use HS as line valid source,
 -- 
-2.20.1
+2.7.4
 
