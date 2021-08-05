@@ -1,6 +1,7 @@
 {
   "xclbin-location": "/media/sd-mmcblk0p1/binary_container_1.xclbin",
   "ivas-library-repo": "/usr/lib/ivas",
+  "element-mode":"transform",
   "kernels": [
     {
       "kernel-name": "filter2d_pl_accel:filter2d_pl_accel_0",
