@@ -24,13 +24,10 @@ BASE_TRD_PACKAGES = " \
 	base-trd \
 	cmake \
 	custom-edid \
-	git \
 	gstreamer1.0-python \
 	kernel-module-hdmi \
 	ldd \
 	libxapm-python \
-	nodejs \
-	nodejs-npm \
 	ntp \
 	python3-dev \
 	python3-periphery \
