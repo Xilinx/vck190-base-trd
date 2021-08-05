@@ -73,7 +73,7 @@ overlay: $(VITIS_OVERLAY_XCLBIN)
 $(VITIS_OVERLAY_XCLBIN): $(PFM_XPFM)
 	@valid=0; \
 	for o in $(OVERLAY_LIST); do \
-	  if [ "$$o" == "$(OVERLAY)" ]; then \
+	  if [ "$$o" = "$(OVERLAY)" ]; then \
 	    valid=1; \
 	    break; \
 	  fi \
@@ -90,7 +90,7 @@ platform: $(PFM_XPFM)
 $(PFM_XPFM):
 	@valid=0; \
 	for p in $(PFM_LIST); do \
-	  if [ "$$p" == "$(PFM)" ]; then \
+	  if [ "$$p" = "$(PFM)" ]; then \
 	    valid=1; \
 	    break; \
 	  fi \
