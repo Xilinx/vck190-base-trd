@@ -1,7 +1,7 @@
-From 194b1a38b6ac2a135c7ea35f5c2037cda61f0a4c Mon Sep 17 00:00:00 2001
+From fe470b7da06c24458187a1076fa5a998a77f2635 Mon Sep 17 00:00:00 2001
 From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Date: Thu, 14 Jan 2021 18:04:27 +0100
-Subject: [PATCH 05/15] media: i2c: max9286: Break-out reverse channel setup
+Subject: [PATCH 04/14] media: i2c: max9286: Break-out reverse channel setup
 
 Break out the reverse channel setup configuration procedure to its own
 function.
@@ -21,7 +21,7 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index b1e2476d3c9e..ab4bf13dd905 100644
+index b1e2476..ab4bf13 100644
 --- a/drivers/media/i2c/max9286.c
 +++ b/drivers/media/i2c/max9286.c
 @@ -336,6 +336,22 @@ static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
@@ -69,5 +69,5 @@ index b1e2476d3c9e..ab4bf13dd905 100644
  	/*
  	 * Enable GMSL links, mask unused ones and autodetect link
 -- 
-2.20.1
+2.7.4
 

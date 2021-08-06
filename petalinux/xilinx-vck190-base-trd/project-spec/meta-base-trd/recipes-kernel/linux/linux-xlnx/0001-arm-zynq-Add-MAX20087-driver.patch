@@ -1,7 +1,7 @@
-From 2d38a2cfb4dc30638f1823a57b9b4b03d8b023c2 Mon Sep 17 00:00:00 2001
+From 26e49dca216fdfd2123f62ee0a4992df37398c36 Mon Sep 17 00:00:00 2001
 From: watson <watson.chow@avnet.com>
 Date: Thu, 21 Jun 2018 19:41:30 +0800
-Subject: [PATCH 01/15] arm: zynq: Add MAX20087 driver
+Subject: [PATCH 01/14] arm: zynq: Add MAX20087 driver
 
 It is designed to comply with
 Linux voltage and current regulator framework
@@ -10,11 +10,11 @@ Support power on/off only
 
 Signed-off-by: watson <watson.chow@avnet.com>
 ---
- .../bindings/regulator/max20087-regulator.txt |  55 +++
- drivers/regulator/Kconfig                     |  11 +-
- drivers/regulator/Makefile                    |   1 +
- drivers/regulator/max20087-regulator.c        | 427 ++++++++++++++++++
- include/linux/regulator/max20087-regulator.h  |  38 ++
+ .../bindings/regulator/max20087-regulator.txt      |  55 +++
+ drivers/regulator/Kconfig                          |  11 +-
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/max20087-regulator.c             | 427 +++++++++++++++++++++
+ include/linux/regulator/max20087-regulator.h       |  38 ++
  5 files changed, 531 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/devicetree/bindings/regulator/max20087-regulator.txt
  create mode 100644 drivers/regulator/max20087-regulator.c
@@ -22,7 +22,7 @@ Signed-off-by: watson <watson.chow@avnet.com>
 
 diff --git a/Documentation/devicetree/bindings/regulator/max20087-regulator.txt b/Documentation/devicetree/bindings/regulator/max20087-regulator.txt
 new file mode 100644
-index 000000000000..30165a92326c
+index 0000000..30165a9
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/regulator/max20087-regulator.txt
 @@ -0,0 +1,55 @@
@@ -82,7 +82,7 @@ index 000000000000..30165a92326c
 +	};
 +};
 diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 453b5e1826d9..0fe5ab660f65 100644
+index 453b5e1..0fe5ab6 100644
 --- a/drivers/regulator/Kconfig
 +++ b/drivers/regulator/Kconfig
 @@ -642,6 +642,16 @@ config REGULATOR_MAX77826
@@ -108,7 +108,7 @@ index 453b5e1826d9..0fe5ab660f65 100644
  endif
 -
 diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 6096862a1d60..bb12851e58fc 100644
+index 6096862..bb12851 100644
 --- a/drivers/regulator/Makefile
 +++ b/drivers/regulator/Makefile
 @@ -79,6 +79,7 @@ obj-$(CONFIG_REGULATOR_MAX77686) += max77686-regulator.o
@@ -121,7 +121,7 @@ index 6096862a1d60..bb12851e58fc 100644
  obj-$(CONFIG_REGULATOR_MC13XXX_CORE) +=  mc13xxx-regulator-core.o
 diff --git a/drivers/regulator/max20087-regulator.c b/drivers/regulator/max20087-regulator.c
 new file mode 100644
-index 000000000000..fe3df0745f6c
+index 0000000..fe3df07
 --- /dev/null
 +++ b/drivers/regulator/max20087-regulator.c
 @@ -0,0 +1,427 @@
@@ -554,7 +554,7 @@ index 000000000000..fe3df0745f6c
 +MODULE_LICENSE("GPL");
 diff --git a/include/linux/regulator/max20087-regulator.h b/include/linux/regulator/max20087-regulator.h
 new file mode 100644
-index 000000000000..f70aa7c6fce7
+index 0000000..f70aa7c
 --- /dev/null
 +++ b/include/linux/regulator/max20087-regulator.h
 @@ -0,0 +1,38 @@
@@ -597,5 +597,5 @@ index 000000000000..f70aa7c6fce7
 +};
 +#endif
 -- 
-2.20.1
+2.7.4
 

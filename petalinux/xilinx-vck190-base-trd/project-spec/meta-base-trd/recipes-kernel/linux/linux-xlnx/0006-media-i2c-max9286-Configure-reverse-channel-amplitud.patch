@@ -1,7 +1,7 @@
-From 60de2343392d56a9ab3ff01c1dba1fe67d85e119 Mon Sep 17 00:00:00 2001
+From fd9983dc5a742a7c1be0dbb446e774fd6908e174 Mon Sep 17 00:00:00 2001
 From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Date: Thu, 14 Jan 2021 18:04:29 +0100
-Subject: [PATCH 07/15] media: i2c: max9286: Configure reverse channel
+Subject: [PATCH 06/14] media: i2c: max9286: Configure reverse channel
  amplitude
 
 Adjust the initial reverse channel amplitude parsing from
@@ -22,7 +22,7 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 53ccfa721684..e96053b67eb6 100644
+index 53ccfa7..e96053b 100644
 --- a/drivers/media/i2c/max9286.c
 +++ b/drivers/media/i2c/max9286.c
 @@ -163,6 +163,8 @@ struct max9286_priv {
@@ -88,5 +88,5 @@ index 53ccfa721684..e96053b67eb6 100644
  
  	return 0;
 -- 
-2.20.1
+2.7.4
 

@@ -1,7 +1,7 @@
-From fa9e5260aa7c48eca6131489c670a2a921ff150f Mon Sep 17 00:00:00 2001
+From e904276fb854da3be2027b4328762d68c6da8d94 Mon Sep 17 00:00:00 2001
 From: Christian Kohn <christian.kohn@xilinx.com>
 Date: Tue, 31 Mar 2020 22:15:30 -0700
-Subject: [PATCH 02/15] max20087: Remove unused members
+Subject: [PATCH 02/14] max20087: Remove unused members
 
 Remove unused members in regulator_config.
 ---
@@ -9,7 +9,7 @@ Remove unused members in regulator_config.
  1 file changed, 2 deletions(-)
 
 diff --git a/drivers/regulator/max20087-regulator.c b/drivers/regulator/max20087-regulator.c
-index fe3df0745f6c..5b01a61ff9b9 100644
+index fe3df07..5b01a61 100644
 --- a/drivers/regulator/max20087-regulator.c
 +++ b/drivers/regulator/max20087-regulator.c
 @@ -262,8 +262,6 @@ static int max20087_regulator_init(struct max20087 *chip)
@@ -22,5 +22,5 @@ index fe3df0745f6c..5b01a61ff9b9 100644
  		chip->rdev[i] = devm_regulator_register(chip->dev,
  					&max20087_regulators[i], &config);
 -- 
-2.20.1
+2.7.4
 
