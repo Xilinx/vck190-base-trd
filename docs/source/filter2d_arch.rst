@@ -1,7 +1,11 @@
 Accelerator - 2D Filter 
 ========================
 
-This chapter describes the processing pipeline which consists of two accelerators. 
+This chapter provides the hardware and software architecture of the  2D Filter 
+accelerator integrated into a platform. 
+
+Hardware Architecture
+---------------------
 
 A memory-to-memory (M2M) pipeline reads video frames from memory, does certain 
 processing, and then writes the processed frames back into memory. A block diagram 
@@ -13,7 +17,7 @@ of the processing pipeline is shown in the following figure.
   :alt: 2d Filter Processing Pipeline Diagram
 
 
-There are two accelerators that are 
+The processing pipeline implements filter funtions 
 
 * 2D convolution filter implemented in PL along with a data mover (DM)
 * 2D convolution filter implemented in AIE along with a Tiler and Stitcher in PL
@@ -25,6 +29,12 @@ For the 2D Convolution filter in AIE the datamovers used are tiler.xo and stitch
 The AIE compiler generates the connectivity graph (.adf) with the AIE engine and 
 the program (2D convolution filter elf) to execute on AIE. The Vitis™ tool uses the 
 .xo and .adf outputs from these tools and integrates the IPs into the platform.
+
+For more information on 2D Convolution filter in PL refer to 
+`Vitis Vision Library: Custom Convolution <https://xilinx.github.io/Vitis_Libraries/vision/2021.1/index.html#>`_
+
+For more information on 2D Convolution filter in AIE refer to 
+`Vitis Vision AIE Library User Guide <https://pages.gitenterprise.xilinx.com/FaaSApps/xf_opencv/2021.1/overview-aie.html#>`_
 
 The data movers read input frames from the memory. The processing block runs 
 convolution on the frame. Convolution is a common image processing technique that 
@@ -60,7 +70,7 @@ In this implementation, only the Y component is processed by the 2D convolution
 filter which is essentially a grayscale image. The reason is that the human eye 
 is more sensitive to intensity than color. The combined U/Y components which 
 accounts for the color is merged back into the final output image unmodified. 
-The processed frame is then written back to memory.
+The processed frame is then written back to memory by the datamover.
 
 License
 -------

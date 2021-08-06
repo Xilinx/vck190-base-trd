@@ -70,9 +70,9 @@ The single sensor MIPI CSI-2 receiver capture pipeline is shown in the following
   :alt: Single Sensor MIPI capture
 
 
-This pipeline consists of six components, of which four are controlled by the APU 
+This pipeline consists of five components, of which four are controlled by the APU 
 via an AXI-Lite based register interface; one is controlled by the APU via an I2C 
-register interface, and one is configured statically.
+register interface.
 
 * The `Sony IMX274 <https://leopardimaging.com/product/li-imx274-mipi-cs/>`_ is a 1/2.5 inch CMOS digital image sensor with an active imaging
   pixel array of 3864H x2196V. The image sensor is controlled via an I2C interface
@@ -87,39 +87,19 @@ register interface, and one is configured statically.
   RAW10 format and outputs AXI4-Stream video data. For more information see the MIPI
   CSI-2 Receiver Subsystem Product Guide (`PG232 <https://www.xilinx.com/support/documentation/ip_documentation/mipi_csi2_rx_subsystem/v5_0/pg232-mipi-csi2-rx.pdf>`_).
   
-* The AXI subset converter, see AXI4-Stream Infrastructure IP Suite LogiCORE IP Product
-  Guide (`PG085 <https://www.xilinx.com/support/documentation/ip_documentation/axis_infrastructure_ip_suite/v1_0/pg085-axi4stream-infrastructure.pdf>`_), is a statically-configured IP core that converts the raw 10-bit (RAW10)
-  AXI4-Stream input data to raw 8-bit (RAW8) AXI4-Stream output data by truncating the 
-  two least significant bits (LSB) of each data word. At four pixels per clock (4ppc)
-  the AXIS width is 32 bits.
-  
-* The Image Single Processing IP available is available the Vitis vision librarires
+ 
+* The Image Single Processing IP is available in the Vitis Vision librarires
   (https://github.com/Xilinx/Vitis_Libraries/tree/master/vision/L1).The IP receives the 
-  RAW AXI4-Stream input data and interpolates the missing color components for every 
+  RAW10 AXI4-Stream input data and interpolates the missing color components for every 
   pixel to generate a 24-bit, 8 bits per pixel (8 bpc) RGB output image transported via 
   AXI4-Stream. At 4 ppc, the AXIS width is 96-bit. A GPIO from the PS is used to reset 
-  the IP between resolution changes. It implements the following functions.
-  
-  * The Badpixelcorrection module removes the defective pixels in the image as an image 
-    sensor may have a certain number of defective/bad pixels that may be the result of 
-    manufacturing faults or variations in pixel voltage levels based on temperature or 
-    exposure.
+  the IP between resolution changes. For information on the functions it implments 
+  refer to `Vitis Vision Libraries Image Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2021.1/overview.html#isp-201>`_.
 
-  * The Gain control module improves the overall brightness of the input image by 
-    applying a multiplicative gain (weight) for red and blue channel to the input 
-    bayerized image.
-
-  * The Demosaicing module converts a single plane Bayer pattern output, from the 
-    digital camera sensors to a color image.
-
-  * The histogram module computes the histogram of given input image. The normalization 
-    module changes the range of pixel intensity values. Both modules are used to 
-    improve the contrast in the image. 
-
-  See https://xilinx.github.io/Vitis_Libraries/vision/api-reference.html#vitis-vision-library-functions for more details
  
 * The video processing subsystem (VPSS), see Video Processing Subsystem Product Guide  
-  (`PG231 <https://www.xilinx.com/support/documentation/ip_documentation/v_proc_ss/v2_0/pg231-v-proc-ss.pdf>`_), is a collection of video processing IP subcores. This instance uses the 
+  (`PG231 <https://www.xilinx.com/support/documentation/ip_documentation/v_proc_ss/v2_0/pg231-v-proc-ss.pdf>`_), 
+  is a collection of video processing IP subcores. This instance uses the 
   scaler only configuration which provides scaling, color space conversion, and chroma 
   resampling functionality. The VPSS takes AXI4-Stream input data in 24-bit RGB format 
   and converts it to a 16-bit, 8bpc YUV 4:2:2 output format. The following figure shows 
@@ -132,7 +112,8 @@ register interface, and one is configured statically.
 
 
 * The video frame buffer, see Video Frame Buffer Read and Video Frame Buffer Write 
-  LogiCORE IP Product Guide (`PG278 <https://www.xilinx.com/support/documentation/ip_documentation/v_frmbuf/v1_0/pg278-v-frmbuf.pdf>`_) takes YUV 4:2:2 sub-sampled AXI4-Stream input data 
+  LogiCORE IP Product Guide (`PG278 <https://www.xilinx.com/support/documentation/ip_documentation/v_frmbuf/v1_0/pg278-v-frmbuf.pdf>`_) 
+  takes YUV 4:2:2 sub-sampled AXI4-Stream input data 
   and converts it to AXI4-MM format which is written to memory as 16-bit packed YUYV. 
   The AXI-MM interface is connected to the system DDR via NOC. For each video frame 
   transfer, an interrupt is generated. A GPIO is used to reset the IP between 
@@ -183,7 +164,8 @@ The quad sensor MIPI CSI-2 receiver capture pipeline is shown in the following f
 
 * The ISP IP receives the RAW AXI4-Stream input data and interpolates the missing color  
   components for every pixel to generate a 24-bit, 8 bits per pixel (8 bpc) RGB output 
-  image transported via AXI4-Stream.
+  image transported via AXI4-Stream. For more information refer to `Vitis Vision Libraries Image 
+  Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2021.1/overview.html#isp-201>`_.
 
 * The VPSS takes AXI4-Stream input data in 24-bit RGB format and converts it to a 
   16-bit, 8 bpc YUV 4:2:2 output format.

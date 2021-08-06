@@ -16,11 +16,11 @@ Contents:
    intro.rst
    run.rst
    build-overview.rst 
-   build-vivado.rst
    build-pfm.rst
    build-filter2d.rst
    build-plnx.rst
    hwarch.rst
+   filter2d_arch.rst
    known-issues.rst
    support.rst
    
