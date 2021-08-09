@@ -7,14 +7,15 @@ design with a pre-instantiated set of I/O interfaces and a corresponding
 PetaLinux BSP and image that includes the required kernel drivers and user-space
 libraries to exercise those interfaces. Accelerators are mapped to FPGA logic
 resources and/or AI Engine cores and stitched into the platform using the Vitis
-toolchain. The reference design currently supports the VCK190 evaluation board.
+toolchain. The reference design currently supports the VCK190 evaluation board 
+either with ES parts or production parts.
 
 Platforms
 ---------
 
 The following is a list of supported platforms including key I/O interfaces:
 
-* Platform 1:
+* Platform 1 - *vck190_es1_mipiRxSingle_hdmiTx, vck190_mipiRxSingle_hdmiTx*:
 
   * Sources:
 
@@ -39,14 +40,14 @@ The following is a list of supported platforms including key I/O interfaces:
     * Application sink into jupyter notebook display
 
 
-* Platform 2:
+* Platform 2 - *vck190_es1_mipiRxQuad_hdmiTx, vck190_mipiRxQuad_hdmiTx*:
 
   Platform 2 is essentially an enhancement to platform 1 capture pipeline,
   while the rest of the hardware design and pre-instantiated set of I/O
   interfaces remain the same. The notable difference in the capture path is
   replacement of IMX274 image sensor with Avnet Multi-Camera image sensor.
 
-* Platform 3:
+* Platform 3 - *vck190_es1_hdmiRx_hdmiTx, vck190_hdmiRx_hdmiTx*:
 
   Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware 
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
@@ -81,73 +82,58 @@ The main software frameworks used in this reference design are:
     :width: 700px
     :alt: Software Stack Overview
 
-Design File Hierarchy
+Design Files
 ---------------------
 
-The reference design zip files can be downloaded from the below locations. Note
-there is a separate zip file per platform:
-
-* Platforms supporting Pre-Production Silicon
-
-  * Platform 1: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
-
-  * Platform 2: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
-
-  * Platform 3: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
-
+The design source files are available at https://github.com/Xilinx/vck190_base_trd.git
 It has the following contents:
 
 * Petalinux Board Support Package (BSP)
 
-* Pre-built SD card image
+* Vivado hardware platform projects
 
-* Vivado hardware design project
+* Vitis accelerator overlay projects
 
-* Vitis platform
-
-* Vitis accelerator projects
+* HTML Documentation sources
 
 * README file
 
-* Petalinux sources and licenses archive
-
-The design file hierarchy is identical between the different platforms. For
-example, the hierarchy of platform 1 is shown below:
+The design file hierarchy is shown below:
 
 .. code-block:: bash
 
-   vck190_base_trd_platform1_2020.2_v0.5
-   ├── accelerators
+   vck190_base_trd
+   ├── docs
+   │   └── source
+   │   └── _templates
+   ├── overlays
    │   ├── examples
    │   │   ├── filter2d_aie
    │   │   ├── filter2d_combined
    │   │   └── filter2d_pl
-   │   ├── LICENSE
-   │   └── vitis_libraries
+   │   └── Vitis_Libraries
    │       └── vision
-   ├── archiver.tar.gz
    ├── petalinux
-   │   └── xilinx-vck190-base-trd-platform1-2020.2.bsp
-   ├── platform
-   │   ├── pfm.tcl
-   │   └── vck190_base_trd_platform1
-   ├── README.txt
-   ├── sdcard
-   │   └── petalinux-sdimage.wic.gz
-   └── vivado
-       ├── scripts
-       ├── source
-       └── xdc
+   │   └── xilinx-vck190-base-trd
+   ├── platforms
+   │   ├── scripts
+   │   └── vivado
+   │       ├── ip
+   │       ├── vck190_es1_mipiRxSingle_hdmiTx
+   │       ├── vck190_es1_mipiRxSingle_hdmiTx
+   │       └── vck190_es1_mipiRxSingle_hdmiTx
+   │       ├── vck190_mipiRxSingle_hdmiTx
+   │       ├── vck190_mipiRxSingle_hdmiTx
+   │       └── vck190_mipiRxSingle_hdmiTx
+   └── README.md
+  
 
-The User Guide for the reference design is available at 
-https://www.xilinx.com/support/documentation/boards_and_kits/vck190/ug1442-vck190-trd.pdf
-
-In the following tutorials, it is assumed that the design zip file is extracted
+In the following tutorials, it is assumed that the design source files are cloned
 into a directory referred to as ``$working_dir``, e.g.
 
 .. code-block:: bash
 
-   export working_dir=/path/to/extracted/zip/vck190_base_trd_platform1_2020.2_v0.5
+   export working_dir=/path/to/cloned/repo/vck190_base_trd
 
 Licenses
 --------

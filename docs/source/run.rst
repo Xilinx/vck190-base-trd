@@ -4,7 +4,7 @@ Run the Prebuilt Image
 Prerequisites
 -------------
 
-* Reference design zip file
+* Prebuilt SD Image zip file
 
 * Terminal emulator, for example
 
@@ -16,17 +16,37 @@ Prerequisites
 
 * Windows: 7zip utility (https://sourceforge.net/projects/sevenzip/)
 
-SD Card Creation
-----------------
+Reference Design SD Card Creation
+---------------------------------
 
-The SD card image file is located at
-``$working_dir/sdcard/petalinux-sdimage.wic.gz``.
+The reference design prebuilt SD image zip files can be downloaded from the below locations. Note
+there is a separate zip file per platform:
+
+* Platforms supporting ES Silicon
+
+  * vck190_es1_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
+
+  * vck190_es1_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
+
+  * vck190_es1_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
+
+
+* Platforms supporting Pre-Production Silicon
+
+  * vck190_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
+
+  * vck190_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
+
+  * vck190_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
+
+Unzip the downloded file. This should contain the zipped wic image ``petalinux-sdimage.wic.xz``
+and a readme file pointing to Third party licenses and sources asoocaited with this image.
 
 Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
 *Win32 Disk Imager* utility for Windows or 'dd' command line utility for Linux
 to write the given raw disk image ``petalinux-sdimage.wic`` to the SD card.
 
-After unzipping the image file ``petalinux-sdimage.wic.gz`` using the 7zip
+After unzipping the image file ``petalinux-sdimage.wic.xz`` using the 7zip
 utility on Windows, use the following steps to write a raw disk image to a
 removable device using the Win32 Disk Imager utility.
 
@@ -72,6 +92,30 @@ while in the second patition (ext4 format) resides the root file system.
 
 **Note:** A Windows OS would only allow FAT16 partitions to be viewed whereas
 the ext4 format is not recognized.
+
+System Controller
+-----------------
+
+.. note::
+
+   If you think that you have the latest System Controller SD Image then this section 
+   can be skipped.
+
+**ES Silicon** 
+
+The image and instructions to write to the SD card can be downloaded from the 
+VCK190 headstart lounge. 
+
+* SD Image: https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip
+  
+* Instructions: https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf
+
+**Production Silicon**
+
+The image and instructions to write to SD card are avaialble on the Beam Tool page
+
+* SD Image and Instructions: http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
+   
 
 Board Setup
 -----------
@@ -143,46 +187,54 @@ on the Serial Port:
 **Vadj settings**
 
 Perform the following steps to set the Vadj voltage rail to 1.2V using the
-*BoardUI* utility:
+*BoardUI/Board Interface Test(BIT)* utility:
 
-* Power on the board. On the  System Controller UART terminal type the 
-  following commands at the linux prompt. This will allow the *BoardUI*
-  utility to communicate with the System Controller.
+#. Power on the board. 
 
-  .. code-block:: bash
+   Note: Skip next 2 steps for ES silicon
 
-     sed -i -e 's/^#//' /etc/init.d/start_boardframework.sh
-     nohup /usr/bin/boardframework.sh
+#. On the  System Controller UART terminal type the following commands at 
+   the linux prompt. This will allow the *BoardUI/Board Interaface Test* utility 
+   to communicate with the System Controller. For more information refer to 
+   http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
 
-* Close the System Controller UART terminal 
-  
-* Download the *BoardUI* tool from the following link:
-  http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
+   .. code-block:: bash
 
-* Extract the zip file and start the *BoardUI* tool. Make sure the USB-C
-  cable is connected to your PC and the system controller Micro SD card is
-  inserted.
+      EXT<Enter key><Tab Key>
+      sed -i -e 's/^#//' /etc/init.d/start_boardframework.sh
+      /etc/init.d/start_boardframework.sh
 
-* In the *BoardUI* GUI, navigate to the *FMC Boot Up* tab following the red
-  circles as shown in the below figure. Enter *1.2* in the *Set On-Boot VADJ*
-  field and click the button next to it to save the value.
+#. Close the System Controller UART terminal 
 
-  .. image:: images/boardui.jpg
-     :width: 900px
-     :alt: BoardUI Utility
+#. Download the *BoardUI/Board Interface Test(BIT)* tool from the following link: 
 
-* Power-cycle the board and navigate to the *FMC Current* tab. Click the
-  *Get VADJ_FMC Voltage* button to read out the current voltage setting and
-  confirm it matches the 1.2V set in the previous step.
+   * `VCK190 Board Interface Test : rdf0574-vck190-bit-c-2020-2.zip <https://www.xilinx.com/member/forms/download/design-license.html?cid=b83eede2-f9d2-4e81-a393-67a1a8ba609e&filename=rdf0574-vck190-bit-c-2020-2.zip>`_
+   
+#. Extract the zip file and start the *BoardUI/Board Interface Test(BIT)* tool 
+   by clicking on *BoardUI.exe*. Make sure the USB-C
+   cable is connected to your PC and the system controller Micro SD card is
+   inserted. Also make sure you Vivado Design Suite HW Manager is installed on
+   the host machine.
 
-* Close the *BoardUI* utility.
+#. In the *BoardUI* GUI, navigate to the *FMC Boot Up* tab following the red
+   circles as shown in the below figure. Enter *1.2* in the *Set On-Boot VADJ*
+   field and click the button next to it to save the value.
+
+   .. image:: images/boardui.jpg
+      :width: 900px
+      :alt: BoardUI Utility
+
+#. Power-cycle the board and navigate to the *FMC Current* tab. Click the
+   *Get VADJ_FMC Voltage* button to read out the current voltage setting and
+   confirm it matches the 1.2V set in the previous step.
+
+#. Close the *BoardUI* utility.
 
 .. note::
 
    If Vadj does not persists after reboot, try updating the System Controller
-   SD card image. The image  and instructions can be downloaded from this link:
-   http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
-   After updating the SD image, rerun the instructions for setting Vadj.
+   SD card image (Instructions provided in the System Controller section of 
+   this tutorial). 
 
 
 Connect to the JupyterLab Server

@@ -1,5 +1,16 @@
 Revision History
 ================
+**2021.1 v1.0**
+
+* Update Vivado/Vitis/Petalinux tools versions to 2021.1
+
+* Add support for Dual LPDDR
+
+* Update ISP IP for Single and Quad sensor from Vitis Vision Libraries
+
+* Update Filter 2d AIE with tiler and sticher from Vitis Vision Libraries
+
+* Add IVAS plugins for Filter 2d PL and Filter2d AIE
 
 **2020.2 v0.5**
 
