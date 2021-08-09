@@ -177,6 +177,71 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
     Filter2dKernelPriv *kpriv;
     kpriv = (Filter2dKernelPriv *) handle->kernel_priv;
 
+    json_t *jconfig = handle->kernel_dyn_config;
+    json_t *val, *ival, *jval;
+
+    char s[64] = "\0";
+    const coeff_t *pcoeff = NULL;
+    coeff_t coeff;
+    size_t isize, jsize;
+    unsigned int err = 0;
+
+    /* filter_preset */
+    val = json_object_get(jconfig, "filter_preset");
+    if (val && json_is_string(val)) {
+        kpriv->filter_preset = json_string_value(val);
+        pcoeff = get_coeff_by_preset(kpriv->filter_preset);
+        LOG_MESSAGE (LOG_LEVEL_DEBUG, kpriv->log_level,
+            "Set filter_preset = %s", kpriv->filter_preset);
+    }
+
+    /* filter_coefficients */
+    val = json_object_get(jconfig, "filter_coefficients");
+    if (val && json_is_array(val)) {
+        isize = json_array_size(val);
+        if (isize != KSIZE) {
+            LOG_MESSAGE (LOG_LEVEL_ERROR, kpriv->log_level,
+                "Unexpected value for filter_coefficients");
+            return -1;
+        }
+
+        /* outer array */
+        for (int i=0; i<isize; i++) {
+            ival = json_array_get(val, i);
+            if (ival && json_is_array(ival)) {
+                jsize = json_array_size(ival);
+                if (jsize != KSIZE) {
+                    LOG_MESSAGE (LOG_LEVEL_ERROR, kpriv->log_level,
+                        "Unexpected value for filter_coefficients");
+                    return -1;
+                }
+
+                /* inner array */
+                for (int j=0; j<jsize; j++) {
+                    jval = json_array_get(ival, j);
+                    if (jval && json_is_integer(jval)) {
+                        coeff[i][j] = json_integer_value(jval);
+                    } else {
+                        LOG_MESSAGE (LOG_LEVEL_ERROR, kpriv->log_level,
+                            "Unexpected value for filter_coefficients");
+                        return -1;
+                    }
+                }
+            } else {
+                LOG_MESSAGE (LOG_LEVEL_ERROR, kpriv->log_level,
+                    "Unexpected value for filter_coefficients");
+                return -1;
+            }
+        }
+        pcoeff = &coeff;
+    }
+
+    coeff_to_str(s, *pcoeff);
+    LOG_MESSAGE (LOG_LEVEL_DEBUG, kpriv->log_level, "%s", s);
+
+    /* set coefficients */
+    memcpy(kpriv->params->vaddr[0], *pcoeff, sizeof(*pcoeff));
+
     int yiloc = (IVAS_FOURCC_YUY2 == kpriv->in_fourcc) ? 0 : 1;
     int ciloc = (IVAS_FOURCC_YUY2 == kpriv->in_fourcc) ? 1 : 0;
     int yuyvout = (IVAS_FOURCC_YUY2 == kpriv->out_fourcc);
@@ -188,7 +253,7 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
 
     IVASFrame *outframe = output[0];
     char *outdata = (char *) outframe->vaddr[0];
-    coeff_t *coeff = (coeff_t *) kpriv->params->vaddr[0];
+    pcoeff = (const coeff_t *) kpriv->params->vaddr[0];
 
     Mat src (height, width, CV_8UC2, indata);
     Mat dst (height, width, CV_8UC2, outdata);
@@ -201,7 +266,7 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
     int coeff_i[KSIZE][KSIZE];
     for (int i = 0; i < KSIZE; i++) {
         for (int j = 0; j < KSIZE; j++) {
-            coeff_i[i][j] = (*coeff)[i][j];
+            coeff_i[i][j] = (*pcoeff)[i][j];
         }
     }
     Mat kernel = Mat (KSIZE, KSIZE, CV_32SC1, (int *) coeff_i);
