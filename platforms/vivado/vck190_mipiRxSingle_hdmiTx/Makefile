@@ -27,7 +27,7 @@ help:
 all: xsa
 
 $(ISP_IP):
-	make -C $(ISP_DIR) ip
+	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
 
 xsa: $(VIV_XSA)
 $(VIV_XSA): $(VIV_SRC) $(ISP_IP)
