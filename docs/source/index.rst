@@ -19,6 +19,7 @@ Contents:
    build-pfm.rst
    build-filter2d.rst
    build-plnx.rst
+   swarch.rst
    hwarch.rst
    filter2d_arch.rst
    known-issues.rst

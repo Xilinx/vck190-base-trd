@@ -78,6 +78,8 @@ The main software frameworks used in this reference design are:
 
 * ALSA kernel subsystem and drivers for audio devices
 
+Working of above frameworks are detailed in Chapter 9.
+
 .. image:: images/sw-stack.jpg
     :width: 700px
     :alt: Software Stack Overview
