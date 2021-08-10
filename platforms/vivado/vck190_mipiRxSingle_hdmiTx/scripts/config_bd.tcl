@@ -477,14 +477,6 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
    CONFIG.FIFO_DEPTH {8192} \
  ] $axis_data_fifo_cap
 
-  # Create instance: axis_subset_converter_0, and set properties
-  set axis_subset_converter_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter axis_subset_converter_0 ]
-  set_property -dict [ list \
-   CONFIG.M_TDATA_NUM_BYTES {5} \
-   CONFIG.S_TDATA_NUM_BYTES {5} \
-   CONFIG.TDATA_REMAP {tdata[39:0]} \
- ] $axis_subset_converter_0
-
   # Create instance: v_frmbuf_wr_0, and set properties
   set v_frmbuf_wr_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_frmbuf_wr v_frmbuf_wr_0 ]
   set_property -dict [ list \
@@ -552,8 +544,7 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
   # Create interface connections
   connect_bd_intf_net -intf_net ISPPipeline_accel_0_m_axis_video [get_bd_intf_pins ISPPipeline_accel_0/m_axis_video] [get_bd_intf_pins v_proc_ss_0/s_axis]
   connect_bd_intf_net -intf_net axis_data_fifo_0_M_AXIS [get_bd_intf_pins ISPPipeline_accel_0/s_axis_video] [get_bd_intf_pins axis_data_fifo_cap/M_AXIS]
-  connect_bd_intf_net -intf_net axis_subset_converter_0_M_AXIS [get_bd_intf_pins axis_data_fifo_cap/S_AXIS] [get_bd_intf_pins axis_subset_converter_0/M_AXIS]
-  connect_bd_intf_net -intf_net mipi_csi2_rx_subsyst_0_video_out [get_bd_intf_pins S_AXIS] [get_bd_intf_pins axis_subset_converter_0/S_AXIS]
+  connect_bd_intf_net -intf_net mipi_csi2_rx_subsyst_0_video_out [get_bd_intf_pins S_AXIS] [get_bd_intf_pins axis_data_fifo_cap/S_AXIS]
   connect_bd_intf_net -intf_net s_axi_ctrl_1_1 [get_bd_intf_pins s_axi_ctrl_1] [get_bd_intf_pins v_proc_ss_0/s_axi_ctrl]
   connect_bd_intf_net -intf_net smartconnect_2_M00_AXI [get_bd_intf_pins s_axi_CTRL1] [get_bd_intf_pins ISPPipeline_accel_0/s_axi_CTRL]
   connect_bd_intf_net -intf_net smartconnect_2_M03_AXI [get_bd_intf_pins s_axi_CTRL] [get_bd_intf_pins v_frmbuf_wr_0/s_axi_CTRL]
@@ -562,14 +553,12 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
 
   # Create port connections
   connect_bd_net -net ap_rst_n_1 [get_bd_pins video_rst_n] [get_bd_pins axis_data_fifo_cap/s_axis_aresetn] -boundary_type upper
-  connect_bd_net -net ap_rst_n_1 [get_bd_pins video_rst_n] [get_bd_pins axis_subset_converter_0/aresetn] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_0/Din] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_1/Din] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_2/Din] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_3/Din] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins ISPPipeline_accel_0/ap_clk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins axis_data_fifo_cap/s_axis_aclk] -boundary_type upper
-  connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins axis_subset_converter_0/aclk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_frmbuf_wr_0/ap_clk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_proc_ss_0/aclk_axis] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_proc_ss_0/aclk_ctrl] -boundary_type upper
