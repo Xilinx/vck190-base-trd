@@ -27,7 +27,7 @@ BASE_TRD_PACKAGES = " \
 	gstreamer1.0-python \
 	kernel-module-hdmi \
 	ldd \
-	libxapm-python \
+	libxperfmon-python \
 	ntp \
 	python3-dev \
 	python3-periphery \

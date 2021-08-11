@@ -1,10 +1,10 @@
-APP = libxapm
+APP = libxperfmon
 
 PYTHON_VERSION = 38
 SRC=$(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-NAME := xapm
+NAME := xperfmon
 MAJOR = 0.1
 MINOR = 0
 VERSION = $(MAJOR).$(MINOR)
