@@ -2,11 +2,8 @@ SUMMARY = "Target Factory"
 DESCRIPTION = "A factory to manage DPU target description infos. Register targets and then you can get infos by name or fingerprint."
 
 require recipes-vai/vitis-ai-library/vitisai.inc
-SRC_URI = "git://gitenterprise.xilinx.com/aisw/target_factory.git;protocol=https;branch=1.4"
 
-SRCREV = "ce1b39e329cc06cb7545e8aa39174fb8b9969f0b"
-
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/git/tools/Vitis-AI-Runtime/VART/target_factory"
 
 DEPENDS = "unilog protobuf-native protobuf-c"
 
