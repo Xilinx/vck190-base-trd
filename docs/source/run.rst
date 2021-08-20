@@ -236,6 +236,88 @@ Perform the following steps to set the Vadj voltage rail to 1.2V using the
    SD card image (Instructions provided in the System Controller section of 
    this tutorial). 
 
+Setting a private network 
+^^^^^^^^^^^^^^^^^^^^^^^^^
+In case of a private network, user may have to assign a static address within
+the subnet of the host machine, this section can be skipped if you are using
+DHCP and not on a private network
+
+**Setting up a private network with target board and the host machine for
+Windows users:**
+
+* Make a direct connection between the windows host machine and the target
+  board using an ethernet cable
+
+* In windows, run command prompt as an admisntrator
+
+  .. code-block:: bash
+
+     Press Windows+R to open the “Run” box.
+     Type “cmd” into the box.
+     press Ctrl+Shift+Enter to run the command as an administrator
+
+* Run ipconfig on the windows machine to list available ethernet adapters and
+  set a static private ip
+
+  .. code-block:: bash
+
+     # A sample output after executing ipconfig
+     # notice interface "Ethernet" has an auto address assigned with no Default Gateway
+
+     ipconfig
+
+     Ethernet adapter Ethernet:
+
+        Connection-specific DNS Suffix  . :
+        Link-local IPv6 Address . . . . . : fe80::1d8d:ac40:ff9b:8d1%21
+        Autoconfiguration IPv4 Address. . : 169.254.8.209
+        Subnet Mask . . . . . . . . . . . : 255.255.0.0
+        Default Gateway . . . . . . . . . :
+
+     # Set static ip address
+     netsh interface ip set address name="YOUR INTERFACE NAME" static "IP_ADDRESS" "SUBNET_MASK"
+
+     # Example
+     netsh interface ip set address name="Ethernet" static 10.0.0.1 255.255.255.0
+
+* Ensure to boot the target board (VCK190) into Linux
+
+* Set a private ip address for the target within the subnet of host machine and
+  verify connectivity.
+
+  .. code-block:: bash
+
+     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+
+     # Perform a ping test to the host form the target
+     ping -c 3 10.0.0.1
+
+**Setting up a private network with target board and the host machine for Linux
+users:**
+
+* Make a direct connection between the Linux host machine and the target board
+  using an ethernet cable
+
+* Run ifconfig on the Linux machine to list available ethernet adapters and set
+  a static private ip
+
+  .. code-block:: bash
+
+     # Example to set an ip 10.0.0.1 to ethernet interface enp2s0:
+     sudo ifconfig enp2s0 10.0.0.1 netmask 255.255.255.0
+
+* Ensure to boot the target board (VCK190) into Linux
+
+* Set a private ip address for the target within the subnet of host machine and
+  verify connectivity.
+
+  .. code-block:: bash
+
+     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+
+     # Perform a ping test to the host form the target
+     ping -c 3 10.0.0.1
+
 
 Connect to the JupyterLab Server
 --------------------------------
@@ -288,14 +370,9 @@ laptop.
 
 **Note:** This demo is tested with Chrome browser only.
 
-* Copy the generated URL with token on the prompt of Versal target and paste it
-  to the browser address bar of the laptop, for example:
 
-  .. code-block:: bash
-
-     http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
-
-  **Note:** If for any reason target fails to grab an IP address from the
+  **Note:** There should be a generated URL displayed on the terminal. 
+  If for any reason target fails to grab an IP address from the
   network, Jupyter server would fail to issue an URL. In such a case user is
   recommended to fix an IP address and restart the jupyter server as shown
   below:
@@ -311,83 +388,12 @@ laptop.
 
      jupyter notebook list
 
-Setting a private network
-^^^^^^^^^^^^^^^^^^^^^^^^^
-In case of a private network, user may have to assign a static address within
-the subnet of the host machine, this section can be skipped if you are using
-DHCP and not on a private network
-
-**Setting up a private network with target board and the host machine for
-Windows users:**
-
-* Make a direct connection between the windows host machine and the target
-  board using an ethernet cable
-
-* In windows, run command prompt as an admisntrator
+* Copy the generated URL with token on the prompt of Versal target and paste it
+  to the browser address bar of the laptop, for example:
 
   .. code-block:: bash
 
-     Press Windows+R to open the “Run” box.
-     Type “cmd” into the box.
-     press Ctrl+Shift+Enter to run the command as an administrator
-
-* Run ipconfig on the windows machine to list available ethernet adapters and
-  set a static private ip
-
-  .. code-block:: bash
-
-     # A sample output after executing ipconfig
-     # notice interface "Ethernet" has an auto address assigned with no Default Gateway
-
-     ipconfig
-
-     Ethernet adapter Ethernet:
-
-        Connection-specific DNS Suffix  . :
-        Link-local IPv6 Address . . . . . : fe80::1d8d:ac40:ff9b:8d1%21
-        Autoconfiguration IPv4 Address. . : 169.254.8.209
-        Subnet Mask . . . . . . . . . . . : 255.255.0.0
-        Default Gateway . . . . . . . . . :
-
-     # Set static ip address
-     netsh interface ip set address name="YOUR INTERFACE NAME" static "IP_ADDRESS" "SUBNET_MASK"
-
-     # Example
-     netsh interface ip set address name="Ethernet" static 10.0.0.1 255.255.255.0
-
-* Set a private ip address for the target within the subnet of host machine and
-  verify connectivity.
-
-  .. code-block:: bash
-
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
-
-     # Perform a ping test to the host form the target
-     ping -c 3 10.0.0.1
-
-**Setting up a private network with target board and the host machine for Linux
-users:**
-
-* Make a direct connection between the Linux host machine and the target board
-  using an ethernet cable
-
-* Run ifconfig on the Linux machine to list available ethernet adapters and set
-  a static private ip
-
-  .. code-block:: bash
-
-     # Example to set an ip 10.0.0.1 to ethernet interface enp2s0:
-     sudo ifconfig enp2s0 10.0.0.1 netmask 255.255.255.0
-
-* Set a private ip address for the target within the subnet of host machine and
-  verify connectivity.
-
-  .. code-block:: bash
-
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
-
-     # Perform a ping test to the host form the target
-     ping -c 3 10.0.0.1
+     http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
 
 
 Run the Jupyter Notebooks
