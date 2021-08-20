@@ -24,20 +24,20 @@ there is a separate zip file per platform:
 
 * Platforms supporting ES Silicon
 
-  * vck190_es1_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
+  * vck190_es1_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2021.1_v0.5.zip
 
-  * vck190_es1_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
+  * vck190_es1_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2021.1_v0.5.zip
 
-  * vck190_es1_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
+  * vck190_es1_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2021.1_v0.5.zip
 
 
 * Platforms supporting Pre-Production Silicon
 
-  * vck190_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2020.2_v0.5.zip
+  * vck190_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2021.1_v0.5.zip
 
-  * vck190_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2020.2_v0.5.zip
+  * vck190_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2021.1_v0.5.zip
 
-  * vck190_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2020.2_v0.5.zip
+  * vck190_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2021.1_v0.5.zip
 
 Unzip the downloded file. This should contain the zipped wic image ``petalinux-sdimage.wic.xz``
 and a readme file pointing to Third party licenses and sources asoocaited with this image.
@@ -342,19 +342,19 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *root@xilinx-vck190-2020_1* and autostart of JupyterLab server as shown
+  *root@xilinx-vck190-2021_1* and autostart of JupyterLab server as shown
   in the example below:
 
   .. code-block:: bash
 
-     root@xilinx-vck190-2020_1:~#
+     root@xilinx-vck190-2021_1:~#
      [I 17:36:24.640 LabApp] Writing notebook server cookie secret to /home/root/.local/share/jupyter/runtime/notebook_cookie_secret
      [W 17:36:26.084 LabApp] JupyterLab server extension not enabled, manually loading...
      [I 17:44:03.942 LabApp] JupyterLab extension loaded from /usr/lib/python3.7/site-packages/jupyterlab
      [I 17:44:03.942 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
      [I 17:44:06.924 LabApp] Serving notebooks from local directory: /usr/share/notebooks
      [I 17:44:06.924 LabApp] The Jupyter Notebook is running at:
-     [I 17:44:06.925 LabApp] http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
+     [I 17:44:06.925 LabApp] http://xxx.xxx.x.xx:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
      [I 17:44:06.925 LabApp]  or http://127.0.0.1:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
      [I 17:44:06.925 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
      [C 17:44:06.949 LabApp]
@@ -362,7 +362,7 @@ Follow these steps to boot the board into Linux
          To access the notebook, open this file in a browser:
              file:///home/root/.local/share/jupyter/runtime/nbserver-658-open.html
          Or copy and paste one of these URLs:
-             http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
+             http://xxx.xxx.x.xx:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
           or http://127.0.0.1:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
 
 Follow these steps to connect to the jupyter-server using Chrome browser on the
@@ -371,7 +371,7 @@ laptop.
 **Note:** This demo is tested with Chrome browser only.
 
 
-  **Note:** There should be a generated URL displayed on the terminal. 
+* There should be a generated URL displayed on the terminal. 
   If for any reason target fails to grab an IP address from the
   network, Jupyter server would fail to issue an URL. In such a case user is
   recommended to fix an IP address and restart the jupyter server as shown
@@ -462,6 +462,13 @@ To run the notebooks, follow the below steps:
    .. image:: images/jnbh.jpg
       :width: 1000px
       :alt: Jupyter_nb_home
+
+**Note:** Rerunning a TRD notebook may have spurious behavior, this is because software 
+commands are designed to run in order and may not behave as expected in iterative runs when 
+the kernel is not restarted. In practice, there are some command sequences that can be regressed, 
+but the safest thing is to restart the Jupyter Notebook kernel with 'kernel' → 'Interrupt kernel'
+, followed by 'kernel' → 'Restart Kernel and Run All Cells' when rerunning a notebook. 
+
 
 License
 -------
