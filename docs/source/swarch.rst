@@ -36,8 +36,8 @@ The stack is horizontally divided into the following layers:
 
 Vertically, the software components are divided by domain:
 
-- Video capture 
-- Codec 
+- Video capture
+- Codec
 - Accelerator
 - Display
 - Audio
@@ -77,7 +77,7 @@ The mediasrcbin plugin is designed to simplify the usage of live video
 capture devices in this design, otherwise the user must take care of
 initialization and configuration. The plugin is a bin element that
 includes the standard v4l2src GStreamer element. It configures the media
-pipelines of the supported video sources in this design. 
+pipelines of the supported video sources in this design.
 
 The v4l2src element inside the mediasrcbin element interfaces with the V4L2 Linux
 framework and the Xilinx VIPP driver through the video device node. The
@@ -132,19 +132,19 @@ Media Framework
 
 The main goal of the media framework is to discover the device topology
 of a video pipeline and to configure it at run-time. To achieve this,
-pipelines are modeled as an oriented graph of building blocks called entities connected through pads. 
+pipelines are modeled as an oriented graph of building blocks called entities connected through pads.
 
 An entity is a basic media hardware building block. It can correspond to a large variety of blocks such as
 physical hardware devices (e.g. image sensors), logical hardware devices
 (e.g. soft IP cores inside the PL), DMA channels or physical connectors.
 Physical or logical devices are modeled as sub-device nodes and DMA
-channels as video nodes. 
+channels as video nodes.
 
 A pad is a connection endpoint through which an entity can interact with other entities. Data produced by an entity
 flows from the entity's output to one or more entity inputs. A link is a
 point-to-point oriented connection between two pads, either on the same
 entity or on different entities. Data flows from a source pad to a sink
-pad. 
+pad.
 
 A media device node is created that allows the user space
 application to configure the video pipeline and its sub-devices through
@@ -161,8 +161,8 @@ provides the following functionality:
 - Enable/disable
 - Validate formats
 
-The following figures show the media graphs for MIPI CSI-2 Rx (single-sensor 
-and quad-sensor) as well as the HDMI Rx video capture pipeline as generated 
+The following figures show the media graphs for MIPI CSI-2 Rx (single-sensor
+and quad-sensor) as well as the HDMI Rx video capture pipeline as generated
 by the media-ctl utility. The subdevices are shown in green with their corresponding control interface base
 address and subdevice node in the center. The numbers on the edges are
 pads and the solid arrows represent active links. The yellow boxes are
@@ -186,8 +186,8 @@ video nodes that correspond to DMA channels, in this case write channels
 
 V4L2 Framework
 ^^^^^^^^^^^^^^
-The V4L2 framework is responsible for capturing video frames at the video device node, typically 
-representing a DMA channel, and making those video frames available to user space. 
+The V4L2 framework is responsible for capturing video frames at the video device node, typically
+representing a DMA channel, and making those video frames available to user space.
 The framework consists of multiple sub-components that provide certain functionality.
 
 Before video frames can be captured, the buffer type and pixel format need to be set using the
@@ -223,7 +223,7 @@ Xilinx adopted the V4L2 framework for most of its video IP portfolio.
 The currently supported video IPs and corresponding drivers are listed
 under V4L2. Each V4L driver has a sub-page that lists driver-specific
 details and provides pointers to additional documentation. The following
-table provides a quick overview of the drivers used in this design. 
+table provides a quick overview of the drivers used in this design.
 
 
 Table : V4L2 Drivers Used in Capture Pipelines
@@ -238,7 +238,7 @@ Table : V4L2 Drivers Used in Capture Pipelines
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
 | Xilinx Video Processing Subsystem       | - Sets media bus format and resolution on input pad.                                                                         |
 | (Scaler Only configuration)             | - Sets media bus format and resolution on output pad. (Output configuration can be different from the input configuration as |
-|                                         | the block enables color space conversion and scaling).                                                                       |
+|                                         |   the block enables color space conversion and scaling).                                                                     |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
 | MIPI CSI-2 Rx                           | - Sets media bus format and resolution on input pad.                                                                         |
 |                                         | - Sets media bus format and resolution on output pad.                                                                        |
@@ -344,7 +344,7 @@ resolution and refresh rate. It was traditionally done in user-space by
 the X-server which caused a number of issues due to accessing low-level
 hardware from user-space which, if done wrong, can lead to system
 instabilities. The mode setting API was added to the kernel DRM
-framework, hence the name kernel mode setting. 
+framework, hence the name kernel mode setting.
 
 The KMS API is responsible for handling the frame buffer and planes, setting the mode, and
 performing page-flips (switching between buffers). The KMS device is modeled as a set of planes,
@@ -398,7 +398,7 @@ in the PL before it goes out via the HDMI Tx connector on the board.
 Connector
 ^^^^^^^^^
 
-The connector models the physical interface to the display. The 
+The connector models the physical interface to the display. The
 HDMI protocols use a query mechanism to receive data
 about the monitor resolution, and refresh rate by reading the extended
 display identification data (EDID) (see VESA Standard ) stored inside
@@ -407,18 +407,18 @@ HDMI also supports hot-plug events to detect if a cable has been
 connected or disconnected as well as handling display power management
 signaling (DPMS) power modes.
 
-Audio 
+Audio
 ---------
 
 Audio Advanced Linux Sound Architecture (ALSA) arranges hardware audio
 devices and their components into a hierarchy of cards, devices, and
 subdevices. It reflects the capabilities of the hardware as seen by
-ALSA. 
+ALSA.
 
 ALSA cards correspond one-to-one to hardware sound cards. A card
 can be denoted by its ID or by a numerical index starting at zero. ALSA
 hardware access occurs at the device level. The devices of each card are
-enumerated starting from zero. 
+enumerated starting from zero.
 
 The audio software stack is depicted in the following figure.
 
@@ -447,7 +447,7 @@ plugin renders audio samples using the ALSA API. The audio device is
 specified by means of the device property referring to the ALSA device
 as defined in an asound configuration file.
 
-Alsa-lib 
+Alsa-lib
 ^^^^^^^^^
 
 The ALSA library API is the interface to the ALSA drivers. Developers need to use the
@@ -538,7 +538,7 @@ The following GStreamer plugin categories are used in this design:
 	- vp9enc/dec: vp9 video file encode/decode
 
 - Processing/acceleration
-	- VVAS Infrastructure Plug-ins or VVAS Custom Plug-ins 
+	- VVAS Infrastructure Plug-ins or VVAS Custom Plug-ins
 
 - Other
 	- capsfilter: filters capabilities
@@ -555,7 +555,7 @@ is exposed by the pad's capabilities. The following capabilities are used betwee
 plugin and its peer plugin (either video-sink or video-processing). These capabilities (also called
 capsfilter) are specified while constructing a GStreamer graph, for example:
 
-:: 
+::
 
 		"video/x-raw, width=<width of videosrc>, height=<height of videosrc>,format=YUY2, ramerate=<fps/1>"
 
@@ -590,11 +590,9 @@ buffer allocation, but the sink can propose parameters in the negotiation phase.
 
 The DMABUF framework is used to import and export buffers in a 0-copy fashion between
 pipeline elements, which is required for high-performance pipelines, as shown in the following
-figure. The v4l2src element has a property named io-mode which allows allocation and export of
-DMABUFs to its peer element. The kmssink element allows import as well as export of
-DMABUFs to/from its peer element. The accelerator element xrtbase allows only import of
-DMABUFs, which means it relies on DMABUFs being allocated by its peer elements connected
-to the source and sink pads.
+figure. The ``v4l2src``, ``kmssink``, and ``ivas`` elements are all capable of
+allocating and exporting as well as importing DMABUFs to/from their peer
+elements.
 
 .. figure:: images/dmabuf.png
    :alt: DMABUF Sharing Mechanism
@@ -608,16 +606,16 @@ a data copy if its peer element can only handle contiguous memory.
 License
 -------
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License.
 
 You may obtain a copy of the License at
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-Unless required by applicable law or agreed to in writing, software distributed under the 
-License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
-either express or implied. See the License for the specific language governing permissions 
-and limitations under the License.    
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
 
 
