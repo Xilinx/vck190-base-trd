@@ -19,6 +19,8 @@ all:
 	  exit 1; \
 	fi; \
 	$(MAKE) -C vitis_prj all PLATFORM=$(PLATFORM) BATCH_N=$(BATCH_N)
+	-@cp vitis_prj/binary_container_1.xclbin binary_container_1.xclbin
+	-@cp vitis_prj/binary_container_1.xsa binary_container_1.xsa
 
 .PHONY: clean
 clean:

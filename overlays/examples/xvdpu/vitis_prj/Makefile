@@ -136,13 +136,12 @@ $(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xclbin $(BUILD_DIR)/bin
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Packaging $(notdir $@) for $(BUILD_DIR)..."
 	-@rm -rf package_out
-	@cd $(BUILD_DIR); rm -rf dpu.xclbin binary_container_1.xsa BOOT_bh.bin BOOT.BIN boot_image.bif emulation_data launch_hw_emu.sh libsdf plm.bin pmc_args.txt pmc_cdo.bin qemu_args.txt qemu_ospi.bin sim
+	@cd $(BUILD_DIR); rm -rf dpu.xclbin BOOT_bh.bin BOOT.BIN boot_image.bif emulation_data launch_hw_emu.sh libsdf plm.bin pmc_args.txt pmc_cdo.bin qemu_args.txt qemu_ospi.bin sim
 	@cd $(BUILD_DIR); $(VXX) -t $(XCL_EMULATION_MODE) --platform $(PLATFORM)  --save-temps --temp_dir binary_container_1 -p binary_container_1.xclbin binary_container_1/libadf.a -o "$@" \
 	  --package.out_dir ../package_out \
-	  --package.boot_mode sd  \
-	  --package.rootfs $(dir $(PLATFORM))sw/*/xrt/filesystem/rootfs.ext4 \
-	  --package.sd_file $(dir $(PLATFORM))sw/*/xrt/image/Image \
-	  --package.sd_file xrt.ini	
-	cp  $(ABS_PATH)/hw/binary_container_1/link/vivado/vpl/prj/prj.gen/sources_1/bd/*/ip/*_DPUCVDX8G_0/arch.json $(ABS_PATH)/package_out/sd_card
-	gzip package_out/sd_card.img
-	-@rm -rf .ipcache .Xil packaged_kernel_*_hw_* tmp_kernel_pack_*_hw_* vivado* *.xsa *.log hw.o sample*.ini
+	  --package.boot_mode sd \
+	  --package.no_image
+	@cp package_out/sd_card/BOOT.BIN vpl_gen_fixed.pdi
+	@cp package_out/sd_card/dpu.xclbin binary_container_1.xclbin
+	@zip -u binary_container_1.xsa vpl_gen_fixed.pdi
+	@zip -u binary_container_1.xsa binary_container_1.xclbin
