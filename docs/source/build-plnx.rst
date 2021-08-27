@@ -39,7 +39,8 @@ Steps for integrating kernels in the platform
 
  https://github.com/Xilinx/vck190_base_trd/docs/source/build-filter2d.rst
 
-"*xsa" and "*xclbin" binaries produced from the previous step is consumed in creating petalinux image.
+The xsa and xclbin binaries produced from the previous step are consumed by 
+petalinux during the image creation step.
 
 #. Source the PetaLinux tool settings.sh script.
 
@@ -83,7 +84,7 @@ The following is a list of important output files:
 The SD card image is now ready to be used to boot the device into Linux, see
 Section *Run the Prebuilt Image* for details.
 
-Steps to Custom configure a PetaLinux project and build.
+Steps to Custom configure a PetaLinux project and build
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 User can configure BSP with custom XSA file, refer to the steps provided in 
