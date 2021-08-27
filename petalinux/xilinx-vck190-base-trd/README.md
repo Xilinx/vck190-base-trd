@@ -1,11 +1,3 @@
-# Clone this Repo
-This repo uses git submodules. After cloning the repo, run the following command
-to initialize the submodules recursively and update them to the respective
-remote tracking branches.
-```bash
-% git submodule update --init --remote --recursive
-```
-
 # VCK190 PetaLinux BSP
 This README describes the steps to configure and build this PetaLinux project.
 
@@ -50,6 +42,7 @@ in the images/linux folder
 ```
 ## Makefile flow
 Makefile with the specified platform name can build all the above components in one go.
+Ensure to copy xsa file to project-spec/hw-description folder.
 Use make help for more info
 
 **Example:**

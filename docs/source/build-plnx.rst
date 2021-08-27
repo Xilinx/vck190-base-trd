@@ -4,9 +4,7 @@ Build the PetaLinux Image
 Prerequisites
 -------------
 
-* Reference Design zip file
-
-* PetaLinux Tools 2020.2
+* PetaLinux Tools 2021.1
 
 * Linux host machine
 
@@ -15,67 +13,41 @@ Build Flow Tutorial
 
 .. note::
 
-   The below steps use platform 1 as an example. The same steps can be used for
-   other platforms as well, only the file/directory names with platform1 will be
-   replaced with the targeted platform.
+   The below steps use platform vck190_mipiRxSingle_hdmiTx as an example. The same steps can be used for
+   other platforms as well. The file/directory names will be replaced with the targeted platform name - *vck190_<plarform_name>*
 
-**Download Reference Design Files**
 
-Skip the following steps if the design zip file has already been downloaded and
-extracted to a working directory
+#. Clone the VCK190 Base TRD repository using the following command
 
-#. Download the VCK190 Base Targeted Reference Design ZIP file
+   .. code-block:: bash
 
-#. Unzip Contents
+      git clone --recursive https://github.com/Xilinx/vck190_base_trd.git
+      
+The directory structure is described in the Introduction Section
 
-The directory structure is described in the Introduction Section.
 
 **Generate PetaLinux Image**
 
-#. Enable Versal device support
+Petalinux build flow has dependecy on artifacts from platform and overlay.
+Build steps shown below before generating a bootable petalinux image.
 
-   To enable Versal device support in PetaLinux, follow the instructions
-   in this README file: https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-README_2020.2.tar.gz
+Steps for creating vitis platform 
 
-#. Create a new PetaLinux project from the provided BSP:
+ https://github.com/Xilinx/vck190_base_trd/docs/source/build-pfm.rst
 
-   .. code-block:: bash
+Steps for integrating kernels in the platform 
 
-      cd $working_dir/petalinux
-      petalinux-create -t project -s xilinx-vck190-es1-base-trd-platform1-2020.2.bsp
-      cd xilinx-vck190-es1-base-trd-platform1-2020.2
+ https://github.com/Xilinx/vck190_base_trd/docs/source/build-filter2d.rst
 
+"*xsa" and "*xclbin" binaries produced from the previous step is consumed in creating petalinux image.
 
-#. Configure and build the PetaLinux project.
-
-   .. note::
-
-      The XSA file used for project configuration is included with this BSP.
-      The build step performs the configuration step implicitly. If you want
-      to configure your BSP with the XSA file generated in the previous
-      tutorial, run the following command **prior** to the *petalinux-build*
-      command, otherwise the config step can be skipped:
-
-      .. code-block:: bash
-
-         petalinux-config --get-hw-description=../../accelerators/examples/filter2d_combined/ --silentconfig
-
-   .. code-block:: bash
-
-      petalinux-build
-
-#. Create a boot image:
-
-   .. code-block:: bash
-
-      petalinux-package --boot --u-boot --qemu-rootfs no --force
+#. Source the PetaLinux tool settings.sh script.
 
 #. Create a bootable SD card image:
 
    .. code-block:: bash
 
-      cp pre-built/binary_container_1.xclbin images/linux
-      petalinux-package --wic -w project-spec/configs/sdimage.wks --extra-bootfiles "binary_container_1.xclbin"
+	make sdcard PFM=vck190_mipiRxSingle_hdmiTx OVERLAY=filter2d_combined
 
 The resulting build artifacts will be available in the *images/linux/* folder.
 The following is a list of important output files:
@@ -102,12 +74,27 @@ The following is a list of important output files:
 
 * **Image**: Linux kernel image
 
+* **ramdisk.cpio.gz.u-boot**: Initial filesystem in ramdisk 
+
 * **rootfs.tar.gz**: Compressed root file system tar ball
 
-* **petalinux-sdimage.wic**: SD card image file in wic format
+* **petalinux-sdimage.wic.xz**: Compressed SD card image file in wic format
 
 The SD card image is now ready to be used to boot the device into Linux, see
 Section *Run the Prebuilt Image* for details.
+
+Steps to Custom configure a PetaLinux project and build.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+User can configure BSP with custom XSA file, refer to the steps provided in 
+
+https://github.com/Xilinx/vck190_base_trd/vck190-base-trd/petalinux/xilinx-vck190-base-trd/README.md
+
+Reference 
+---------
+Petalinux Tools Documentation 
+
+https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug1144-petalinux-tools-reference-guide.pdf
 
 License
 -------
