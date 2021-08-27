@@ -30,8 +30,10 @@ IMG_ports  = Batch_N*LOAD_I_P
 result=[]
 Char1 = "[connectivity]\n"
 Char2 = "nk=DPUCVDX8G:1:DPUCVDX8G\n"
+Char3 = "nk=v_multi_scaler:1:v_multi_scaler_1\n"
 result.append(Char1)
 result.append(Char2)
+result.append(Char3)
 
 if CPB==16:
     ifm_number = 8*Batch_N 
@@ -84,16 +86,25 @@ sp=DPUCVDX8G.M03_WGT_AXI:NOC_S18
 ''')
 
 # sptag for IMG_ports. sptag name is ' "NOC_S" + number_axi '.
-AXI_IMG = 19
+S_AXI_N = 19
 for i in range (IMG_ports): 
     number_img = str(i).rjust(2,'0')    
-    number_axi = str(AXI_IMG)
+    number_axi = str(S_AXI_N)
     sptag_name = "NOC_S" + number_axi
     list_buf= "sp=DPUCVDX8G.M" + number_img + "_IMG_AXI:" + sptag_name + "\n"
-    AXI_IMG = AXI_IMG + 1
+    S_AXI_N = S_AXI_N + 1
     str_buf="".join(list_buf) 
     result.append(str_buf) 
-    
+
+# sptag for v_multi_scaler. sptag name is ' "NOC_S" + number_axi '.
+for i in range (1):    
+    number_axi = str(S_AXI_N)
+    sptag_name = "NOC_S" + number_axi
+    list_buf= "sp=v_multi_scaler_1.m_axi_mm_video"  + ":" + sptag_name + "\n"
+    S_AXI_N = S_AXI_N + 1
+    str_buf="".join(list_buf) 
+    result.append(str_buf)   
+      
 result_str="".join(result) 
 file_name="xvdpu_aie_noc" + ".cfg"
 new_file = open(file_name, "w+")
