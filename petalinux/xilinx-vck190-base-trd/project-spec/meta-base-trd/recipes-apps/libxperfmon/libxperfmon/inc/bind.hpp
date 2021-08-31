@@ -29,9 +29,9 @@
 #include "xperfmon.hpp"
 #endif
 
-#define PFM_1_CLK 199990000
-#define PFM_2_CLK 149990000
-#define PFM_3_CLK 149990000
+#define PFM_1_CLK 399990000
+#define PFM_2_CLK 399990000
+#define PFM_3_CLK 399990000
 
 using namespace boost::python;
 
@@ -57,7 +57,7 @@ boost::python::list setup(uint32_t core_clk){
 	std::vector<uint32_t> PL_ACCEL_RD = {base_addr, 2, 0x44, 0x630000, 0x220, 0, core_clk};
 	std::vector<uint32_t> PL_ACCEL_WR = {base_addr, 3, 0x44, 0x62000000, 0x230, 0, core_clk};
 	std::vector<uint32_t> AIE_ACCEL_RD = {base_addr, 4, 0x48, 0x83, 0x240, 0, core_clk};
-	std::vector<uint32_t> AIE_ACCEL_WR = {base_addr, 5, 0x48, 0x8200, 0x250, 0, core_clk};
+	std::vector<uint32_t> AIE_ACCEL_WR = {base_addr, 5, 0x48, 0xC200, 0x250, 0, core_clk};
 	std::vector<uint32_t> MIPI_WRITE = {base_addr, 6, 0x48, 0xA20000, 0x260, 0, core_clk};
 	std::vector<uint32_t> HDMI_PRIMARY_PLANE_RD = {base_addr, 7, 0x48, 0x43000000, 0x270, 0, core_clk};
 	std::vector<std::vector<uint32_t>> preset = {
