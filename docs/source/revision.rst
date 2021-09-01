@@ -1,16 +1,25 @@
 Revision History
 ================
+
+.. admonition:: Coming soon
+
+   * XVDPU support for single-sensor and quad-sensor platforms
+
+   * Filter 2D AIE with tiler and sticher from Vitis Vision Libraries
+
+   * Single-sensor HDR ISP pipeline
+
 **2021.1 v1.0**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2021.1
 
 * Add support for Dual LPDDR
 
+* Support HDR10 for HDMI capture and playback
+
 * Update ISP IP for Single and Quad sensor from Vitis Vision Libraries
 
-* Update Filter 2d AIE with tiler and sticher from Vitis Vision Libraries
-
-* Add IVAS plugins for Filter 2d PL and Filter2d AIE
+* Add IVAS plugins for Filter 2D PL and Filter 2D SW
 
 **2020.2 v0.5**
 
@@ -88,14 +97,14 @@ Revision History
 License
 -------
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License.
 
 You may obtain a copy of the License at
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-Unless required by applicable law or agreed to in writing, software distributed under the 
-License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
-either express or implied. See the License for the specific language governing permissions 
-and limitations under the License.    
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
