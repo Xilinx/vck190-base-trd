@@ -106,8 +106,6 @@ The design file hierarchy is shown below:
 
    vck190_base_trd
    ├── docs
-   │   └── source
-   │   └── _templates
    ├── overlays
    │   ├── examples
    │   │   ├── filter2d_aie
@@ -120,15 +118,15 @@ The design file hierarchy is shown below:
    ├── platforms
    │   ├── scripts
    │   └── vivado
-   │       ├── ip
-   │       ├── vck190_es1_mipiRxSingle_hdmiTx
-   │       ├── vck190_es1_mipiRxSingle_hdmiTx
-   │       └── vck190_es1_mipiRxSingle_hdmiTx
-   │       ├── vck190_mipiRxSingle_hdmiTx
-   │       ├── vck190_mipiRxSingle_hdmiTx
-   │       └── vck190_mipiRxSingle_hdmiTx
+   │       ├── ip
+   │       ├── vck190_es1_hdmiRx_hdmiTx
+   │       ├── vck190_es1_mipiRxQuad_hdmiTx
+   │       ├── vck190_es1_mipiRxSingle_hdmiTx
+   │       ├── vck190_hdmiRx_hdmiTx
+   │       ├── vck190_mipiRxQuad_hdmiTx
+   │       └── vck190_mipiRxSingle_hdmiTx
    └── README.md
-  
+
 
 In the following tutorials, it is assumed that the design source files are cloned
 into a directory referred to as ``$working_dir``, e.g.
