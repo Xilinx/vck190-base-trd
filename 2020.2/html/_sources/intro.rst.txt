@@ -48,11 +48,11 @@ The following is a list of supported platforms including key I/O interfaces:
 
 * Platform 3:
 
-  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
+  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware 
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
   supports capture of audio data.
 
-  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio
+  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio 
   source is a file. In case of Platform 3 the audio source can be a either a file or
   HDMI RX.
 
@@ -97,8 +97,6 @@ there is a separate zip file per platform:
 
 It has the following contents:
 
-* Documentation (html webpages)
-
 * Petalinux Board Support Package (BSP)
 
 * Pre-built SD card image
@@ -141,7 +139,7 @@ example, the hierarchy of platform 1 is shown below:
        ├── source
        └── xdc
 
-The User Guide for the reference design is available at
+The User Guide for the reference design is available at 
 https://www.xilinx.com/support/documentation/boards_and_kits/vck190/ug1442-vck190-trd.pdf
 
 In the following tutorials, it is assumed that the design zip file is extracted
