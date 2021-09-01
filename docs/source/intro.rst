@@ -142,10 +142,24 @@ Licenses
 
 The design includes files licensed by Xilinx and third parties under the terms
 of the GNU General Public License, GNU Lesser General Public License,
-BSD License, MIT License, and other licenses. The design directory includes one
-tar ball named ``archiver.tar.gz`` containing the complete set of design source
-files and licenses extracted from the design source files. You are solely
-responsible for checking any files you use for notices and licenses and for
-complying with any terms applicable to your use of the design and any third
-party files supplied with the design.
+BSD License, MIT License, and other licenses. The file
+``vck190_base_trd_third_party_licenses_and_source.tar.gz`` contains the complete
+set of design source files and licenses. You are solely responsible for checking
+any files you use for notices and licenses and for complying with any terms
+applicable to your use of the design and any third party files supplied with the
+design.
+
+,,,,,
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+except in compliance with the License.
+
+You may obtain a copy of the License at
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
 

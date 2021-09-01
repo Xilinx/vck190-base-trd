@@ -603,8 +603,7 @@ Note that DMABUFs are not necessarily physically contiguous depending on the und
 kernel device driver, that is, the UVC v4l2 driver does not allocate CMA memory which results in
 a data copy if its peer element can only handle contiguous memory.
 
-License
--------
+,,,,,
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License.
