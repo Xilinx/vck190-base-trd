@@ -22,25 +22,25 @@ Reference Design SD Card Creation
 The reference design prebuilt SD image zip files can be downloaded from the below locations. Note
 there is a separate zip file per platform:
 
-* Platforms supporting ES Silicon
+* Platforms and Accelerators supporting ES Silicon
 
-  * vck190_es1_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2021.1_v0.5.zip
+  * `SD Image for vck190_es1_mipiRxSingle_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_single_es_filter2d_prebuilt.zip#>`_
+  
+  * `SD Image for vck190_es1_mipiRxQuad_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_quad_es_filter2d_prebuilt.zip#>`_
 
-  * vck190_es1_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2021.1_v0.5.zip
-
-  * vck190_es1_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2021.1_v0.5.zip
+  * `SD Image for vck190_es1_hdmiRx_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_hdmi_es_filter2d_prebuilt.zip#>`_
 
 
 * Platforms supporting Pre-Production Silicon
 
-  * vck190_mipiRxSingle_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0610-vck190_base_trd_platform1_2021.1_v0.5.zip
+  * `SD Image for vck190_mipiRxSingle_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_single_filter2d_prebuilt.zip#>`_
 
-  * vck190_mipiRxQuad_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0611-vck190_base_trd_platform2_2021.1_v0.5.zip
+  * `SD Image for vck190_mipiRxQuad_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_quad_filter2d_prebuilt.zip#>`_
 
-  * vck190_hdmiRx_hdmiTx: https://www.xilinx.com/cgi-bin/docs/ctdoc?cid=bigfile;d=rdf0612-vck190_base_trd_platform3_2021.1_v0.5.zip
+  * `SD Image for vck190_hdmiRx_hdmiTx + 2d filter <https://www.xilinx.com/member/forms/download/trd-license-versal.html?filename=vck190_base_trd_hdmi_filter2d_prebuilt.zip#>`_
 
 Unzip the downloded file. This should contain the zipped wic image ``petalinux-sdimage.wic.xz``
-and a readme file pointing to Third party licenses and sources asoocaited with this image.
+and a readme file pointing to Third party licenses and sources associated with this image.
 
 Choose an unpartitioned SD card of size 8GB or greater for this demo. Use the
 *Win32 Disk Imager* utility for Windows or 'dd' command line utility for Linux
