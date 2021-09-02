@@ -395,7 +395,12 @@ laptop.
 
      http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
 
+.. note::
 
+   Filter 2D AIE accelerator is not available in this version of the design. 
+   It will be supported soon. So with notebooks nb6 and nb7 do not run 
+   Filter 2D AIE. 
+   
 Run the Jupyter Notebooks
 -------------------------
 
