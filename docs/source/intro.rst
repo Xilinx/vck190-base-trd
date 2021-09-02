@@ -87,7 +87,7 @@ Working of above frameworks are detailed in Chapter 9.
 Design Files
 ---------------------
 
-The design source files are available at https://github.com/Xilinx/vck190_base_trd.git
+The design source files are available at https://github.com/Xilinx/vck190-base-trd.git
 It has the following contents:
 
 * Petalinux Board Support Package (BSP)
@@ -104,7 +104,7 @@ The design file hierarchy is shown below:
 
 .. code-block:: bash
 
-   vck190_base_trd
+   vck190-base-trd
    ├── docs
    ├── overlays
    │   ├── examples
@@ -133,7 +133,7 @@ into a directory referred to as ``$working_dir``, e.g.
 
 .. code-block:: bash
 
-   export working_dir=/path/to/cloned/repo/vck190_base_trd
+   export working_dir=/path/to/cloned/repo/vck190-base-trd
 
 Licenses
 --------
