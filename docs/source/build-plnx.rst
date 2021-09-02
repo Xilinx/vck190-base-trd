@@ -21,7 +21,7 @@ Build Flow Tutorial
 
    .. code-block:: bash
 
-      git clone --recursive https://github.com/Xilinx/vck190_base_trd.git
+      git clone --branch 2021.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
       
 The directory structure is described in the Introduction Section
 
@@ -33,11 +33,11 @@ Build steps shown below before generating a bootable petalinux image.
 
 Steps for creating vitis platform 
 
- https://github.com/Xilinx/vck190_base_trd/docs/source/build-pfm.rst
+https://github.com/Xilinx/vck190-base-trd/docs/source/build-pfm.rst
 
 Steps for integrating kernels in the platform 
 
- https://github.com/Xilinx/vck190_base_trd/docs/source/build-filter2d.rst
+https://github.com/Xilinx/vck190-base-trd/docs/source/build-filter2d.rst
 
 The xsa and xclbin binaries produced from the previous step are consumed by 
 petalinux during the image creation step.
@@ -89,7 +89,7 @@ Steps to Custom configure a PetaLinux project and build
 
 User can configure BSP with custom XSA file, refer to the steps provided in 
 
-https://github.com/Xilinx/vck190_base_trd/vck190-base-trd/petalinux/xilinx-vck190-base-trd/README.md
+https://github.com/Xilinx/vck190-base-trd/petalinux/xilinx-vck190-base-trd/README.md
 
 Reference 
 ---------

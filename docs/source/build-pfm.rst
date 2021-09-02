@@ -51,7 +51,7 @@ extracted to a working directory
 
    .. code-block:: bash
 
-      git clone --recursive https://github.com/Xilinx/vck190_base_trd.git
+      git clone --branch 2021.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
       
 The directory structure is described in the Introduction Section
 
