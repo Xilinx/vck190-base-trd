@@ -67,14 +67,14 @@ removable device using the Win32 Disk Imager utility.
 Steps to write a raw disk image to a removable device using dd command-line
 utility for Linux
 
-#. Gunzip the given image file ``petalinux-sdimage.wic.gz`` in linux
+#. unzip the given image file ``petalinux-sdimage.wic.xz`` in linux
 
 #. Use dd to write ``petalinux-sdimage.wic`` to correct enumerated disk for SD
    card in the Linux machine:
 
    .. code-block:: bash
 
-      gunzip petalinux-sdimage.wic.gz
+      unxz petalinux-sdimage.wic.xz
       sudo dd if=petalinux-sdimage.wic of=/dev/sdbx bs=1M
 
 **SD card partitions**
@@ -87,6 +87,7 @@ contains:
 * Boot image (``BOOT.BIN``)
 * u-boot boot script (``boot.scr``)
 * Linux kernel image (``image.ub``)
+* Initial filesystem in ramdisk (``ramdisk.cpio.gz.u-boot``)
 
 while in the second patition (ext4 format) resides the root file system.
 
