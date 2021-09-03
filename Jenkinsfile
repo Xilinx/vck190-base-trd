@@ -213,302 +213,11 @@ pipeline {
         }
         stage('Vitis Builds') {
             parallel {
-                stage('vck190_es1_hdmiRx_hdmiTx') {
-                    environment {
-                        pfm_base="vck190_es1_hdmiRx_hdmiTx"
-                        pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
-                        work_dir="work/${pfm_base}/${overlay}"
-                        pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
-                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
-                    }
-                    stages {
-                        stage('vck190_es1_hdmiRx_hdmiTx platform build')  {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/platforms/vivado/vck190*hdmiRx_hdmiTx/**"
-                                    triggeredBy 'TimerTrigger'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_HDMI_F2D = '1'
-                                }
-                                createWorkDir()
-                                buildPlatform()
-                            }
-                            post {
-                                success {
-                                    deployPlatform()
-                                }
-                            }
-                        }
-                        stage('filter2d_combined overlay build') {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_HDMI_F2D', value: '1'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_HDMI_PLNX = '1'
-                                }
-                                createWorkDir()
-                                checkOverlayDeps()
-                                buildOverlay()
-                            }
-                            post {
-                                success {
-                                    deployOverlay()
-                                }
-                            }
-                        }
-                        stage('petalinux build') {
-                            agent {
-                                node {
-                                    label 'Slave'
-                                }
-                            }
-                            environment {
-                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
-                            }
-                            options {
-                                skipDefaultCheckout true
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_HDMI_PLNX', value: '1'
-                                }
-                            }
-                            steps {
-                                createWorkDir()
-                                checkPlnxDeps()
-                                buildPlnx()
-                            }
-                            post {
-                                success {
-                                    deployPlnx()
-                                }
-                                cleanup {
-                                    deletePlnxTmpDir()
-                                    cleanWs()
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('vck190_hdmiRx_hdmiTx') {
-                    environment {
-                        pfm_base="vck190_hdmiRx_hdmiTx"
-                        pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
-                        work_dir="work/${pfm_base}/${overlay}"
-                        pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
-                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
-                    }
-                    stages {
-                        stage('vck190_hdmiRx_hdmiTx platform build')  {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/platforms/vivado/${pfm_base}/**"
-                                    triggeredBy 'TimerTrigger'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_HDMI_F2D = '1'
-                                }
-                                createWorkDir()
-                                buildPlatform()
-                            }
-                            post {
-                                success {
-                                    deployPlatform()
-                                }
-                            }
-                        }
-                        stage('filter2d_combined overlay build') {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_HDMI_F2D', value: '1'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_HDMI_PLNX = '1'
-                                }
-                                createWorkDir()
-                                checkOverlayDeps()
-                                buildOverlay()
-                            }
-                            post {
-                                success {
-                                    deployOverlay()
-                                }
-                            }
-                        }
-                        stage('petalinux build') {
-                            agent {
-                                node {
-                                    label 'Slave'
-                                }
-                            }
-                            environment {
-                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
-                            }
-                            options {
-                                skipDefaultCheckout true
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_HDMI_PLNX', value: '1'
-                                }
-                            }
-                            steps {
-                                createWorkDir()
-                                checkPlnxDeps()
-                                buildPlnx()
-                            }
-                            post {
-                                success {
-                                    deployPlnx()
-                                }
-                                cleanup {
-                                    deletePlnxTmpDir()
-                                    cleanWs()
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('vck190_es1_mipiRxSingle_hdmiTx') {
-                    environment {
-                        pfm_base="vck190_es1_mipiRxSingle_hdmiTx"
-                        pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
-                        work_dir="work/${pfm_base}/${overlay}"
-                        pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
-                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
-                    }
-                    stages {
-                        stage('vck190_es1_mipiRxSingle_hdmiTx platform build')  {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/platforms/vivado/vck190*mipiRxSingle_hdmiTx/**"
-                                    triggeredBy 'TimerTrigger'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_SINGLE_F2D = '1'
-                                }
-                                createWorkDir()
-                                buildPlatform()
-                            }
-                            post {
-                                success {
-                                    deployPlatform()
-                                }
-                            }
-                        }
-                        stage('filter2d_combined overlay build') {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_SINGLE_F2D', value: '1'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_SINGLE_PLNX = '1'
-                                }
-                                createWorkDir()
-                                checkOverlayDeps()
-                                buildOverlay()
-                            }
-                            post {
-                                success {
-                                    deployOverlay()
-                                }
-                            }
-                        }
-                        stage('petalinux build') {
-                            agent {
-                                node {
-                                    label 'Slave'
-                                }
-                            }
-                            environment {
-                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
-                            }
-                            options {
-                                skipDefaultCheckout true
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_SINGLE_PLNX', value: '1'
-                                }
-                            }
-                            steps {
-                                createWorkDir()
-                                checkPlnxDeps()
-                                buildPlnx()
-                            }
-                            post {
-                                success {
-                                    deployPlnx()
-                                }
-                                cleanup {
-                                    deletePlnxTmpDir()
-                                    cleanWs()
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('vck190_mipiRxSingle_hdmiTx') {
+                stage('vck190_mipiRxSingle_hdmiTx - xvdpu') {
                     environment {
                         pfm_base="vck190_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="xvdpu"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
                         overlay_dir="${work_dir}/overlays/examples/${overlay}"
@@ -528,7 +237,7 @@ pipeline {
                             }
                             steps {
                                 script {
-                                    env.BUILD_SINGLE_F2D = '1'
+                                    env.BUILD_SINGLE_DPU = '1'
                                 }
                                 createWorkDir()
                                 buildPlatform()
@@ -539,21 +248,21 @@ pipeline {
                                 }
                             }
                         }
-                        stage('filter2d_combined overlay build') {
+                        stage('xvdpu overlay build') {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/examples/xvdpu/**"
                                     triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_SINGLE_F2D', value: '1'
+                                    environment name: 'BUILD_SINGLE_DPU', value: '1'
                                 }
                             }
                             steps {
                                 script {
-                                    env.BUILD_SINGLE_PLNX = '1'
+                                    env.BUILD_SINGLE_DPU_PLNX = '1'
                                 }
                                 createWorkDir()
                                 checkOverlayDeps()
@@ -581,7 +290,7 @@ pipeline {
                                 anyOf {
                                     changeset "**/petalinux/xilinx-vck190-base-trd/**"
                                     triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_SINGLE_PLNX', value: '1'
+                                    environment name: 'BUILD_SINGLE_DPU_PLNX', value: '1'
                                 }
                             }
                             steps {
@@ -601,108 +310,11 @@ pipeline {
                         }
                     }
                 }
-                stage('vck190_es1_mipiRxQuad_hdmiTx') {
-                    environment {
-                        pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
-                        pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
-                        work_dir="work/${pfm_base}/${overlay}"
-                        pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
-                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
-                    }
-                    stages {
-                        stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/platforms/vivado/vck190*mipiRxQuad_hdmiTx/**"
-                                    triggeredBy 'TimerTrigger'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_QUAD_F2D = '1'
-                                }
-                                createWorkDir()
-                                buildPlatform()
-                            }
-                            post {
-                                success {
-                                    deployPlatform()
-                                }
-                            }
-                        }
-                        stage('filter2d_combined overlay build') {
-                            environment {
-                                PAEG_LSF_MEM=65536
-                                PAEG_LSF_QUEUE="long"
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_QUAD_F2D', value: '1'
-                                }
-                            }
-                            steps {
-                                script {
-                                    env.BUILD_ES1_QUAD_PLNX = '1'
-                                }
-                                createWorkDir()
-                                checkOverlayDeps()
-                                buildOverlay()
-                            }
-                            post {
-                                success {
-                                    deployOverlay()
-                                }
-                            }
-                        }
-                        stage('petalinux build') {
-                            agent {
-                                node {
-                                    label 'Slave'
-                                }
-                            }
-                            environment {
-                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
-                            }
-                            options {
-                                skipDefaultCheckout true
-                            }
-                            when {
-                                anyOf {
-                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
-                                    triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_ES1_QUAD_PLNX', value: '1'
-                                }
-                            }
-                            steps {
-                                createWorkDir()
-                                checkPlnxDeps()
-                                buildPlnx()
-                            }
-                            post {
-                                success {
-                                    deployPlnx()
-                                }
-                                cleanup {
-                                    deletePlnxTmpDir()
-                                    cleanWs()
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('vck190_mipiRxQuad_hdmiTx') {
+                stage('vck190_mipiRxQuad_hdmiTx - xvdpu') {
                     environment {
                         pfm_base="vck190_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="xvdpu"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
                         overlay_dir="${work_dir}/overlays/examples/${overlay}"
@@ -722,7 +334,7 @@ pipeline {
                             }
                             steps {
                                 script {
-                                    env.BUILD_QUAD_F2D = '1'
+                                    env.BUILD_QUAD_DPU = '1'
                                 }
                                 createWorkDir()
                                 buildPlatform()
@@ -733,21 +345,21 @@ pipeline {
                                 }
                             }
                         }
-                        stage('filter2d_combined overlay build') {
+                        stage('xvdpu overlay build') {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/examples/xvdpu/**"
                                     triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_QUAD_F2D', value: '1'
+                                    environment name: 'BUILD_QUAD_DPU', value: '1'
                                 }
                             }
                             steps {
                                 script {
-                                    env.BUILD_QUAD_PLNX = '1'
+                                    env.BUILD_QUAD_DPU_PLNX = '1'
                                 }
                                 createWorkDir()
                                 checkOverlayDeps()
@@ -775,7 +387,7 @@ pipeline {
                                 anyOf {
                                     changeset "**/petalinux/xilinx-vck190-base-trd/**"
                                     triggeredBy 'TimerTrigger'
-                                    environment name: 'BUILD_QUAD_PLNX', value: '1'
+                                    environment name: 'BUILD_QUAD_DPU_PLNX', value: '1'
                                 }
                             }
                             steps {

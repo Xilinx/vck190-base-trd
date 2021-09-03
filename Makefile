@@ -11,7 +11,7 @@ PFM_VER = 202110_1
 
 # valid platforms / overlays
 PFM_LIST = vck190_es1_mipiRxSingle_hdmiTx vck190_es1_mipiRxQuad_hdmiTx vck190_es1_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx
-OVERLAY_LIST = filter2d_combined
+OVERLAY_LIST = filter2d_combined xvdpu
 
 PFM_XPFM = $(PFM_DIR)/xilinx_$(PFM)_$(PFM_VER)/$(PFM).xpfm
 
