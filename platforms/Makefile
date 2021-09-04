@@ -9,7 +9,7 @@ JOBS ?= 8
 REV ?= es1
 
 PLATFORM ?= vck190_mipiRxSingle_hdmiTx
-VERSION ?= 202110_1
+VERSION ?= 202120_1
 
 PFM_DIR = xilinx_$(PLATFORM)_$(VERSION)
 PFM_PRJ_DIR = xsct/$(PLATFORM)/$(PLATFORM)/export/$(PLATFORM)
