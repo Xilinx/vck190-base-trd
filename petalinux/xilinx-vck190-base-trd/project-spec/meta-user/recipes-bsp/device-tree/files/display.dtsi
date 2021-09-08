@@ -71,25 +71,25 @@
 			xlnx,layer-alpha ;
 			xlnx,layer-id = <1>;
 			xlnx,layer-max-width = <3840>;
-			xlnx,vformat = "BG24";
+			xlnx,vformat = "RG24";
 		};
 		xx_mix_overlay_2: layer_2 {
 			xlnx,layer-alpha ;
 			xlnx,layer-id = <2>;
 			xlnx,layer-max-width = <3840>;
-			xlnx,vformat = "BG24";
+			xlnx,vformat = "RG24";
 		};
 		xx_mix_overlay_3: layer_3 {
 			xlnx,layer-alpha ;
 			xlnx,layer-id = <3>;
 			xlnx,layer-max-width = <3840>;
-			xlnx,vformat = "BG24";
+			xlnx,vformat = "RG24";
 		};
 		xx_mix_overlay_4: layer_4 {
 			xlnx,layer-alpha ;
 			xlnx,layer-id = <4>;
 			xlnx,layer-max-width = <3840>;
-			xlnx,vformat = "BG24";
+			xlnx,vformat = "RG24";
 		};
 		xx_mix_overlay_5: layer_5 {
 			xlnx,layer-alpha ;

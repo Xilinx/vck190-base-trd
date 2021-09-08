@@ -95,7 +95,7 @@
 		xlnx,pixels-per-clock = <2>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;
-		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
+		xlnx,vid-formats = "rgb888", "yuyv";
 		xlnx,video-width = <8>;
 	};
 	cap_pipe_pipe_1_isp_1: isp@a40e0000 {
@@ -192,7 +192,7 @@
 		xlnx,pixels-per-clock = <2>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;
-		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
+		xlnx,vid-formats = "rgb888", "yuyv";
 		xlnx,video-width = <8>;
 	};
 	cap_pipe_pipe_2_isp_2: isp@a4180000 {
@@ -289,7 +289,7 @@
 		xlnx,pixels-per-clock = <2>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;
-		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
+		xlnx,vid-formats = "rgb888", "yuyv";
 		xlnx,video-width = <8>;
 	};
 	cap_pipe_pipe_3_isp_3: isp@a41a0000 {
@@ -386,7 +386,7 @@
 		xlnx,pixels-per-clock = <2>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;
-		xlnx,vid-formats = "rgb888", "bgr888", "yuyv";
+		xlnx,vid-formats = "rgb888", "yuyv";
 		xlnx,video-width = <8>;
 	};
 
