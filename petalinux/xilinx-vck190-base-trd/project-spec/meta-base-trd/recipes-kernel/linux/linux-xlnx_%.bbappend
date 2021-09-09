@@ -19,5 +19,4 @@ SRC_URI += " \
 	file://0011-max9286-WIP-modify-resolution.patch \
 	file://0012-xilinx-vipp-WIP-blacklist-mars-module.patch \
 	file://0001-media-i2c-max96705-fix-color-issue-due-to-bad-frame-.patch \
-	file://usb.patch \
 "
