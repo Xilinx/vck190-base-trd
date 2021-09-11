@@ -39,6 +39,7 @@ BASE_TRD_PACKAGES = " \
 	tzdata \
 	xrt \
 	${MOVIE_PACKAGES} \
+    smart-mipi-app \
 	"
 
 RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
