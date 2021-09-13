@@ -2,7 +2,7 @@
 PLATFORM ?=
 PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx
 PFM = $(basename $(PLATFORM) .xpfm)
-BATCH_N_LIST = 1 3
+BATCH_N_LIST = 1
 # hardcode value for now
 BATCH_N = 1
 
