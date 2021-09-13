@@ -6,7 +6,6 @@ help:
 	@echo "  make all PLATFORM=<VCK190 platform> BATCH_N=<>"
 	@echo "      Command to generate all design"
 	@echo "      Support platform 'vck190_mipiRxSingle_hdmiTx' and 'vck190_mipiRxQuad_hdmiTx'"
-	@echo "      Support 'BATCH_N=1' and 'BATCH_N=3'"
 	@echo ""
 	@echo "  make clean "
 	@echo "      Command to remove IP files from vitis_prj folder and all the generated files"
