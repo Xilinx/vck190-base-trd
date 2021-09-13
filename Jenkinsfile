@@ -143,7 +143,7 @@ pipeline {
         label 'Build_Master'
     }
     environment {
-        deploy_branch="2021.1"
+        deploy_branch="2021.1-xvdpu"
         tool_release="2021.1"
         tool_build="daily_latest"
         auto_branch="2021.1"
@@ -158,7 +158,7 @@ pipeline {
         skipDefaultCheckout true
     }
     triggers {
-        cron(env.BRANCH_NAME == '2021.1' ? 'H 21 * * *' : '')
+        cron(env.BRANCH_NAME == '2021.1-xvdpu' ? 'H 21 * * *' : '')
     }
     stages {
         stage ('Fix Changelog') {
