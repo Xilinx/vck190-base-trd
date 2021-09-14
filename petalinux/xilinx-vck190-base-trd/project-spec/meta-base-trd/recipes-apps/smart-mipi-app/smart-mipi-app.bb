@@ -1,8 +1,8 @@
 SUMMARY = "Smart mipicam application"
 DESCRIPTION = "Application for runing single/quad mipi sensor with Vitis AI/IVAS"
-
+SECTION = "PETALINUX/apps"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=ba05a6f05e084b7a9f5a28a629077646"
 
 SRC_URI = " \
     file://cmake \
