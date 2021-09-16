@@ -81,7 +81,7 @@ set_property platform.vendor "xilinx" [current_project]
             
 set_property platform.version "1.0" [current_project]
 
-set_property strategy Performance_NetDelay_low [get_runs impl_1] 
+set_property strategy Performance_ExploreWithRemap [get_runs impl_1] 
 
 # Generate IPs and Implement design
 generate_target all [get_files $proj_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]       
