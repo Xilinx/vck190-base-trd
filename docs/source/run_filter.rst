@@ -164,7 +164,7 @@ Start the Notebook
 
   .. code-block:: bash
   
-    jupyter notebook list
+	jupyter-lab  list
 
 .. note::
 
