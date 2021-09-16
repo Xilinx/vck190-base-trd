@@ -6,6 +6,7 @@ Architecture
    swarch.rst
    hwarch.rst
    filter2d_arch.rst
+   xvdpu_arch.rst
 
 ,,,,,
 
