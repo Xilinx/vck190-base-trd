@@ -220,7 +220,7 @@ pipeline {
                         overlay="xvdpu"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -255,7 +255,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/xvdpu/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_SINGLE_DPU', value: '1'
                                 }
@@ -317,7 +317,7 @@ pipeline {
                         overlay="xvdpu"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -352,7 +352,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/xvdpu/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_QUAD_DPU', value: '1'
                                 }
