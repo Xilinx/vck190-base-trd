@@ -11,12 +11,12 @@ CARDANO_ELF_FLAGS ?= -dataflow \
 		     -v
 
 
-VITIS_LIB = ../../../Vitis_Libraries/vision/
+VITIS_LIB = ../../../../Vitis_Libraries/vision/
 GRAPH = $(VITIS_LIB)/L2/tests/aie/Filter2D/16bit_aie_8bit_pl/graph.cpp
 SOURCES = $(GRAPH) $(VITIS_LIB)/L2/tests/aie/Filter2D/16bit_aie_8bit_pl/xf_filter2d.cc
 INCLUDE_DIRS = -include="$(VITIS_LIB)/L2/tests/aie/Filter2D/16bit_aie_8bit_pl" \
                -include="$(VITIS_LIB)/L1/include/aie" \
-               
+
 .NOTPARALLEL:
 $(TARGET_ADF): $(SOURCES)
 	aiecompiler $(CARDANO_ELF_FLAGS) $(INCLUDE_DIRS) $(GRAPH)
