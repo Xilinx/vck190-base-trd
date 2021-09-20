@@ -8,9 +8,6 @@ Prerequisites
 
 * Vitis Unified Software Platform 2021.1 (include AIE tool chain)
 
-* Xilinx Runtime (XRT) 2021.1
-
-
 Build Flow Tutorial
 -------------------
 
@@ -33,17 +30,14 @@ extracted to a working directory
       
 The directory structure is described in the Introduction Section
 
-**Set up the AI Engine toolchain and XRT environment:**
+**Set up the Vitis toolchain:**
 
-#. To set up the AIE toolchain, run the following commands:
+#. To set up the Vitis toolchain, run the following commands:
 
    .. code-block:: bash
 
       source $XILINX_VITIS/settings.sh
       export XILINXD_LICENSE_FILE=<path to where the aiecompiler license file is installed>
-
-#. To set up the XRT environment, follow the installation instructions provided
-   here: https://xilinx.github.io/XRT/2021.1/html/build.html
 
 **Implement platform design with filter2d PL and filter2d AIE accelerators:**
 
@@ -75,16 +69,16 @@ The directory structure is described in the Introduction Section
 #. The following is a list of important output products:
 
    * Vivado project with integrated kernels:
-     *$working_dir/overlays/examples/filter2d_combined/_x/link/vivado/vpl/prj/prj.xpr*
+     *$working_dir/overlays/filter2d/kernels/_x/link/vivado/vpl/prj/prj.xpr*
 
    * XSA required for building the Petalinux BSP:
-     *$working_dir/overlays/examples/filter2d_combined/binary_container_1.xsa*
+     *$working_dir/overlays/filter2d/kernels/binary_container_1.xsa*
      The XSA contains the updated PDI with the accelerators added into the
      platform design and the merged AIE binary.The XSA is required to build the
      final boot image *BOOT.BIN* in PetaLinux.
 
    * The xclbin that contains the platform and kernel meta data needed by XRT:
-     *$working_dir/overlays/examples/filter2d_combined/binary_container_1.xclbin*
+     *$working_dir/overlays/filter2d/kernels/binary_container_1.xclbin*
 
 ,,,,,
 

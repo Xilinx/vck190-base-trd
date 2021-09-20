@@ -23,7 +23,7 @@ The reference design prebuilt SD image zip files can be downloaded from the belo
 there is a separate zip file per platform:
 
 .. csv-table:: **Table 1: SD Image zip files**
-	:file: ./tables/wic_links.csv
+	:file: ../tables/wic_links.csv
 	:widths: 50, 25, 25
 	:header-rows: 1
 
@@ -49,7 +49,7 @@ removable device using the Win32 Disk Imager utility.
 #. Select 'Write' to the SD card, click 'Yes' at the prompt to continue writing
    and wait till the operation is complete
 
-   .. image:: images/win32.jpg
+   .. image:: ../images/win32.jpg
       :width: 500px
       :alt: Win32 Image
 
@@ -88,16 +88,16 @@ System Controller
 
 .. note::
 
-   If you think that you have the latest System Controller (SC) SD Image then this section 
+   If you think that you have the latest System Controller (SC) SD Image then this section
    can be skipped.
 
-**ES Silicon** 
+**ES Silicon**
 
-The image and instructions to write to the SC SD card can be downloaded from the 
-VCK190 headstart lounge. 
+The image and instructions to write to the SC SD card can be downloaded from the
+VCK190 headstart lounge.
 
 * SC SD Image: https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip
-  
+
 * Instructions: https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf
 
 **Production Silicon**
@@ -105,7 +105,7 @@ VCK190 headstart lounge.
 The image and instructions to write to SC SD card are avaialble on the Beam Tool page
 
 * SC SD Image and Instructions: http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
-   
+
 .. _Board Setup:
 
 Board Setup
@@ -113,7 +113,7 @@ Board Setup
 
 The following figure shows how to set up the VCK190 evaluation board.
 
-.. image:: images/vck190-setup.jpg
+.. image:: ../images/vck190-setup.jpg
    :width: 900px
    :alt: VCK190 Board Setup
 
@@ -136,7 +136,7 @@ you get the board.
 
 **MIPI and HDMI connections**
 
-Make the connections based on the SD Image selected. 
+Make the connections based on the SD Image selected.
 
 vck190_mipiRxSingle_hdmiTx supports video capture from the Leopard IMX274 MIPI FMC,
 connect the FMC card to the FMCP1 slot (J51) as shown in the above figure.
@@ -150,7 +150,7 @@ https://www.avnet.com/wps/portal/silica/products/new-products/npi/2018/avnet-mul
 
 vck190_hdmiRx_hdmiTx supports video capture via HDMI RX.
 Connect the HDMI cable as shown in the above figure. Connect the other end of the cable to a HDMI source
-like a laptop or Nvidia Shield or Roku 
+like a laptop or Nvidia Shield or Roku
 
 **Serial console settings**
 
@@ -182,15 +182,15 @@ on the Serial Port:
 Perform the following steps to set the Vadj voltage rail to 1.2V using the
 *BoardUI/Board Interface Test(BIT)* utility:
 
-Note: This is required only if using MIPI Single or Quad sensors. 
+Note: This is required only if using MIPI Single or Quad sensors.
 
-#. Power on the board. 
+#. Power on the board.
 
    Note: Skip next 2 steps for ES silicon
 
-#. On the  System Controller UART terminal type the following commands at 
-   the linux prompt. This will allow the *BoardUI/Board Interaface Test* utility 
-   to communicate with the System Controller. For more information refer to 
+#. On the  System Controller UART terminal type the following commands at
+   the linux prompt. This will allow the *BoardUI/Board Interaface Test* utility
+   to communicate with the System Controller. For more information refer to
    http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
 
    .. code-block:: bash
@@ -199,13 +199,13 @@ Note: This is required only if using MIPI Single or Quad sensors.
       sed -i -e 's/^#//' /etc/init.d/start_boardframework.sh
       /etc/init.d/start_boardframework.sh
 
-#. Close the System Controller UART terminal 
+#. Close the System Controller UART terminal
 
-#. Download the *BoardUI/Board Interface Test(BIT)* tool from the following link: 
+#. Download the *BoardUI/Board Interface Test(BIT)* tool from the following link:
 
    * `VCK190 Board Interface Test : rdf0574-vck190-bit-c-2020-2.zip <https://www.xilinx.com/member/forms/download/design-license.html?cid=b83eede2-f9d2-4e81-a393-67a1a8ba609e&filename=rdf0574-vck190-bit-c-2020-2.zip>`_
-   
-#. Extract the zip file and start the *BoardUI/Board Interface Test(BIT)* tool 
+
+#. Extract the zip file and start the *BoardUI/Board Interface Test(BIT)* tool
    by clicking on *BoardUI.exe*. Make sure the USB-C
    cable is connected to your PC and the system controller Micro SD card is
    inserted. Also make sure you Vivado Design Suite HW Manager is installed on
@@ -215,7 +215,7 @@ Note: This is required only if using MIPI Single or Quad sensors.
    circles as shown in the below figure. Enter *1.2* in the *Set On-Boot VADJ*
    field and click the button next to it to save the value.
 
-   .. image:: images/boardui.jpg
+   .. image:: ../images/boardui.jpg
       :width: 900px
       :alt: BoardUI Utility
 
@@ -228,8 +228,8 @@ Note: This is required only if using MIPI Single or Quad sensors.
 .. note::
 
    If Vadj does not persists after reboot, try updating the System Controller
-   SD card image (Instructions provided in the System Controller section of 
-   this tutorial). 
+   SD card image (Instructions provided in the System Controller section of
+   this tutorial).
 
 ,,,,,
 

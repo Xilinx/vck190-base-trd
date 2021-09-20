@@ -2,10 +2,10 @@ Run the Prebuilt Image
 ======================
 
 .. toctree::
-  
-   setup.rst
-   run_filter.rst
-   run_xvdpu.rst
+
+   run/run-setup.rst
+   run/run-filter2d.rst
+   run/run-xvdpu.rst
 
 ,,,,,
 

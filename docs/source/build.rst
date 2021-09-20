@@ -2,11 +2,12 @@ Build an Image
 ======================
 
 .. toctree::
-  
-   build-overview.rst 
-   build-pfm.rst
-   build-filter2d.rst
-   build-plnx.rst
+
+   build/build-overview.rst
+   build/build-pfm.rst
+   build/build-filter2d.rst
+   build/build-xvdpu.rst
+   build/build-plnx.rst
 
 ,,,,,
 

@@ -2,11 +2,11 @@ Architecture
 ============
 
 .. toctree::
-  
-   swarch.rst
-   hwarch.rst
-   filter2d_arch.rst
-   xvdpu_arch.rst
+
+   arch/arch-sw.rst
+   arch/arch-hw.rst
+   arch/arch-filter2d.rst
+   arch/arch-xvdpu.rst
 
 ,,,,,
 

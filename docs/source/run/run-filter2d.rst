@@ -2,9 +2,9 @@ Run 2D Filter Application
 =========================
 
 The 2D Filter accelerator is targeted to run on all platforms.
-Jupyter Notebooks are used to demonstarte the workings of the 
-platform and accelerator. A network connection is required to 
-run these Notebooks 
+Jupyter Notebooks are used to demonstarte the workings of the
+platform and accelerator. A network connection is required to
+run these Notebooks
 
 Connect to the JupyterLab Server
 --------------------------------
@@ -53,12 +53,12 @@ Follow these steps to boot the board into Linux
 .. note::
 
     If you do not see any URL for the Juputer Notebook, you may have to setup
-    a private network. Likely, DHCP is not be available to allot the board an 
+    a private network. Likely, DHCP is not be available to allot the board an
     IP address. To setup a private network and start the notebook follow the
     instruction below.
 
 
-Setting up a private network 
+Setting up a private network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In case of a private network, user can assign a static address within
 the subnet of the host machine.
@@ -151,27 +151,27 @@ Start the Notebook
 
 **Note:** This demo is tested with Chrome browser only.
 
-* To connect to the jupyter-server and start the Notebook, copy the 
-  generated URL with token on the prompt of Versal target and paste 
+* To connect to the jupyter-server and start the Notebook, copy the
+  generated URL with token on the prompt of Versal target and paste
   it to the Chrome browser address bar of the laptop, for example:
 
   .. code-block:: bash
 
      http://192.168.1.77:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
 
-* If you have lost the URL, to look up the jupyter server IP address and token on the 
+* If you have lost the URL, to look up the jupyter server IP address and token on the
   target, run:
 
   .. code-block:: bash
-  
+
 	jupyter-lab  list
 
 .. note::
 
-   Filter 2D AIE accelerator is not available in this version of the design. 
-   It will be supported soon. So with notebooks nb6 and nb7 do not run 
-   Filter 2D AIE. 
-   
+   Filter 2D AIE accelerator is not available in this version of the design.
+   It will be supported soon. So with notebooks nb6 and nb7 do not run
+   Filter 2D AIE.
+
 Run the Jupyter Notebooks
 -------------------------
 
@@ -225,8 +225,8 @@ To run the notebooks, follow the below steps:
 #. Double click to open the notebook
 
 #. Select 'Kernel' → 'Restart Kernel and Run All Cells' from the top menu bar to
-   run the demo. For nb1, nb2 and nb6 scroll down to the end of the notebook to see 
-   the video output. For all other notebooks the video output is displayed on the 
+   run the demo. For nb1, nb2 and nb6 scroll down to the end of the notebook to see
+   the video output. For all other notebooks the video output is displayed on the
    monitor.
 
 
@@ -235,15 +235,15 @@ To run the notebooks, follow the below steps:
 #. Select 'Kernel' → 'Shutdown Kernel' → close the notebook tab and move to the
    next notebook.
 
-   .. image:: images/jnbh.jpg
+   .. image:: ../images/jnbh.jpg
       :width: 1000px
       :alt: Jupyter_nb_home
 
-**Note:** Rerunning a TRD notebook may have spurious behavior, this is because software 
-commands are designed to run in order and may not behave as expected in iterative runs when 
-the kernel is not restarted. In practice, there are some command sequences that can be regressed, 
+**Note:** Rerunning a TRD notebook may have spurious behavior, this is because software
+commands are designed to run in order and may not behave as expected in iterative runs when
+the kernel is not restarted. In practice, there are some command sequences that can be regressed,
 but the safest thing is to restart the Jupyter Notebook kernel with 'kernel' → 'Interrupt kernel'
-, followed by 'kernel' → 'Restart Kernel and Run All Cells' when rerunning a notebook. 
+, followed by 'kernel' → 'Restart Kernel and Run All Cells' when rerunning a notebook.
 
 
 ,,,,,

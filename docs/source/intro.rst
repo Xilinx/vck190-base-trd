@@ -7,7 +7,7 @@ design with a pre-instantiated set of I/O interfaces and a corresponding
 PetaLinux BSP and image that includes the required kernel drivers and user-space
 libraries to exercise those interfaces. Accelerators are mapped to FPGA logic
 resources and/or AI Engine cores and stitched into the platform using the Vitis
-toolchain. The reference design currently supports the VCK190 evaluation board 
+toolchain. The reference design currently supports the VCK190 evaluation board
 either with ES parts or production parts.
 
 Platforms
@@ -49,11 +49,11 @@ The following is a list of supported platforms including key I/O interfaces:
 
 * Platform 3 - *vck190_es1_hdmiRx_hdmiTx, vck190_hdmiRx_hdmiTx*:
 
-  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware 
+  Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
   supports capture of audio data.
 
-  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio 
+  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio
   source is a file. In case of Platform 3 the audio source can be a either a file or
   HDMI RX.
 
@@ -107,12 +107,21 @@ The design file hierarchy is shown below:
    vck190-base-trd
    ├── docs
    ├── overlays
-   │   ├── examples
-   │   │   ├── filter2d_aie
-   │   │   ├── filter2d_combined
-   │   │   └── filter2d_pl
-   │   └── Vitis_Libraries
-   │       └── vision
+   │   ├── filter2d
+   │   │   ├── apps
+   │   │   │   └── filter2d-notebooks
+   │   │   └── kernels
+   │   │       ├── filter2d_aie
+   │   │       ├── filter2d_combined
+   │   │       └── filter2d_pl
+   │   ├── Vitis_Libraries
+   │   │   └── vision
+   │   └── xvdpu
+   │       ├── apps
+   │       │   └── smart-mipi-app
+   │       └── kernels
+   │           ├── vitis_prj
+   │           └── xvdpu_ip
    ├── petalinux
    │   └── xilinx-vck190-base-trd
    ├── platforms

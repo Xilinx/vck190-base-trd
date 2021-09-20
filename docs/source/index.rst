@@ -15,11 +15,11 @@ Contents:
    revision.rst
    intro.rst
    run.rst
-   build_img.rst
+   build.rst
    arch.rst
    known-issues.rst
    support.rst
-   
+
 Indices and Tables
 ==================
 

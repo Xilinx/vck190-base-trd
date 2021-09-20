@@ -7,7 +7,7 @@ This chapter describes the application processing unit (APU) Linux
 software stack. The stack and vertical domains are shown in the
 following figure.
 
-.. figure:: images/stack.png
+.. figure:: ../images/stack.png
    :width: 1000
    :alt: APU Linux Software Stack and Vertical Domains
 
@@ -51,7 +51,7 @@ Video Capture
 The Video Capture software stack is depicted in the following figure
 using the single-sensor MIPI CSI capture pipeline as an example
 
-.. figure:: images/video_capture.png
+.. figure:: ../images/video_capture.png
    :alt: Video Capture Software Stack
 
    Video Capture Software Stack
@@ -169,17 +169,17 @@ pads and the solid arrows represent active links. The yellow boxes are
 video nodes that correspond to DMA channels, in this case write channels
 (outputs).
 
-.. figure:: images/single_graph.png
+.. figure:: ../images/single_graph.png
    :alt: Video Capture Media Pipeline: Single MIPI CSI-2 RX
 
    Video Capture Media Pipeline: Single MIPI CSI-2 RX
 
-.. figure:: images/quad_graph.png
+.. figure:: ../images/quad_graph.png
    :alt: Video Capture Media Pipeline: Quad MIPI CSI-2 RX
 
    Video Capture Media Pipeline: Quad MIPI CSI-2 RX
 
-.. figure:: images/hdmi_graph.png
+.. figure:: ../images/hdmi_graph.png
    :alt: Video Capture Media Pipeline: HDMI RX
 
    Video Capture Media Pipeline: HDMI RX
@@ -267,7 +267,7 @@ Display
 
 The Display software stack is depicted in the following figure.
 
-.. figure:: images/display_stack.png
+.. figure:: ../images/display_stack.png
    :alt: Display Software Stack
 
    Display Software Stack
@@ -422,7 +422,7 @@ enumerated starting from zero.
 
 The audio software stack is depicted in the following figure.
 
-.. figure:: images/audio_stack.png
+.. figure:: ../images/audio_stack.png
    :alt: Audio Sfotware Stack
 
    Audio Software Stack
@@ -594,7 +594,7 @@ figure. The ``v4l2src``, ``kmssink``, and ``ivas`` elements are all capable of
 allocating and exporting as well as importing DMABUFs to/from their peer
 elements.
 
-.. figure:: images/dmabuf.png
+.. figure:: ../images/dmabuf.png
    :alt: DMABUF Sharing Mechanism
 
    DMABUF Sharing Mechanism
