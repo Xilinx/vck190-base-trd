@@ -2,5 +2,5 @@
 	path = overlays/Vitis_Libraries
 	url = https://github.com/Xilinx/Vitis_Libraries.git
 [submodule "overlays/examples/xvdpu/vitis_prj/ivas"]
-	path = overlays/examples/xvdpu/vitis_prj/ivas
+	path = overlays/xvdpu/kernels/vitis_prj/ivas
 	url = https://github.com/Xilinx/VVAS.git

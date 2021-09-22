@@ -41,7 +41,7 @@ At a high level, the builds steps are as follows:
    ``BOOT.BIN``, u-boot script ``boot.scr``, Linux kernel ``Image``, and the
    xclbin file; the second partition contains the root filesystem.
 
-.. image:: images/tool-flow.jpg
+.. image:: ../images/tool-flow.jpg
    :width: 1000
    :alt: Tool Flow
 

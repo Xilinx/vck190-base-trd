@@ -3,11 +3,15 @@ Revision History
 
 .. admonition:: Coming soon
 
-   * XVDPU support for single-sensor and quad-sensor platforms
-
    * Filter 2D AIE with tiler and sticher from Vitis Vision Libraries
 
    * Single-sensor HDR ISP pipeline
+
+**2021.1 v1.1**
+
+* XVDPU support for single-sensor and quad-sensor platforms
+
+* Supported models: yolov3, refinedet, densebox, ssd
 
 **2021.1 v1.0**
 

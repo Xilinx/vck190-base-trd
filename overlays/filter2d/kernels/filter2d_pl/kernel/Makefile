@@ -9,7 +9,7 @@ VPP ?= v++
 PPC ?= XF_NPPC8
 FREQ?= 150000000
 FILTER2D_PL_XO_FLAGS ?= -DPPC=$(PPC)
-XFOPENCV_INCDIR = ../../../Vitis_Libraries/vision/L1/include
+XFOPENCV_INCDIR = ../../../../Vitis_Libraries/vision/L1/include
 KERNEL_XO_FLAGS = -k $(KERNEL) -I$(XFOPENCV_INCDIR) $(FILTER2D_PL_XO_FLAGS) \
 	-D__SDSVHLS__
 PLATFORM =

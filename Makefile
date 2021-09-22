@@ -11,17 +11,19 @@ PFM_VER = 202110_1
 
 # valid platforms / overlays
 PFM_LIST = vck190_es1_mipiRxSingle_hdmiTx vck190_es1_mipiRxQuad_hdmiTx vck190_es1_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx
-OVERLAY_LIST = filter2d_combined xvdpu
+OVERLAY_LIST = filter2d xvdpu
 
 PFM_XPFM = $(PFM_DIR)/xilinx_$(PFM)_$(PFM_VER)/$(PFM).xpfm
 
 PLNX_DIR = petalinux/xilinx-vck190-base-trd
 PLNX_WIC = $(PLNX_DIR)/images/linux/petalinux-sdimage.wic.xz
 
-VITIS_DIR = overlays/examples
-VITIS_OVERLAY_DIR = $(VITIS_DIR)/$(OVERLAY)
-VITIS_OVERLAY_XCLBIN = $(VITIS_OVERLAY_DIR)/binary_container_1.xclbin
-VITIS_OVERLAY_XSA = $(VITIS_OVERLAY_DIR)/binary_container_1.xsa
+OVERLAY_DIR = overlays
+OVERLAY_KERNEL_DIR = $(OVERLAY_DIR)/$(OVERLAY)/kernels
+OVERLAY_APP_DIR = $(OVERLAY_DIR)/$(OVERLAY)/apps
+OVERLAY_APP = $(shell ls $(OVERLAY_APP_DIR))
+OVERLAY_XCLBIN = $(OVERLAY_KERNEL_DIR)/binary_container_1.xclbin
+OVERLAY_XSA = $(OVERLAY_KERNEL_DIR)/binary_container_1.xsa
 
 .PHONY: help
 help:
@@ -58,19 +60,22 @@ all: sdcard
 
 .PHONY: sdcard
 sdcard: $(PLNX_WIC)
-$(PLNX_WIC): $(PLNX_DIR) $(VITIS_OVERLAY_XSA) $(VITIS_OVERLAY_XCLBIN)
+$(PLNX_WIC): $(PLNX_DIR) $(OVERLAY_XSA) $(OVERLAY_XCLBIN)
 	@echo 'Build PetaLinux wic image for $(PFM) - $(OVERLAY)'
-	@cp $(VITIS_OVERLAY_XSA) $(PLNX_DIR)/project-spec/hw-description/system.xsa
+	@cp $(OVERLAY_XSA) $(PLNX_DIR)/project-spec/hw-description/system.xsa
 	@mkdir -p $(PLNX_DIR)/images/linux
-	@cp $(VITIS_OVERLAY_XCLBIN) $(PLNX_DIR)/images/linux
+	@cp $(OVERLAY_XCLBIN) $(PLNX_DIR)/images/linux
+	@cp -r $(OVERLAY_APP_DIR)/* $(PLNX_DIR)/project-spec/meta-base-trd/recipes-apps
+	@echo 'CONFIG_$(OVERLAY_APP)' >> $(PLNX_DIR)/project-spec/meta-user/conf/user-rootfsconfig
+	@echo 'CONFIG_$(OVERLAY_APP)=y' >> $(PLNX_DIR)/project-spec/configs/rootfs_config
 	$(MAKE) -C $(PLNX_DIR) wic PFM=$(PFM)
 
 $(PLNX_DIR):
 	$(MAKE) -C petalinux project
 
 .PHONY: overlay
-overlay: $(VITIS_OVERLAY_XCLBIN)
-$(VITIS_OVERLAY_XCLBIN): $(PFM_XPFM)
+overlay: $(OVERLAY_XCLBIN)
+$(OVERLAY_XCLBIN): $(PFM_XPFM)
 	@valid=0; \
 	for o in $(OVERLAY_LIST); do \
 	  if [ "$$o" = "$(OVERLAY)" ]; then \
@@ -83,7 +88,7 @@ $(VITIS_OVERLAY_XCLBIN): $(PFM_XPFM)
 	  exit 1; \
 	fi; \
 	echo 'Build $(OVERLAY) Vitis overlay using platform $(PFM)'; \
-	$(MAKE) -C $(VITIS_OVERLAY_DIR) all PLATFORM=$(PFM_XPFM)
+	$(MAKE) -C $(OVERLAY_KERNEL_DIR) all PLATFORM=$(PFM_XPFM)
 
 .PHONY: platform
 platform: $(PFM_XPFM)
@@ -110,5 +115,5 @@ docs:
 clean:
 	$(MAKE) -C docs clean
 	$(MAKE) -C $(PLNX_DIR) clean
-	$(foreach o, $(OVERLAY_LIST), $(MAKE) -C $(VITIS_DIR)/$(o) clean;)
+	$(foreach o, $(OVERLAY_LIST), $(MAKE) -C $(OVERLAY_DIR)/$(o)/kernels clean;)
 	$(foreach p, $(PFM_LIST), $(MAKE) -C $(PFM_DIR) clean PLATFORM=$(p) VERSION=$(PFM_VER);)

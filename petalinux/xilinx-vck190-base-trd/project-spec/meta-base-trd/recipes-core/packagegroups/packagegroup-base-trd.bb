@@ -21,7 +21,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-vitisai \
 	packagegroup-petalinux-v4lutils \
 	alsa-utils \
-	base-trd \
 	cmake \
 	custom-edid \
 	gstreamer1.0-python \
@@ -39,7 +38,6 @@ BASE_TRD_PACKAGES = " \
 	tzdata \
 	xrt \
 	${MOVIE_PACKAGES} \
-    smart-mipi-app \
 	"
 
 RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
