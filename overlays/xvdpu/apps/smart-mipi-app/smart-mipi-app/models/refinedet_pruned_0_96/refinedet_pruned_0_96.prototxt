@@ -13,8 +13,8 @@ model {
   refine_det_param : {
      num_classes : 2
      nms_threshold : 0.4
-     conf_threshold : 0.5
-     conf_threshold : 0.5
+     conf_threshold : 0.7
+     conf_threshold : 0.7
      keep_top_k : 200
      top_k : 400
      layer_name : "arm_loc"
