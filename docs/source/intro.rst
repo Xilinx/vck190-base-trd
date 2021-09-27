@@ -10,6 +10,8 @@ resources and/or AI Engine cores and stitched into the platform using the Vitis
 toolchain. The reference design currently supports the VCK190 evaluation board
 either with ES parts or production parts.
 
+.. _Platforms:
+
 Platforms
 ---------
 
