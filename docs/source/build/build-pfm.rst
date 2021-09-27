@@ -41,6 +41,16 @@ Build Flow Tutorial
    The below steps use platform vck190_mipiRxSingle_hdmiTx as an example. 
    The same steps can be used for other platforms as well. The file/directory 
    names will be replaced with the targeted platform name - *vck190_<platform_name>*
+
+   Available platforms:
+   
+   * Platform 1 - *vck190_es1_mipiRxSingle_hdmiTx, vck190_mipiRxSingle_hdmiTx*
+
+   * Platform 2 - *vck190_es1_mipiRxQuad_hdmiTx, vck190_mipiRxQuad_hdmiTx*
+   
+   * Platform 3 - *vck190_es1_hdmiRx_hdmiTx, vck190_hdmiRx_hdmiTx*
+
+   Refer to the :ref:`Platforms` section for more details.
          
 **Clone the Reference Design Files:**
 
