@@ -42,7 +42,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'2021.1-1.0',
+              VERSION:'2021.1-1.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,8 +67,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5.1. Software Architecture of the Platform" href="swarch.html" />
-    <link rel="prev" title="4.4. Build the PetaLinux Image" href="build-plnx.html" /> 
+    <link rel="next" title="5.1. Software Architecture of the Platform" href="arch/arch-sw.html" />
+    <link rel="prev" title="4.5. Build the PetaLinux Image" href="build/build-plnx.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -316,7 +316,7 @@
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -345,11 +345,12 @@
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_img.html">4. Build an Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">4. Build an Image</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">5. Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html">5.1. Software Architecture of the Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html">5.2. Hardware Architecture of the Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filter2d_arch.html">5.3. Accelerator - 2D Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html">5.1. Software Architecture of the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html">5.2. Hardware Architecture of the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-filter2d.html">5.3. Accelerator - 2D Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-xvdpu.html">5.4. Accelerator - XVDPU</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="known-issues.html">6. Known Issues</a></li>
@@ -429,61 +430,66 @@
 <h1>5. Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="swarch.html">5.1. Software Architecture of the Platform</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html#introduction">5.1.1. Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html#video-capture">5.1.2. Video Capture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#media-source-bin-gstreamer-plugin">5.1.2.1. Media Source Bin GStreamer Plugin</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="swarch.html#kernel-subsystems">5.1.2.1.1. Kernel Subsystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arch/arch-sw.html">5.1. Software Architecture of the Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html#introduction">5.1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html#video-capture">5.1.2. Video Capture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#media-source-bin-gstreamer-plugin">5.1.2.1. Media Source Bin GStreamer Plugin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="arch/arch-sw.html#kernel-subsystems">5.1.2.1.1. Kernel Subsystems</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#driver-architecture">5.1.2.2. Driver Architecture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#media-framework">5.1.2.3. Media Framework</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#v4l2-framework">5.1.2.4. V4L2 Framework</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#video-ip-drivers">5.1.2.5. Video IP Drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#driver-architecture">5.1.2.2. Driver Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#media-framework">5.1.2.3. Media Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#v4l2-framework">5.1.2.4. V4L2 Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#video-ip-drivers">5.1.2.5. Video IP Drivers</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html#display">5.1.3. Display</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#kms-sink-gstreamer-plugin">5.1.3.1. KMS Sink GStreamer Plugin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#libdrm">5.1.3.2. Libdrm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#drm-kms-kernel-subsystem">5.1.3.3. DRM/KMS Kernel Subsystem</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#direct-rendering-manager">5.1.3.4. Direct Rendering Manager</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#kernel-mode-setting">5.1.3.5. Kernel Mode Setting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#crtc">5.1.3.6. CRTC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#plane">5.1.3.7. Plane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#encoder">5.1.3.8. Encoder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#connector">5.1.3.9. Connector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html#display">5.1.3. Display</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#kms-sink-gstreamer-plugin">5.1.3.1. KMS Sink GStreamer Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#libdrm">5.1.3.2. Libdrm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#drm-kms-kernel-subsystem">5.1.3.3. DRM/KMS Kernel Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#direct-rendering-manager">5.1.3.4. Direct Rendering Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#kernel-mode-setting">5.1.3.5. Kernel Mode Setting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#crtc">5.1.3.6. CRTC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#plane">5.1.3.7. Plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#encoder">5.1.3.8. Encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#connector">5.1.3.9. Connector</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html#audio">5.1.4. Audio</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#alsa-source-and-sink-gstreamer-plugins">5.1.4.1. ALSA Source and Sink GStreamer Plugins</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#alsa-lib">5.1.4.2. Alsa-lib</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#alsa-kernel-subsystem">5.1.4.3. ALSA Kernel Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html#audio">5.1.4. Audio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#alsa-source-and-sink-gstreamer-plugins">5.1.4.1. ALSA Source and Sink GStreamer Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#alsa-lib">5.1.4.2. Alsa-lib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#alsa-kernel-subsystem">5.1.4.3. ALSA Kernel Subsystem</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html#gstreamer">5.1.5. GStreamer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#plugins">5.1.5.1. Plugins</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#capabilities">5.1.5.2. Capabilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#pipeline-control">5.1.5.3. Pipeline Control</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swarch.html#allocators">5.1.5.4. Allocators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html#gstreamer">5.1.5. GStreamer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#plugins">5.1.5.1. Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#capabilities">5.1.5.2. Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#pipeline-control">5.1.5.3. Pipeline Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-sw.html#allocators">5.1.5.4. Allocators</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="hwarch.html">5.2. Hardware Architecture of the Platform</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html#capture-pipeline">5.2.1. Capture Pipeline</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="hwarch.html#single-sensor-mipi-capture">5.2.1.1. Single Sensor MIPI Capture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hwarch.html#quad-sensor-mipi-capture">5.2.1.2. Quad Sensor MIPI Capture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arch/arch-hw.html">5.2. Hardware Architecture of the Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html#capture-pipeline">5.2.1. Capture Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-hw.html#single-sensor-mipi-capture">5.2.1.1. Single Sensor MIPI Capture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arch/arch-hw.html#quad-sensor-mipi-capture">5.2.1.2. Quad Sensor MIPI Capture</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html#hdmi-rx-capture">5.2.2. HDMI Rx Capture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html#display-pipeline">5.2.3. Display Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html#hdmi-audio-pipeline">5.2.4. HDMI Audio Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html#clocks-resets-and-interrupts">5.2.5. Clocks, Resets and Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html#hdmi-rx-capture">5.2.2. HDMI Rx Capture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html#display-pipeline">5.2.3. Display Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html#hdmi-audio-pipeline">5.2.4. HDMI Audio Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html#clocks-resets-and-interrupts">5.2.5. Clocks, Resets and Interrupts</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="filter2d_arch.html">5.3. Accelerator - 2D Filter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="filter2d_arch.html#software-architecture">5.3.1. Software Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filter2d_arch.html#hardware-architecture">5.3.2. Hardware Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arch/arch-filter2d.html">5.3. Accelerator - 2D Filter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-filter2d.html#software-architecture">5.3.1. Software Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-filter2d.html#hardware-architecture">5.3.2. Hardware Architecture</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arch/arch-xvdpu.html">5.4. Accelerator - XVDPU</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-xvdpu.html#software-architecture">5.4.1. Software Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-xvdpu.html#hardware-architecture">5.4.2. Hardware Architecture</a></li>
 </ul>
 </li>
 </ul>
@@ -515,10 +521,10 @@ and limitations under the License.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="swarch.html" class="btn btn-neutral float-right" title="5.1. Software Architecture of the Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="arch/arch-sw.html" class="btn btn-neutral float-right" title="5.1. Software Architecture of the Platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="build-plnx.html" class="btn btn-neutral float-left" title="4.4. Build the PetaLinux Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="build/build-plnx.html" class="btn btn-neutral float-left" title="4.5. Build the PetaLinux Image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -528,7 +534,7 @@ and limitations under the License.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on September 03, 2021.
+        Last updated on October 01, 2021.
       </span>
 
     </p>

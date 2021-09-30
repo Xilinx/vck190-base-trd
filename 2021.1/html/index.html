@@ -42,7 +42,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'2021.1-1.0',
+              VERSION:'2021.1-1.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -315,7 +315,7 @@
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -344,7 +344,7 @@
 <li class="toctree-l1"><a class="reference internal" href="revision.html">1. Revision History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_img.html">4. Build an Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">4. Build an Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arch.html">5. Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known-issues.html">6. Known Issues</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">7. Support</a></li>
@@ -433,25 +433,24 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="run.html#prerequisites">3.1. Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#reference-design-sd-card-creation">3.2. Reference Design SD Card Creation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#system-controller">3.3. System Controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#board-setup">3.4. Board Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#connect-to-the-jupyterlab-server">3.5. Connect to the JupyterLab Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run.html#run-the-jupyter-notebooks">3.6. Run the Jupyter Notebooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run/run-setup.html">3.1. Board and System settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run/run-filter2d.html">3.2. Run 2D Filter Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run/run-xvdpu.html">3.3. Run XVDPU application</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="build_img.html">4. Build an Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build-overview.html">4.1. Tool Flow Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-pfm.html">4.2. Create the Vitis Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-filter2d.html">4.3. Integrate 2D Filter Kernels in the Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build-plnx.html">4.4. Build the PetaLinux Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">4. Build an Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build/build-overview.html">4.1. Tool Flow Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build/build-pfm.html">4.2. Create the Vitis Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build/build-filter2d.html">4.3. Integrate 2D Filter Kernels in the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build/build-xvdpu.html">4.4. Integrate XVDPU and Multiscaler Kernels in the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build/build-plnx.html">4.5. Build the PetaLinux Image</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arch.html">5. Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="swarch.html">5.1. Software Architecture of the Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hwarch.html">5.2. Hardware Architecture of the Platform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filter2d_arch.html">5.3. Accelerator - 2D Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-sw.html">5.1. Software Architecture of the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-hw.html">5.2. Hardware Architecture of the Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-filter2d.html">5.3. Accelerator - 2D Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch/arch-xvdpu.html">5.4. Accelerator - XVDPU</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="known-issues.html">6. Known Issues</a></li>
@@ -504,7 +503,7 @@ and limitations under the License.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on September 03, 2021.
+        Last updated on October 01, 2021.
       </span>
 
     </p>

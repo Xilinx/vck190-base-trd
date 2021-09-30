@@ -42,7 +42,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'2021.1-1.0',
+              VERSION:'2021.1-1.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -316,7 +316,7 @@
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -351,7 +351,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_img.html">4. Build an Image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">4. Build an Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arch.html">5. Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known-issues.html">6. Known Issues</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">7. Support</a></li>
@@ -437,7 +437,7 @@ resources and/or AI Engine cores and stitched into the platform using the Vitis
 toolchain. The reference design currently supports the VCK190 evaluation board
 either with ES parts or production parts.</p>
 <div class="section" id="platforms">
-<h2>2.1. Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>2.1. Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline">¶</a></h2>
 <p>The following is a list of supported platforms including key I/O interfaces:</p>
 <ul>
 <li><p class="first">Platform 1 - <em>vck190_es1_mipiRxSingle_hdmiTx, vck190_mipiRxSingle_hdmiTx</em>:</p>
@@ -507,12 +507,21 @@ It has the following contents:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>vck190-base-trd
 ├── docs
 ├── overlays
-│   ├── examples
-│   │   ├── filter2d_aie
-│   │   ├── filter2d_combined
-│   │   └── filter2d_pl
-│   └── Vitis_Libraries
-│       └── vision
+│   ├── filter2d
+│   │   ├── apps
+│   │   │   └── filter2d-notebooks
+│   │   └── kernels
+│   │       ├── filter2d_aie
+│   │       ├── filter2d_combined
+│   │       └── filter2d_pl
+│   ├── Vitis_Libraries
+│   │   └── vision
+│   └── xvdpu
+│       ├── apps
+│       │   └── smart-mipi-app
+│       └── kernels
+│           ├── vitis_prj
+│           └── xvdpu_ip
 ├── petalinux
 │   └── xilinx-vck190-base-trd
 ├── platforms
@@ -585,7 +594,7 @@ and limitations under the License.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on September 03, 2021.
+        Last updated on October 01, 2021.
       </span>
 
     </p>
