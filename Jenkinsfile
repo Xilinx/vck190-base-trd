@@ -213,14 +213,14 @@ pipeline {
         }
         stage('Vitis Builds') {
             parallel {
-                stage('vck190_es1_hdmiRx_hdmiTx') {
+                stage('vck190_es1_hdmiRx_hdmiTx - filter2d') {
                     environment {
                         pfm_base="vck190_es1_hdmiRx_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="filter2d"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -255,7 +255,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_ES1_HDMI_F2D', value: '1'
                                 }
@@ -310,14 +310,14 @@ pipeline {
                         }
                     }
                 }
-                stage('vck190_hdmiRx_hdmiTx') {
+                stage('vck190_hdmiRx_hdmiTx - filter2d') {
                     environment {
                         pfm_base="vck190_hdmiRx_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="filter2d"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -352,7 +352,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_HDMI_F2D', value: '1'
                                 }
@@ -407,14 +407,14 @@ pipeline {
                         }
                     }
                 }
-                stage('vck190_es1_mipiRxSingle_hdmiTx') {
+                stage('vck190_es1_mipiRxSingle_hdmiTx - filter2d') {
                     environment {
                         pfm_base="vck190_es1_mipiRxSingle_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="filter2d"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -449,7 +449,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_ES1_SINGLE_F2D', value: '1'
                                 }
@@ -601,14 +601,14 @@ pipeline {
                         }
                     }
                 }
-                stage('vck190_es1_mipiRxQuad_hdmiTx') {
+                stage('vck190_es1_mipiRxQuad_hdmiTx - filter2d') {
                     environment {
                         pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d_combined"
+                        overlay="filter2d"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
-                        overlay_dir="${work_dir}/overlays/examples/${overlay}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
                         plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
                     }
                     stages {
@@ -643,7 +643,7 @@ pipeline {
                             }
                             when {
                                 anyOf {
-                                    changeset "**/overlays/examples/filter2d_*/**"
+                                    changeset "**/overlays/${overlay}/kernels/**"
                                     triggeredBy 'TimerTrigger'
                                     environment name: 'BUILD_ES1_QUAD_F2D', value: '1'
                                 }
