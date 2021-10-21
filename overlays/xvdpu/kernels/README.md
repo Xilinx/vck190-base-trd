@@ -1,7 +1,6 @@
 # XVDPU Example
 
-XVDPU (DPUCVDX8G) example supports platforms 'vck190_mipiRxSingle_hdmiTx' and 'vck190_mipiRxQuad_hdmiTx'.
-It can also support ES1 platform 'vck190_es1_mipiRxQuad_hdmiTx', by adding the workaroud for ES1 part. See the below section "Workaround for ES1"
+XVDPU (DPUCVDX8G) example supports platforms 'vck190_mipiRxSingle_hdmiTx, 'vck190_mipiRxQuad_hdmiTx', and 'vck190_es1_mipiRxQuad_hdmiTx'.
  
 For the description of DPUCVDX8G, please refer to the document PG389 'Xilinx Versal DPU (DPUCVDX8G) Product Guide' .
 This example support configuration is 'CPB_N=32, BATCH_N=1' and frequency of DPUCVDX8G is 333M Hz.
@@ -11,27 +10,6 @@ Generated xclbin:  overlays/xvdpu/kernels
 Implemented Vivado project: overlays/xvdpu/kernels/vitis_prj/hw/binary_container_1/link/vivado/vpl/prj
 'arch.json' file : "overlays/xvdpu/kernels/arch.json", also can be found "overlays/xvdpu/kernels/vitis_prj/package_out/sd_card/arch.json"
 ```
-
-# Workaround for ES1
-
-For the SD image built with ES1 platform 'vck190_es1_mipiRxQuad_hdmiTx', before running apps of xvdpu, need firstly run workaround for ES1 part.
-
-After VCK190-ES1 board is booting up with the SD image, create a file named as 'es1_workaround.sh' with below content, and run it with command 'bash es1_workaround.sh'.
-
-Content of 'es1_workaround.sh' :
-
-```
-for i in {0..39}
-do
-  for j in {1..8}
-  do
-    a=0x20000000000
-    b=0x31000
-    devmem $[a+b+(i<<23)+(j<<18)] 32 0
-  done
-done
-```
-
 # License
 
 Licensed under the Apache License, version 2.0 (the "License"); you may not use this file 
