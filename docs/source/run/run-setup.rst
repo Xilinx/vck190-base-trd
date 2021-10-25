@@ -88,7 +88,7 @@ System Controller
 
 .. note::
 
-   If you think that you have the latest System Controller (SC) SD Image then this section
+   If you think that you have the correct System Controller (SC) SD Image then this section
    can be skipped.
 
 **ES Silicon**
@@ -102,9 +102,11 @@ VCK190 headstart lounge.
 
 **Production Silicon**
 
-The image and instructions to write to SC SD card are avaialble on the Beam Tool page
+The image (Beta  2.1) and instructions to write to SC SD card are avaialble on the Beam Tool page
 
-* SC SD Image and Instructions: http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
+* SC SD Image: https://www.xilinx.com/member/forms/download/xef.html?filename=intermediate_petalinux-sdimage.zip
+
+* Instructions: http://wiki.xilinx.com/BEAM+Tool+for+VCK190+Evaluation+Kit
 
 .. _Board Setup:
 
