@@ -407,6 +407,103 @@ pipeline {
                         }
                     }
                 }
+                stage('vck190_es1_mipiRxQuad_hdmiTx - xvdpu') {
+                    environment {
+                        pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
+                        pfm="xilinx_${pfm_base}_${pfm_ver}"
+                        overlay="xvdpu"
+                        work_dir="work/${pfm_base}/${overlay}"
+                        pfm_dir="${work_dir}/platforms/${pfm}"
+                        overlay_dir="${work_dir}/overlays/${overlay}/kernels"
+                        plnx_dir="${work_dir}/petalinux/xilinx-vck190-base-trd"
+                    }
+                    stages {
+                        stage('vck190_es1_mipiRxQuad_hdmiTx platform build')  {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/platforms/vivado/${pfm_base}/**"
+                                    triggeredBy 'TimerTrigger'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_QUAD_DPU = '1'
+                                }
+                                createWorkDir()
+                                buildPlatform()
+                            }
+                            post {
+                                success {
+                                    deployPlatform()
+                                }
+                            }
+                        }
+                        stage('xvdpu overlay build') {
+                            environment {
+                                PAEG_LSF_MEM=65536
+                                PAEG_LSF_QUEUE="long"
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/overlays/${overlay}/kernels/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_QUAD_DPU', value: '1'
+                                }
+                            }
+                            steps {
+                                script {
+                                    env.BUILD_QUAD_DPU_PLNX = '1'
+                                }
+                                createWorkDir()
+                                checkOverlayDeps()
+                                buildOverlay()
+                            }
+                            post {
+                                success {
+                                    deployOverlay()
+                                }
+                            }
+                        }
+                        stage('petalinux build') {
+                            agent {
+                                node {
+                                    label 'Slave'
+                                }
+                            }
+                            environment {
+                                NEWTMPDIR = sh(script: 'mktemp -d /tmp/${rel_name}.XXXXXXXXXX', returnStdout: true).trim()
+                            }
+                            options {
+                                skipDefaultCheckout true
+                            }
+                            when {
+                                anyOf {
+                                    changeset "**/petalinux/xilinx-vck190-base-trd/**"
+                                    triggeredBy 'TimerTrigger'
+                                    environment name: 'BUILD_QUAD_DPU_PLNX', value: '1'
+                                }
+                            }
+                            steps {
+                                createWorkDir()
+                                checkPlnxDeps()
+                                buildPlnx()
+                            }
+                            post {
+                                success {
+                                    deployPlnx()
+                                }
+                                cleanup {
+                                    deletePlnxTmpDir()
+                                    cleanWs()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
