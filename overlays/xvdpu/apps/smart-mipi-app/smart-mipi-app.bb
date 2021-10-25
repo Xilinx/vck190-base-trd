@@ -11,6 +11,7 @@ SRC_URI = " \
     file://src \
     file://CMakeLists.txt \
     file://LICENSE \
+    file://aie_workaround4es1.sh \
     "
 
 S = "${WORKDIR}"
@@ -33,6 +34,11 @@ RDEPENDS_${PN} += " \
 inherit cmake
 
 EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=Release"
+
+do_install_append() {
+	install -d ${D}${sysconfdir}/init.d
+	install -m 0755 ${WORKDIR}/aie_workaround4es1.sh ${D}${sysconfdir}/init.d/aie_workaround4es1.sh
+}
 
 FILES_${PN} += " \
     ${datadir} \
