@@ -10,6 +10,11 @@ Generated xclbin:  overlays/xvdpu/kernels
 Implemented Vivado project: overlays/xvdpu/kernels/vitis_prj/hw/binary_container_1/link/vivado/vpl/prj
 'arch.json' file : "overlays/xvdpu/kernels/arch.json", also can be found "overlays/xvdpu/kernels/vitis_prj/package_out/sd_card/arch.json"
 ```
+
+**NOTE**
+For the SD image built with ES1 platform *vck190_es1_mipiRxQuad_hdmiTx*, need execute AIE workaround firstly before running apps of xvdpu.
+Please run command `/etc/init.d/aie_workaround4es1.sh` in linux shell after VCK190-ES1 board boots up.
+
 # License
 
 Licensed under the Apache License, version 2.0 (the "License"); you may not use this file 
