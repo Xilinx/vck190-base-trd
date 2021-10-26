@@ -25,6 +25,9 @@ Follow these steps to boot the board into Linux
 * In about 60 seconds boot is complete and will stop at the Linux prompt
   *root@xilinx-vck190-2021_1* 
 
+* For ES1 VCK190 board, please run command `/etc/init.d/aie_workaround4es1.sh` 
+  in linux shell, production VCK190 board can skip this step 
+
 * Use command line options provided below to run the smart-mipi-app application
 
 Examples for quad-mipi sensor
