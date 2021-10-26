@@ -143,7 +143,7 @@ pipeline {
         label 'Build_Master'
     }
     environment {
-        deploy_branch="2021.1-xvdpu"
+        deploy_branch="2021.1"
         tool_release="2021.1"
         tool_build="daily_latest"
         auto_branch="2021.1"
