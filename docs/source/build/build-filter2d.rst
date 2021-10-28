@@ -47,7 +47,7 @@ The directory structure is described in the Introduction Section
    .. code-block:: bash
 
       cd $working_dir
-      make overlay PFM=vck190_mipiRxSingle_hdmiTx OVERLAY=filter2d_combined
+      make overlay PFM=vck190_mipiRxSingle_hdmiTx OVERLAY=filter2d
 
    The Makefile implements the following:
 
