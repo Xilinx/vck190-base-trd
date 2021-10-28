@@ -1,6 +1,10 @@
 Revision History
 ================
 
+**2021.1 v1.2.1**
+
+* Fix filter2d overlay references in build tutorials
+
 **2021.1 v1.2**
 
 * XVDPU support for quad-sensor ES platform (requires AIE workaround script)
