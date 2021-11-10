@@ -1,14 +1,19 @@
 # XVDPU Example
-XVDPU (DPUCVDX8G) example supports platforms 'vck190_mipiRxSingle_hdmiTx' and 'vck190_mipiRxQuad_hdmiTx'.
+
+XVDPU (DPUCVDX8G) example supports platforms 'vck190_mipiRxSingle_hdmiTx, 'vck190_mipiRxQuad_hdmiTx', and 'vck190_es1_mipiRxQuad_hdmiTx'.
  
 For the description of DPUCVDX8G, please refer to the document PG389 'Xilinx Versal DPU (DPUCVDX8G) Product Guide' .
 This example support configuration is 'CPB_N=32, BATCH_N=1' and frequency of DPUCVDX8G is 333M Hz.
 
 ```
-Generated xclbin:  overlays/examples/xvdpu/
-Implemented Vivado project: overlays/examples/xvdpu/vitis_prj/hw/binary_container_1/link/vivado/vpl/prj
-'arch.json' file : "overlays/examples/xvdpu/arch.json", also can be found "overlays/examples/xvdpu/vitis_prj/package_out/sd_card/arch.json"
+Generated xclbin:  overlays/xvdpu/kernels
+Implemented Vivado project: overlays/xvdpu/kernels/vitis_prj/hw/binary_container_1/link/vivado/vpl/prj
+'arch.json' file : "overlays/xvdpu/kernels/arch.json", also can be found "overlays/xvdpu/kernels/vitis_prj/package_out/sd_card/arch.json"
 ```
+
+**NOTE**:\
+For the SD image built with ES1 platform *vck190_es1_mipiRxQuad_hdmiTx*, need execute AIE workaround firstly before running apps of xvdpu.
+Please run command `/etc/init.d/aie_workaround4es1.sh` in linux shell after VCK190-ES1 board boots up.
 
 # License
 

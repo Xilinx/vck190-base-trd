@@ -48,7 +48,7 @@ petalinux during the image creation step.
 
    .. code-block:: bash
 
-	make sdcard PFM=vck190_mipiRxSingle_hdmiTx OVERLAY=filter2d_combined
+	make sdcard PFM=vck190_mipiRxSingle_hdmiTx OVERLAY=filter2d
 
 The resulting build artifacts will be available in the *images/linux/* folder.
 The following is a list of important output files:

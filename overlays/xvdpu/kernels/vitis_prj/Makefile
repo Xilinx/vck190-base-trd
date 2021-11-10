@@ -66,8 +66,8 @@ IVAS_CONFIG    = ivas/ivas-accel-hw/v_multi_scaler_user_config.h
 IVAS_MAKEFILE  = ivas/ivas-accel-hw/Makefile
 
 .PHONY: xo_multiscaler
-xo_multiscaler: ivas/ivas-accel-hw/xo/v_multi_scaler.xo
-ivas/ivas-accel-hw/xo/v_multi_scaler.xo:
+xo_multiscaler: v_multi_scaler.xo
+v_multi_scaler.xo:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Building $(notdir $@)"
 	-@rm -rf v_multi_scaler.xo

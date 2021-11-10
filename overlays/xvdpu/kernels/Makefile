@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PLATFORM ?=
-PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx
+PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_es1_mipiRxQuad_hdmiTx
 PFM = $(basename $(PLATFORM) .xpfm)
 BATCH_N_LIST = 1
 # hardcode value for now
