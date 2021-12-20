@@ -35,7 +35,6 @@ RDEPENDS_${PN} += " \
 	python3-notebook \
 	python3-opencv \
 	python3-pydot \
-	python3-pysensors \
 	"
 
 FILES_${PN} += " \
