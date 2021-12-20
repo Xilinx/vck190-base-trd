@@ -32,6 +32,7 @@ BASE_TRD_PACKAGES = " \
 	python3-periphery \
 	resize-part \
 	tcf-agent \
+	trd-dashboard \
 	trd-files \
 	tree \
 	ttf-bitstream-vera \
