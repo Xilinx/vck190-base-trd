@@ -4,6 +4,7 @@ Run the Prebuilt Image
 .. toctree::
 
    run/run-setup.rst
+   run/run-dashboard.rst
    run/run-filter2d.rst
    run/run-xvdpu.rst
 

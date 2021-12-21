@@ -37,5 +37,13 @@
 			linux,cma-default;
 		};
 	};
+	iio_hwmon {
+		compatible = "iio-hwmon";
+		io-channels = <&sysmon 0>, <&sysmon 1>, <&sysmon 2>,
+			<&sysmon 3>;
+	};
+};
+&sysmon {
+	#io-channel-cells = <1>;
 };
 #include "system-user.dtsi"
