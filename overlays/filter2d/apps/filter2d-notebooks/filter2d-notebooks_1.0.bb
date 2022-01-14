@@ -12,7 +12,7 @@ S = "${WORKDIR}"
 
 SRC_URI = " \
 	file://cmake \
-	file://ivas-accel-sw-libs \
+	file://vvas-accel-sw-libs \
 	file://notebooks \
 	file://CMakeLists.txt \
 	file://LICENSE \
@@ -21,7 +21,7 @@ SRC_URI = " \
 inherit cmake
 
 DEPENDS += " \
-	ivas-utils \
+	vvas-utils \
 	jansson \
 	opencv \
 	"
@@ -30,8 +30,8 @@ RDEPENDS_${PN} += " \
 	gstreamer1.0-plugins-bad \
 	gstreamer1.0-plugins-good \
 	gstreamer1.0-python \
-	ivas-accel-libs \
-	ivas-gst \
+	vvas-accel-libs \
+	vvas-gst \
 	python3-notebook \
 	python3-opencv \
 	python3-pydot \

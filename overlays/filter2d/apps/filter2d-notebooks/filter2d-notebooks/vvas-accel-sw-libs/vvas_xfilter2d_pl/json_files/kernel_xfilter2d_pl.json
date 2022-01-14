@@ -1,11 +1,11 @@
 {
   "xclbin-location": "/media/sd-mmcblk0p1/binary_container_1.xclbin",
-  "ivas-library-repo": "/usr/lib/ivas",
+  "vvas-library-repo": "/usr/lib/vvas",
   "element-mode":"transform",
   "kernels": [
     {
       "kernel-name": "filter2d_pl_accel:filter2d_pl_accel_0",
-      "library-name": "libivas_xfilter2d_pl.so",
+      "library-name": "libvvas_xfilter2d_pl.so",
       "config": {
         "debug_level" : 1,
         "in_fourcc" : "YUY2",
