@@ -13,7 +13,6 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-core-tools-debug \
 	packagegroup-petalinux-display-debug \
 	packagegroup-petalinux-gstreamer \
-	packagegroup-petalinux-ivas \
 	packagegroup-petalinux-jupyter \
 	packagegroup-petalinux-opencv \
 	packagegroup-petalinux-python-modules \
@@ -37,6 +36,9 @@ BASE_TRD_PACKAGES = " \
 	tree \
 	ttf-bitstream-vera \
 	tzdata \
+	vvas-utils \
+	vvas-gst \
+	vvas-accel-libs \
 	xrt \
 	${MOVIE_PACKAGES} \
 	"
