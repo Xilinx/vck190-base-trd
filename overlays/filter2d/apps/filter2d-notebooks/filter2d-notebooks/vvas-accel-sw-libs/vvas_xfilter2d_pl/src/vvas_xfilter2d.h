@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef __IVAS_XFILTER2D_H__
-#define __IVAS_XFILTER2D_H__
+#ifndef __VVAS_XFILTER2D_H__
+#define __VVAS_XFILTER2D_H__
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include <ivas/ivas_kernel.h>
+#include <vvas/vvas_kernel.h>
 #include <string.h>
 
-#define IVAS_FOURCC_YUY2 0x56595559
+#define VVAS_FOURCC_YUY2 0x56595559
 
 typedef enum
 {
-    IVAS_FILTER2D_PRESET_BLUR,
-    IVAS_FILTER2D_PRESET_EDGE,
-    IVAS_FILTER2D_PRESET_HEDGE,
-    IVAS_FILTER2D_PRESET_VEDGE,
-    IVAS_FILTER2D_PRESET_EMBOSS,
-    IVAS_FILTER2D_PRESET_HGRAD,
-    IVAS_FILTER2D_PRESET_VGRAD,
-    IVAS_FILTER2D_PRESET_IDENTITY,
-    IVAS_FILTER2D_PRESET_SHARPEN,
-    IVAS_FILTER2D_PRESET_HSOBEL,
-    IVAS_FILTER2D_PRESET_VSOBEL,
-} IVASFilter2dFilterPreset;
+    VVAS_FILTER2D_PRESET_BLUR,
+    VVAS_FILTER2D_PRESET_EDGE,
+    VVAS_FILTER2D_PRESET_HEDGE,
+    VVAS_FILTER2D_PRESET_VEDGE,
+    VVAS_FILTER2D_PRESET_EMBOSS,
+    VVAS_FILTER2D_PRESET_HGRAD,
+    VVAS_FILTER2D_PRESET_VGRAD,
+    VVAS_FILTER2D_PRESET_IDENTITY,
+    VVAS_FILTER2D_PRESET_SHARPEN,
+    VVAS_FILTER2D_PRESET_HSOBEL,
+    VVAS_FILTER2D_PRESET_VSOBEL,
+} VVASFilter2dFilterPreset;
 
 typedef struct {
     int value;
@@ -48,17 +48,17 @@ typedef struct {
 } EnumValue;
 
 static const EnumValue filter_presets[] = {
-    {IVAS_FILTER2D_PRESET_BLUR, "blur"},
-    {IVAS_FILTER2D_PRESET_EDGE, "edge"},
-    {IVAS_FILTER2D_PRESET_HEDGE, "horizontal edge"},
-    {IVAS_FILTER2D_PRESET_VEDGE, "vertical edge"},
-    {IVAS_FILTER2D_PRESET_EMBOSS, "emboss"},
-    {IVAS_FILTER2D_PRESET_HGRAD, "horizontal gradient"},
-    {IVAS_FILTER2D_PRESET_VGRAD, "vertical gradient"},
-    {IVAS_FILTER2D_PRESET_IDENTITY, "identity"},
-    {IVAS_FILTER2D_PRESET_SHARPEN, "sharpen"},
-    {IVAS_FILTER2D_PRESET_HSOBEL, "horizontal sobel"},
-    {IVAS_FILTER2D_PRESET_VSOBEL, "vertical sobel"},
+    {VVAS_FILTER2D_PRESET_BLUR, "blur"},
+    {VVAS_FILTER2D_PRESET_EDGE, "edge"},
+    {VVAS_FILTER2D_PRESET_HEDGE, "horizontal edge"},
+    {VVAS_FILTER2D_PRESET_VEDGE, "vertical edge"},
+    {VVAS_FILTER2D_PRESET_EMBOSS, "emboss"},
+    {VVAS_FILTER2D_PRESET_HGRAD, "horizontal gradient"},
+    {VVAS_FILTER2D_PRESET_VGRAD, "vertical gradient"},
+    {VVAS_FILTER2D_PRESET_IDENTITY, "identity"},
+    {VVAS_FILTER2D_PRESET_SHARPEN, "sharpen"},
+    {VVAS_FILTER2D_PRESET_HSOBEL, "horizontal sobel"},
+    {VVAS_FILTER2D_PRESET_VSOBEL, "vertical sobel"},
     {0, NULL}
 };
 
@@ -66,57 +66,57 @@ static const EnumValue filter_presets[] = {
 typedef short int coeff_t[KSIZE][KSIZE];
 
 static const coeff_t coeffs[] = {
-    [IVAS_FILTER2D_PRESET_BLUR] = {
+    [VVAS_FILTER2D_PRESET_BLUR] = {
         {1, 1, 1},
         {1, -7, 1},
         {1, 1, 1}
     },
-    [IVAS_FILTER2D_PRESET_EDGE] = {
+    [VVAS_FILTER2D_PRESET_EDGE] = {
         {0, 1, 0},
         {1, -4, 1},
         {0, 1, 0}
     },
-    [IVAS_FILTER2D_PRESET_HEDGE] = {
+    [VVAS_FILTER2D_PRESET_HEDGE] = {
         {0, -1, 0},
         {0, 2, 0},
         {0, -1, 0}
     },
-    [IVAS_FILTER2D_PRESET_VEDGE] = {
+    [VVAS_FILTER2D_PRESET_VEDGE] = {
         {0, 0, 0},
         {-1, 2, -1},
         {0, 0, 0}
     },
-    [IVAS_FILTER2D_PRESET_EMBOSS] = {
+    [VVAS_FILTER2D_PRESET_EMBOSS] = {
         {-2, -1, 0},
         {-1, 1, 1},
         {0, 1, 2}
     },
-    [IVAS_FILTER2D_PRESET_HGRAD] = {
+    [VVAS_FILTER2D_PRESET_HGRAD] = {
         {-1, -1, -1},
         {0, 0, 0},
         {1, 1, 1}
     },
-    [IVAS_FILTER2D_PRESET_VGRAD] = {
+    [VVAS_FILTER2D_PRESET_VGRAD] = {
         {-1, 0, 1},
         {-1, 0, 1},
         {-1, 0, 1}
     },
-    [IVAS_FILTER2D_PRESET_IDENTITY] = {
+    [VVAS_FILTER2D_PRESET_IDENTITY] = {
         {0, 0, 0},
         {0, 1, 0},
         {0, 0, 0}
     },
-    [IVAS_FILTER2D_PRESET_SHARPEN] = {
+    [VVAS_FILTER2D_PRESET_SHARPEN] = {
         {0, -1, 0},
         {-1, 5, -1},
         {0, -1, 0}
     },
-    [IVAS_FILTER2D_PRESET_HSOBEL] = {
+    [VVAS_FILTER2D_PRESET_HSOBEL] = {
         {1, 2, 1},
         {0, 0, 0},
         {-1, -2, -1}
     },
-    [IVAS_FILTER2D_PRESET_VSOBEL] = {
+    [VVAS_FILTER2D_PRESET_VSOBEL] = {
         {1, 0, -1},
         {2, 0, -2},
         {1, 0, -1}
@@ -129,7 +129,7 @@ typedef struct _kern_priv
     uint32_t in_fourcc;
     uint32_t out_fourcc;
     const char *filter_preset;
-    IVASFrame *params;
+    VVASFrame *params;
 } Filter2dKernelPriv;
 
 static inline const coeff_t *get_coeff_by_preset(const char *preset) {
@@ -140,7 +140,7 @@ static inline const coeff_t *get_coeff_by_preset(const char *preset) {
         i++;
     }
     /* return identity if preset not matched */
-    return &coeffs[IVAS_FILTER2D_PRESET_IDENTITY];
+    return &coeffs[VVAS_FILTER2D_PRESET_IDENTITY];
 }
 
 #define eos(s) ((s)+strlen(s))
@@ -156,14 +156,14 @@ static inline void coeff_to_str(char *s, const coeff_t c) {
     }
 }
 
-int32_t xlnx_kernel_init(IVASKernel *handle);
-uint32_t xlnx_kernel_deinit(IVASKernel *handle);
-int32_t xlnx_kernel_start(IVASKernel *handle, int start, \
-    IVASFrame *input[MAX_NUM_OBJECT], IVASFrame *output[MAX_NUM_OBJECT]);
-int32_t xlnx_kernel_done(IVASKernel *handle);
+int32_t xlnx_kernel_init(VVASKernel *handle);
+uint32_t xlnx_kernel_deinit(VVASKernel *handle);
+int32_t xlnx_kernel_start(VVASKernel *handle, int start, \
+    VVASFrame *input[MAX_NUM_OBJECT], VVASFrame *output[MAX_NUM_OBJECT]);
+int32_t xlnx_kernel_done(VVASKernel *handle);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif //__IVAS_XFILTER2D_H__
+#endif //__VVAS_XFILTER2D_H__

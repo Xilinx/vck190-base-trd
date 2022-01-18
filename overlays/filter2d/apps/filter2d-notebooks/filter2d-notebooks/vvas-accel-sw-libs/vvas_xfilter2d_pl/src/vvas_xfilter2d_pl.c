@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-#include <ivas/ivaslogs.h>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
+#include <vvas/vvaslogs.h>
 
-#include "ivas_xfilter2d.h"
+#include "vvas_xfilter2d.h"
 
-using namespace cv;
-using namespace std;
-
-extern "C"
-{
-
-uint32_t xlnx_kernel_deinit(IVASKernel *handle)
+uint32_t xlnx_kernel_deinit(VVASKernel *handle)
 {
     Filter2dKernelPriv *kpriv = (Filter2dKernelPriv *) handle->kernel_priv;
-    ivas_free_buffer(handle, kpriv->params);
+    vvas_free_buffer(handle, kpriv->params);
     free(kpriv);
     return 0;
 }
 
-int32_t xlnx_kernel_init(IVASKernel *handle)
+int32_t xlnx_kernel_init(VVASKernel *handle)
 {
     json_t *jconfig = handle->kernel_config;
     json_t *val, *ival, *jval; /* kernel config from app */
@@ -50,6 +42,9 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
         LOG_MESSAGE (LOG_LEVEL_ERROR, 0,
             "Error: Unable to allocate filter2d kernel memory");
     }
+
+    /* set multiprocess mode */
+    handle->is_multiprocess = 1;
 
     /* parse json config */
 
@@ -70,7 +65,7 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
     } else {
         fourcc = json_string_value(val);
         if (strcmp(fourcc, "YUY2") == 0)
-            kpriv->in_fourcc = IVAS_FOURCC_YUY2;
+            kpriv->in_fourcc = VVAS_FOURCC_YUY2;
         else
             kpriv->in_fourcc = 0;
     }
@@ -84,7 +79,7 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
     } else {
         fourcc = json_string_value(val);
         if (strcmp(fourcc, "YUY2") == 0)
-            kpriv->out_fourcc = IVAS_FOURCC_YUY2;
+            kpriv->out_fourcc = VVAS_FOURCC_YUY2;
         else
             kpriv->out_fourcc = 0;
     }
@@ -162,8 +157,8 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
     LOG_MESSAGE (LOG_LEVEL_INFO, kpriv->log_level, "%s", s);
 
     /* set coefficients */
-    kpriv->params = ivas_alloc_buffer (handle, sizeof(*pcoeff),
-        IVAS_INTERNAL_MEMORY, NULL);
+    kpriv->params = vvas_alloc_buffer (handle, sizeof(*pcoeff),
+        VVAS_INTERNAL_MEMORY, NULL);
     memcpy(kpriv->params->vaddr[0], *pcoeff, sizeof(*pcoeff));
 
     handle->kernel_priv = (void *) kpriv;
@@ -171,8 +166,8 @@ int32_t xlnx_kernel_init(IVASKernel *handle)
     return 0;
 }
 
-int32_t xlnx_kernel_start(IVASKernel *handle, int start,
-    IVASFrame *input[MAX_NUM_OBJECT], IVASFrame *output[MAX_NUM_OBJECT])
+int32_t xlnx_kernel_start(VVASKernel *handle, int start,
+    VVASFrame *input[MAX_NUM_OBJECT], VVASFrame *output[MAX_NUM_OBJECT])
 {
     Filter2dKernelPriv *kpriv;
     kpriv = (Filter2dKernelPriv *) handle->kernel_priv;
@@ -246,58 +241,31 @@ int32_t xlnx_kernel_start(IVASKernel *handle, int start,
         memcpy(kpriv->params->vaddr[0], *pcoeff, sizeof(*pcoeff));
     }
 
-    int yiloc = (IVAS_FOURCC_YUY2 == kpriv->in_fourcc) ? 0 : 1;
-    int ciloc = (IVAS_FOURCC_YUY2 == kpriv->in_fourcc) ? 1 : 0;
-    int yuyvout = (IVAS_FOURCC_YUY2 == kpriv->out_fourcc);
+    /* Input frame */
+    vvas_register_write(handle, &(input[0]->paddr[0]), sizeof(uint64_t), 0x10);
+    /* Output frame */
+    vvas_register_write(handle, &(output[0]->paddr[0]), sizeof(uint64_t), 0x1c);
+    /* Kernel Params (coefficients) */
+    vvas_register_write(handle, &(kpriv->params->paddr[0]),
+        sizeof(uint64_t), 0x28);
+    /* height */
+    vvas_register_write(handle, &(input[0]->props.height),
+        sizeof(uint32_t), 0x34);
+    /* width */
+    vvas_register_write(handle, &(input[0]->props.width),
+        sizeof(uint32_t), 0x3c);
+    /* in_fourcc */
+    vvas_register_write(handle, &(kpriv->in_fourcc),
+        sizeof(uint32_t), 0x44);
+    /* out_fourcc */
+    vvas_register_write(handle, &(kpriv->out_fourcc),
+        sizeof(uint32_t), 0x4c);
 
-    IVASFrame *inframe = input[0];
-    uint32_t height = inframe->props.height;
-    uint32_t width = inframe->props.width;
-    char *indata = (char *) inframe->vaddr[0];
-
-    IVASFrame *outframe = output[0];
-    char *outdata = (char *) outframe->vaddr[0];
-    pcoeff = (const coeff_t *) kpriv->params->vaddr[0];
-
-    Mat src (height, width, CV_8UC2, indata);
-    Mat dst (height, width, CV_8UC2, outdata);
-
-    // planes
-    std::vector<Mat> iplanes;
-    std::vector<Mat> oplanes;
-
-    // convert kernel from short to int
-    int coeff_i[KSIZE][KSIZE];
-    for (int i = 0; i < KSIZE; i++) {
-        for (int j = 0; j < KSIZE; j++) {
-            coeff_i[i][j] = (*pcoeff)[i][j];
-        }
-    }
-    Mat kernel = Mat (KSIZE, KSIZE, CV_32SC1, (int *) coeff_i);
-
-    // anchor
-    Point anchor = Point (-1, -1);
-
-    // filter
-    split (src, iplanes);
-    filter2D (iplanes[yiloc], iplanes[yiloc], -1, kernel, anchor, 0,
-        BORDER_DEFAULT);
-
-    if (yuyvout) {
-        oplanes.push_back (iplanes[yiloc]);
-        oplanes.push_back (iplanes[ciloc]);
-    } else {
-        oplanes.push_back (iplanes[ciloc]);
-        oplanes.push_back (iplanes[yiloc]);
-    }
-    merge (oplanes, dst);
-
-    return 0;
+    /* start */
+    return vvas_kernel_start(handle);
 }
 
-int32_t xlnx_kernel_done(IVASKernel *handle)
+int32_t xlnx_kernel_done(VVASKernel *handle)
 {
-  return 0;
+    return vvas_kernel_done(handle, 100);
 }
-
-} // extern "C"

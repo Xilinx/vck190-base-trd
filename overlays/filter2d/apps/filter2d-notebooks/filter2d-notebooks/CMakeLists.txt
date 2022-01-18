@@ -9,7 +9,7 @@ project(base-trd)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-add_subdirectory(ivas-accel-sw-libs)
+add_subdirectory(vvas-accel-sw-libs)
 
 set(TRD_NB_INSTALL_DIR "share/notebooks/${CMAKE_PROJECT_NAME}")
 install(DIRECTORY notebooks/ DESTINATION ${TRD_NB_INSTALL_DIR})

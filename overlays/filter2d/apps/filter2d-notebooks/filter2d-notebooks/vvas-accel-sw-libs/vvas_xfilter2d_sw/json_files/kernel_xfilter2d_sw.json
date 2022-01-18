@@ -1,9 +1,9 @@
 {
-  "ivas-library-repo": "/usr/lib/ivas",
+  "vvas-library-repo": "/usr/lib/vvas",
   "element-mode":"transform",
   "kernels": [
     {
-      "library-name": "libivas_xfilter2d_sw.so",
+      "library-name": "libvvas_xfilter2d_sw.so",
       "config": {
         "debug_level" : 1,
         "in_fourcc" : "YUY2",
