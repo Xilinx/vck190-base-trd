@@ -16,6 +16,7 @@
 <:   {13_12_11}   {set TM_RDEPTH  3 }  :>
 <:   {12_12_11}   {set TM_RDEPTH  4 }  :>
 <:   {14_14_11}   {set TM_RDEPTH  5 }  :>
+<:   {14_13_11}   {set TM_RDEPTH  6 }  :>
 <:   default      {set TM_RDEPTH  15}  :>
 <: } :>
 <: set fp 0 :>
@@ -31,6 +32,6 @@
 <: set fp [expr $fp + 2**30 * [getIntValue  SAVE_ARGMAX_ENA   ]] :>
 <: set fp [expr $fp + 2**32 * $TM_RDEPTH                       ] :>
 <: set fp [expr $fp + 2**36 * [getIntValue  ELEW_MULT_ENA     ]] :>
-<: set fp [expr $fp + 2**48 * 1                                ] :>
+<: set fp [expr $fp + 2**48 * 2                                ] :>
 <: set fp [expr $fp + 2**56 * 6                                ] :>
 {"fingerprint":"0x<=: [dec2hex $fp] :>"}
