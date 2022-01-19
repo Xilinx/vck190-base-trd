@@ -12,7 +12,7 @@ SRC_URI = " \
 	file://trd-dashboard-init \
 	"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
 	python3-bokeh \
 	python3-hazelnut \
 	python3-psutil \
@@ -38,7 +38,7 @@ do_install() {
 	install -m 0755 ${S}/trd-dashboard-init ${D}${sysconfdir}/init.d/trd-dashboard-init
 }
 
-FILES_${PN} += "\
+FILES:${PN} += "\
 	${sysconfdir} \
 	${PYTHON_SITEPACKAGES_DIR} \
 	"

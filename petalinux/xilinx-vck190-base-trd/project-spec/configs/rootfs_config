@@ -160,6 +160,13 @@ CONFIG_e2fsprogs-mke2fs=y
 CONFIG_fpga-manager-script=y
 
 #
+# dfx-mgr
+#
+# CONFIG_dfx-mgr is not set
+# CONFIG_dfx-mgr-dbg is not set
+# CONFIG_dfx-mgr-dev is not set
+
+#
 # haveged 
 #
 CONFIG_haveged=y
@@ -546,7 +553,7 @@ CONFIG_can-utils=y
 # CONFIG_openssh is not set
 # CONFIG_openssh-ssh is not set
 # CONFIG_openssh-sftp is not set
-CONFIG_openssh-sftp-server=y
+# CONFIG_openssh-sftp-server is not set
 # CONFIG_openssh-keygen is not set
 # CONFIG_openssh-dbg is not set
 # CONFIG_openssh-dev is not set
@@ -1028,82 +1035,6 @@ CONFIG_pciutils=y
 # CONFIG_perl-dev is not set
 
 #
-# python 
-#
-
-#
-# python 
-#
-# CONFIG_python is not set
-# CONFIG_python-terminal is not set
-# CONFIG_python-mailbox is not set
-# CONFIG_python-logging is not set
-# CONFIG_python-xml is not set
-# CONFIG_python-hotshot is not set
-# CONFIG_python-multiprocessing is not set
-# CONFIG_python-threading is not set
-# CONFIG_python-curses is not set
-# CONFIG_python-mime is not set
-# CONFIG_python-netclient is not set
-# CONFIG_python-netserver is not set
-# CONFIG_python-image is not set
-# CONFIG_python-unixadmin is not set
-# CONFIG_python-sqlite3 is not set
-# CONFIG_python-pprint is not set
-# CONFIG_python-contextlib is not set
-# CONFIG_python-idle is not set
-# CONFIG_python-pkgutil is not set
-# CONFIG_python-crypt is not set
-# CONFIG_python-zlib is not set
-# CONFIG_python-fcntl is not set
-# CONFIG_python-stringold is not set
-# CONFIG_python-dev is not set
-# CONFIG_libpython2 is not set
-# CONFIG_python-smtpd is not set
-# CONFIG_python-core is not set
-# CONFIG_python-tkinter is not set
-# CONFIG_python-codecs is not set
-# CONFIG_python-compression is not set
-# CONFIG_python-bsddb is not set
-# CONFIG_python-subprocess is not set
-# CONFIG_python-io is not set
-# CONFIG_python-numbers is not set
-# CONFIG_python-unittest is not set
-# CONFIG_python-json is not set
-# CONFIG_python-html is not set
-# CONFIG_python-lang is not set
-# CONFIG_python-compiler is not set
-# CONFIG_python-shell is not set
-# CONFIG_python-datetime is not set
-# CONFIG_python-email is not set
-# CONFIG_python-misc is not set
-# CONFIG_python-resource is not set
-# CONFIG_python-distutils is not set
-# CONFIG_python-syslog is not set
-# CONFIG_python-2to3 is not set
-# CONFIG_python-pydoc is not set
-# CONFIG_python-tests is not set
-# CONFIG_python-modules is not set
-# CONFIG_python-db is not set
-# CONFIG_python-ctypes is not set
-# CONFIG_python-re is not set
-# CONFIG_python-audio is not set
-# CONFIG_python-profile is not set
-# CONFIG_python-dbg is not set
-# CONFIG_python-mmap is not set
-# CONFIG_python-compile is not set
-# CONFIG_python-difflib is not set
-# CONFIG_python-xmlrpc is not set
-# CONFIG_python-argparse is not set
-# CONFIG_python-math is not set
-# CONFIG_python-robotparser is not set
-# CONFIG_python-pickle is not set
-# CONFIG_python-debugger is not set
-# CONFIG_python-plistlib is not set
-# CONFIG_python-gdbm is not set
-# CONFIG_python-textutils is not set
-
-#
 # python3-nose 
 #
 # CONFIG_python3-nose is not set
@@ -1444,6 +1375,13 @@ CONFIG_tcl=y
 # CONFIG_libdmx-dev is not set
 
 #
+# libdfx 
+#
+# CONFIG_libdfx is not set
+# CONFIG_libdfx-dbg is not set
+# CONFIG_libdfx-dev is not set
+
+#
 # libeigen 
 #
 # CONFIG_libeigen-dev is not set
@@ -1536,14 +1474,6 @@ CONFIG_tcl=y
 # CONFIG_libgudev is not set
 # CONFIG_libgudev-dev is not set
 # CONFIG_libgudev-dbg is not set
-
-#
-# libhugetlbfs 
-#
-# CONFIG_libhugetlbfs is not set
-# CONFIG_libhugetlbfs-tests is not set
-# CONFIG_libhugetlbfs-dbg is not set
-# CONFIG_libhugetlbfs-dev is not set
 
 #
 # libical 
@@ -2338,13 +2268,9 @@ CONFIG_zocl=y
 # CONFIG_encodings-dbg is not set
 
 #
-# eudev 
+# libudev 
 #
-# CONFIG_eudev is not set
 # CONFIG_libudev is not set
-# CONFIG_eudev-hwdb is not set
-# CONFIG_eudev-dev is not set
-# CONFIG_eudev-dbg is not set
 CONFIG_udev-extraconf=y
 
 #
@@ -3579,6 +3505,13 @@ CONFIG_bridge-utils=y
 # CONFIG_wpa-supplicant-cli is not set
 
 #
+# ntp
+#
+# CONFIG_ntp is not set
+# CONFIG_ntp-dev is not set
+# CONFIG_ntp-dbg is not set
+
+#
 # optional 
 #
 
@@ -4135,10 +4068,12 @@ CONFIG_imagefeature-ssh-server-dropbear=y
 # CONFIG_imagefeature-ssh-server-openssh is not set
 CONFIG_imagefeature-hwcodecs=y
 CONFIG_imagefeature-package-management=y
-CONFIG_package-feed-uris="http://petalinux.xilinx.com/sswreleases/rel-v2021.2/generic/rpm http://petalinux.xilinx.com/sswreleases/rel-v2021.2/generic-updates/rpm"
+CONFIG_package-feed-uris="http://petalinux.xilinx.com/sswreleases/rel-v2022.1/generic/rpm http://petalinux.xilinx.com/sswreleases/rel-v2022.1/generic-updates/rpm"
 CONFIG_package-feed-archs=""
-CONFIG_imagefeature-debug-tweaks=y
-CONFIG_auto-login=y
+# CONFIG_imagefeature-debug-tweaks is not set
+# CONFIG_auto-login is not set
+CONFIG_Init-manager-systemd=y
+# CONFIG_Init-manager-sysvinit is not set
 
 #
 # user packages 
@@ -4148,5 +4083,6 @@ CONFIG_packagegroup-base-trd=y
 #
 # PetaLinux RootFS Settings
 #
-CONFIG_ROOTFS_ROOT_PASSWD="root"
-CONFIG_ADD_EXTRA_USERS="petalinux:petalinux;"
+CONFIG_ADD_EXTRA_USERS="root:root;petalinux::passwd-expire;"
+CONFIG_ADD_USERS_TO_GROUPS="petalinux:audio,video;"
+CONFIG_ADD_USERS_TO_SUDOERS="petalinux"

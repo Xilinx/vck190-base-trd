@@ -2,7 +2,7 @@
 /*
  * dts file for Xilinx Versal
  *
- * (C) Copyright 2017 - 2019, Xilinx, Inc.
+ * (C) Copyright 2017 - 2021, Xilinx, Inc.
  *
  * Michal Simek <michal.simek@xilinx.com>
  */
@@ -92,6 +92,12 @@
 		method = "smc";
 	};
 
+	pmu {
+		compatible = "arm,armv8-pmuv3";
+		interrupt-parent = <&gic>;
+		interrupts = <1 7 0x304>;
+	};
+
 	timer: timer {
 		compatible = "arm,armv8-timer";
 		interrupt-parent = <&gic>;
@@ -145,7 +151,7 @@
 			compatible = "xlnx,canfd-2.0";
 			status = "disabled";
 			reg = <0 0xff060000 0 0x6000>;
-			interrupts = <0 20 1>;
+			interrupts = <0 20 4>;
 			clock-names = "can_clk", "s_axi_aclk";
 			rx-fifo-depth = <0x40>;
 			tx-mailbox-count = <0x20>;
@@ -155,7 +161,7 @@
 			compatible = "xlnx,canfd-2.0";
 			status = "disabled";
 			reg = <0 0xff070000 0 0x6000>;
-			interrupts = <0 21 1>;
+			interrupts = <0 21 4>;
 			clock-names = "can_clk", "s_axi_aclk";
 			rx-fifo-depth = <0x40>;
 			tx-mailbox-count = <0x20>;
@@ -281,7 +287,7 @@
 		};
 
 		gem0: ethernet@ff0c0000 {
-			compatible = "cdns,versal-gem";
+			compatible = "cdns,versal-gem", "cdns,gem";
 			status = "disabled";
 			reg = <0 0xff0c0000 0 0x1000>;
 			interrupts = <0 56 4>, <0 56 4>;
@@ -294,7 +300,7 @@
 		};
 
 		gem1: ethernet@ff0d0000 {
-			compatible = "cdns,versal-gem";
+			compatible = "cdns,versal-gem", "cdns,gem";
 			status = "disabled";
 			reg = <0 0xff0d0000 0 0x1000>;
 			interrupts = <0 58 4>, <0 58 4>;
@@ -349,6 +355,16 @@
 			#size-cells = <0>;
 		};
 
+		i2c2: i2c@f1000000 {
+			compatible = "cdns,i2c-r1p14", "cdns,i2c-r1p10";
+			status = "disabled";
+			reg = <0 0xf1000000 0 0x1000>;
+			interrupts = <0 123 4>;
+			clock-frequency = <400000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+
 		mc0: memory-controller@f6150000	{
 			compatible = "xlnx,versal-ddrmc-edac";
 			status = "disabled";
@@ -394,11 +410,11 @@
 			calibration = <0x7FFF>;
 		};
 
-		sdhci0: sdhci@f1040000 {
+		sdhci0: mmc@f1040000 {
 			compatible = "xlnx,versal-8.9a", "arasan,sdhci-8.9a";
 			status = "disabled";
 			reg = <0 0xf1040000 0 0x10000>;
-			interrupts = <0 126 4>, <0 126 4>;
+			interrupts = <0 126 4>;
 			clock-names = "clk_xin", "clk_ahb";
 			xlnx,device_id = <0>;
 			#stream-id-cells = <1>;
@@ -408,11 +424,11 @@
 			/* dma-coherent; */
 		};
 
-		sdhci1: sdhci@f1050000 {
+		sdhci1: mmc@f1050000 {
 			compatible = "xlnx,versal-8.9a", "arasan,sdhci-8.9a";
 			status = "disabled";
 			reg = <0 0xf1050000 0 0x10000>;
-			interrupts = <0 128 4>, <0 128 4>;
+			interrupts = <0 128 4>;
 			clock-names = "clk_xin", "clk_ahb";
 			xlnx,device_id = <1>;
 			#stream-id-cells = <1>;
@@ -465,7 +481,6 @@
 			status = "disabled";
 			reg = <0 0xf1010000 0 0x10000 0 0xc0000000 0 0x20000000>;
 			interrupts = <0 124 4>, <0 124 4>;
-			clock-names = "ref_clk", "pclk";
 			cdns,fifo-depth = <256>;
 			cdns,fifo-width = <4>;
 			cdns,is-dma = <1>;
@@ -510,13 +525,37 @@
 			#size-cells = <0>;
 		};
 
-		sysmon: sysmon@f1270000 {
+		sysmon0: sysmon@f1270000 {
 			compatible = "xlnx,versal-sysmon";
 			reg = <0x0 0xf1270000 0x0 0x4000>;
 			interrupts = <0 144 4>;
 			xlnx,numchannels = /bits/8 <0>;
 		};
+		sysmon1: sysmon@109270000 {
+			compatible = "xlnx,versal-sysmon";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			status = "disabled";
+			reg = <0x1 0x09270000 0x0 0x4000>;
+			xlnx,numchannels = /bits/8 <0>;
+		};
 
+		sysmon2: sysmon@111270000 {
+			compatible = "xlnx,versal-sysmon";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			status = "disabled";
+			reg = <0x1 0x11270000 0x0 0x4000>;
+			xlnx,numchannels = /bits/8 <0>;
+		};
+		sysmon3: sysmon@119270000 {
+			compatible = "xlnx,versal-sysmon";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			status = "disabled";
+			reg = <0x1 0x19270000 0x0 0x4000>;
+			xlnx,numchannels = /bits/8 <0>;
+		};
 		ttc0: timer@ff0e0000 {
 			compatible = "cdns,ttc";
 			status = "disabled";
@@ -558,7 +597,7 @@
 			#address-cells = <2>;
 			#size-cells = <2>;
 
-			dwc3_0: dwc3@fe200000 {
+			dwc3_0: usb@fe200000 {
 				compatible = "snps,dwc3";
 				status = "disabled";
 				reg = <0 0xfe200000 0 0x10000>;

@@ -18,7 +18,7 @@ inherit cmake python3-dir
 
 EXTRA_OECMAKE += "-DENABLE_CPU_RUNNER=OFF -DENABLE_SIM_RUNNER=OFF -DENABLE_DPU_RUNNER=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
 
-do_configure_prepend() {
+do_configure:prepend() {
 
 	rm -rf ${STAGING_DIR_HOST}/usr/share/cmake/XRT/
 }

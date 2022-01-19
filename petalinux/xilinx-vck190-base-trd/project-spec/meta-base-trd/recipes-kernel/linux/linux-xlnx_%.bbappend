@@ -1,7 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-KERNEL_FEATURES_append = " bsp.cfg"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI += " \
+SRC_URI:append = " \
 	file://0001-i2c-free_clk.patch \
 	file://0003-drm-xlnx_mixer-Dont-enable-primary-plane-by-default.patch \
 	file://bsp.cfg \
@@ -20,3 +19,4 @@ SRC_URI += " \
 	file://0012-xilinx-vipp-WIP-blacklist-mars-module.patch \
 	file://0001-media-i2c-max96705-fix-color-issue-due-to-bad-frame-.patch \
 "
+KERNEL_FEATURES:append = " bsp.cfg"

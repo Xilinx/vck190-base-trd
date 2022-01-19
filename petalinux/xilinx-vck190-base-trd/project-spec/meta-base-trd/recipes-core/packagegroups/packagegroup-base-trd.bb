@@ -1,6 +1,6 @@
 DESCRIPTION = "Base TRD related Packages"
 
-COMPATIBLE_MACHINE_versal = ".*"
+COMPATIBLE_MACHINE:versal = ".*"
 
 inherit packagegroup
 
@@ -43,4 +43,4 @@ BASE_TRD_PACKAGES = " \
 	${MOVIE_PACKAGES} \
 	"
 
-RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
+RDEPENDS:${PN} = "${BASE_TRD_PACKAGES}"

@@ -39,4 +39,4 @@ do_install() {
 }
 
 PACKAGES =+ "${PN}-python"
-FILES_${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
+FILES:${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
