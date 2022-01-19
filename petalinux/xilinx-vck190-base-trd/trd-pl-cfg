@@ -3,7 +3,7 @@
 # (C) Copyright 2020 - 2021 Xilinx, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-SUP_PLATFORMS="vck190_es1_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_es1_hdmiRx_hdmiTx vck190_es1_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx"
+SUP_PLATFORMS="vck190_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx"
 
 if [ ! -e ./.petalinux/metadata ]; then
 	echo -e "This script must be run from the project top level"

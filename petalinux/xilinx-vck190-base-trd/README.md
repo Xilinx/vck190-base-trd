@@ -11,10 +11,10 @@ platform. To list the available platforms and designs, run:
 % ./trd-pl-cfg -l
 ```
 **Example:**
-To configure the project for vck190, es1 silicon and platform 'mipiRxSingle_hdmiTx',
+To configure the project for vck190, production silicon and platform 'mipiRxSingle_hdmiTx',
 run:
 ```bash
-% ./trd-pl-cfg -p vck190_es1_mipiRxSingle_hdmiTx 
+% ./trd-pl-cfg -p vck190_mipiRxSingle_hdmiTx 
 ```
 Next the project needs to be configured with the xsa file from the Vivado
 project.
@@ -46,10 +46,10 @@ Ensure to copy xsa file to project-spec/hw-description folder.
 Use make help for more info
 
 **Example:**
-To generate final wic image for the project 'vck190', 'es1' silicon and 'mipiRxQuad_hdmiTx' platform,
+To generate final wic image for the project 'vck190' and 'mipiRxQuad_hdmiTx' platform,
 run:
 ```bash
-% make all PFM=vck190_es1_mipiRxQuad_hdmiTx
+% make all PFM=vck190_mipiRxQuad_hdmiTx
 ```
 
 # License
