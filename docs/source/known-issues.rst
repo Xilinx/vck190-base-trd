@@ -1,5 +1,11 @@
 Known Issues
 ============
+
+#. Install y2k22_patch when Vivado HLS and Vitis HLS fail to export IP
+   using export_ip command. Refer to the following Answer Record for more  
+   information on 'Y2K22 Overflow Issue'.
+   https://support.xilinx.com/s/article/76960?language=en_US
+
 #. The APM, CPU utilization and power graph plots result in high CPU
    utilization. If the plots are disabled, the CPU utilization is reduced. This
    can be verified by running the top command from a terminal.
