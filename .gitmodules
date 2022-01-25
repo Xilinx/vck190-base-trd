@@ -1,6 +1,8 @@
-[submodule "overlays/Vitis_Libraries"]
-	path = overlays/Vitis_Libraries
-	url = https://github.com/Xilinx/Vitis_Libraries.git
-[submodule "overlays/examples/xvdpu/vitis_prj/ivas"]
-	path = overlays/xvdpu/kernels/vitis_prj/ivas
-	url = https://github.com/Xilinx/VVAS.git
+[submodule "overlays/Vitis_Libraries/vision"]
+	path = overlays/Vitis_Libraries/vision
+	url = https://gitenterprise.xilinx.com/FaaSApps/xf_opencv
+	branch = master
+[submodule "overlays/xvdpu/kernels/vitis_prj/vvas"]
+	path = overlays/xvdpu/kernels/vitis_prj/vvas
+	url = https://gitenterprise.xilinx.com/IPS-SSW/vvas.git
+	branch = master
