@@ -1,0 +1,28 @@
+From 30cd2e9dd71c212e27db0d0f7c6cdf63c4b9215a Mon Sep 17 00:00:00 2001
+From: vivekana <vivekana@xilinx.com>
+Date: Mon, 24 Jan 2022 14:40:34 -0800
+Subject: [PATCH] vvas-gst-plugin : Dynamic-config temporary patch
+
+when the plugin starts, Dynamic-config property is being set to Null,
+commenting this code of line, for user defined config to take effect
+using gstlaunch
+---
+ sys/filter/gstvvas_xfilter.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sys/filter/gstvvas_xfilter.c b/sys/filter/gstvvas_xfilter.c
+index ee98185..9dbd71a 100755
+--- a/sys/filter/gstvvas_xfilter.c
++++ b/sys/filter/gstvvas_xfilter.c
+@@ -1615,7 +1615,7 @@ gst_vvas_xfilter_start (GstBaseTransform * trans)
+   priv->out_vinfo = gst_video_info_new ();
+   priv->element_mode = VVAS_ELEMENT_MODE_NOT_SUPPORTED;
+   priv->do_init = TRUE;
+-  priv->dyn_json_config = NULL;
++  // priv->dyn_json_config = NULL;
+ 
+   /* get root json object */
+   root = json_load_file (self->json_file, JSON_DECODE_ANY, &error);
+-- 
+2.17.1
+
