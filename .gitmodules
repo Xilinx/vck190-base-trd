@@ -5,4 +5,4 @@
 [submodule "overlays/xvdpu/kernels/vitis_prj/vvas"]
 	path = overlays/xvdpu/kernels/vitis_prj/vvas
 	url = https://gitenterprise.xilinx.com/IPS-SSW/vvas.git
-	branch = master
+	branch = vvas-rel-1.1
