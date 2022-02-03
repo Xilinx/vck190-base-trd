@@ -163,7 +163,7 @@ int32_t xlnx_kernel_init(VVASKernel *handle)
 
     /* set coefficients */
     kpriv->params = vvas_alloc_buffer (handle, sizeof(*pcoeff),
-        VVAS_INTERNAL_MEMORY, NULL);
+        VVAS_INTERNAL_MEMORY, DEFAULT_MEM_BANK, NULL);
     memcpy(kpriv->params->vaddr[0], *pcoeff, sizeof(*pcoeff));
 
     handle->kernel_priv = (void *) kpriv;
