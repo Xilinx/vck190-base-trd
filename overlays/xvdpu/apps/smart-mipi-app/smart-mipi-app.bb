@@ -16,7 +16,7 @@ SRC_URI = " \
 
 S = "${WORKDIR}"
 
-DEPENDS = " glog ivas-accel-libs opencv"
+DEPENDS = " glog vvas-accel-libs opencv"
 
 RDEPENDS_${PN} += " \
 	gst-perf \
@@ -25,7 +25,7 @@ RDEPENDS_${PN} += " \
 	gstreamer1.0-plugins-bad-videoparsersbad \
 	gstreamer1.0-plugins-good-multifile \
 	gstreamer1.0-plugins-good-video4linux2 \
-	ivas-accel-libs \
+	vvas-accel-libs \
 	libdrm-tests \
 	v4l-utils \
 	alsa-utils \
