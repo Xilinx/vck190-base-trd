@@ -80,7 +80,7 @@ $(BUILD_DIR)/binary_container_1/libadf.a:
 	@cp aie/ip/libadf.a "$@"
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Compile multiscaler kernel as XO file
-VVAS_CONFIG    = vvas/vvas-accel-hw/v_multi_scaler_user_config.h
+VVAS_CONFIG    = vvas/vvas-accel-hw/v_multi_scaler_config.h
 VVAS_MAKEFILE  = vvas/vvas-accel-hw/Makefile
 
 .PHONY: xo_multiscaler
@@ -89,7 +89,7 @@ v_multi_scaler.xo:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Building $(notdir $@)"
 	-@rm -rf v_multi_scaler.xo
-	@cp vvas/vvas-examples/Embedded/smart_model_select/v_multi_scaler_user_config.h vvas/vvas-accel-hw
+	@cp vvas/vvas-examples/Embedded/smart_model_select/v_multi_scaler_config.h vvas/vvas-accel-hw
 	sed -i "s/#define HSC_SAMPLES_PER_CLOCK       2/#define HSC_SAMPLES_PER_CLOCK       4/g" $(VVAS_CONFIG)
 	sed -i "s/#define HSC_MAX_WIDTH               1920/#define HSC_MAX_WIDTH               3840/g" $(VVAS_CONFIG)
 	sed -i "s/#define HSC_MAX_HEIGHT              1080/#define HSC_MAX_HEIGHT              2160/g" $(VVAS_CONFIG)
@@ -146,5 +146,5 @@ clean:
 	-@rm -rf scripts/kernel.xml scripts/*xvdpu_aie_noc.cfg xvdpu/hdl xvdpu/inc xvdpu/vitis_cfg xvdpu/ttcl
 	-@rm -rf hw package_out *.xsa *.pdi *.xclbin v_multi_scaler.xo
 	$(MAKE) -C vvas/vvas-accel-hw/ clean
-	-@rm -rf vvas/vvas-accel-hw/v_multi_scaler_user_config.h
+	-@rm -rf vvas/vvas-accel-hw/v_multi_scaler_config.h
 	-@rm -rf aie
