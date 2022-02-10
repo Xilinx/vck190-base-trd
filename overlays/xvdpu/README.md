@@ -1,9 +1,12 @@
 # XVDPU Example
 
+This XVDPU (DPUCVDX8G) example is specific for this TRD, it's configuration is fixed as C32B1 (CPB_N=32, BATCH_N=1). For other configurations of XVDPU, please use XVDPU-TRD in the Vitis-AI git (https://github.com/Xilinx/Vitis-AI/tree/master/dsa/XVDPU-TRD)
+
+
 XVDPU (DPUCVDX8G) example supports platforms 'vck190_mipiRxSingle_hdmiTx, 'vck190_mipiRxQuad_hdmiTx', and 'vck190_es1_mipiRxQuad_hdmiTx'.
  
 For the description of DPUCVDX8G, please refer to the document PG389 'Xilinx Versal DPU (DPUCVDX8G) Product Guide' .
-This example support configuration is 'CPB_N=32, BATCH_N=1' and frequency of DPUCVDX8G is 333M Hz.
+In this example, frequency of DPUCVDX8G is 333M Hz.
 
 ```
 Generated xclbin:  overlays/xvdpu/kernels
@@ -11,7 +14,7 @@ Implemented Vivado project: overlays/xvdpu/kernels/vitis_prj/hw/binary_container
 'arch.json' file : "overlays/xvdpu/kernels/arch.json", also can be found "overlays/xvdpu/kernels/vitis_prj/package_out/sd_card/arch.json"
 ```
 
-**NOTE**:\
+**NOTE**:
 For the SD image built with ES1 platform *vck190_es1_mipiRxQuad_hdmiTx*, need execute AIE workaround firstly before running apps of xvdpu.
 Please run command `/etc/init.d/aie_workaround4es1.sh` in linux shell after VCK190-ES1 board boots up.
 
