@@ -1,5 +1,5 @@
 SUMMARY = "Smart mipicam application"
-DESCRIPTION = "Application for runing single/quad mipi sensor with Vitis AI/IVAS"
+DESCRIPTION = "Application for runing single/quad mipi sensor with Vitis AI/VVAS"
 SECTION = "PETALINUX/apps"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=ba05a6f05e084b7a9f5a28a629077646"
