@@ -1,5 +1,9 @@
 # Sphinx Template for GitHub based HTML documentation
 
+**02/09/2022** - Updated stylesheet to improve padding for definition lists, which improved the ToC and footer. To update your content, see [these instructions](./amd-theme-README.md).
+
+**12/07/2021** - Updated for merger with AMD.
+
 **05/25/2021** - Updated URL for Xilinx logo in theme layout files.
 
 **10/09/2020** - Minor bug fixes and enhancements.
