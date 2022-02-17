@@ -20,20 +20,20 @@ XBU_FLAGS = --remove-section BITSTREAM --force
 KERNEL_OBJS += datamover/tiler.xo
 KERNEL_OBJS += datamover/stitcher.xo
 
-AIE_ADF += kernel/libadf.a
+AIE_SDF += ../filter2d_aie/kernel/libadf.a
 BINARY_CONTAINER = binary_container_1.xclbin
 XSA_FILE = binary_container_1.xsa
 PACKAGE += BOOT.BIN
-PACKAGE += a.xclbin
+PACKAGE += $(BINARY_CONTAINER)
 
 # Rules
 .PHONY: all package link
 all: package
 package: $(PACKAGE)
-link: $(BINARY_CONTAINER)
+link: $(XSA_FILE)
 
-$(PACKAGE): $(BINARY_CONTAINER) $(AIE_ADF)
-	$(VPP) $(VPP_PACK_FLAGS) $(+)
+$(PACKAGE): $(XSA_FILE) $(AIE_SDF)
+	$(VPP) $(VPP_PACK_FLAGS) $(+) -o $(BINARY_CONTAINER)
 	$(XBU) $(XBU_FLAGS) --input $(BINARY_CONTAINER) --output strip.xclbin
 	-@$(MV) $(BINARY_CONTAINER) tmp.xclbin
 	-@$(MV) strip.xclbin $(BINARY_CONTAINER)
@@ -42,11 +42,11 @@ $(PACKAGE): $(BINARY_CONTAINER) $(AIE_ADF)
 	-@$(ZIP) $(XSA_FILE) $(BINARY_CONTAINER)
 	-@$(MV) tmp.xclbin $(BINARY_CONTAINER)
 
-$(BINARY_CONTAINER): $(KERNEL_OBJS) $(AIE_ADF)
+$(XSA_FILE): $(KERNEL_OBJS) $(AIE_SDF)
 	$(VPP) $(VPP_LINK_FLAGS) -o $@ $(+)
 	-@$(RM) .Xil
 
-$(AIE_ADF):
+$(AIE_SDF):
 	$(MAKE) -C kernel
 
 .PHONY: clean clean-subdirs
