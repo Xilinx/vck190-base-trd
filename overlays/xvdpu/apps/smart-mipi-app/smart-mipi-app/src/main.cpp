@@ -101,7 +101,7 @@ PipelineInfo info = {false,
                      {(gchar *)"refinedet", (gchar *)"facedetect",
                       (gchar *)"ssd", (gchar *)"yolov3"},
                      (gchar *)"/media/sd-mmcblk0p1/binary_container_1.xclbin",
-                     (gchar *)"/usr/share/ivas/smart-mipi-app"};
+                     (gchar *)"/usr/share/vvas/smart-mipi-app"};
 
 enum Channel { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULLSCREEN };
 
@@ -352,16 +352,16 @@ std::string get_channel_inference_string(Channel channel) {
     std::string s = std::to_string(channel);
     std::string result =
         " ! tee name=t" + s +
-        " ! ivas_xabrscaler xclbin-location=" + info.xclbin_location +
+        " ! vvas_xabrscaler xclbin-location=" + info.xclbin_location +
         " kernel-name=\"v_multi_scaler:v_multi_scaler_1\" " +
         get_task_pp_param(get_channel_input_task(channel)) +
-        " ! queue ! ivas_xfilter kernels-config=" + info.config_dir + "/" +
+        " ! queue ! vvas_xfilter kernels-config=" + info.config_dir + "/" +
         get_channel_input_task(channel) + "/aiinference.json \
         ! ima" +
-        s + ".sink_master ivas_xmetaaffixer name=ima" + s + " ima" + s +
+        s + ".sink_master vvas_xmetaaffixer name=ima" + s + " ima" + s +
         ".src_master ! fakesink t" + s + ". ! queue ! ima" + s +
         ".sink_slave_0 ima" + s + ".src_slave_0 \
-        ! queue ! ivas_xfilter kernels-config=" +
+        ! queue ! vvas_xfilter kernels-config=" +
         info.config_dir + "/" + get_channel_input_task(channel) +
         "/drawresult.json ";
     return result;

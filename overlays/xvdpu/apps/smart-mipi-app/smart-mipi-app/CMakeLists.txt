@@ -36,7 +36,7 @@ install(DIRECTORY
     config/facedetect
     config/refinedet
     config/ssd
-    DESTINATION share/ivas/${CMAKE_PROJECT_NAME}/)
+    DESTINATION share/vvas/${CMAKE_PROJECT_NAME}/)
 
 install(DIRECTORY
     models/yolov3_voc_tf

@@ -1,10 +1,10 @@
 {
   "xclbin-location":"/media/sd-mmcblk0p1/binary_container_1.xclbin",
-  "ivas-library-repo": "/usr/lib/",
+  "vvas-library-repo": "/usr/lib/",
   "element-mode":"inplace",
   "kernels" :[
     {
-      "library-name":"libivas_xdpuinfer.so",
+      "library-name":"libvvas_xdpuinfer.so",
       "config": {
 	      "model-name" : "densebox_640_360",
 	      "model-class" : "FACEDETECT",

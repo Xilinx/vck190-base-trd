@@ -1,10 +1,10 @@
 {
   "xclbin-location":"/usr/lib/binary_container_1.xclbin",
-  "ivas-library-repo": "/usr/lib",
+  "vvas-library-repo": "/usr/lib",
   "element-mode":"inplace",
   "kernels" :[
     {
-      "library-name":"libivas_xboundingbox.so",
+      "library-name":"libvvas_xboundingbox.so",
       "config": {
           "font_size" : 2,
           "font" : 3,
