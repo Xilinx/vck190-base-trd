@@ -24,13 +24,13 @@ sys.path.insert(0, os.path.abspath('../_ext'))
 # -- Project information -----------------------------------------------------
 
 project = 'Versal Base TRD'
-copyright = '2020-2021, Xilinx'
+copyright = '2020-2022, Xilinx'
 author = 'Xilinx'
 
 # The short X.Y version
-version = '1.2.1'
+version = '1.3'
 # The full version, including alpha/beta/rc tags
-release = '2021.1-1.2.1'
+release = '2022.1-1.3'
 html_last_updated_fmt = '%B %d, %Y'
 
 # -- General configuration ---------------------------------------------------
