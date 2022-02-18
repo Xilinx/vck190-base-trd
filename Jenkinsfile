@@ -601,11 +601,11 @@ pipeline {
                         }
                     }
                 }
-                stage('vck190_es1_mipiRxQuad_hdmiTx - filter2d') {
+                stage('vck190_es1_mipiRxQuad_hdmiTx -xvdpu') {
                     environment {
                         pfm_base="vck190_es1_mipiRxQuad_hdmiTx"
                         pfm="xilinx_${pfm_base}_${pfm_ver}"
-                        overlay="filter2d"
+                        overlay="xvdpu"
                         work_dir="work/${pfm_base}/${overlay}"
                         pfm_dir="${work_dir}/platforms/${pfm}"
                         overlay_dir="${work_dir}/overlays/${overlay}/kernels"
@@ -636,7 +636,7 @@ pipeline {
                                 }
                             }
                         }
-                        stage('filter2d_combined overlay build') {
+                        stage('xvdpu overlay build') {
                             environment {
                                 PAEG_LSF_MEM=65536
                                 PAEG_LSF_QUEUE="long"
