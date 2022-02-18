@@ -153,7 +153,7 @@ The application is installed as:
 
      /usr/bin/smart-mipi-app
 
-* Configuration file directory: /usr/share/ivas/smart-mipi-app
+* Configuration file directory: /usr/share/vvas/smart-mipi-app
    
   .. code-block:: bash
 
