@@ -12,8 +12,8 @@ solutions that can easily and seamlessly interface with other GStreamer elements
 VVAS provides a simplified interface to developers, exposing certain API to program the accleration kernel without
 having to worry about handeling buffer allocations.
 
-**ivas_xabrscaler** is a plug-in that takes one input frame and can produce several outputs frames having different
-resolutions and color formats. The ivas_xabrscaler is a GStreamer plug- in developed to accelerate the resize and
+**vvas_xabrscaler** is a plug-in that takes one input frame and can produce several outputs frames having different
+resolutions and color formats. The vvas_xabrscaler is a GStreamer plug- in developed to accelerate the resize and
 color space conversion functionality.
 
 This plug-in supports:
@@ -23,14 +23,14 @@ This plug-in supports:
  #. Resize
  #. Each output pad has independent resolution and color space conversion capability
 
-**ivas_xfilter** is a generic VVAS infrastructure plugin that interact with the acceleration kernel through a set
+**vvas_xfilter** is a generic VVAS infrastructure plugin that interact with the acceleration kernel through a set
 of APIs exposed by an acceleration software library corresponding to that kernel.
-An accelerator element has one source and one sink pad; ivas_xfilter can consume one temporal input
+An accelerator element has one source and one sink pad; vvas_xfilter can consume one temporal input
 frame from its source pad, data transform and produce one output frame on its sink pad.
-ivas_xfilter plug-in wraps the acceleration software library and prepares the acceleration software library handle
-(IVASKernel) to be passed to the core APIs as shown in the figure.
+vvas_xfilter plug-in wraps the acceleration software library and prepares the acceleration software library handle
+(vvasKernel) to be passed to the core APIs as shown in the figure.
 
-The ivas_xfilter plug-in provide many input properties to config the kerenl. Below are significant
+The vvas_xfilter plug-in provide many input properties to config the kerenl. Below are significant
 
 - kernels-config (mandatory) : Is a path to configuration file in JSON format and contains information required by the
   kernel, such as path to xclbin, acceleration software library and many more.
@@ -38,7 +38,7 @@ The ivas_xfilter plug-in provide many input properties to config the kerenl. Bel
 - dynamic-config (optional) : configures one or many input parameters of the kernel during runtime, refer to all
   parameters under config from the JSON file above.
 
-**ivas_xmetaaffixer** is used to scale the incoming metadata information for the different resolutions. A machine learning
+**vvas_xmetaaffixer** is used to scale the incoming metadata information for the different resolutions. A machine learning
 (ML) operation can be performed on a different frame resolution and color format than the original frame, but the metadata
 might be associated with the full resolution, original frame.
 
