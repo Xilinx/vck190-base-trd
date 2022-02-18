@@ -2,5 +2,5 @@ SRC_URI = "git://gitenterprise.xilinx.com/IPS-SSW/vvas.git;protocol=https;branch
 SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 
-LIC_FILES_CHKSUM = "file://../LICENSE;md5=408ef032d2c6cb7d90c720e0dc4fb866"
+LIC_FILES_CHKSUM = "file://../LICENSE;md5=fe8359dece001aab7f89ca8ed7e478a5"
 
