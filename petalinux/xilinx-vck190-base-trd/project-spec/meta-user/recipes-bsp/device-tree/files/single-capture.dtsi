@@ -10,7 +10,7 @@
 		axi_iic_0_sensor: i2c@a4070000 {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
+			compatible = "xlnx,axi-iic-2.1";
 		        interrupt-names = "iic2intc_irpt";
 			interrupt-parent = <&gic>;
 			interrupts = <0 91 4>;
