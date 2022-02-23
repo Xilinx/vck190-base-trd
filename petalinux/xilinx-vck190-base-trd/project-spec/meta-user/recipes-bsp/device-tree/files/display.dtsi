@@ -135,7 +135,7 @@
 		#size-cells = <0>;
 		clock-names = "s_axi_aclk";
 		clocks = <&versal_clk 65>;
-		compatible = "xlnx,axi-iic-2.0", "xlnx,xps-iic-2.00.a";
+		compatible = "xlnx,axi-iic-2.1";
 		reg = <0x0 0xa4010000 0x0 0x10000>;
 		interrupt-names = "iic2intc_irpt";
 		interrupt-parent = <&gic>;
