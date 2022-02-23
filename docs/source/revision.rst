@@ -1,6 +1,10 @@
 Revision History
 ================
 
+**2021.2 v1.0**
+
+* No new feature updates
+
 **2021.1 v1.2.1**
 
 * Fix filter2d overlay references in build tutorials

@@ -23,7 +23,7 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete and will stop at the Linux prompt
-  *root@xilinx-vck190-2021_1* 
+  *root@xilinx-vck190-2021_2* 
 
 * For ES1 VCK190 board, please run command `/etc/init.d/aie_workaround4es1.sh` 
   in linux shell, production VCK190 board can skip this step 

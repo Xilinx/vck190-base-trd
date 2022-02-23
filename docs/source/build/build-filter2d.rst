@@ -6,7 +6,7 @@ Prerequisites
 
 * Reference Design source files
 
-* Vitis Unified Software Platform 2021.1 (include AIE tool chain)
+* Vitis Unified Software Platform 2021.2 (include AIE tool chain)
 
 Build Flow Tutorial
 -------------------
@@ -26,7 +26,7 @@ extracted to a working directory
 
    .. code-block:: bash
 
-      git clone --branch 2021.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
+      git clone --branch 2021.2 --recursive https://github.com/Xilinx/vck190-base-trd.git
       
 The directory structure is described in the Introduction Section
 
