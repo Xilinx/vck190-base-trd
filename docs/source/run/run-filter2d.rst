@@ -26,12 +26,12 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *root@xilinx-vck190-2021_1* and autostart of JupyterLab server as shown
+  *root@xilinx-vck190-2021_2* and autostart of JupyterLab server as shown
   in the example below:
 
   .. code-block:: bash
 
-     root@xilinx-vck190-2021_1:~#
+     root@xilinx-vck190-2021_2:~#
      [I 17:36:24.640 LabApp] Writing notebook server cookie secret to /home/root/.local/share/jupyter/runtime/notebook_cookie_secret
      [W 17:36:26.084 LabApp] JupyterLab server extension not enabled, manually loading...
      [I 17:44:03.942 LabApp] JupyterLab extension loaded from /usr/lib/python3.7/site-packages/jupyterlab

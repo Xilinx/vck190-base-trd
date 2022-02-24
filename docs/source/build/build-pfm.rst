@@ -6,9 +6,9 @@ Prerequisites
 
 * Reference Design source files
 
-* Vivado Design Suite 2021.1
+* Vivado Design Suite 2021.2
 
-* Vitis Unified Software Platform 2021.1
+* Vitis Unified Software Platform 2021.2
 
 Enable Versal device support
 -----------------------------
@@ -61,7 +61,7 @@ extracted to a working directory
 
    .. code-block:: bash
 
-      git clone --branch 2021.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
+      git clone --branch 2021.2 --recursive https://github.com/Xilinx/vck190-base-trd.git
       
 The directory structure is described in the Introduction Section
 
@@ -76,7 +76,7 @@ The directory structure is described in the Introduction Section
 
    The generated platform will be located at:
 
-   *$working_dir/platforms/xilinx_vck190_mipiRxSingle_hdmiTx_202110_1*
+   *$working_dir/platforms/xilinx_vck190_mipiRxSingle_hdmiTx_202120_1*
 
    It will be used as input when building the Vitis accelerator projects.
 
