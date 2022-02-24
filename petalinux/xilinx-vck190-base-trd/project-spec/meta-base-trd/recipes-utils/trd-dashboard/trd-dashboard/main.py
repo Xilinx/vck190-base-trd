@@ -32,17 +32,34 @@ import libxperfmon
 import os
 import psutil
 import sensors
-from sensors_config import sensor
+import sensors_config as cfg 
 import subprocess
+
+# identify platform
+def get_pfm_name():
+    pfms = {
+        'vcap_csi'  : 'preset_pfm1',
+        'vcap_gmsl' : 'preset_pfm2',
+        'vcap_hdmi' : 'preset_pfm3'
+    }
+    for p in pfms:
+        if os.path.exists("/sys/firmware/devicetree/base/amba_pl@0/" + p) == True:
+            return pfms[p]
+
+spfm = get_pfm_name()
+if spfm == "preset_pfm1":
+    sensor = cfg.sensor_pfm1
+else :
+    sensor = cfg.sensor_pfm23
+
+# initialize hwmon based sensors
+sensors.init()
 
 # cpu labels
 cpu_labels = [
     "A72 core 0",
     "A72 core 1",
 ]
-
-# initialize hwmon based sensors
-sensors.init()
 
 # initialize meminfo
 mem = MemInfo()
@@ -87,15 +104,6 @@ apm_labels = [
 ]
 
 # apm initialization
-def get_pfm_name():
-    pfms = {
-        'vcap_csi'  : 'preset_pfm1',
-        'vcap_gmsl' : 'preset_pfm2',
-        'vcap_hdmi' : 'preset_pfm3'
-    }
-    for p in pfms:
-        if os.path.exists("/sys/firmware/devicetree/base/amba_pl@0/" + p) == True:
-            return pfms[p]
             
 apm = libxperfmon.APM(getattr(libxperfmon,get_pfm_name()))
 
