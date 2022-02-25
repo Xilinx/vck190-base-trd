@@ -143,7 +143,7 @@ Make the connections based on the SD Image selected.
 vck190_mipiRxSingle_hdmiTx supports video capture from the Leopard IMX274 MIPI FMC,
 connect the FMC card to the FMCP1 slot (J51) as shown in the above figure.
 For more info on the FMC module, visit:
-https://leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/
+https://www.leopardimaging.com/uploads/LI-IMX274MIPI-FMC_datasheet.pdf
 
 vck190_mipiRxQuad_hdmiTx supports video capture from Avnet Multi-Camera MIPI FMC Module.
 Connect the FMC card to the FMCP2 slot (J53) as shown in the above figure.
