@@ -78,7 +78,7 @@ Vitis overlays and the PetaLinux BSP
 ## Third-Party Content
 
 All Xilinx and third-party licenses and sources associated with this reference
-design can be downloaded [here](https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source.tar.gz).
+design can be downloaded [here](https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source_2021_2.tar.gz).
 
 ## License
 

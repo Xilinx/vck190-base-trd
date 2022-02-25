@@ -3,7 +3,9 @@ Revision History
 
 **2021.2 v1.0**
 
-* No new feature updates
+* Synced to VAI 2.0 and VVAS 1.1 releases
+
+* Added TRD dashboard, which replaces APM, POWER and CPU notebooks 
 
 **2021.1 v1.2.1**
 

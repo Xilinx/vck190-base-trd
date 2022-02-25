@@ -152,8 +152,8 @@ Licenses
 The design includes files licensed by Xilinx and third parties under the terms
 of the GNU General Public License, GNU Lesser General Public License,
 BSD License, MIT License, and other licenses. The file
-`vck190_base_trd_third_party_licenses_and_source.tar.gz
-<https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source.tar.gz#>`_
+`vck190_base_trd_third_party_licenses_and_source_2021_2.tar.gz
+<https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source_2021_2.tar.gz#>`_
 contains the complete set of design source files and licenses. You are solely
 responsible for checking any files you use for notices and licenses and for
 complying with any terms applicable to your use of the design and any third
