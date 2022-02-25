@@ -30,7 +30,7 @@ toolchain.
 
 1. **Mipi Rx Single Sensor and HDMI Tx Platform:**
 This Vitis platform captures video from either a file source, USB webcam, or an
-image sensor using the [IMX274 MIPI FMC Module](https://www.leopardimaging.com/product/csi-2-mipi-modules-i-pex/li-imx274mipi-fmc/)
+image sensor using the [IMX274 MIPI FMC Module](https://www.leopardimaging.com/uploads/LI-IMX274MIPI-FMC_datasheet.pdf)
 and displays it on a HDMI monitor. Along with video, audio from a file can be
 replayed using the HDMI transmitter. Accelerator functions can be added into
 this platform using the Vitis acceleration flow. Two versions of this platform
@@ -38,7 +38,7 @@ are available for production and ES silicon.
 
 2. **Mipi Rx Quad Sensor and HDMI Tx Platform:**
 This Vitis platform captures video from either a file source, USB webcam, or
-four image sensors using the [Quad AR0231AT Camera FMC Bundle](https://www.avnet.com/shop/emea/products/avnet-engineering-services/aes-fmc-mc4-ar0231at-g-3074457345636156873/)
+four image sensors using the [Quad AR0231AT Camera FMC Bundle](https://www.avnet.com/wps/portal/silica/products/new-products/npi/2018/avnet-multi-camera-fmc-module/)
 and displays it on a HDMI monitor. Along with video, audio from a file can be
 replayed using the HDMI transmitter. Accelerator functions can be added into
 this platform using the Vitis acceleration flow. Two versions of this platform

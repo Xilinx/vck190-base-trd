@@ -590,7 +590,7 @@ buffer allocation, but the sink can propose parameters in the negotiation phase.
 
 The DMABUF framework is used to import and export buffers in a 0-copy fashion between
 pipeline elements, which is required for high-performance pipelines, as shown in the following
-figure. The ``v4l2src``, ``kmssink``, and ``ivas`` elements are all capable of
+figure. The ``v4l2src``, ``kmssink``, and ``vvas`` elements are all capable of
 allocating and exporting as well as importing DMABUFs to/from their peer
 elements.
 

@@ -12,14 +12,14 @@ solutions that can easily and seamlessly interface with other GStreamer elements
 VVAS provides a simplified interface to developers, exposing certain API to program the accleration kernel without having to worry
 about handeling buffer allocations.
 
-**ivas_xfilter** is a generic VVAS infrastructure plugin that interact with the acceleration kernel through a set
+**vvas_xfilter** is a generic VVAS infrastructure plugin that interact with the acceleration kernel through a set
 of APIs exposed by an acceleration software library corresponding to that kernel.
-An accelerator element has one source and one sink pad; ivas_xfilter can consume one temporal input
+An accelerator element has one source and one sink pad; vvas_xfilter can consume one temporal input
 frame from its source pad, data transform and produce one output frame on its sink pad.
-ivas_xfilter plug-in wraps the acceleration software library and prepares the acceleration software library handle (IVASKernel)
+vvas_xfilter plug-in wraps the acceleration software library and prepares the acceleration software library handle (VVASKernel)
 to be passed to the core APIs as shown in the figure.
 
-The ivas_xfilter plug-in provide many input properties to config the kerenl. Below are significant
+The vvas_xfilter plug-in provide many input properties to config the kerenl. Below are significant
 
 - kernels-config (mandatory) : Is a path to configuration file in JSON format and contains information required by the kernel, such as path to xclbin, acceleration software library and many more.
 
@@ -27,12 +27,12 @@ The ivas_xfilter plug-in provide many input properties to config the kerenl. Bel
 
 
 **Acceleration software libraries** :
-ivas_xfilter loads the shared acceleration software library, where  acceleration software library controls the
+vvas_xfilter loads the shared acceleration software library, where  acceleration software library controls the
 acceleration kernel, like register programming, or any other core logic that is required to implement the transform functions.
 
-**ivas_xfilter2d_sw** is a shared acceleration software library that uses OpenCV libraries to perform filter2d computation as a pure software implmentation performed on the APU cores.
+**vvas_xfilter2d_sw** is a shared acceleration software library that uses OpenCV libraries to perform filter2d computation as a pure software implmentation performed on the APU cores.
 
-**ivas_xfilter2d_pl** is a shared acceleration software library that operates on PL-based kernel obtained by high level synthesis (HLS) from  Xilinx Vitis Vision libraries.
+**vvas_xfilter2d_pl** is a shared acceleration software library that operates on PL-based kernel obtained by high level synthesis (HLS) from  Xilinx Vitis Vision libraries.
 
 
 below are the examples where VVAS framework is used with an acceleration software library developed for a hard-kernel IP / software library (e.g., OpenCV)

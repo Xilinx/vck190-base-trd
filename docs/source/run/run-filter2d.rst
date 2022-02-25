@@ -1,9 +1,8 @@
 Run 2D Filter Application
 =========================
 
-The 2D Filter accelerator is targeted to run on all platforms.
 Jupyter Notebooks are used to demonstarte the workings of the
-platform and accelerator. A network connection is required to
+platforms with filter2d accelerator. A network connection is required to
 run these Notebooks
 
 Connect to the JupyterLab Server
