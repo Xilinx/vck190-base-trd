@@ -68,7 +68,7 @@ display. The supported ML models are: yolov3, refinedet, densebox, ssd.
 
 ## Documentation
 
-Additional documentation can be found on [github pages](https://xilinx.github.io/vck190-base-trd/2021.1/html/index.html) including:
+Additional documentation can be found on [github pages](https://xilinx.github.io/vck190-base-trd/2021.2/html/index.html) including:
 
 * Tutorials for running the prebuilt SD card images and applications
 * Tool flow tutorials for various design components including Vitis platforms,
