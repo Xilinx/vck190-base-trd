@@ -1,11 +1,13 @@
 Revision History
 ================
 
-**2021.2 v1.0**
+**2021.2 v1.3**
+
+* Update Vivado/Vitis/Petalinux tools versions to 2021.2
 
 * Synced to VAI 2.0 and VVAS 1.1 releases
 
-* Added TRD dashboard, which replaces APM, POWER and CPU notebooks 
+* Added TRD dashboard, which replaces APM, POWER and CPU notebooks
 
 **2021.1 v1.2.1**
 
