@@ -19,19 +19,18 @@
 <:   {14_13_11}   {set TM_RDEPTH  6 }  :>
 <:   default      {set TM_RDEPTH  15}  :>
 <: } :>
+<: set TM_LDP_I [expr int(log([getIntValue LOAD_PARALLEL_IMG ])/log(2))] :>
 <: set fp 0 :>
 <: set fp [expr $fp + 2** 0 * $TM_ARCH                         ] :>
 <: set fp [expr $fp + 2** 4 * [getIntValue  BATCH_N           ]] :>
-<: set fp [expr $fp + 2** 8 * [getIntValue  ALU_MODE          ]] :>
-<: set fp [expr $fp + 2**12 * [getIntValue  MISC_RD_PARALLEL  ]] :>
-<: set fp [expr $fp + 2**16 * [getIntValue  ELEW_PARALLEL     ]] :>
+<: set fp [expr $fp + 2** 8 * [getIntValue  MISC_RD_PARALLEL  ]] :>
+<: set fp [expr $fp + 2**12 * $TM_RDEPTH                       ] :>
+<: set fp [expr $fp + 2**16 * $TM_LDP_I                        ] :>
 <: set fp [expr $fp + 2**24 * [getIntValue  ARCH_IMG_BKGRP    ]] :>
 <: set fp [expr $fp + 2**26 * [getIntValue  LOAD_AUGM         ]] :>
 <: set fp [expr $fp + 2**28 * [getIntValue  CONV_LEAKYRELU    ]] :>
-<: set fp [expr $fp + 2**29 * [getIntValue  CONV_RELU6        ]] :>
+<: set fp [expr $fp + 2**29 * [getIntValue   ALU_LEAKYRELU    ]] :>
 <: set fp [expr $fp + 2**30 * [getIntValue  SAVE_ARGMAX_ENA   ]] :>
-<: set fp [expr $fp + 2**32 * $TM_RDEPTH                       ] :>
-<: set fp [expr $fp + 2**36 * [getIntValue  ELEW_MULT_ENA     ]] :>
-<: set fp [expr $fp + 2**48 * 2                                ] :>
+<: set fp [expr $fp + 2**48 * 3                                ] :>
 <: set fp [expr $fp + 2**56 * 6                                ] :>
 {"fingerprint":"0x<=: [dec2hex $fp] :>"}
