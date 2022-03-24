@@ -40,7 +40,7 @@ VXX                      = $(XILINX_VITIS)/bin/v++
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Build products
 AIE_OBJECTS              = $(ABS_PATH)/aie/ip/libadf.a
-BINARY_CONTAINERS       += $(BUILD_DIR)/binary_container_1.xclbin
+BINARY_CONTAINERS       += $(BUILD_DIR)/binary_container_1.xsa
 BUILD_SUBDIRS           += $(BUILD_DIR)/binary_container_1
 BINARY_CONTAINER_1_OBJS += $(BUILD_DIR)/binary_container_1/DPUCVDX8G.xo $(BUILD_DIR)/binary_container_1/libadf.a v_multi_scaler.xo
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,7 +111,7 @@ $(BUILD_DIR)/binary_container_1/DPUCVDX8G.xo:
 	$(VIVADO) -mode batch -source $(xvdpu_TCL) -tclargs $@ $(DPU_KERN_NAME) $(XCL_EMULATION_MODE) $(DEVICE)	
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Link kernel and AIE graph with Platform
-$(BUILD_DIR)/binary_container_1.xclbin: $(BINARY_CONTAINER_1_OBJS)
+$(BUILD_DIR)/binary_container_1.xsa: $(BINARY_CONTAINER_1_OBJS)
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Building $(notdir $@) for $(BUILD_DIR)..."
 	@mkdir -p $(@D)
@@ -125,11 +125,11 @@ $(BUILD_DIR)/binary_container_1.xclbin: $(BINARY_CONTAINER_1_OBJS)
 #Package design
 .PHONY: package
 package: $(BUILD_DIR)/dpu.xclbin
-$(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xclbin $(BUILD_DIR)/binary_container_1/libadf.a 
+$(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xsa $(BUILD_DIR)/binary_container_1/libadf.a 
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Packaging $(notdir $@) for $(BUILD_DIR)..."
 	-@rm -rf package_out 
-	@cd $(BUILD_DIR); $(VXX) -t $(XCL_EMULATION_MODE) --platform $(PLATFORM)  --save-temps --temp_dir binary_container_1 -p binary_container_1.xclbin binary_container_1/libadf.a -o "$@" \
+	@cd $(BUILD_DIR); $(VXX) -t $(XCL_EMULATION_MODE) --platform $(PLATFORM)  --save-temps --temp_dir binary_container_1 -p binary_container_1.xsa binary_container_1/libadf.a -o "$@" \
 	  --package.out_dir ../package_out \
 	  --package.boot_mode sd \
 	  --package.no_image  
