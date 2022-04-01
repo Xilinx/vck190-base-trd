@@ -11,7 +11,6 @@ The GMSL link carries power, control (I2C) and video data over a single
 coax cable.
 ---
  drivers/media/i2c/Kconfig    |  17 +
- drivers/media/i2c/Makefile   |   2 +
  drivers/media/i2c/mars.c     | 835 +++++++++++++++++++++++++++++++++++++++++++
  drivers/media/i2c/mars.h     | 395 ++++++++++++++++++++
  drivers/media/i2c/max96705.c | 469 ++++++++++++++++++++++++
@@ -50,19 +49,6 @@ index 837fee5..9cd0e7e 100644
  config VIDEO_RJ54N1
  	tristate "Sharp RJ54N1CB0C sensor support"
  	depends on I2C && VIDEO_V4L2
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 6742ff8..b0d89a5 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -123,6 +123,8 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
- obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
- rdacm20-camera_module-objs	:= rdacm20.o max9271.o
- obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
-+obj-$(CONFIG_VIDEO_MAX96705_LIB) += max96705.o
-+obj-$(CONFIG_VIDEO_MARS) += mars.o
- obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
- 
- obj-$(CONFIG_SDR_MAX2175) += max2175.o
 diff --git a/drivers/media/i2c/mars.c b/drivers/media/i2c/mars.c
 new file mode 100644
 index 0000000..a969199
@@ -441,7 +427,7 @@ index 0000000..a969199
 +}
 +
 +static int mars_enum_mbus_code(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_pad_config *cfg,
++			       struct v4l2_subdev_state *sd_state,
 +			       struct v4l2_subdev_mbus_code_enum *code)
 +{
 +	if (code->pad || code->index > 0)
@@ -453,12 +439,12 @@ index 0000000..a969199
 +}
 +
 +static struct v4l2_mbus_framefmt *
-+mars_get_pad_format(struct mars_device *dev, struct v4l2_subdev_pad_config *cfg,
++mars_get_pad_format(struct mars_device *dev, struct v4l2_subdev_state *sd_state,
 +		    unsigned int pad, u32 which)
 +{
 +	switch (which) {
 +	case V4L2_SUBDEV_FORMAT_TRY:
-+		return v4l2_subdev_get_try_format(&dev->sd, cfg, pad);
++		return v4l2_subdev_get_try_format(&dev->sd, sd_state, pad);
 +	case V4L2_SUBDEV_FORMAT_ACTIVE:
 +		return &dev->fmt;
 +	default:
@@ -467,7 +453,7 @@ index 0000000..a969199
 +}
 +
 +static int mars_get_fmt(struct v4l2_subdev *sd,
-+			struct v4l2_subdev_pad_config *cfg,
++			struct v4l2_subdev_state *sd_state,
 +			struct v4l2_subdev_format *format)
 +{
 +	struct mars_device *dev = sd_to_mars(sd);
@@ -476,7 +462,7 @@ index 0000000..a969199
 +		return -EINVAL;
 +
 +	mutex_lock(&dev->mutex);
-+	format->format = *mars_get_pad_format(dev, cfg, format->pad,
++	format->format = *mars_get_pad_format(dev, sd_state, format->pad,
 +					      format->which);
 +	mutex_unlock(&dev->mutex);
 +
@@ -484,7 +470,7 @@ index 0000000..a969199
 +}
 +
 +static int mars_set_fmt(struct v4l2_subdev *sd,
-+			struct v4l2_subdev_pad_config *cfg,
++			struct v4l2_subdev_state *sd_state,
 +			struct v4l2_subdev_format *format)
 +{
 +	struct mars_device *dev = sd_to_mars(sd);
@@ -495,7 +481,7 @@ index 0000000..a969199
 +	if (format->pad)
 +		return -EINVAL;
 +
-+	cfg_fmt = mars_get_pad_format(dev, cfg, format->pad, format->which);
++	cfg_fmt = mars_get_pad_format(dev, sd_state, format->pad, format->which);
 +	if (!cfg_fmt)
 +		return -EINVAL;
 +
