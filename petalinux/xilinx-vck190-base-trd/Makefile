@@ -2,6 +2,7 @@ RM = rm -rf
 
 # to be passed from top-level Makefile
 PFM =
+BOARD_DTB ?= system.dtb
 YES ?= 0
 
 PLNX_IMG_DIR = images/linux
@@ -12,16 +13,16 @@ PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/bl31.elf
 PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/plm.elf
 PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/psmfw.elf
 PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/u-boot.elf
-PLNX_BOOT_ARGS = --u-boot --qemu-rootfs no
+PLNX_BOOT_OBJS += $(PLNX_IMG_DIR)/$(BOARD_DTB)
+PLNX_BOOT_ARGS = --u-boot --dtb $(PLNX_IMG_DIR)/$(BOARD_DTB) --qemu-rootfs no
 
 PLNX_WIC = $(PLNX_IMG_DIR)/petalinux-sdimage.wic.xz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/boot.scr
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/Image
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/rootfs.tar.gz
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/ramdisk.cpio.gz.u-boot
-PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/system.dtb
 PLNX_WIC_OBJS += $(PLNX_IMG_DIR)/binary_container_1.xclbin
-PLNX_WIC_ARGS += --bootfiles "binary_container_1.xclbin ramdisk.cpio.gz.u-boot boot.scr Image system.dtb BOOT.BIN"
+PLNX_WIC_ARGS += --bootfiles "binary_container_1.xclbin ramdisk.cpio.gz.u-boot boot.scr Image BOOT.BIN"
 PLNX_WIC_ARGS += --wic-extra-args "-c xz"
 
 PLNX_IMG_OBJS += $(PLNX_BOOT_OBJS)

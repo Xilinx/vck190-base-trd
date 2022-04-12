@@ -45,11 +45,21 @@ Makefile with the specified platform name can build all the above components in 
 Ensure to copy xsa file to project-spec/hw-description folder.
 Use make help for more info
 
+Note: 3 dtbs are generated as artifacts of this build. User is required to make a choice 
+on the dtb based on the BOARD REV of the VCK190 used for runtime. system.dtb in the 
+images/linux folder is soft linked to system-default.dtb. User is provided with provision to 
+choose among the following board rev dtb using the variable BOARD_DTB in the makefile, below
+is an example
+ 
+system-default.dtb (default 19Mhz To support both old and new SD level shifter) 
+system-vck190-revA.dtb (To support old SD level shifter)
+system-vck190-rev1.dtb (To support new SD level shifter High-Speed)
+
 **Example:**
-To generate final wic image for the project 'vck190' and 'mipiRxQuad_hdmiTx' platform,
+To generate final wic image for the project 'vck190' and 'mipiRxQuad_hdmiTx' platform, for REV1 board.
 run:
 ```bash
-% make all PFM=vck190_mipiRxQuad_hdmiTx
+% make all PFM=vck190_mipiRxQuad_hdmiTx BOARD_DTB=system-vck190-rev1.dtb
 ```
 
 # License
