@@ -36,9 +36,6 @@ BASE_TRD_PACKAGES = " \
 	tree \
 	ttf-bitstream-vera \
 	tzdata \
-	vvas-utils \
-	vvas-gst \
-	vvas-accel-libs \
 	xrt \
 	${MOVIE_PACKAGES} \
 	"
