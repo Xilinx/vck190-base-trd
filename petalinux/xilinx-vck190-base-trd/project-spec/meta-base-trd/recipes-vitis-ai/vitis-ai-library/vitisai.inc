@@ -6,5 +6,5 @@ SRC_URI = "git://github.com/Xilinx/Vitis-AI.git;protocol=https;branch=${BRANCH}"
 
 SRCREV = "d02dcb6041663dbc7ecbc0c6af9fafa087a789de"
 
-PACKAGECONFIG_append = " python"
-PACKAGECONFIG_append = " test"
+PACKAGECONFIG:append = " python"
+PACKAGECONFIG:append = " test"

@@ -8,4 +8,4 @@ inherit pypi setuptools3
 
 PYPI_PACKAGE = "PySensors"
 
-RDEPENDS_${PN} += "lmsensors"
+RDEPENDS:${PN} += "lmsensors"

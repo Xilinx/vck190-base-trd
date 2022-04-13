@@ -18,7 +18,7 @@ S = "${WORKDIR}"
 
 DEPENDS = " glog vvas-accel-libs opencv"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
 	gst-perf \
 	gstreamer1.0-plugins-bad-kms \
 	gstreamer1.0-plugins-bad-mediasrcbin \
@@ -35,11 +35,11 @@ inherit cmake
 
 EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=Release"
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/aie_workaround4es1.sh ${D}${sysconfdir}/init.d/aie_workaround4es1.sh
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${datadir} \
     "

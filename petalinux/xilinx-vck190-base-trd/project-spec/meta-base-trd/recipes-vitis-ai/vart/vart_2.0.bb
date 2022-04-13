@@ -8,7 +8,7 @@ S = "${WORKDIR}/git/tools/Vitis-AI-Runtime/VART/vart"
 DEPENDS = "json-c xir target-factory"
 
 # By default, Vart enables vitis-flow which depends on xrt. Please remove this line if use vivado-flow
-PACKAGECONFIG_append = " vitis"
+PACKAGECONFIG:append = " vitis"
 
 PACKAGECONFIG[test] = "-DBUILD_TEST=ON,-DBUILD_TEST=OFF,opencv,"
 PACKAGECONFIG[python] = "-DBUILD_PYTHON=ON -DPYTHON_INSTALL_DIR=${PYTHON_DIR},-DBUILD_PYTHON=OFF,,python3-core"
@@ -25,8 +25,8 @@ do_configure:prepend() {
 
 # Vart uses dl_open, so package the .so files in the runtime package
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so"
-FILES_${PN} += " \
+INSANE_SKIP:${PN} += "dev-so"
+FILES:${PN} += " \
 	${libdir}/*.so \
 	${PYTHON_SITEPACKAGES_DIR} \
 "

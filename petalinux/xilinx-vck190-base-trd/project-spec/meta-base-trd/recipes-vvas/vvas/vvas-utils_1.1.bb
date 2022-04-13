@@ -14,7 +14,7 @@ S = "${WORKDIR}/git/vvas-utils"
 GIR_MESON_ENABLE_FLAG = "enabled"
 GIR_MESON_DISABLE_FLAG = "disabled"
 
-FILES_${PN} += "${libdir}/libvvasutil.so ${libdir}/libxrtutil.so ${libdir}/pkgconfig/*"
-FILES_${PN}-dev = "${includedir}"
+FILES:${PN} += "${libdir}/libvvasutil.so ${libdir}/libxrtutil.so ${libdir}/pkgconfig/*"
+FILES:${PN}-dev = "${includedir}"
 
 #CVE_PRODUCT = "gstreamer"

@@ -14,5 +14,5 @@ S = "${WORKDIR}/git/vvas-accel-sw-libs"
 GIR_MESON_ENABLE_FLAG = "enabled"
 GIR_MESON_DISABLE_FLAG = "disabled"
 
-FILES_${PN} += "${libdir}/vvas/*.so ${libdir}/*.so"
-FILES_${PN}-dev = "${includedir}"
+FILES:${PN} += "${libdir}/vvas/*.so ${libdir}/*.so"
+FILES:${PN}-dev = "${includedir}"

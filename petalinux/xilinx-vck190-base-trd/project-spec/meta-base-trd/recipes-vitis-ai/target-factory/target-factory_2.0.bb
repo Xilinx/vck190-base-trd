@@ -19,5 +19,5 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=Release"
 AUTO_LIBNAME_PKGS = ""
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so"
-FILES_${PN} += "${libdir}/*.so"
+INSANE_SKIP:${PN} += "dev-so"
+FILES:${PN} += "${libdir}/*.so"

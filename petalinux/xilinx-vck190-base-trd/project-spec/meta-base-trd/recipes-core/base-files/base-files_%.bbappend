@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-do_install_append () {
+do_install:append () {
 	echo "alias ls='ls --color=auto'" >> ${D}${sysconfdir}/profile
 	echo "alias ll='ls --color=auto -l'" >> ${D}${sysconfdir}/profile
 	echo "alias la='ls --color=auto -la'" >> ${D}${sysconfdir}/profile
