@@ -1,0 +1,11 @@
+[Unit]
+Description=trd-dashboard
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/trd-dashboard.sh
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target

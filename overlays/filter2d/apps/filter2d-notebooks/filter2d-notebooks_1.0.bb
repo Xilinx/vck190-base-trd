@@ -26,7 +26,7 @@ DEPENDS += " \
 	opencv \
 	"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
 	gstreamer1.0-plugins-bad \
 	gstreamer1.0-plugins-good \
 	gstreamer1.0-python \
@@ -37,7 +37,7 @@ RDEPENDS_${PN} += " \
 	python3-pydot \
 	"
 
-FILES_${PN} += " \
+FILES:${PN} += " \
 	${libdir} \
 	${datadir} \
 	"

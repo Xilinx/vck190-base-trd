@@ -1,6 +1,6 @@
 APP = libxperfmon
 
-PYTHON_VERSION = 38
+PYTHON_VERSION = 39
 SRC=$(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 

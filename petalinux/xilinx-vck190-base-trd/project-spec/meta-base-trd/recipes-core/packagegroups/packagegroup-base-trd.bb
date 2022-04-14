@@ -1,6 +1,6 @@
 DESCRIPTION = "Base TRD related Packages"
 
-COMPATIBLE_MACHINE_versal = ".*"
+COMPATIBLE_MACHINE:versal = ".*"
 
 inherit packagegroup
 
@@ -36,11 +36,8 @@ BASE_TRD_PACKAGES = " \
 	tree \
 	ttf-bitstream-vera \
 	tzdata \
-	vvas-utils \
-	vvas-gst \
-	vvas-accel-libs \
 	xrt \
 	${MOVIE_PACKAGES} \
 	"
 
-RDEPENDS_${PN} = "${BASE_TRD_PACKAGES}"
+RDEPENDS:${PN} = "${BASE_TRD_PACKAGES}"

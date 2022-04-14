@@ -1,46 +1,48 @@
-From 8adfa2e10ef4a1b1d7565fba065d50e3da0e0387 Mon Sep 17 00:00:00 2001
-From: Thomas Nizan <tnizan@witekio.com>
-Date: Tue, 20 Apr 2021 10:57:14 -0700
-Subject: [PATCH 12/14] xilinx-vipp: WIP, blacklist mars module
+From 6490114ce271ee0da53e896fedc78bb2c7884b27 Mon Sep 17 00:00:00 2001
+From: vivekana <vivekana@xilinx.com>
+Date: Tue, 1 Feb 2022 15:42:27 -0800
+Subject: [PATCH] Subject: [PATCH 12/14] xilinx-vipp: WIP, blacklist mars
+ module
 
-The Mars modules are already subdevices of the max9286, so they should
-not be added as subdevices of the vipp device.
+ The Mars modules are already subdevices of the max9286, so they should
+ not be added as subdevices of the vipp device.
 ---
- drivers/media/platform/xilinx/xilinx-vipp.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/media/platform/xilinx/xilinx-vipp.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-index ccaa943..ff1c38c 100644
+index fadc3a8d7853..5ba24f8f0500 100644
 --- a/drivers/media/platform/xilinx/xilinx-vipp.c
 +++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-@@ -565,6 +565,7 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
+@@ -565,6 +565,8 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
  	struct fwnode_handle *remote;
  	struct fwnode_handle *ep = NULL;
  	int ret = 0;
 +	const char *drivers[10];
++
  
  	dev_dbg(xdev->dev, "parsing node %p\n", fwnode);
  
-@@ -592,6 +593,19 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
+@@ -592,6 +594,19 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
  			continue;
  		}
  
 +		/* Skip blacklisted entities.*/
 +		ret = fwnode_property_read_string_array(remote, "compatible",
-+						drivers, 10);
++		                drivers, 10);
 +		if (ret > 0) {
-+			dev_dbg(xdev->dev, " ret %d    compatible %s\n",
-+				ret, drivers[0]);
-+
-+			if (!strcmp(drivers[0], "onnn,mars")) {
-+				dev_dbg(xdev->dev, "   skipping mars driver\n");
-+				continue;
-+			}
++		    dev_dbg(xdev->dev, " ret %d    compatible %s\n",
++		        ret, drivers[0]);
++		
++		    if (!strcmp(drivers[0], "onnn,mars")) {
++		        dev_dbg(xdev->dev, "   skipping mars driver\n");
++		        continue;
++		    }
 +		}
 +
- 		asd = v4l2_async_notifier_add_fwnode_subdev(
+ 		xge = v4l2_async_notifier_add_fwnode_subdev(
  			&xdev->notifier, remote,
- 			sizeof(struct xvip_graph_entity));
+ 			struct xvip_graph_entity);
 -- 
-2.7.4
+2.17.1
 

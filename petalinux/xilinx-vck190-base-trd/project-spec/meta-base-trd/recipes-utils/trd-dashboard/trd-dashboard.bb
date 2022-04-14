@@ -9,10 +9,12 @@ SRC_URI = " \
 	file://main.py \
 	file://sensors_config.py \
 	file://templates \
-	file://trd-dashboard-init \
+	file://trd-dashboard.service \
+	file://trd-dashboard.sh \
 	"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
+	bash \
 	python3-bokeh \
 	python3-hazelnut \
 	python3-psutil \
@@ -20,13 +22,14 @@ RDEPENDS_${PN} += " \
 	python3 \
 	"
 
-inherit python3-dir update-rc.d
+inherit python3-dir systemd
 
 do_configure[noexec]="1"
 do_compile[noexec]="1"
 
-INITSCRIPT_NAME = "trd-dashboard-init"
-INITSCRIPT_PARAMS = "start 98 3 5 . stop 20 0 1 2 6 ."
+SYSTEMD_PACKAGES="${PN}"
+SYSTEMD_SERVICE:${PN}="trd-dashboard.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 do_install() {
 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
@@ -34,11 +37,14 @@ do_install() {
 	cp -r ${S}/*.py ${D}${PYTHON_SITEPACKAGES_DIR}/${PN}/
 	cp -r ${S}/templates ${D}${PYTHON_SITEPACKAGES_DIR}/${PN}/
 
-	install -d ${D}${sysconfdir}/init.d
-	install -m 0755 ${S}/trd-dashboard-init ${D}${sysconfdir}/init.d/trd-dashboard-init
+	install -d ${D}${bindir}
+	install -m 0755 ${WORKDIR}/trd-dashboard.sh ${D}${bindir}/trd-dashboard.sh
+
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/trd-dashboard.service ${D}${systemd_system_unitdir}
 }
 
-FILES_${PN} += "\
-	${sysconfdir} \
+FILES:${PN} += "\
+	${systemd_system_unitdir} \
 	${PYTHON_SITEPACKAGES_DIR} \
 	"

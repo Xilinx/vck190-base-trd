@@ -25,4 +25,4 @@ do_install() {
 
 }
 
-RDEPENDS_${PN}_append += "bash"
+RDEPENDS:${PN}:append += "bash"

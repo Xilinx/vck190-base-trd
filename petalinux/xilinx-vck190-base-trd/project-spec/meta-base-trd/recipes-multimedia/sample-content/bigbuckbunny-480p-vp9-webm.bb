@@ -13,4 +13,4 @@ do_install() {
     install -m 0644 ${WORKDIR}/Big_Buck_Bunny_4K.webm.480p.vp9.webm ${D}${datadir}/movies/
 }
 
-FILES_${PN} += "${datadir}/movies"
+FILES:${PN} += "${datadir}/movies"

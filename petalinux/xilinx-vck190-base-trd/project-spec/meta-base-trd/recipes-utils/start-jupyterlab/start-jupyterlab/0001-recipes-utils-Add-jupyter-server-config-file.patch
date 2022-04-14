@@ -1,0 +1,20 @@
+From ecffc7bd9a25721e64d900702600f0713c7a7e65 Mon Sep 17 00:00:00 2001
+From: vivekana <vivekana@xilinx.com>
+Date: Wed, 13 Apr 2022 19:42:37 -0700
+Subject: [PATCH] recipes-utils: Add server config file
+
+---
+ .../start-jupyterlab/start-jupyterlab/jupyter_server_config.py   | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 recipes-utils/start-jupyterlab/start-jupyterlab/jupyter_server_config.py
+
+diff --git a/jupyter_server_config.py b/jupyter_server_config.py
+new file mode 100644
+index 0000000..93088aa
+--- /dev/null
++++ b/jupyter_server_config.py
+@@ -0,0 +1 @@
++c.ServerApp.root_dir = '/usr/share/notebooks'
+-- 
+2.17.1
+
