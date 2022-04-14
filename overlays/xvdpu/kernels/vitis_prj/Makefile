@@ -136,6 +136,7 @@ $(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xsa $(BUILD_DIR)/binary
 	cp  $(ABS_PATH)/hw/binary_container_1/link/vivado/vpl/prj/prj.gen/sources_1/bd/*/ip/*_DPUCVDX8G_1_0/arch.json $(ABS_PATH)/package_out/sd_card
 	@cp package_out/sd_card/BOOT.BIN vpl_gen_fixed.pdi
 	@cp package_out/sd_card/dpu.xclbin binary_container_1.xclbin
+	@cp $(BUILD_DIR)/binary_container_1.xsa binary_container_1.xsa
 	@zip -u binary_container_1.xsa vpl_gen_fixed.pdi
 	@zip -u binary_container_1.xsa binary_container_1.xclbin
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
