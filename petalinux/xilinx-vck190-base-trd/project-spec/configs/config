@@ -255,4 +255,5 @@ CONFIG_YOCTO_NETWORK_SSTATE_FEEDS_URL="http://petalinux.xilinx.com/sswreleases/r
 # User Layers
 #
 CONFIG_USER_LAYER_0="../project-spec/meta-base-trd"
-CONFIG_USER_LAYER_1=""
+CONFIG_USER_LAYER_1="../project-spec/meta-vitis"
+CONFIG_USER_LAYER_2=""

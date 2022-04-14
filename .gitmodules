@@ -6,3 +6,7 @@
 	path = overlays/xvdpu/kernels/vitis_prj/vvas
 	url = https://gitenterprise.xilinx.com/IPS-SSW/vvas.git
 	branch = master
+[submodule "petalinux/xilinx-vck190-base-trd/project-spec/meta-vitis"]
+	path = petalinux/xilinx-vck190-base-trd/project-spec/meta-vitis
+	url = https://gitenterprise.xilinx.com/Yocto/meta-vitis.git
+	branch = 2022
