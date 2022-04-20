@@ -9,15 +9,20 @@
 		#size-cells = <2>;
 		clock-names = "aclk0";
 		clocks = <&misc_clk_aie>;
-		compatible = "xlnx,ai-engine-2.0", "xlnx,ai-engine-v1.0";
-		interrupt-names = "interrupt1", "interrupt2", "interrupt3";
-		interrupt-parent = <&gic>;
-		interrupts = <0x0 0x94 0x4>, <0x0 0x95 0x4>, <0x0 0x96 0x4>;
+		compatible = "xlnx,ai-engine-v2.0";
 		power-domains = <&versal_firmware 0x18224072>;
-		reg = <0x00000200 0x00000000 0x00000001 0x00000000>;
-		aie_partition0: aie_partition@0 {
-			reg = <0 0 50 9>;
-			xlnx,partition-id = <1>;
+		ranges ;
+		xlnx,aie-gen = /bits/ 8 <0x1>;
+		xlnx,core-rows = /bits/ 8 <1 8>;
+		xlnx,mem-rows = /bits/ 8 <0 0>;
+		xlnx,shim-rows = /bits/ 8 <0 1>;
+		aie_aperture0: aie_aperture@0 {
+			reg = <0x00000200 0x00000000 0x00000001 0x00000000>;
+			interrupt-names = "interrupt1", "interrupt2", "interrupt3";
+			interrupt-parent = <&gic>;
+			interrupts = <0x0 0x94 0x4>, <0x0 0x95 0x4>, <0x0 0x96 0x4>;
+			xlnx,columns = <0 50>;
+			xlnx,node-id = <0x18800000>;
 		};
 	};
 };
