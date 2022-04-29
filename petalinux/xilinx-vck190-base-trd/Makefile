@@ -90,4 +90,5 @@ $(PLNX_SDK):
 clean:
 	-@$(RM) build components/yocto images
 	-@$(RM) $(shell grep TMP_DIR project-spec/configs/config | sed -e 's/.*"\(.*\)\"/\1/')
+	-@$(RM) project-spec/hw-description/*
 
