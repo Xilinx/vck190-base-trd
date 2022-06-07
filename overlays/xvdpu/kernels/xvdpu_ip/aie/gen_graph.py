@@ -1,11 +1,10 @@
 #! /usr/bin/env python3
 import sys
 import os
-import json
 
 #enable option
-PL_FREQ=125
-VVER=1922
+PL_FREQ=250
+VVER=221
 #constraint core placement 
 BATCH0_ROW_OFFSET=0;
 BATCH0_COL_OFFSET=6;
@@ -16,7 +15,6 @@ MAX_BAT_PER_SHAREWGT=3
 #file name
 PARAM_FILE = "./src/param.h"
 GRAPH_FILE = "./src/graph_conv.h"
-PORTCONSTRAINT_FILE = "./src/port_constraint.json"
 PLATFORM_FILE = "./src/graph_conv.cc"
 
 #port prefix used in graph_conv.h
@@ -96,9 +94,11 @@ BUFB_PING_OFFSET = "0x1000"
 BUFB_PONG_OFFSET = "0x5000"
 BUFC_PING_OFFSET = "0x2000"
 BUFC_PONG_OFFSET = "0x6000"
+STACK_SIZE = "1024"
+HEAP_SIZE = "736"
 
 def getCommitId():
-	commit_id = "0d9ca43e"
+	commit_id = "f6bd7e80"
 	commit_id = commit_id.strip()
 	assert(commit_id != ''), "getCommitId error"
 	return commit_id
@@ -214,11 +214,11 @@ def genConnect():
       #PORTA -> conv.in[0]
       aidx = base_a + CORE2PORTA[idx_ker]
       ret += "\t//" + PORTA_PREFIX + "["+str(aidx) + "] --> core" +idxStr + "\n"
-      ret += "\tconnect<stream, window<MAX_BYTES_BUFA>>("+PORTA_PREFIX+"[" + str(aidx) + "], async(superkernel" + idxStr + ".in[0]));\n"
+      ret += "\tconnect<stream, window<MAX_BYTES_BUFA>>("+PORTA_PREFIX+"[" + str(aidx) + "].out[0], async(superkernel" + idxStr + ".in[0]));\n"
       #PORTB -> split
       bidx = base_b + CORE2PORTB[idx_ker]
       ret += "\t//" + PORTB_PREFIX + "["+str(bidx) + "] --> core" +idxStr + "\n"
-      ret += "\tconnect<pktstream >("+PORTB_PREFIX+"[" + str(bidx) + "], split" + idxStr + ".in[0]);\n"
+      ret += "\tconnect<pktstream >("+PORTB_PREFIX+"[" + str(bidx) + "].out[0], split" + idxStr + ".in[0]);\n"
       #split.out[0] -> conv.in[1]
       ret += "\tconnect<pktstream, window<MAX_BYTES_BUFB> >(split" + idxStr + ".out[0], async(superkernel" + idxStr + ".in[1]));\n"
       #split.out[1] -> ctrl.in[0]
@@ -231,10 +231,8 @@ def genConnect():
         ret += "\t//core" + idxStr +" --> [cascade]\n"
         ret += "\tconnect<cascade>(superkernel" + idxStr + ".out[0], superkernel[" + str(base_k + CORE2PORTC[idx_ker]) +"].in[2]);\n"
 
-        ret +="#if(VVER==212)\n"
         ret += "\tdisable_dma_autostart(superkernel" + idxStr + ".in[0]);\n"
         ret += "\tdisable_dma_autostart(superkernel" + idxStr + ".in[1]);\n"
-        ret +="#endif\n"
         #cascTo = 1 if (idx_ker%4==0) else -1;
         #ret += "\tconnect<cascade>(superkernel" + idxStr + ".out[0], superkernel[" + str(idx_ker+cascTo) +"].in[2]);\n"
       elif (idx_ker%4== 1 or idx_ker%4==2):
@@ -242,14 +240,12 @@ def genConnect():
         #cidx = base_c + (idx_ker/16)*8 + (idx_ker%16)/2
         cidx = base_c + CORE2PORTC[idx_ker]
         ret += "\t//core" + idxStr +" --> " + PORTC_PREFIX + "["+str(cidx) + "]\n"
-        ret += "\tconnect<window<MAX_BYTES_BUFC>, pktstream>(async(superkernel" + idxStr + ".out[0]), "+PORTC_PREFIX+"[" + str(cidx) +"]);\n"
+        ret += "\tconnect<window<MAX_BYTES_BUFC>, pktstream>(async(superkernel" + idxStr + ".out[0]), "+PORTC_PREFIX+"[" + str(cidx) +"].in[0]);\n"
         ret += "\tlocation<kernel>("+strSuperKer+") = location<buffer>("+strSuperKer+".out[0]);\n"        
         ret += "\tlocation<buffer>("+strSuperKer+".out[0]) = {offset("+BUFC_PING_OFFSET+"), offset("+BUFC_PONG_OFFSET+")};\n"        
-        ret +="#if(VVER==212)\n"
         ret += "\tdisable_dma_autostart(superkernel" + idxStr + ".in[0]);\n"
         ret += "\tdisable_dma_autostart(superkernel" + idxStr + ".in[1]);\n"
         ret += "\tdisable_dma_autostart(superkernel" + idxStr + ".out[0]);\n"
-        ret +="#endif\n"
       ret += "\tconnect<>(pmtr"+idxParamStrPing+","+strSuperKer+");\n"
       ret += "\tconnect<>(pmtr"+idxParamStrPong+","+strSuperKer+");\n"
       ret += "\tconnect<>(pmtr"+idxParamStrCachepi+","+strSuperKer+");\n"
@@ -259,6 +255,8 @@ def genConnect():
       strRow, strCol = getCoreRowCol(idx_bat, idx_ker)
       ret += "\tlocation<kernel>("+strSuperKer+") = tile("+ strCol + ", " + strRow + ");\n"
 
+      ret += "\tstack_size("+strSuperKer+")= " + STACK_SIZE + ";\n"
+      ret += "\theap_size("+strSuperKer+")= " + HEAP_SIZE + ";\n"
       ret += "\tlocation<parameter>(pmtr"+idxParamStrPing+") = address("+ strCol + ", " + strRow + ",16384-WLUT_BUF_SIZE*4);\n"
       ret += "\tlocation<parameter>(pmtr"+idxParamStrPong+") = address("+ strCol + ", " + strRow + ",32768-WLUT_BUF_SIZE*4);\n"
       ret += "\tlocation<parameter>(pmtr"+idxParamStrCachepi+") = address("+ strCol + ", " + strRow + ",32768-WLUT_BUF_SIZE*4-WLUT_BUF_SIZE*4);\n"
@@ -301,13 +299,15 @@ def genGraph():
 	word += "\tpktcontrol ctrl["+str(NUM_CORE*NUM_BATCH)+"];\n"
 	word += "\tparameter pmtr["+str(NUM_CORE*NUM_BATCH*6)+"];\n"
 	word += "public:\n"
-	word += "\tport<input> "+PORTA_PREFIX+"["+str(NUM_BATCH*NUM_PORT_A)+"];\n"
-	word += "\tport<input> "+PORTB_PREFIX+"["+str(PORT_B_BAT*NUM_PORT_B)+"];\n"
-	word += "\tport<output> "+PORTC_PREFIX+"["+str(NUM_BATCH*NUM_PORT_C)+"];\n\n"
+	word += "\tinput_plio "+PORTA_PREFIX+"["+str(NUM_BATCH*NUM_PORT_A)+"];\n"
+	word += "\tinput_plio "+PORTB_PREFIX+"["+str(PORT_B_BAT*NUM_PORT_B)+"];\n"
+	word += "\toutput_plio "+PORTC_PREFIX+"["+str(NUM_BATCH*NUM_PORT_C)+"];\n\n"
 	word += "CONV_CHAINS() {\n"
 	fo.write(word)
 
 	fo.write(genKernelDef())
+	fo.write(genPorts())
+	fo.write(genPortConstraint())
 	fo.write(genConnect())
 	word = ""
 	word +="  }\n"
@@ -325,44 +325,63 @@ def getNameB(idx_bat, idx_group, idx_len):
 def getNameC(idx_bat, idx_num, idx_row, idx_col):
     return "b"+str(idx_bat) + "_n"+str(idx_num)+"_r"+str(idx_row) +"_c"+ str(idx_col)
     
-def genIOdefine():
-  ret = "\n"
-  #port_num = #PORTA + #PORTB + #PORTC
-  plat = "\nsimulation::platform<" + str(NUM_BATCH*NUM_PORT_A\
-  + PORT_B_BAT*NUM_PORT_B) \
-  + "," + str(NUM_BATCH*NUM_PORT_C) + "> platform("
+def genPorts():
+  ports = "\n\t//Create Ports\n"
+
+  create_plio_str = "\t{}[{}] = {}put_plio::create({}, {}, {});\n" 
+  logical_name_str = "\"XvDPU_v1/M_AXIS_{}{}\""
+  width_str = "plio_{}_bits"
+
   #input A
-  ret += "//PORTA\n"
+  ports += "\t//PORTA\n"
   for idx_bat in range(0, int(NUM_BATCH)):
     for idx_aPr in range(0, NUM_PORT_A):
-      #idxStr = "b"+str(idx_bat) + "_r" + str(idx_aPr/2*2)+"_c"+str(idx_aPr%2)
       idxStr = getNameA(idx_bat, int(idx_aPr//2*2), idx_aPr%2)
-      ret += "PLIO *" + PLIOA_PREFIX + idxStr + "  = new PLIO(\"XvDPU_v1/M_AXIS_PL2ME"+ idxStr +"\", plio_"+str(WIDTH_PORT_A)+"_bits, \"./data/" + PLIOA_PREFIX + idxStr + ".txt\");\n";
-      plat += PLIOA_PREFIX + str(idxStr) + ",\n\t"
+
+      port_idx = idx_bat * NUM_PORT_A + idx_aPr
+      port_logical_name = logical_name_str.format("PL2ME", idxStr)
+      port_width = width_str.format(WIDTH_PORT_A)
+      port_golden_file = "\"./data/%s%s.txt\"" % (PLIOA_PREFIX, idxStr)
+
+      ports += create_plio_str.format(PORTA_PREFIX, port_idx, "in", port_logical_name, port_width, port_golden_file)
   #input B
-  ret += "\n//PORTB\n"
+  ports += "\n\t//PORTB\n"
   for idx_bat in range(0, int(PORT_B_BAT)):
     for idx_bPr in range(0, NUM_PORT_B):
-      #idxStr = "g"+str(idx_bPr/2) + "_l" + str(idx_bPr%2)
       idxStr = getNameB(idx_bat, int(idx_bPr//2), idx_bPr%2)
-      ret += "PLIO *" + PLIOB_PREFIX + idxStr +"  = new PLIO(\"XvDPU_v1/M_AXIS_WM2ME" + idxStr +"\", plio_"+str(WIDTH_PORT_B)+"_bits, \"./data/" +PLIOB_PREFIX + idxStr + ".txt\");\n";
-      plat += PLIOB_PREFIX + idxStr + ", \n\t"
+
+      port_idx = idx_bat * NUM_PORT_B + idx_bPr
+      port_logical_name = logical_name_str.format("WM2ME", idxStr)
+      port_width = width_str.format(WIDTH_PORT_B)
+      port_golden_file = "\"./data/%s%s.txt\"" % (PLIOB_PREFIX, idxStr)
+
+      ports += create_plio_str.format(PORTB_PREFIX, port_idx, "in", port_logical_name, port_width, port_golden_file)
   #output C
-  ret += "\n//PORTC\n"
+  ports += "\n\t//PORTC\n"
   for idx_bat in range(0, int(NUM_BATCH)):
     for idx_cPr in range(0, NUM_PORT_C):
-      #idxStr = "b"+str(idx_bat) + "_n"+str(idx_cPr/8)+"_r"+str(idx_cPr%8) +"_c"+ str(1 if idx_cPr%2==0 else 0)
       idx_col = 1 if (idx_cPr%2 == 0) else 0
-      idxStr = getNameC(idx_bat, int(idx_cPr//8), idx_cPr%8, idx_col)
-      #ret += "PLIO *" + PLIOC_PREFIX + idxStr +"  = new PLIO(\"XvDPU_v1/M_AXIS_ME2PL"+idxStr + "\", plio_"+str(WIDTH_PORT_C)+"_bits, \"./output/" + PLIOC_PREFIX + idxStr + ".txt\");\n";
-      OCPG=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//8) 
+      OCPG=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//8)
       OCPR=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//16)
       idxStrInPlat = getNameC(idx_bat, int((idx_cPr%OCPG)//2%OCPR), int((idx_cPr//OCPG)*2) + (idx_cPr%OCPG)%2, 1-idx_cPr%2)
-      ret += "PLIO *" + PLIOC_PREFIX + idxStrInPlat +"  = new PLIO(\"XvDPU_v1/M_AXIS_ME2PL"+idxStrInPlat + "\", plio_"+str(WIDTH_PORT_C)+"_bits, \"./output/" + PLIOC_PREFIX + idxStrInPlat + ".txt\");\n";
-      plat += PLIOC_PREFIX + idxStrInPlat + (", \n\t" if ((idx_bat*NUM_PORT_C+ idx_cPr) != (int(NUM_BATCH*NUM_PORT_C)-1)) else "")
-  plat += ");"
-  ret += plat
-  return ret
+
+
+
+      OCPG=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//8)
+      OCPR=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//16)
+      b1 = idx_bat
+      n1 = int((idx_cPr%OCPG)//2%OCPR)
+      r1 = int((idx_cPr//OCPG)*2) + (idx_cPr%OCPG)%2
+      c1 = int(1-idx_cPr%2)
+      port_idx = int(idx_bat*NUM_PORT_C + ((idx_cPr%OCPG))//2%OCPR*8+  ((idx_cPr//OCPG)*2 + (idx_cPr%OCPG)%2))
+
+      port_logical_name = logical_name_str.format("ME2PL", idxStrInPlat)
+      port_width = width_str.format(WIDTH_PORT_C)
+      port_golden_file = "\"./output/{}{}.txt\"".format(PLIOC_PREFIX, idxStrInPlat)
+
+      ports += create_plio_str.format(PORTC_PREFIX, port_idx, "out", port_logical_name, port_width, port_golden_file)
+
+  return(ports)
 
 def genIOConnect():
   ret = ""
@@ -391,121 +410,96 @@ def genIOConnect():
       ret += "connect<> net_C" + idxStr + "(convgraph."+PORTC_PREFIX+"["+idxPlatStr+"]" + ", platform.sink[" + idxStr+ "]);\n"
   return ret
 
+
+release_flag = 1
+
 def genPlatform():
 	fo = open(PLATFORM_FILE, "w")
 	word = ""		
 	word += "#include \"graph_conv.h\"\n"
-	fo.write(word)
-
-	fo.write(genIOdefine())
-	
+	fo.write(word)	
 	fo.write("\n\nCONV_CHAINS convgraph;\n\n")
-
-	fo.write(genIOConnect())
-
-	word ="\n"
-	word+="int main(int argc, char ** argv) {\n"
-	word+="  convgraph.init();\n"
-	word+="  convgraph.run();\n"
-	word+="  convgraph.end();\n"
-	word+="  return 0;\n"
-	word+="}\n"
-	fo.write(word)
+    
+	if (release_flag==0):
+	    word ="\n"
+	    word+="int main(int argc, char ** argv) {\n"
+	    word+="  convgraph.init();\n"
+	    word+="  convgraph.run();\n"
+	    word+="  convgraph.end();\n"
+	    word+="  return 0;\n"
+	    word+="}\n"
+	    fo.write(word)
+	else:            
+	    pass
+	       
 	fo.close()
 
-def getConstEntry(name, col):
-  word = "\t\t\""+name+"\": {\n"
-  word += "\t\t\t\"shim\": {\n"
-  word += "\t\t\t\t\"column\": " + str(col)+"\n"
-  word += "\t\t\t}\n"
-  word += "\t\t},\n"
-  return word
-
 def genPortConstraint():
-  word = ""	
-  word += "{\n"
-  word += "\t\"NodeConstraints\": {\n"
+  port_constr = "\n\t//Create Port Location Constraint\n"
+
   #input A
   COL_MAX=44
   col_per_bat = (NUM_PORT_B//2+ COL_INTERVAL)
+  plio_location_const_str = "\tlocation<PLIO>({}[{}]) = shim({});\n"
+
   if PL_FREQ==125:
     for idx_bat in range(0, int(NUM_BATCH)):
       for idx_aPr in range(0, NUM_PORT_A): 
         col = BATCH0_COL_OFFSET + idx_bat*col_per_bat+ PLIOA_IDX2COL[idx_aPr]
         if col > COL_MAX : continue
-        idxStr = "b"+str(idx_bat) + "_r" + str(int(idx_aPr//2*2))+"_c"+str(idx_aPr%2)
-        word += getConstEntry(PLIOA_PREFIX + idxStr, col)
+        port_constr += plio_location_const_str.format(PORTA_PREFIX, idx_bat * NUM_PORT_A + idx_aPr, col)
     #input B
     if MAX_BAT_PER_SHAREWGT == 1:
      for idx_bat in range(0, int(NUM_BATCH)):
       for idx_bPr in range(0, NUM_PORT_B):
         col = BATCH0_COL_OFFSET + idx_bat*col_per_bat + PLIOB_IDX2COL[idx_bPr]
         if col > COL_MAX : continue
-        idxStr = getNameB(idx_bat, int(idx_bPr//2), idx_bPr%2)
-        word += getConstEntry(PLIOB_PREFIX + idxStr, col)
+        port_constr += plio_location_const_str.format(PORTB_PREFIX, idx_bat * NUM_PORT_B + idx_bPr, col)
     elif NUM_BATCH == 8 and BAT_SHAREWGT==4:
      for idx_bat in range(0, 3):
       for idx_bPr in range(0, NUM_PORT_B):
         col = 6 + idx_bat*12+ idx_bPr
         if col > COL_MAX : continue
-        idxStr = getNameB(idx_bat, int(idx_bPr//2), idx_bPr%2)
-        word += getConstEntry(PLIOB_PREFIX + idxStr, col)
+        port_constr += plio_location_const_str.format(PORTB_PREFIX, idx_bat * NUM_PORT_B + idx_bPr, col)
     #output C
     for idx_bat in range(0, int(NUM_BATCH)):
       for idx_cPr in range(0, NUM_PORT_C):
         col = BATCH0_COL_OFFSET + idx_bat*col_per_bat+ PLIOC_IDX2COL[idx_cPr]
         if col > COL_MAX : continue
-        idxStr = "b"+str(idx_bat) + "_n"+str(int(idx_cPr//8))+"_r"+str(idx_cPr%8) +"_c"+ str(1 if idx_cPr%2==0 else 0)
-        word += getConstEntry(PLIOC_PREFIX + idxStr, col)
-    word = word[:-2]
-    word += "\n"
+        port_constr += plio_location_const_str.format(PORTC_PREFIX, idx_bat * NUM_PORT_C + idx_cPr, col)
+
   elif PL_FREQ == 250:
     for idx_bat in range(0, int(NUM_BATCH)):
       for idx_aPr in range(0, NUM_PORT_A): 
         col = BATCH0_COL_OFFSET + idx_bat*col_per_bat+ PLIOA_IDX2COL[idx_aPr]
         if col > COL_MAX : continue
-        idxStr = "b"+str(idx_bat) + "_r" + str(int(idx_aPr//2*2))+"_c"+str(idx_aPr%2)
-        word += getConstEntry(PLIOA_PREFIX + idxStr, col)
+        port_constr += plio_location_const_str.format(PORTA_PREFIX, idx_bat * NUM_PORT_A + idx_aPr, col)
     #output C
+    port_constr += "\n"
     for idx_bat in range(0, int(NUM_BATCH)):
       for idx_cPr in range(0, NUM_PORT_C):
-        col = BATCH0_COL_OFFSET + idx_bat*col_per_bat+ PLIOC_IDX2COL[idx_cPr]
+        b = idx_bat
+        n = int(idx_cPr//8)
+        r = int(idx_cPr%8)
+        c = 1 if idx_cPr%2==0 else 0
+
+        OCPG=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//8)
+        OCPR=1 if NUM_PORT_C==1 else int((NUM_PORT_C*2)//16)
+        b1 = idx_bat
+        n1 = int((idx_cPr%OCPG)//2%OCPR)
+        r1 = int((idx_cPr//OCPG)*2) + (idx_cPr%OCPG)%2
+        c1 = 1-idx_cPr%2
+
+        #col = BATCH0_COL_OFFSET + idx_bat*col_per_bat + PLIOC_IDX2COL[idx_cPr]
+        col = BATCH0_COL_OFFSET + idx_bat*col_per_bat + 2 * n1 + c1
+
+        p_id = int(idx_bat*NUM_PORT_C + ((idx_cPr%OCPG))//2%OCPR*8+  ((idx_cPr//OCPG)*2 + (idx_cPr%OCPG)%2))
+
+        port_id1 = "{}: {},{},{},{}".format(p_id, b1,n1,r1,c1)
         if col > COL_MAX : continue
-        idxStr = "b"+str(idx_bat) + "_n"+str(int(idx_cPr//8))+"_r"+str(idx_cPr%8) +"_c"+ str(1 if idx_cPr%2==0 else 0)
-        word += getConstEntry(PLIOC_PREFIX + idxStr, col)
-    word = word[:-2]
-    word += "\n"
-    '''
-  elif PL_FREQ == 250:
-    if NUM_CORE == 32 and (NUM_BATCH == 1 or NUM_BATCH == 3) and (COL_INTERVAL != 0):
-      coreColStart = 18 if NUM_BATCH == 1 else 10
-      interVal = 4
-      for idx_bat in range(0, int(NUM_BATCH)):
-        PLIOA_IDX2COL_NEW = [4, 5, 4, 5, 0, 1, 0, 1]
-        for idx_aPr in range(0, NUM_PORT_A): 
-          col = coreColStart + idx_bat*(2*interVal) + PLIOA_IDX2COL_NEW[idx_aPr] 
-          idxStr = "b"+str(idx_bat) + "_r" + str(int(idx_aPr//2*2))+"_c"+str(idx_aPr%2)
-          word += getConstEntry(PLIOA_PREFIX + idxStr, col)
-      for idx_bat in range(0, int(NUM_BATCH)):
-        PLIOB_IDX2COL_NEW = [3, 6, 3, 6, -1, 2, -1, 2]
-        for idx_bPr in range(0, NUM_PORT_B):
-          col = coreColStart + idx_bat*(2*interVal)+ PLIOB_IDX2COL_NEW[idx_bPr]
-          idxStr = getNameB(idx_bat, int(idx_bPr//2), idx_bPr%2)
-          word += getConstEntry(PLIOB_PREFIX + idxStr, col)
-      for idx_bat in range(0, int(NUM_BATCH)):
-        PLIOC_IDX2COL_NEW = [1, 0, 1, 0, 2, -1, 2, -1, 5, 4, 5, 4, 6, 3, 6, 3]
-        for idx_cPr in range(0, NUM_PORT_C):
-          col = coreColStart + idx_bat*(2*interVal) + PLIOC_IDX2COL_NEW[idx_cPr]
-          idxStr = "b"+str(idx_bat) + "_n"+str(int(idx_cPr//8))+"_r"+str(idx_cPr%8) +"_c"+ str(1 if idx_cPr%2==0 else 0)
-          word += getConstEntry(PLIOC_PREFIX + idxStr, col)
-      word = word[:-2]
-      word += "\n"
-      '''
-  word+="\t}\n"
-  word+="}\n"
-  fo = open(PORTCONSTRAINT_FILE, "w")
-  fo.write(word)
-  fo.close()
+        port_constr += plio_location_const_str.format(PORTC_PREFIX, p_id, col)
+
+  return port_constr
 
 def genConfig(corenum, batch_num):
     print("[INFO] generating graph: [" + str(batch_num)+" batch(s), " + str(corenum) + " cores/batch]")
@@ -616,14 +610,6 @@ def showConfig():
 	cfg += form.format('0x28', '16', 'CONV_LEAKYRELU_EN')
 '''
 
-
-def checkJson(file):
-    try:
-        json.loads(file)
-    except Exception as e:
-        return e
-    return True
-
 def main(argv):
     if(len(argv) != 4):
         print("usage: ./gen_graph.py <core_num/batch> <batch num> <vver>")
@@ -640,14 +626,6 @@ def main(argv):
     genGraph()
     print ("[INFO] Generating " + PLATFORM_FILE)
     genPlatform()
-    print ("[INFO] Generating " + PORTCONSTRAINT_FILE)
-    genPortConstraint()
-    portConstr = open(PORTCONSTRAINT_FILE).read()
-    r = checkJson(portConstr)
-    if r != True:
-        print ("[ERROR]: " + PORTCONSTRAINT_FILE + " format error")
-        print (r)
-        sys.exit()
     print ("[INFO] Generated "+ argv[1] + " cores graph successful!!!")
     cfg = showConfig()
     fg = open("config.txt", "w")

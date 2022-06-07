@@ -19,9 +19,9 @@ bat_sharewgt=1
 CHIP=PROD
 
 python_ver = python3
-vver = 212
-setenv_script = set_env.csh.212
-compile_ip_script = compile_ip.csh.212
+vver = 221
+setenv_script = set_env.csh.221
+compile_ip_script = compile_ip.csh.221
 
 ifeq ($(ip_dir),)
 	IP_DIR = $(DIR_PRJ)/ip
