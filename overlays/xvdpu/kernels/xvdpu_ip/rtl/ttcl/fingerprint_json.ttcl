@@ -19,7 +19,9 @@
 <:   {14_13_11}   {set TM_RDEPTH  6 }  :>
 <:   default      {set TM_RDEPTH  15}  :>
 <: } :>
-<: set TM_LDP_I [expr int(log([getIntValue LOAD_PARALLEL_IMG ])/log(2))] :>
+<: set TM_LDP_I      [expr int(log([getIntValue LOAD_PARALLEL_IMG ])/log(2))] :>
+<: set TM_CV_WP_SET  [expr int(log([getIntValue CONV_WR_PARALLEL  ])/log(2))] :>
+<: set TM_ALU_WP_SET [expr int(log([getIntValue MISC_WR_PARALLEL  ])/log(2))] :>
 <: set fp 0 :>
 <: set fp [expr $fp + 2** 0 * $TM_ARCH                         ] :>
 <: set fp [expr $fp + 2** 4 * [getIntValue  BATCH_N           ]] :>
@@ -31,6 +33,8 @@
 <: set fp [expr $fp + 2**28 * [getIntValue  CONV_LEAKYRELU    ]] :>
 <: set fp [expr $fp + 2**29 * [getIntValue   ALU_LEAKYRELU    ]] :>
 <: set fp [expr $fp + 2**30 * [getIntValue  SAVE_ARGMAX_ENA   ]] :>
+<: set fp [expr $fp + 2**32 * $TM_CV_WP_SET                    ] :>
+<: set fp [expr $fp + 2**34 * $TM_ALU_WP_SET                   ] :>
 <: set fp [expr $fp + 2**48 * 3                                ] :>
 <: set fp [expr $fp + 2**56 * 6                                ] :>
 {"fingerprint":"0x<=: [dec2hex $fp] :>"}

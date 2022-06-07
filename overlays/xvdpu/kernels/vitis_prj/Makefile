@@ -70,7 +70,7 @@ aie: $(ABS_PATH)/aie/ip/libadf.a
 $(ABS_PATH)/aie/ip/libadf.a:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Buiding $(notdir $@)..."
-	@XILINX_VITIS_AIETOOLS=$(XILINX_VITIS)/aietools source $(XILINX_VITIS)/settings64.sh && ${MAKE} --no-print-directory -C aie ip CPB=$(CPB_N) BAT_NUM=$(BATCH_N) vver=212 pl_freq=$(AIE_PL_FREQ) aie_activations_en=1 bat_sharewgt=$(BATCH_SHRWGT_N)	
+	@XILINX_VITIS_AIETOOLS=$(XILINX_VITIS)/aietools source $(XILINX_VITIS)/settings64.sh && ${MAKE} --no-print-directory -C aie ip CPB=$(CPB_N) BAT_NUM=$(BATCH_N) vver=221 pl_freq=$(AIE_PL_FREQ) aie_activations_en=1 bat_sharewgt=$(BATCH_SHRWGT_N)	
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -										 
 #Copy AIE's libadf.a to folder $(BUILD_SUBDIRS)
 $(BUILD_DIR)/binary_container_1/libadf.a:
@@ -80,8 +80,8 @@ $(BUILD_DIR)/binary_container_1/libadf.a:
 	@cp aie/ip/libadf.a "$@"
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Compile multiscaler kernel as XO file
-VVAS_CONFIG    = vvas/vvas-accel-hw/v_multi_scaler_config.h
-VVAS_MAKEFILE  = vvas/vvas-accel-hw/Makefile
+VVAS_CONFIG    = vvas/vvas-accel-hw/multiscaler/v_multi_scaler_config.h
+VVAS_MAKEFILE  = vvas/vvas-accel-hw/multiscaler/Makefile
 
 .PHONY: xo_multiscaler
 xo_multiscaler: v_multi_scaler.xo
@@ -89,15 +89,15 @@ v_multi_scaler.xo:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Building $(notdir $@)"
 	-@rm -rf v_multi_scaler.xo
-	@cp vvas/vvas-examples/Embedded/smart_model_select/v_multi_scaler_config.h vvas/vvas-accel-hw
+	@cp vvas/vvas-examples/Embedded/smart_model_select/v_multi_scaler_config.h vvas/vvas-accel-hw/multiscaler
 	sed -i "s/#define HSC_SAMPLES_PER_CLOCK       2/#define HSC_SAMPLES_PER_CLOCK       4/g" $(VVAS_CONFIG)
 	sed -i "s/#define HSC_MAX_WIDTH               1920/#define HSC_MAX_WIDTH               3840/g" $(VVAS_CONFIG)
 	sed -i "s/#define HSC_MAX_HEIGHT              1080/#define HSC_MAX_HEIGHT              2160/g" $(VVAS_CONFIG)
 	sed -i "s/PLATFORM_FILE := */#PLATFORM = /g"  $(VVAS_MAKEFILE)
 	sed -i "s/PLATFORM_FILE/PLATFORM/g"           $(VVAS_MAKEFILE)
 	sed -i "s/MULTISCALER_FLAGS := --kernel v_multi_scaler /MULTISCALER_FLAGS := --kernel v_multi_scaler -DMULTI_SCALER_USER_CONFIG /g"  $(VVAS_MAKEFILE)
-	$(MAKE) -C vvas/vvas-accel-hw all PLATFORM=$(PLATFORM)
-	@cp vvas/vvas-accel-hw/xo/v_multi_scaler.xo v_multi_scaler.xo
+	$(MAKE) -C vvas/vvas-accel-hw/multiscaler all PLATFORM=$(PLATFORM)
+	@cp vvas/vvas-accel-hw/multiscaler/xo/v_multi_scaler.xo v_multi_scaler.xo
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Compile xvdpu kernel as XO file
 .PHONY: xo_xvdpu
@@ -146,6 +146,6 @@ clean:
 	-@rm -rf .Xil vivado* *.log .ipcache sample*.ini packaged_kernel_*_hw_* tmp_kernel_pack_*_hw_*
 	-@rm -rf scripts/kernel.xml scripts/*xvdpu_aie_noc.cfg xvdpu/hdl xvdpu/inc xvdpu/vitis_cfg xvdpu/ttcl
 	-@rm -rf hw package_out *.xsa *.pdi *.xclbin v_multi_scaler.xo
-	$(MAKE) -C vvas/vvas-accel-hw/ clean
-	-@rm -rf vvas/vvas-accel-hw/v_multi_scaler_config.h
+	$(MAKE) -C vvas/vvas-accel-hw/multiscaler/ clean
+	-@rm -rf vvas/vvas-accel-hw/multiscaler/v_multi_scaler_config.h
 	-@rm -rf aie

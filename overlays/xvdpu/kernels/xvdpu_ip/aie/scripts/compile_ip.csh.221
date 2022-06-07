@@ -5,7 +5,7 @@ ${XILINX_VITIS_AIETOOLS}/bin/aiecompiler\
         -include="${XILINX_VITIS_AIETOOLS}/include/" \
         -include="${DIR_PRJ}" \
         -include="${DIR_PRJ}/src" \
-        ${DIR_PRJ}/src/graph_conv.cc \
+        ${DIR_PRJ}/graph_comb.cc \
         -workdir=${IP_DIR}/Work \
         -dataflow \
         -use-phy-shim=true \
@@ -13,8 +13,8 @@ ${XILINX_VITIS_AIETOOLS}/bin/aiecompiler\
         --genArchive=true \
         --stacksize=1024 \
         --heapsize=736 \
-        -constraints=${DIR_PRJ}/src/port_constraint.json \
         -pl-freq=125 \
+        -Xelfgen="-j `grep "^processor" /proc/cpuinfo | wc -l`" \
         -Xchess="super_kernel_input_casc:backend.mist2.pnll=on" \
         -Xchess="super_kernel_casc_output:backend.mist2.pnll=on" \
         -Xchess="super_kernel_input_casc:backend.mist2.pnllmp=on" \
