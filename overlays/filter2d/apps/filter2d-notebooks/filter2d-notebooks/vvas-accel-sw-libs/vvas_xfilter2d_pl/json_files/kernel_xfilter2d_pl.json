@@ -4,7 +4,7 @@
   "element-mode":"transform",
   "kernels": [
     {
-      "kernel-name": "filter2d_pl_accel:filter2d_pl_accel_0",
+      "kernel-name": "filter2d_pl_accel:{filter2d_pl_accel_0}",
       "library-name": "libvvas_xfilter2d_pl.so",
       "config": {
         "debug_level" : 1,
