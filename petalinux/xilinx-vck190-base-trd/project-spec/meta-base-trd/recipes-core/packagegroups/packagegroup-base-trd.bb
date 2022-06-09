@@ -18,6 +18,7 @@ BASE_TRD_PACKAGES = " \
 	packagegroup-petalinux-python-modules \
 	packagegroup-petalinux-self-hosted \
 	packagegroup-petalinux-vitisai \
+	packagegroup-petalinux-vvas \
 	packagegroup-petalinux-v4lutils \
 	alsa-utils \
 	cmake \
