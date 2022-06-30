@@ -1,5 +1,5 @@
 {
-  "xclbin-location": "/media/sd-mmcblk0p1/binary_container_1.xclbin",
+  "xclbin-location": "/boot/binary_container_1.xclbin",
   "vvas-library-repo": "/usr/lib/vvas",
   "element-mode":"transform",
   "kernels": [
