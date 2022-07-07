@@ -42,7 +42,7 @@
 };
 &gem1 {
 	phy-mode = "rgmii-id";
-	status = "okay";
+	status = "disabled";
 };
 &cci {
 	status = "okay";
