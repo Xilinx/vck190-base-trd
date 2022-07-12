@@ -42,12 +42,16 @@
 };
 &gem1 {
 	phy-mode = "rgmii-id";
-	status = "okay";
+	status = "disabled";
 };
 &cci {
 	status = "okay";
 };
 &smmu {
+	status = "okay";
+};
+&i2c0 {
+	clock-frequency = <400000>;
 	status = "okay";
 };
 &i2c1 {
