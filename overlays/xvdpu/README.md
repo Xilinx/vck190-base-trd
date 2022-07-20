@@ -23,7 +23,7 @@ Some NOC parameters in Vitis 2022.1 have been changed, which will affect DDR per
 
 To get performance back, there is workaround to change the default NOC parameters for Vitis 2022.1.
 
-Adding the following line to your tcl scripts '$HOME/.Xilinx/Vivado/Vivado_init.tcl'
+Before compiling the project, adding the following line to your tcl scripts '$HOME/.Xilinx/Vivado/Vivado_init.tcl'
 
 ```
 set_param place.preplaceNOC true
