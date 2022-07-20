@@ -14,9 +14,23 @@ Implemented Vivado project: overlays/xvdpu/kernels/vitis_prj/hw/binary_container
 'arch.json' file : "overlays/xvdpu/kernels/arch.json", also can be found "overlays/xvdpu/kernels/vitis_prj/package_out/sd_card/arch.json"
 ```
 
-**NOTE**:
+**NOTE1**:
 For the SD image built with ES1 platform *vck190_es1_mipiRxQuad_hdmiTx*, need execute AIE workaround firstly before running apps of xvdpu.
 Please run command `/etc/init.d/aie_workaround4es1.sh` in linux shell after VCK190-ES1 board boots up.
+
+**NOTE2**:
+Some NOC parameters in Vitis 2022.1 have been changed, which will affect DDR performance, thus performance of XVDPU for running some models will be dropped. 
+
+To get performance back, there is workaround to change the default NOC parameters for Vitis 2022.1.
+
+Adding the following line to your tcl scripts '$HOME/.Xilinx/Vivado/Vivado_init.tcl'
+
+```
+set_param place.preplaceNOC true
+
+```
+
+For details about 'Vivado_init.tcl', please refer to the link page 'https://docs.xilinx.com/r/en-US/ug894-vivado-tcl-scripting/Initializing-Tcl-Scripts'.
 
 # License
 
