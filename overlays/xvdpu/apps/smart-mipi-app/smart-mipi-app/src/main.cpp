@@ -25,6 +25,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <vector>
+#include <glib.h>
 
 #define assert2(cond, ...)                                                     \
     do {                                                                       \
@@ -100,7 +101,7 @@ PipelineInfo info = {false,
                      (gchar *)"yolov3",
                      {(gchar *)"refinedet", (gchar *)"facedetect",
                       (gchar *)"ssd", (gchar *)"yolov3"},
-                     (gchar *)"/media/sd-mmcblk0p1/binary_container_1.xclbin",
+                     (gchar *)"/boot/binary_container_1.xclbin",
                      (gchar *)"/usr/share/vvas/smart-mipi-app"};
 
 enum Channel { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULLSCREEN };
@@ -153,9 +154,10 @@ int v4l2_set_ctrl(char *subdev_name, int id, int value) {
 
 int main(int argc, char *argv[]) {
     int m, n, ret;
-
+	
     get_config_info(argc, argv);
-
+    setenv("XLNX_VART_FIRMWARE", "/boot/binary_container_1.xclbin", 1);
+	
     if (info.performance)
         return performance_test();
 

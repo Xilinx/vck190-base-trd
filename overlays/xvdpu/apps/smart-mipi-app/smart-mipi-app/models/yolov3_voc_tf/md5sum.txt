@@ -1,2 +1,1 @@
-753f325d45718f4fdd78fe42b4eea91c  yolov3_voc_tf.prototxt
-0f1fec2e29ca7225de9ad5818f835ae5  yolov3_voc_tf.xmodel
+09fa15266f5ccfa0bb6558b882a3cd0b
