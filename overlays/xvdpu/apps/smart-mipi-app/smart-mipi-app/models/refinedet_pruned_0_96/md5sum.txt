@@ -1,2 +1,1 @@
-78e9c04821ed1370ffa6a3b526980bf8  refinedet_pruned_0_96.prototxt
-b6f950917d5b8bdd42233b7d9f324236  refinedet_pruned_0_96.xmodel
+f64e3b33cda5bca9245a6c80a1b3354f
