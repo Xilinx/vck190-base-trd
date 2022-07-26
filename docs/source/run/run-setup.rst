@@ -16,6 +16,9 @@ Prerequisites
 
 * Windows: 7zip utility (https://sourceforge.net/projects/sevenzip/)
 
+
+.. _Reference Design SD Card Creation:
+
 Reference Design SD Card Creation
 ---------------------------------
 
@@ -91,14 +94,6 @@ System Controller
    If you think that you have the correct System Controller (SC) SD Image then this section
    can be skipped.
 
-**ES Silicon**
-
-The image and instructions to write to the SC SD card can be downloaded from the
-VCK190 headstart lounge.
-
-* SC SD Image: https://www.xilinx.com/member/vck190_headstart/Board_Framework_Phase1Beta_V1.02_wVadj.img.zip
-
-* Instructions: https://www.xilinx.com/member/vck190_headstart/Update_System_Controller_uSD_Card_Instructions.pdf
 
 **Production Silicon**
 
@@ -188,7 +183,6 @@ Note: This is required only if using MIPI Single or Quad sensors.
 
 #. Power on the board.
 
-   Note: Skip next 2 steps for ES silicon
 
 #. On the  System Controller UART terminal type the following commands at
    the linux prompt. This will allow the *BoardUI/Board Interaface Test* utility
@@ -227,11 +221,39 @@ Note: This is required only if using MIPI Single or Quad sensors.
 
 #. Close the *BoardUI* utility.
 
-.. note::
+.. Note::
 
    If Vadj does not persists after reboot, try updating the System Controller
    SD card image (Instructions provided in the System Controller section of
    this tutorial).
+
+
+**First Boot**
+
+Follow these steps to boot the board into Linux
+
+* Ensure all steps under the section :ref:`Board Setup` are verified.
+
+* Insert the prepared micro SD card into the Versal SD card slot (refer to the
+  image in :ref:`Reference Design SD Card Creation`)
+
+* Have the UART0 terminal emulator tab connected.
+
+* Turn ON power switch SW13.
+
+* On Versal UART0 terminal, you would see the Versal device booting from the
+  micro SD card, starting with the message
+  "Xilinx Versal Platform Loader and Manager"
+
+* In about 60 seconds boot is complete. Observe the Linux prompt to login and set a new password as shown below.
+  Use 'petalinux' as login name and set an easy password that you do not forget.
+
+  .. code-block:: bash
+
+    xilinx-vck190-20221 login: petalinux
+    You are required to change your password immediately (administrator enforced).
+    New password:
+    Retype new password:
 
 ,,,,,
 

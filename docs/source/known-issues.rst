@@ -1,14 +1,10 @@
 Known Issues
 ============
 
-#. Install y2k22_patch when Vivado HLS and Vitis HLS fail to export IP
-   using export_ip command. Refer to the following Answer Record for more
-   information on 'Y2K22 Overflow Issue'.
-   https://support.xilinx.com/s/article/76960?language=en_US
-
-#. On the vck190_es1_hdmiRx_hdmiTx and vck190_hdmiRx_hdmiTx platforms, if the
-   HDMI TX display (blue screen) doesn't come up right after linux boot, disconnect
-   HDMI RX source and boot again. After the boot, connect back the HDMI RX source. 
+#. On the vck190_hdmiRx_hdmiTx platform, few of VCK190 boards HDMI TX
+   display (blue screen) doesn't come up right after linux boot in such
+   scenarios, disconnect HDMI RX source and boot again. After the boot,
+   connect back the HDMI RX source.
 
 #. Enabling the primary plane on the Video Mixer by default results in a
    bandwidth utilization of 2GB. A patch is applied to disable the mixer primary

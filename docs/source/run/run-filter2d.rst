@@ -25,34 +25,43 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *root@xilinx-vck190-2021_2* and autostart of JupyterLab server as shown
-  in the example below:
+  *xilinx-vck190-20221*
+
+* JupyterLab server is disabled in the systemd services and will not autostart.
+  Users can enable 'jupyter-setup' via systemctl to autostart the service at reboot.
+
+    follow the steps in the example below to start JupyterLab:
 
   .. code-block:: bash
 
-     root@xilinx-vck190-2021_2:~#
-     [I 17:36:24.640 LabApp] Writing notebook server cookie secret to /home/root/.local/share/jupyter/runtime/notebook_cookie_secret
-     [W 17:36:26.084 LabApp] JupyterLab server extension not enabled, manually loading...
-     [I 17:44:03.942 LabApp] JupyterLab extension loaded from /usr/lib/python3.7/site-packages/jupyterlab
-     [I 17:44:03.942 LabApp] JupyterLab application directory is /usr/share/jupyter/lab
-     [I 17:44:06.924 LabApp] Serving notebooks from local directory: /usr/share/notebooks
-     [I 17:44:06.924 LabApp] The Jupyter Notebook is running at:
-     [I 17:44:06.925 LabApp] http://xxx.xxx.x.xx:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
-     [I 17:44:06.925 LabApp]  or http://127.0.0.1:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
-     [I 17:44:06.925 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-     [C 17:44:06.949 LabApp]
+     xilinx-vck190-20221:~$ sudo systemctl start jupyter-setup
+     xilinx-vck190-20221:~$ sudo jupyter-lab  list
+     Currently running servers:
+     http://192.168.xx.x:8888/?token=1f69939d70cdedd044adb64c91d26a75c01da7ad34f8ff03 :: /usr/share/notebooks
 
-         To access the notebook, open this file in a browser:
-             file:///home/root/.local/share/jupyter/runtime/nbserver-658-open.html
-         Or copy and paste one of these URLs:
-             http://xxx.xxx.x.xx:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
-          or http://127.0.0.1:8888/?token=06cfb958c61eb0581bb759f40e3a4c3a6252cef3b7075449
+* Copy the above URL `http://192.168.xx.x:8888/?token=1f69939d70cdedd044adb64c91d26a75c01da7ad34f8ff03` to the chrome browser.
+
+* Users can check status of the systemd service 'jupyter-setup' any time for debug info:
+
+  .. code-block:: bash
+
+     xilinx-vck190-20221:~$ systemctl status jupyter-setup
+     * jupyter-setup.service - jupyter setup scripts
+          Loaded: loaded (/lib/systemd/system/jupyter-setup.service; disabled; vendor preset: disabled)
+          Active: active (running) since Fri 2021-11-19 10:12:14 PST; 20min ago
+        Main PID: 879 (start-jupyter.s)
+           Tasks: 3 (limit: 2237)
+          Memory: 125.6M
+          CGroup: /system.slice/jupyter-setup.service
+                  |-879 /bin/bash /sbin/start-jupyter.sh
+                  `-884 python3 /usr/bin/jupyter-lab --no-browser --allow-root --ip=192.xxx.xx.xx
+
 
 
 .. note::
 
     If you do not see any URL for the Juputer Notebook, you may have to setup
-    a private network. Likely, DHCP is not be available to allot the board an
+    a private network. Likely, DHCP is not available to allot the board an
     IP address. To setup a private network and start the notebook follow the
     instruction below.
 
@@ -107,7 +116,7 @@ Windows users:**
 
   .. code-block:: bash
 
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+     sudo ifconfig eth0 10.0.0.2 netmask 255.255.255.0
 
      # Perform a ping test to the host form the target
      ping -c 3 10.0.0.1
@@ -133,7 +142,7 @@ users:**
 
   .. code-block:: bash
 
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+     sudo ifconfig eth0 10.0.0.2 netmask 255.255.255.0
 
      # Perform a ping test to the host form the target
      ping -c 3 10.0.0.1
@@ -142,8 +151,8 @@ users:**
 
   .. code-block:: bash
 
-     /etc/init.d/jupyterlab-server stop
-     /etc/init.d/jupyterlab-server start
+    sudo systemctl start jupyter-setup
+    sudo jupyter-lab list
 
 Start the Notebook
 ^^^^^^^^^^^^^^^^^^
@@ -163,7 +172,7 @@ Start the Notebook
 
   .. code-block:: bash
 
-	jupyter-lab  list
+	sudo jupyter-lab  list
 
 .. note::
 
@@ -229,12 +238,13 @@ To run the notebooks, follow the below steps:
       :width: 1000px
       :alt: Jupyter_nb_home
 
-**Note:** Rerunning a TRD notebook may have spurious behavior, this is because software
+**Note1:** Rerunning a TRD notebook may have spurious behavior, this is because software
 commands are designed to run in order and may not behave as expected in iterative runs when
 the kernel is not restarted. In practice, there are some command sequences that can be regressed,
 but the safest thing is to restart the Jupyter Notebook kernel with 'kernel' → 'Interrupt kernel'
 , followed by 'kernel' → 'Restart Kernel and Run All Cells' when rerunning a notebook.
 
+**Note2:** Jupyter-setup is expected to be started with root privilages 'sudo systemctl start jupyter-setup'. If not started with root permission for the first atempt, then post install scripts will fail to execute and dot may throw an error creating a graph in png format. This can be resolved by executing 'dot -c' at the linux prompt .
 
 ,,,,,
 

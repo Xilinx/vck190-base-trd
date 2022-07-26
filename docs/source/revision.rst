@@ -1,6 +1,12 @@
 Revision History
 ================
 
+**2022.1 v1.4**
+
+* Update Vivado/Vitis/Petalinux tools versions to 2022.1
+
+* Synced to VAI 2.5 and VVAS 2.0 releases
+
 **2021.2 v1.3**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2021.2

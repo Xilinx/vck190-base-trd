@@ -1,14 +1,14 @@
 Run XVDPU application
 ======================
 
-The smart-mipi-app application is targeted to run with Single-MIPI(Leopard IMX274 MIPI) or 
-Quad-MIPI(Avnet Multi-Camera MIPI) sensor as input source, and HDMI as output sink. The 
+The smart-mipi-app application is targeted to run with Single-MIPI(Leopard IMX274 MIPI) or
+Quad-MIPI(Avnet Multi-Camera MIPI) sensor as input source, and HDMI as output sink. The
 application supports 4 models - yolov3, refinedet, densebox, ssd.
 
 Follow these steps to boot the board into Linux
 
 * Ensure all steps under the section :ref:`Board Setup<Board Setup>` are
-  verified. Make connections based on the input source and output sink 
+  verified. Make connections based on the input source and output sink
   selected.
 
 * Insert the prepared micro SD card into the Versal SD card slot (refer to the
@@ -23,10 +23,7 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete and will stop at the Linux prompt
-  *root@xilinx-vck190-2021_2* 
-
-* For ES1 VCK190 board, please run command `/etc/init.d/aie_workaround4es1.sh` 
-  in linux shell, production VCK190 board can skip this step 
+  *xilinx-vck190-20221*
 
 * Use command line options provided below to run the smart-mipi-app application
 
@@ -37,25 +34,25 @@ Examples for quad-mipi sensor
 
   .. code-block:: bash
 
-     smart-mipi-app
+     sudo smart-mipi-app
 
 * Run 4 channel mipi camera with 1920x1080 resolution monitor
 
   .. code-block:: bash
 
-     smart-mipi-app -W 1920 -H 1080
+     sudo smart-mipi-app -W 1920 -H 1080
 
 * Run 4 channel mipi camera with specified AI model
 
   .. code-block:: bash
 
-     smart-mipi-app --t1=yolov3 --t2=refinedet --t3=facedetect --t4=ssd
+     sudo smart-mipi-app --t1=yolov3 --t2=refinedet --t3=facedetect --t4=ssd
 
 * Run 4 channel mipi camera with specified media device, the default is "/dev/media1"
 
   .. code-block:: bash
 
-     smart-mipi-app -m 2
+     sudo smart-mipi-app -m 2
 
 Examples for single-mipi sensor
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -64,25 +61,25 @@ Examples for single-mipi sensor
 
   .. code-block:: bash
 
-     smart-mipi-app -s
+     sudo smart-mipi-app -s
 
 * Run 1 channel mipi camera with 1920x1080 resolution monitor
 
   .. code-block:: bash
 
-     smart-mipi-app -s -W 1920 -H 1080
+     sudo smart-mipi-app -s -W 1920 -H 1080
 
 * Run 1 channel mipi camera with specified AI model
 
   .. code-block:: bash
 
-     smart-mipi-app -s -t yolov3 
+     sudo smart-mipi-app -s -t yolov3
 
 * Run 1 channel mipi camera with specified media device, the default is "/dev/media1"
 
   .. code-block:: bash
 
-     smart-mipi-app -s -m 2
+     sudo smart-mipi-app -s -m 2
 
 **Note:** Currently, Only **yolov3, densebox, refinedet, ssd** models are supported by this application.
 
@@ -148,13 +145,13 @@ Files structure of the application
 The application is installed as:
 
 * Binary File Directory: /usr/bin
-   
+
   .. code-block:: bash
 
      /usr/bin/smart-mipi-app
 
 * Configuration file directory: /usr/share/vvas/smart-mipi-app
-   
+
   .. code-block:: bash
 
       |-- facedetect
@@ -173,7 +170,7 @@ The application is installed as:
       `-- yolov3
           |-- aiinference.json
           `-- drawresult.json
-   
+
 * Model file directory: /usr/share/vitis_ai_library/models
 
   .. code-block:: bash

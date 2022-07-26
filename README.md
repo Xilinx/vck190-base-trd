@@ -8,12 +8,7 @@ git clone --recursive https://github.com/Xilinx/vck190-base-trd.git
 
 ## Tools Version
 
-The supported Xilinx tools release is 2021.2.
-
-Install y2k22_patch for Vivado HLS and Vitis HLS tools to avoid 'Y2K22 Overflow Issue'.
-Refer to the following Answer Record for obtaining the patch. 
-
-https://support.xilinx.com/s/article/76960?language=en_US
+The supported Xilinx tools release is 2022.1.
 
 ## Overview
 
@@ -68,7 +63,7 @@ display. The supported ML models are: yolov3, refinedet, densebox, ssd.
 
 ## Documentation
 
-Additional documentation can be found on [github pages](https://xilinx.github.io/vck190-base-trd/2021.2/html/index.html) including:
+Additional documentation can be found on [github pages](https://xilinx.github.io/vck190-base-trd/2022.1/html/index.html) including:
 
 * Tutorials for running the prebuilt SD card images and applications
 * Tool flow tutorials for various design components including Vitis platforms,
@@ -78,7 +73,7 @@ Vitis overlays and the PetaLinux BSP
 ## Third-Party Content
 
 All Xilinx and third-party licenses and sources associated with this reference
-design can be downloaded [here](https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source_2021_2.tar.gz).
+design can be downloaded [here](https://www.xilinx.com/bin/public/openDownload?filename=vck190_base_trd_third_party_licenses_and_source_2022.1.tar.gz).
 
 ## License
 
