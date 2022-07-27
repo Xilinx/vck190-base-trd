@@ -154,10 +154,10 @@ int v4l2_set_ctrl(char *subdev_name, int id, int value) {
 
 int main(int argc, char *argv[]) {
     int m, n, ret;
-	
+
     get_config_info(argc, argv);
     setenv("XLNX_VART_FIRMWARE", "/boot/binary_container_1.xclbin", 1);
-	
+
     if (info.performance)
         return performance_test();
 
@@ -355,7 +355,7 @@ std::string get_channel_inference_string(Channel channel) {
     std::string result =
         " ! tee name=t" + s +
         " ! vvas_xabrscaler xclbin-location=" + info.xclbin_location +
-        " kernel-name=\"v_multi_scaler:v_multi_scaler_1\" " +
+        " kernel-name=\"v_multi_scaler:{v_multi_scaler_1}\" " +
         get_task_pp_param(get_channel_input_task(channel)) +
         " ! queue ! vvas_xfilter kernels-config=" + info.config_dir + "/" +
         get_channel_input_task(channel) + "/aiinference.json \
