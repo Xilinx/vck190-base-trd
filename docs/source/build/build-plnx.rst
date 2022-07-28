@@ -4,7 +4,7 @@ Build the PetaLinux Image
 Prerequisites
 -------------
 
-* PetaLinux Tools 2021.2
+* PetaLinux Tools 2022.1
 
 * Linux host machine
 
@@ -21,8 +21,8 @@ Build Flow Tutorial
 
    .. code-block:: bash
 
-      git clone --branch 2021.2 --recursive https://github.com/Xilinx/vck190-base-trd.git
-      
+      git clone --branch 2022.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
+
 The directory structure is described in the Introduction Section
 
 
@@ -33,13 +33,13 @@ Build steps shown below before generating a bootable petalinux image.
 
 * Section 4.2: **Create the Vitis Platform**
 
-https://xilinx.github.io/vck190-base-trd/2021.2/html/build-pfm.html#create-the-vitis-platform
+https://xilinx.github.io/vck190-base-trd/2022.1/html/build-pfm.html#create-the-vitis-platform
 
 * Section 4.3: **Integrate Kernels in the Platform**
 
-https://xilinx.github.io/vck190-base-trd/2021.2/html/build-filter2d.html#integrate-2d-filter-kernels-in-the-platform
+https://xilinx.github.io/vck190-base-trd/2022.1/html/build-filter2d.html#integrate-2d-filter-kernels-in-the-platform
 
-The xsa and xclbin binaries produced from the previous step are consumed by 
+The xsa and xclbin binaries produced from the previous step are consumed by
 petalinux during the image creation step.
 
 #. Source the PetaLinux tool settings.sh script.
@@ -75,7 +75,7 @@ The following is a list of important output files:
 
 * **Image**: Linux kernel image
 
-* **ramdisk.cpio.gz.u-boot**: Initial filesystem in ramdisk 
+* **ramdisk.cpio.gz.u-boot**: Initial filesystem in ramdisk
 
 * **rootfs.tar.gz**: Compressed root file system tar ball
 
@@ -87,15 +87,15 @@ Section *Run the Prebuilt Image* for details.
 Steps to Custom configure a PetaLinux project and build
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-User can configure BSP with custom XSA file, refer to the steps provided in 
+User can configure BSP with custom XSA file, refer to the steps provided in
 
-https://github.com/Xilinx/vck190-base-trd/blob/2021.2/petalinux/xilinx-vck190-base-trd/README.md
+https://github.com/Xilinx/vck190-base-trd/blob/2022.1/petalinux/xilinx-vck190-base-trd/README.md
 
-Reference 
+Reference
 ---------
-Petalinux Tools Documentation 
+Petalinux Tools Documentation
 
-https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_2/ug1144-petalinux-tools-reference-guide.pdf
+https://www.xilinx.com/support/documentation/sw_manuals/xilinx2022.1/ug1144-petalinux-tools-reference-guide.pdf
 
 ,,,,,
 

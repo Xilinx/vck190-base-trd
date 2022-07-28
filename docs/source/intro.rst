@@ -7,8 +7,8 @@ design with a pre-instantiated set of I/O interfaces and a corresponding
 PetaLinux BSP and image that includes the required kernel drivers and user-space
 libraries to exercise those interfaces. Accelerators are mapped to FPGA logic
 resources and/or AI Engine cores and stitched into the platform using the Vitis
-toolchain. The reference design currently supports the VCK190 evaluation board
-either with ES parts or production parts.
+toolchain. The reference designs from this release are supported with production
+silicon only, for the VCK190 evaluation board.
 
 .. _Platforms:
 
@@ -17,7 +17,7 @@ Platforms
 
 The following is a list of supported platforms including key I/O interfaces:
 
-* Platform 1 - *vck190_es1_mipiRxSingle_hdmiTx, vck190_mipiRxSingle_hdmiTx*:
+* Platform 1 - *vck190_mipiRxSingle_hdmiTx*:
 
   * Sources:
 
@@ -33,7 +33,8 @@ The following is a list of supported platforms including key I/O interfaces:
 
     * 2D Filter (PL)
 
-    * 2D Filter (AIE)
+    * XVDPU (PL + AIE)
+
 
   * Sinks:
 
@@ -42,14 +43,14 @@ The following is a list of supported platforms including key I/O interfaces:
     * Application sink into jupyter notebook display
 
 
-* Platform 2 - *vck190_es1_mipiRxQuad_hdmiTx, vck190_mipiRxQuad_hdmiTx*:
+* Platform 2 - *vck190_mipiRxQuad_hdmiTx*:
 
   Platform 2 is essentially an enhancement to platform 1 capture pipeline,
   while the rest of the hardware design and pre-instantiated set of I/O
   interfaces remain the same. The notable difference in the capture path is
   replacement of IMX274 image sensor with Avnet Multi-Camera image sensor.
 
-* Platform 3 - *vck190_es1_hdmiRx_hdmiTx, vck190_hdmiRx_hdmiTx*:
+* Platform 3 - *vck190_hdmiRx_hdmiTx*:
 
   Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
@@ -130,9 +131,6 @@ The design file hierarchy is shown below:
    │   ├── scripts
    │   └── vivado
    │       ├── ip
-   │       ├── vck190_es1_hdmiRx_hdmiTx
-   │       ├── vck190_es1_mipiRxQuad_hdmiTx
-   │       ├── vck190_es1_mipiRxSingle_hdmiTx
    │       ├── vck190_hdmiRx_hdmiTx
    │       ├── vck190_mipiRxQuad_hdmiTx
    │       └── vck190_mipiRxSingle_hdmiTx

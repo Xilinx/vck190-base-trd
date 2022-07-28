@@ -38,23 +38,29 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *root@xilinx-vck190-2021_1* and autostart of the bokeh server that serves the
+  *xilinx-vck190-20221* and autostart of the bokeh server that serves the
   Base TRD dashboard application as seen in the example below:
 
   .. code-block:: bash
 
-   Versal Base TRD dashboard initialization
-   Starting bokeh
-   waiting for IP address..waiting for path.
-   start-stop-daemon -S -m -p /var/run/bokeh.pid -x bokeh --  serve --show --allow-websocket-origin=192.168.1.133:5006 /usr/lib/python3.8/site-packages/trd-dashboard/
-   Versal Base TRD dashboard will be running at http://192.168.1.133:5006/trd-dashboard
-    
+    xilinx-vck190-20221 login: petalinux
+
+    [   24.344617] trd-dashboard.sh[684]: TRD Dashboard will be running at http://192.168.0.13:5006/trd-dashboard
+    [   28.466649] trd-dashboard.sh[697]: 2022-07-26 23:52:55,858 Starting Bokeh server version 2.4.2 (running on Tornado 6.1)
+    [   28.475214] trd-dashboard.sh[697]: 2022-07-26 23:52:55,867 User authentication hooks NOT provided (default user enabled)
+    [   28.498431] trd-dashboard.sh[697]: 2022-07-26 23:52:55,890 Bokeh app running at: http://localhost:5006/trd-dashboard
+    [   28.499011] trd-dashboard.sh[697]: 2022-07-26 23:52:55,891 Starting Bokeh server with process id: 697
+
 .. note::
 
-   If you do not see the above messages or a TIMEOUT error instead, then double
-   check your network connection. If DHCP is not available and auto-assigment
+   If you do not see the above messages or after a TIMEOUT of 90 seconds you see a message log with 'IP address not found' instead,
+
+   `trd-dashboard.sh[682]: Cant find IP addr, please call /usr/bin/trd-dashboard.sh after assigning IP addr`
+
+   then double check your network connection. If DHCP is not available and auto-assigment
    of an IP address times out, you can use a private network and start the bokeh
-   server as follows.
+   server as follows. User is requeired to use sudo while running any of trd-dashboard or jupyter-lab. It is adviced
+   to use systemctl to start the abover services as shown below.
 
 Setting up a private network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -106,7 +112,7 @@ Windows users:**
 
   .. code-block:: bash
 
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+     sudo ifconfig eth0 10.0.0.2 netmask 255.255.255.0
 
      # Perform a ping test to the host form the target
      ping -c 3 10.0.0.1
@@ -132,7 +138,7 @@ users:**
 
   .. code-block:: bash
 
-     ifconfig eth0 10.0.0.2 netmask 255.255.255.0
+     sudo ifconfig eth0 10.0.0.2 netmask 255.255.255.0
 
      # Perform a ping test to the host form the target
      ping -c 3 10.0.0.1
@@ -141,7 +147,14 @@ users:**
 
   .. code-block:: bash
 
-     /etc/init.d/trd-dashboard-init restart
+     sudo systemctl restart trd-dashboard
+
+* To check the status of bokeh server run
+
+  .. code-block:: bash
+
+     systemctl status trd-dashboard
+
 
 Start the Dashboard
 -------------------

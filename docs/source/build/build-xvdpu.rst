@@ -6,14 +6,14 @@ Prerequisites
 
 * Reference Design source files
 
-* Vitis Unified Software Platform 2021.2 (include AIE tool chain)
+* Vitis Unified Software Platform 2022.1 (include AIE tool chain)
 
 Build Flow Tutorial
 -------------------
 
 .. note::
 
-   The below steps use platform vck190_mipiRxSingle_hdmiTx as an example. 
+   The below steps use platform vck190_mipiRxSingle_hdmiTx as an example.
    The same steps can be used for other supported platforms as well.
    The file/directory names will be replaced with the targeted platform name -
    *vck190_<platform_name>*.
@@ -27,8 +27,8 @@ extracted to a working directory
 
    .. code-block:: bash
 
-      git clone --branch 2021.2 --recursive https://github.com/Xilinx/vck190-base-trd.git
-      
+      git clone --branch 2022.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
+
 The directory structure is described in the Introduction Section
 
 **Set up the Vitis toolchain:**
@@ -62,7 +62,7 @@ The directory structure is described in the Introduction Section
      contains meta data describing the kernels and platform. Generates a new
      XSA that includes the updated PDI.
 
-   Note: If the *Create the Vitis Platform* tutorial is not run before this, 
+   Note: If the *Create the Vitis Platform* tutorial is not run before this,
    then this Makefile also generates the Vitis platform
 
 

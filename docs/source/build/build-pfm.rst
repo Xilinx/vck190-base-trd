@@ -6,52 +6,28 @@ Prerequisites
 
 * Reference Design source files
 
-* Vivado Design Suite 2021.2
+* Vivado Design Suite 2022.1
 
-* Vitis Unified Software Platform 2021.2
-
-Enable Versal device support
------------------------------
-
-.. note::
-
-   The below steps can be skipped if design is not being built for ES 
-   silicon.
-
-To enable Versal device support, you need to create two tcl initialization
-scripts, one for Vivado and one for HLS. Add the following line to each of
-the tcl scripts:
-
-.. code-block:: bash
-
-   enable_beta_device *
-
-The initialization tcl script for Vivado shall be placed at:
-
-* $HOME/.Xilinx/Vivado/Vivado_init.tcl
-
-Similarly, the initialization tcl script for HLS shall be placed at:
-
-* $HOME/.Xilinx/HLS_init.tcl
+* Vitis Unified Software Platform 2022.1
 
 Build Flow Tutorial
 -------------------
 .. note::
 
-   The below steps use platform vck190_mipiRxSingle_hdmiTx as an example. 
-   The same steps can be used for other platforms as well. The file/directory 
+   The below steps use platform vck190_mipiRxSingle_hdmiTx as an example.
+   The same steps can be used for other platforms as well. The file/directory
    names will be replaced with the targeted platform name - *vck190_<platform_name>*
 
    Available platforms:
-   
-   * Platform 1 - *vck190_es1_mipiRxSingle_hdmiTx, vck190_mipiRxSingle_hdmiTx*
 
-   * Platform 2 - *vck190_es1_mipiRxQuad_hdmiTx, vck190_mipiRxQuad_hdmiTx*
-   
-   * Platform 3 - *vck190_es1_hdmiRx_hdmiTx, vck190_hdmiRx_hdmiTx*
+   * Platform 1 - *vck190_mipiRxSingle_hdmiTx*
+
+   * Platform 2 - *vck190_mipiRxQuad_hdmiTx*
+
+   * Platform 3 - *vck190_hdmiRx_hdmiTx*
 
    Refer to the :ref:`Platforms` section for more details.
-         
+
 **Clone the Reference Design Files:**
 
 Skip the following steps if the design has already been cloned and
@@ -61,8 +37,8 @@ extracted to a working directory
 
    .. code-block:: bash
 
-      git clone --branch 2021.2 --recursive https://github.com/Xilinx/vck190-base-trd.git
-      
+      git clone --branch 2022.1 --recursive https://github.com/Xilinx/vck190-base-trd.git
+
 The directory structure is described in the Introduction Section
 
 **Create a Vitis Extensible Platform:**
@@ -83,9 +59,9 @@ The directory structure is described in the Introduction Section
    The Makefile implements the following:
 
    * Builds the ISP pipeline from the Vitis Vision Libraries using Vitis HLS tool.
-     This IP is required by the Single sensor and Quad sensor platforms 
+     This IP is required by the Single sensor and Quad sensor platforms
 
-   * Generates the XSA for the target platform using Vivado tool. 
+   * Generates the XSA for the target platform using Vivado tool.
 
    The following is a list of important output products:
 
@@ -95,7 +71,7 @@ The directory structure is described in the Introduction Section
    * Vivado project
       *$working_dir/platforms/vivado/vck190_mipiRxSingle_hdmiTx/project/vck190_mipiRxSingle_hdmiTx.xpr*
 
-   * XSA 
+   * XSA
       *$working_dir/platforms/vivado/vck190_mipiRxSingle_hdmiTx/project/vck190_mipiRxSingle_hdmiTx.xsa*
 
 **View Platform Interfaces (Optional)**
@@ -125,7 +101,7 @@ The directory structure is described in the Introduction Section
      control port.
    * NOC_0: AXI Memory Mapped slave ports driven by the
      accelerator data port.
-   * intc_0: Interrupt contoller to forward interrupts from the accelerator to 
+   * intc_0: Interrupt contoller to forward interrupts from the accelerator to
      the Procesing System
 
    .. tip::
