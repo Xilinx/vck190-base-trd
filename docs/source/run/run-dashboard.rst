@@ -22,7 +22,8 @@ to run the bokeh server.
 Connect to the Bokeh Server
 ---------------------------
 
-Follow these steps to boot the board into Linux
+Follow these steps to boot the board into Linux. These steps can be skipped 
+if you are already at the Linux prompt *xilinx-vck190-20221* 
 
 * Ensure all steps under the section :ref:`Board Setup` are verified.
 
@@ -38,7 +39,9 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *xilinx-vck190-20221* and autostart of the bokeh server that serves the
+  *xilinx-vck190-20221* and finish logging in. 
+
+* Observe autostart of the bokeh server that serves the
   Base TRD dashboard application as seen in the example below:
 
   .. code-block:: bash
@@ -59,7 +62,7 @@ Follow these steps to boot the board into Linux
 
    then double check your network connection. If DHCP is not available and auto-assigment
    of an IP address times out, you can use a private network and start the bokeh
-   server as follows. User is requeired to use sudo while running any of trd-dashboard or jupyter-lab. It is adviced
+   server as follows. User is required to use sudo while running trd-dashboard or jupyter-lab. It is adviced
    to use systemctl to start the abover services as shown below.
 
 Setting up a private network

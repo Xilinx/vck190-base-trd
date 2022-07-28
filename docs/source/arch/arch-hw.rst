@@ -89,7 +89,7 @@ register interface.
   pixel to generate a 24-bit, 8 bits per pixel (8 bpc) RGB output image transported via
   AXI4-Stream. At 4 ppc, the AXIS width is 96-bit. A GPIO from the PS is used to reset
   the IP between resolution changes. For information on the functions it implments
-  refer to `Vitis Vision Libraries Image Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2021.2/overview.html#isp-201>`_.
+  refer to `Vitis Vision Libraries Image Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/overview.html#isp-201>`_.
 
 
 * The video processing subsystem (VPSS), see Video Processing Subsystem Product Guide
@@ -155,7 +155,7 @@ The quad sensor MIPI CSI-2 receiver capture pipeline is shown in the following f
 * The ISP IP receives the RAW AXI4-Stream input data and interpolates the missing color
   components for every pixel to generate a 24-bit, 8 bits per pixel (8 bpc) RGB output
   image transported via AXI4-Stream. For more information refer to `Vitis Vision Libraries Image
-  Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2021.2/overview.html#isp-201>`_.
+  Sensor Processing pipeline <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/overview.html#isp-201>`_.
 
 * The VPSS takes AXI4-Stream input data in 24-bit RGB format and converts it to a
   16-bit, 8 bpc YUV 4:2:2 output format.

@@ -2,13 +2,18 @@ Run 2D Filter Application
 =========================
 
 Jupyter Notebooks are used to demonstarte the workings of the
-platforms with filter2d accelerator. A network connection is required to
-run these Notebooks
+Platform 3 - *vck190_hdmiRx_hdmiTx* with filter2d accelerator. 
+A network connection is required to run these Notebooks.
+
+Use SD card image for Platform 3 - *vck190_hdmiRx_hdmiTx* to 
+run this application.
+
 
 Connect to the JupyterLab Server
 --------------------------------
 
-Follow these steps to boot the board into Linux
+Follow these steps to boot the board into Linux. These steps can be skipped 
+if you are already at the Linux prompt *xilinx-vck190-20221* 
 
 * Ensure all steps under the section :ref:`Board Setup` are
   verified.
@@ -25,12 +30,12 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt
-  *xilinx-vck190-20221*
+  *xilinx-vck190-20221* and finish logging in. 
 
 * JupyterLab server is disabled in the systemd services and will not autostart.
-  Users can enable 'jupyter-setup' via systemctl to autostart the service at reboot.
+  Users can enable 'jupyter-setup' via systemctl to autostart the service.
 
-    follow the steps in the example below to start JupyterLab:
+Follow the steps in the example below to start JupyterLab:
 
   .. code-block:: bash
 
