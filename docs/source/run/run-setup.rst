@@ -246,7 +246,8 @@ Follow these steps to boot the board into Linux
   "Xilinx Versal Platform Loader and Manager"
 
 * In about 60 seconds boot is complete. Observe the Linux prompt to login and set a new password as shown below.
-  Use 'petalinux' as login name and set an easy password that you do not forget.
+  Use 'petalinux' as login name and set an easy password that you do not forget. Use this password when you boot
+  again or when using sudo. 
 
   .. code-block:: bash
 

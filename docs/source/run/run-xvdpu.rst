@@ -5,7 +5,11 @@ The smart-mipi-app application is targeted to run with Single-MIPI(Leopard IMX27
 Quad-MIPI(Avnet Multi-Camera MIPI) sensor as input source, and HDMI as output sink. The
 application supports 4 models - yolov3, refinedet, densebox, ssd.
 
-Follow these steps to boot the board into Linux
+Use SD card images for Platform 1 - *vck190_mipiRxSingle_hdmiTx* or
+Platform 2 - *vck190_mipiRxQuad_hdmiTx* based on the input source.
+
+Follow these steps to boot the board into Linux. These steps can be skipped 
+if you are already at the Linux prompt *xilinx-vck190-20221* 
 
 * Ensure all steps under the section :ref:`Board Setup<Board Setup>` are
   verified. Make connections based on the input source and output sink
@@ -22,8 +26,8 @@ Follow these steps to boot the board into Linux
   micro SD card starting with the message
   "Xilinx Versal Platform Loader and Manager"
 
-* In about 60 seconds boot is complete and will stop at the Linux prompt
-  *xilinx-vck190-20221*
+* In about 60 seconds boot is complete. Observe the Linux prompt
+  *xilinx-vck190-20221* and finish logging in.
 
 * Use command line options provided below to run the smart-mipi-app application
 

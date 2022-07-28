@@ -75,10 +75,10 @@ the program (2D convolution filter elf) to execute on AIE. The Vitis™ tool use
 .xo and .adf outputs from these tools and integrates the IPs into the platform.
 
 For more information on 2D Convolution filter in PL refer to
-`Vitis Vision Library: Custom Convolution <https://xilinx.github.io/Vitis_Libraries/vision/2021.2/overview.html#>`_
+`Vitis Vision Library: Custom Convolution <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/overview.html#>`_
 
 For more information on 2D Convolution filter in AIE refer to
-`Vitis Vision AIE Library User Guide <https://xilinx.github.io/Vitis_Libraries/vision/2021.2/overview-aie.html#>`_
+`Vitis Vision AIE Library User Guide <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/overview-aie.html#>`_
 
 The data movers read input frames from the memory. The processing block runs
 convolution on the frame. Convolution is a common image processing technique that

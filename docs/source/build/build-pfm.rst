@@ -52,7 +52,7 @@ The directory structure is described in the Introduction Section
 
    The generated platform will be located at:
 
-   *$working_dir/platforms/xilinx_vck190_mipiRxSingle_hdmiTx_202120_1*
+   *$working_dir/platforms/xilinx_vck190_mipiRxSingle_hdmiTx_202210_1*
 
    It will be used as input when building the Vitis accelerator projects.
 
