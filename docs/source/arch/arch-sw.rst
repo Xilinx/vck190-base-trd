@@ -7,7 +7,7 @@ This chapter describes the application processing unit (APU) Linux
 software stack. The stack and vertical domains are shown in the
 following figure.
 
-.. figure:: ../images/stack.png
+.. figure:: ../images/sw-stack.jpg
    :width: 1000
    :alt: APU Linux Software Stack and Vertical Domains
 
@@ -609,7 +609,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 except in compliance with the License.
 
 You may obtain a copy of the License at
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+http://www.apache.org/licenses/LICENSE-2.0
 
 
 Unless required by applicable law or agreed to in writing, software distributed under the
