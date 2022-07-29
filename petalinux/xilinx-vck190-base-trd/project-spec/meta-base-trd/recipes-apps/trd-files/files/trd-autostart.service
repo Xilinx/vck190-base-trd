@@ -1,0 +1,9 @@
+[Unit]
+Description=trd-autostart
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/trd-autostart.sh
+
+[Install]
+WantedBy=multi-user.target
