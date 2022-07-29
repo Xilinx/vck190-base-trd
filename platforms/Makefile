@@ -6,7 +6,6 @@ MKDIR = mkdir -p
 RM = rm -rf
 XSCT = $(XILINX_VITIS)/bin/xsct
 JOBS ?= 8
-REV ?= es1
 
 PLATFORM ?= vck190_mipiRxSingle_hdmiTx
 VERSION ?= 202210_1
