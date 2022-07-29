@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PLATFORM ?=
-PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_es1_mipiRxQuad_hdmiTx
+PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx
 PFM = $(basename $(PLATFORM) .xpfm)
 BATCH_N_LIST = 1
 # hardcode value for now
@@ -25,7 +25,7 @@ all:
 	-@cp vitis_prj/binary_container_1.xclbin binary_container_1.xclbin
 	-@cp vitis_prj/binary_container_1.xsa binary_container_1.xsa
 	-@cp vitis_prj/package_out/sd_card/arch.json arch.json
-	
+
 .PHONY: clean
 clean:
 	$(MAKE) -C vitis_prj clean

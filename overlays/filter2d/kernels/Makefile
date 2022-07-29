@@ -1,5 +1,5 @@
 PLATFORM ?=
-PFM_LIST = vck190_es1_mipiRxSingle_hdmiTx vck190_es1_mipiRxQuad_hdmiTx vck190_es1_hdmiRx_hdmiTx vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx
+PFM_LIST = vck190_mipiRxSingle_hdmiTx vck190_mipiRxQuad_hdmiTx vck190_hdmiRx_hdmiTx
 PFM = $(basename $(PLATFORM) .xpfm)
 
 .PHONY: all
