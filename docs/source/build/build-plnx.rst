@@ -33,11 +33,11 @@ Build steps shown below before generating a bootable petalinux image.
 
 * Section 4.2: **Create the Vitis Platform**
 
-https://xilinx.github.io/vck190-base-trd/2022.1/html/build-pfm.html#create-the-vitis-platform
+  Ensure all steps under this section are executed :ref:`Create a Vitis Extensible Platform`
 
 * Section 4.3: **Integrate Kernels in the Platform**
 
-https://xilinx.github.io/vck190-base-trd/2022.1/html/build-filter2d.html#integrate-2d-filter-kernels-in-the-platform
+  Ensure all steps under this section are executed :ref:`Implement platform design with filter2d PL and filter2d AIE accelerators`
 
 The xsa and xclbin binaries produced from the previous step are consumed by
 petalinux during the image creation step.
@@ -103,7 +103,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 except in compliance with the License.
 
 You may obtain a copy of the License at
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+http://www.apache.org/licenses/LICENSE-2.0
 
 
 Unless required by applicable law or agreed to in writing, software distributed under the

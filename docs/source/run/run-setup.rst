@@ -247,7 +247,7 @@ Follow these steps to boot the board into Linux
 
 * In about 60 seconds boot is complete. Observe the Linux prompt to login and set a new password as shown below.
   Use 'petalinux' as login name and set an easy password that you do not forget. Use this password when you boot
-  again or when using sudo. 
+  again or when using sudo.
 
   .. code-block:: bash
 
@@ -262,7 +262,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 except in compliance with the License.
 
 You may obtain a copy of the License at
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+http://www.apache.org/licenses/LICENSE-2.0
 
 
 Unless required by applicable law or agreed to in writing, software distributed under the
