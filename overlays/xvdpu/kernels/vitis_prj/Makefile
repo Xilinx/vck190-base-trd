@@ -9,7 +9,7 @@ help:
 	@echo ""
 	@echo "  make all PLATFORM=<VCK190 platform> BATCH_N=<>"
 	@echo "      Command to generate all design"
-	@echo "      Support platform 'vck190_mipiRxSingle_hdmiTx', 'vck190_mipiRxQuad_hdmiTx', and 'vck190_es1_mipiRxQuad_hdmiTx'"
+	@echo "      Support platform 'vck190_mipiRxSingle_hdmiTx', 'vck190_mipiRxQuad_hdmiTx'"
 	@echo ""
 	@echo "  make clean "
 	@echo "      Command to remove IP files from vitis_prj folder and all the generated files"
@@ -20,7 +20,7 @@ include xvdpu_config.mk
 
 ABS_PATH                := $(shell pwd -P)
 $(eval FATHER_PATH      := $(realpath $(ABS_PATH)/..))
-# PLATFORM                 =  
+# PLATFORM                 =
 DEVICE                  ?= vck190
 XCL_EMULATION_MODE      ?= hw
 unexport XCL_EMULATION_MODE
@@ -44,19 +44,19 @@ BINARY_CONTAINERS       += $(BUILD_DIR)/binary_container_1.xsa
 BUILD_SUBDIRS           += $(BUILD_DIR)/binary_container_1
 BINARY_CONTAINER_1_OBJS += $(BUILD_DIR)/binary_container_1/DPUCVDX8G.xo $(BUILD_DIR)/binary_container_1/libadf.a v_multi_scaler.xo
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Package RTL kernel 
+# Package RTL kernel
 VIVADO_ROOT             := $(XILINX_VIVADO)
 VIVADO                  := $(VIVADO_ROOT)/bin/vivado
 xvdpu_TCL                = $(ABS_PATH)/scripts/gen_xvdpu_xo.tcl
 DPU_KERN_NAME            = DPUCVDX8G
 BATCH_SHRWGT_N           = 4
-AIE_PL_FREQ              = 250			
-CPB_N                    = 32			  
+AIE_PL_FREQ              = 250
+CPB_N                    = 32
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 .PHONY: all
 all:  files $(AIE_OBJECTS) xo_multiscaler $(BINARY_CONTAINERS) $(BUILD_DIR)/dpu.xclbin
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#Prepare files for special configuration 
+#Prepare files for special configuration
 files:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Preparing files for project"
@@ -70,8 +70,8 @@ aie: $(ABS_PATH)/aie/ip/libadf.a
 $(ABS_PATH)/aie/ip/libadf.a:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Buiding $(notdir $@)..."
-	@XILINX_VITIS_AIETOOLS=$(XILINX_VITIS)/aietools source $(XILINX_VITIS)/settings64.sh && ${MAKE} --no-print-directory -C aie ip CPB=$(CPB_N) BAT_NUM=$(BATCH_N) vver=221 pl_freq=$(AIE_PL_FREQ) aie_activations_en=1 bat_sharewgt=$(BATCH_SHRWGT_N)	
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -										 
+	@XILINX_VITIS_AIETOOLS=$(XILINX_VITIS)/aietools source $(XILINX_VITIS)/settings64.sh && ${MAKE} --no-print-directory -C aie ip CPB=$(CPB_N) BAT_NUM=$(BATCH_N) vver=221 pl_freq=$(AIE_PL_FREQ) aie_activations_en=1 bat_sharewgt=$(BATCH_SHRWGT_N)
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Copy AIE's libadf.a to folder $(BUILD_SUBDIRS)
 $(BUILD_DIR)/binary_container_1/libadf.a:
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
@@ -108,7 +108,7 @@ $(BUILD_DIR)/binary_container_1/DPUCVDX8G.xo:
 	@echo "INFO:Building $(notdir $@) for $(BUILD_DIR)..."
 	@mkdir -p $(@D)
 	-@rm -rf $@
-	$(VIVADO) -mode batch -source $(xvdpu_TCL) -tclargs $@ $(DPU_KERN_NAME) $(XCL_EMULATION_MODE) $(DEVICE)	
+	$(VIVADO) -mode batch -source $(xvdpu_TCL) -tclargs $@ $(DPU_KERN_NAME) $(XCL_EMULATION_MODE) $(DEVICE)
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Link kernel and AIE graph with Platform
 $(BUILD_DIR)/binary_container_1.xsa: $(BINARY_CONTAINER_1_OBJS)
@@ -120,19 +120,19 @@ $(BUILD_DIR)/binary_container_1.xsa: $(BINARY_CONTAINER_1_OBJS)
 	  --clock.freqHz $(PL_FREQ):ai_engine_0.aclk0 \
 	  --clock.freqHz 150000000:DPUCVDX8G_1.s_axi_aclk \
 	  --clock.freqHz 150000000:v_multi_scaler_1.ap_clk \
-	  -o "$@" $(BINARY_CONTAINER_1_OBJS)   
+	  -o "$@" $(BINARY_CONTAINER_1_OBJS)
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Package design
 .PHONY: package
 package: $(BUILD_DIR)/dpu.xclbin
-$(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xsa $(BUILD_DIR)/binary_container_1/libadf.a 
+$(BUILD_DIR)/dpu.xclbin: $(BUILD_DIR)/binary_container_1.xsa $(BUILD_DIR)/binary_container_1/libadf.a
 	@echo "INFO:- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 	@echo "INFO:Packaging $(notdir $@) for $(BUILD_DIR)..."
-	-@rm -rf package_out 
+	-@rm -rf package_out
 	@cd $(BUILD_DIR); $(VXX) -t $(XCL_EMULATION_MODE) --platform $(PLATFORM)  --save-temps --temp_dir binary_container_1 -p binary_container_1.xsa binary_container_1/libadf.a -o "$@" \
 	  --package.out_dir ../package_out \
 	  --package.boot_mode sd \
-	  --package.no_image  
+	  --package.no_image
 	cp  $(ABS_PATH)/hw/binary_container_1/link/vivado/vpl/prj/prj.gen/sources_1/bd/*/ip/*_DPUCVDX8G_1_0/arch.json $(ABS_PATH)/package_out/sd_card
 	@cp package_out/sd_card/BOOT.BIN vpl_gen_fixed.pdi
 	@cp package_out/sd_card/dpu.xclbin binary_container_1.xclbin
