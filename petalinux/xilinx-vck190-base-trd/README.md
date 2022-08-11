@@ -14,7 +14,7 @@ platform. To list the available platforms and designs, run:
 To configure the project for vck190, production silicon and platform 'mipiRxSingle_hdmiTx',
 run:
 ```bash
-% ./trd-pl-cfg -p vck190_mipiRxSingle_hdmiTx 
+% ./trd-pl-cfg -p vck190_mipiRxSingle_hdmiTx
 ```
 Next the project needs to be configured with the xsa file from the Vivado
 project.
@@ -38,20 +38,20 @@ the previous step.
 The third step generates a bootable SD card image. The .wic file will be placed
 in the images/linux folder
 ```bash
-% petalinux-package --wic -w project-spec/configs/sdimage.wks --force
+% petalinux-package --wic -w project-spec/configs/sdimage.wks
 ```
 ## Makefile flow
 Makefile with the specified platform name can build all the above components in one go.
 Ensure to copy xsa file to project-spec/hw-description folder.
 Use make help for more info
 
-Note: 3 dtbs are generated as artifacts of this build. User is required to make a choice 
-on the dtb based on the BOARD REV of the VCK190 used for runtime. system.dtb in the 
-images/linux folder is soft linked to system-default.dtb. User is provided with provision to 
+Note: 3 dtbs are generated as artifacts of this build. User is required to make a choice
+on the dtb based on the BOARD REV of the VCK190 used for runtime. system.dtb in the
+images/linux folder is soft linked to system-default.dtb. User is provided with provision to
 choose among the following board rev dtb using the variable BOARD_DTB in the makefile, below
 is an example
- 
-system-default.dtb (default 19Mhz To support both old and new SD level shifter) 
+
+system-default.dtb (default 19Mhz To support both old and new SD level shifter)
 system-vck190-revA.dtb (To support old SD level shifter)
 system-vck190-rev1.dtb (To support new SD level shifter High-Speed)
 
@@ -64,15 +64,15 @@ run:
 
 # License
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License.
 
 You may obtain a copy of the License at
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-Unless required by applicable law or agreed to in writing, software distributed under the 
-License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
-either express or implied. See the License for the specific language governing permissions 
-and limitations under the License.    
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
 
