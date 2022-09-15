@@ -10,6 +10,7 @@ SRC_URI += " \
 	file://0003-dt-binding-for-hdr-extract-driver.patch \
 	file://0004-media-xilinx-Add-hdr-merge-driver.patch \
 	file://0005-dt-binding-for-hdr-merge-driver.patch \
+	file://0006-imx274-update-for-HDR-mode.patch \
 	file://0001-arm-zynq-Add-MAX20087-driver.patch \
 	file://0002-max20087-Remove-unused-members.patch \
 	file://0001-add-mars-driver-to-makefile.patch \
