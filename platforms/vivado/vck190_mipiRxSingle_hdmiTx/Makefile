@@ -14,6 +14,7 @@ VIV_XSA = $(VIV_PRJ_DIR)/$(VIV_DESIGN).xsa
 VIV_SRC = $(VIV_SCRIPTS_DIR)/main.tcl
 ISP_DIR= ../ip/isp_single
 ISP_IP = isppipeline.prj
+EXTRACT_IP = hdrextractfrms.prj
 
 .PHONY: help
 help:
@@ -26,11 +27,14 @@ help:
 .PHONY: all
 all: xsa
 
+$(EXTRACT_IP):
+	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
+
 $(ISP_IP):
 	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
 
 xsa: $(VIV_XSA)
-$(VIV_XSA): $(VIV_SRC) $(ISP_IP)
+$(VIV_XSA): $(VIV_SRC) $(ISP_IP) $(EXTRACT_IP)
 	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS)
 
 .PHONY: clean

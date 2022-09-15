@@ -1,4 +1,5 @@
 # (C) Copyright 2020 - 2021 Xilinx, Inc.
+# (C) Copyright 2022 Advanced Micro Devices, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 RM = rm -rf
@@ -22,6 +23,7 @@ ip:
 	@echo 'set CLKP $(CLKP)' >> ./settings.tcl
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
 	$(HLS) -f run_hls_isp.tcl
+	$(HLS) -f run_hls_extract.tcl
 
 .PHONY: clean
 clean:
