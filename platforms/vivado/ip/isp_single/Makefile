@@ -18,10 +18,10 @@ help:
 .PHONY: all
 all: ip
 
-ip:  
+ip:
 	@echo 'set CLKP $(CLKP)' >> ./settings.tcl
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
-	$(HLS) -f run_hls.tcl
+	$(HLS) -f run_hls_isp.tcl
 
 .PHONY: clean
 clean:

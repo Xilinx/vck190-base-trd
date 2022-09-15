@@ -13,7 +13,7 @@ VIV_SCRIPTS_DIR = scripts
 VIV_XSA = $(VIV_PRJ_DIR)/$(VIV_DESIGN).xsa
 VIV_SRC = $(VIV_SCRIPTS_DIR)/main.tcl
 ISP_DIR= ../ip/isp_single
-ISP_IP = isppipeline.prj 
+ISP_IP = isppipeline.prj
 
 .PHONY: help
 help:
@@ -31,7 +31,7 @@ $(ISP_IP):
 
 xsa: $(VIV_XSA)
 $(VIV_XSA): $(VIV_SRC) $(ISP_IP)
-	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS) 
+	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS)
 
 .PHONY: clean
 clean:

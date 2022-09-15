@@ -1,7 +1,8 @@
 # (C) Copyright 2020 - 2021 Xilinx, Inc.
+# (C) Copyright 2022 Advanced Micro Devices, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-source settings.tcl 
+source settings.tcl
 
 set VITIS_LIBS ../../../../overlays/Vitis_Libraries/vision/
 
@@ -18,7 +19,7 @@ if {![info exists XPART]} {
 
 open_project -reset $PROJ
 
-add_files "${VITIS_LIBS}/L1/examples/isppipeline/xf_isp_accel.cpp" -cflags "-I${VITIS_LIBS}/L1/include -I ./build -I ./ -D__SDSVHLS__ -std=c++0x" -csimflags "-I${VITIS_LIBS}/L1/include -I ./build -I ./ -D__SDSVHLS__ -std=c++0x"
+add_files "${VITIS_LIBS}/L1/examples/isppipeline/xf_isp_accel.cpp" -cflags "-I${VITIS_LIBS}/L1/include -I ./build_isp -I ./ -D__SDSVHLS__ -std=c++0x" -csimflags "-I${VITIS_LIBS}/L1/include -I ./build_isp -I ./ -D__SDSVHLS__ -std=c++0x"
 set_top ISPPipeline_accel
 
 open_solution -reset $SOLN

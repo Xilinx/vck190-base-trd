@@ -1,4 +1,5 @@
 // (C) Copyright 2020 - 2021 Xilinx, Inc.
+// (C) Copyright 2022 Advanced Micro Devices, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 #define XF_NPPC XF_NPPC4 // XF_NPPC1 --1PIXEL , XF_NPPC2--2PIXEL ,XF_NPPC4--4 and XF_NPPC8--8PIXEL
@@ -42,3 +43,15 @@
 #define XF_AXI_GBR 1
 
 #define XF_USE_URAM 0 // uram enable
+
+#define XF_CV_DEPTH_IN_1 3
+#define XF_CV_DEPTH_IN_2 3
+#define XF_CV_DEPTH_BPC_OUT 3
+#define XF_CV_DEPTH_GAIN_OUT 3
+#define XF_CV_DEPTH_DEMOSAIC_OUT 3
+#define XF_CV_DEPTH_IMPOP 3
+#define XF_CV_DEPTH_LTM_IN 3
+#define XF_CV_DEPTH_LSC_OUT 3
+#define XF_CV_DEPTH_DST 3
+#define XF_CV_DEPTH_AEC_IN 3
+#define XF_CV_DEPTH_OUT 3
