@@ -24,6 +24,7 @@ ip:
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
 	$(HLS) -f run_hls_isp.tcl
 	$(HLS) -f run_hls_extract.tcl
+	$(HLS) -f run_hls_merge.tcl
 
 .PHONY: clean
 clean:

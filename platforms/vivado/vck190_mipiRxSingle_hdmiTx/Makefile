@@ -15,6 +15,7 @@ VIV_SRC = $(VIV_SCRIPTS_DIR)/main.tcl
 ISP_DIR= ../ip/isp_single
 ISP_IP = isppipeline.prj
 EXTRACT_IP = hdrextractfrms.prj
+MERGE_IP = hdrmerge.prj
 
 .PHONY: help
 help:
@@ -30,11 +31,14 @@ all: xsa
 $(EXTRACT_IP):
 	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
 
+$(MERGE_IP):
+	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
+
 $(ISP_IP):
 	make -C $(ISP_DIR) ip XPART=xcvc1902-vsva2197-1LP-e-S
 
 xsa: $(VIV_XSA)
-$(VIV_XSA): $(VIV_SRC) $(ISP_IP) $(EXTRACT_IP)
+$(VIV_XSA): $(VIV_SRC) $(ISP_IP) $(EXTRACT_IP) $(MERGE_IP)
 	$(VIVADO) -mode batch -notrace -source $(VIV_SRC) -tclargs -jobs $(JOBS)
 
 .PHONY: clean
