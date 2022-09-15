@@ -1,0 +1,696 @@
+From daced8155ebf634346c3369d6df593742a2ac98f Mon Sep 17 00:00:00 2001
+From: Kaushal Kumar <kaushal.kumar@amd.com>
+Date: Thu, 15 Sep 2022 10:40:19 +0530
+Subject: [PATCH 4/6] media-xilinx-Add-hdr-merge-driver
+
+Signed-off-by: Kaushal Kumar <kaushal.kumar@amd.com>
+---
+ drivers/media/platform/xilinx/Kconfig         |   6 +
+ drivers/media/platform/xilinx/Makefile        |   1 +
+ .../media/platform/xilinx/xilinx-hdrmerge.c   | 645 ++++++++++++++++++
+ 3 files changed, 652 insertions(+)
+ create mode 100644 drivers/media/platform/xilinx/xilinx-hdrmerge.c
+
+diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
+index 56d437b4bb69..c1354f479b20 100644
+--- a/drivers/media/platform/xilinx/Kconfig
++++ b/drivers/media/platform/xilinx/Kconfig
+@@ -77,6 +77,12 @@ config VIDEO_XILINX_HDREXTRACT
+ 	help
+ 	  Driver for Xilinx Video HDREXTRACT IP.
+ 
++config VIDEO_XILINX_HDRMERGE
++	tristate "Xilinx Video HDRMERGE IP"
++	depends on VIDEO_XILINX
++	help
++	  Driver for Xilinx Video HDRMERGE IP.
++
+ config VIDEO_XILINX_HLS
+ 	tristate "Xilinx Video HLS Core"
+ 	depends on VIDEO_XILINX
+diff --git a/drivers/media/platform/xilinx/Makefile b/drivers/media/platform/xilinx/Makefile
+index 9744ff45ac42..fff18db0eaef 100644
+--- a/drivers/media/platform/xilinx/Makefile
++++ b/drivers/media/platform/xilinx/Makefile
+@@ -16,6 +16,7 @@ obj-$(CONFIG_VIDEO_XILINX_DPRXSS) += xilinx-dprxss.o
+ obj-$(CONFIG_VIDEO_XILINX_GAMMA) += xilinx-gamma.o
+ obj-$(CONFIG_VIDEO_XILINX_HDMI21RXSS) += xilinx-hdmirxss.o
+ obj-$(CONFIG_VIDEO_XILINX_HDREXTRACT) += xilinx-hdrextract.o
++obj-$(CONFIG_VIDEO_XILINX_HDRMERGE) += xilinx-hdrmerge.o
+ obj-$(CONFIG_VIDEO_XILINX_HLS) += xilinx-hls.o
+ obj-$(CONFIG_VIDEO_XILINX_ISP) += xilinx-isppipeline.o
+ obj-$(CONFIG_VIDEO_XILINX_M2M) += xilinx-m2m.o
+diff --git a/drivers/media/platform/xilinx/xilinx-hdrmerge.c b/drivers/media/platform/xilinx/xilinx-hdrmerge.c
+new file mode 100644
+index 000000000000..7c6413d65739
+--- /dev/null
++++ b/drivers/media/platform/xilinx/xilinx-hdrmerge.c
+@@ -0,0 +1,645 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2022, Advanced Micro Devices, Inc.
++ *
++ */
++
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++
++#include <media/v4l2-async.h>
++#include <media/v4l2-subdev.h>
++
++#include "xilinx-vip.h"
++
++#define XHDRMERGE_AP_CTRL			(0x00)
++#define XHDRMERGE_WIDTH				(0x0018)
++#define XHDRMERGE_HEIGHT			(0x0010)
++#define XHDRMERGE_LUT_ADD           (0x0800)
++#define XHDRMERGE_INPUT_BAYER_FORMAT		(0x28)
++
++#define XHDRMERGE_MIN_HEIGHT	(64)
++#define XHDRMERGE_MAX_HEIGHT	(4320)
++#define XHDRMERGE_MIN_WIDTH	(64)
++#define XHDRMERGE_MAX_WIDTH	(8192)
++
++#define XHDRMERGE_DEF_IN_HEIGHT	(1440)
++#define XHDRMERGE_DEF_IN_WIDTH	(1280)
++#define XHDRMERGE_DEF_OUT_HEIGHT	(720)
++#define XHDRMERGE_DEF_OUT_WIDTH	(1280)
++
++#define XHDRMERGE_RESET_DEASSERT	(0)
++#define XHDRMERGE_RESET_ASSERT		(1)
++#define XHDRMERGE_START			BIT(0)
++#define XHDRMERGE_AUTO_RESTART		BIT(7)
++#define XHDRMERGE_STREAM_ON	(XHDRMERGE_AUTO_RESTART | XHDRMERGE_START)
++
++enum xhdrmg_bayer_format {
++	XHDRMERGE_RGGB = 0,
++	XHDRMERGE_GRBG,
++	XHDRMERGE_GBRG,
++	XHDRMERGE_BGGR,
++};
++
++enum xhdrmg_pads {
++	XHDRMERGE_PAD_SINK_STREAM0 = 0,
++	XHDRMERGE_PAD_SINK_STREAM1,
++	XHDRMERGE_PAD_SOURCE,
++	XHDRMERGE_PAD_MAX
++};
++
++struct xhdrmg_dev {
++	struct xvip_device xvip;
++	struct media_pad pads[3];
++	struct v4l2_mbus_framefmt formats[3];
++	struct v4l2_mbus_framefmt default_formats[3];
++	struct gpio_desc *rst_gpio;
++	u32 max_width;
++	u32 max_height;
++	const u16 *wr_hls;
++	enum xhdrmg_bayer_format bayer_fmt;
++	u32 npads;
++};
++
++static inline u32 xhdrmg_read(struct xhdrmg_dev *xhdrmg, u32 reg)
++{
++	u32 data;
++
++	data = xvip_read(&xhdrmg->xvip, reg);
++	dev_dbg(xhdrmg->xvip.dev,
++		"Reading 0x%x from reg offset 0x%x", data, reg);
++	return data;
++}
++
++static inline void xhdrmg_write(struct xhdrmg_dev *xhdrmg, u32 reg, u32 data)
++{
++	xvip_write(&xhdrmg->xvip, reg, data);
++	dev_dbg(xhdrmg->xvip.dev,
++		"Writing 0x%x to reg offset 0x%x", data, reg);
++#ifdef DEBUG
++	if (xhdrmg_read(xhdrmg, reg) != data)
++		dev_err(xhdrmg->xvip.dev,
++			"Wrote 0x%x does not match read back", data);
++#endif
++}
++
++static inline struct xhdrmg_dev *to_xhdrmg(struct v4l2_subdev *subdev)
++{
++	return container_of(subdev, struct xhdrmg_dev, xvip.subdev);
++}
++
++static struct v4l2_mbus_framefmt
++*__xhdrmg_get_pad_format(struct xhdrmg_dev *xhdrmg,
++			 struct v4l2_subdev_state *sd_state,
++			 unsigned int pad, u32 which)
++{
++struct v4l2_mbus_framefmt *get_fmt;
++
++	pad = (pad == XVIP_PAD_SINK) ? XVIP_PAD_SINK : XVIP_PAD_SOURCE;
++
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		get_fmt = v4l2_subdev_get_try_format(&xhdrmg->xvip.subdev,
++						     sd_state, pad);
++		break;
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		get_fmt = &xhdrmg->formats[pad];
++		break;
++	default:
++		get_fmt = NULL;
++		break;
++	}
++
++	return get_fmt;
++	}
++
++static void xhdrmg_set_lut_entries(struct xhdrmg_dev *xhdrmg, const u32 lut_base,
++				   const u16 *lut, const u16 *lut1)
++{
++	int itr;
++	u32 lut_offset, lut_data;
++	int ival;
++
++	lut_offset = lut_base;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut[ival + 1] << 16) | lut[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x1000;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut1[ival + 1] << 16) | lut1[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x1800;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut[ival + 1] << 16) | lut[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x2000;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut1[ival + 1] << 16) | lut1[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x2800;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut[ival + 1] << 16) | lut[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x3000;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut1[ival + 1] << 16) | lut1[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x3800;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut[ival + 1] << 16) | lut[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++
++	lut_offset = 0x4000;
++	for (ival = 0; ival < 1024; ival = ival + 2)	{
++		lut_data = (lut1[ival + 1] << 16) | lut1[ival];
++		xhdrmg_write(xhdrmg, lut_offset, lut_data);
++		lut_offset += 4;
++	}
++}
++
++static int xhdrmg_s_stream(struct v4l2_subdev *subdev, int enable)
++{
++	struct xhdrmg_dev *xhdrmg = to_xhdrmg(subdev);
++
++	if (!enable) {
++		dev_dbg(xhdrmg->xvip.dev, "%s : Off", __func__);
++		gpiod_set_value_cansleep(xhdrmg->rst_gpio,
++					 XHDRMERGE_RESET_ASSERT);
++		gpiod_set_value_cansleep(xhdrmg->rst_gpio,
++					 XHDRMERGE_RESET_DEASSERT);
++		return 0;
++	}
++
++	const u16 weights1[1024] = {16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16383, 16383, 16381,
++	16380, 16377, 16375, 16372, 16368, 16364, 16359, 16354, 16349, 16343, 16336, 16329, 16322,
++	16314, 16305, 16297, 16287, 16277, 16267, 16256, 16245, 16233, 16221, 16208, 16195, 16182,
++	16168, 16153, 16138, 16123, 16107, 16090, 16074, 16056, 16039, 16020, 16002, 15983, 15963,
++	15943, 15923, 15902, 15881, 15859, 15837, 15814, 15791, 15767, 15744, 15719, 15694, 15669,
++	15644, 15618, 15591, 15564, 15537, 15509, 15481, 15453, 15424, 15395, 15365, 15335, 15304,
++	15273, 15242, 15211, 15179, 15146, 15113, 15080, 15047, 15013, 14979, 14944, 14909, 14874,
++	14838, 14802, 14766, 14729, 14692, 14654, 14617, 14579, 14540, 14501, 14462, 14423, 14383,
++	14343, 14303, 14262, 14221, 14180, 14139, 14097, 14055, 14012, 13970, 13927, 13883, 13840,
++	13796, 13752, 13708, 13663, 13618, 13573, 13528, 13482, 13437, 13391, 13344, 13298, 13251,
++	13204, 13157, 13109, 13062, 13014, 12966, 12918, 12869, 12821, 12772, 12723, 12673, 12624,
++	12574, 12525, 12475, 12425, 12374, 12324, 12274, 12223, 12172, 12121, 12070, 12018, 11967,
++	11915, 11864, 11812, 11760, 11708, 11656, 11604, 11551, 11499, 11446, 11393, 11341, 11288,
++	11235, 11182, 11129, 11076, 11022, 10969, 10916, 10862, 10809, 10755, 10702, 10648, 10594,
++	10541, 10487, 10433, 10379, 10325, 10271, 10218, 10164, 10110, 10056, 10002, 9948, 9894,
++	9840, 9786, 9732, 9678, 9624, 9570, 9517, 9463, 9409, 9355, 9301, 9248, 9194, 9140, 9087,
++	9033, 8980, 8926, 8873, 8820, 8766, 8713, 8660, 8607, 8554, 8501, 8448, 8396, 8343, 8290,
++	8238, 8185, 8133, 8081, 8029, 7977, 7925, 7873, 7821, 7770, 7718, 7667, 7616, 7565, 7514,
++	7463, 7412, 7361, 7311, 7261, 7210, 7160, 7110, 7060, 7011, 6961, 6912, 6863, 6814, 6765,
++	6716, 6667, 6619, 6571, 6522, 6474, 6427, 6379, 6331, 6284, 6237, 6190, 6143, 6097, 6050,
++	6004, 5958, 5912, 5866, 5821, 5775, 5730, 5685, 5640, 5596, 5551, 5507, 5463, 5419, 5375,
++	5332, 5289, 5246, 5203, 5160, 5117, 5075, 5033, 4991, 4950, 4908, 4867, 4826, 4785, 4744,
++	4704, 4664, 4623, 4584, 4544, 4505, 4465, 4426, 4388, 4349, 4311, 4273, 4235, 4197, 4159,
++	4122, 4085, 4048, 4012, 3975, 3939, 3903, 3867, 3832, 3796, 3761, 3726, 3692, 3657, 3623,
++	3589, 3555, 3521, 3488, 3455, 3422, 3389, 3356, 3324, 3292, 3260, 3228, 3197, 3165, 3134,
++	3104, 3073, 3042, 3012, 2982, 2952, 2923, 2894, 2864, 2835, 2807, 2778, 2750, 2722, 2694,
++	2666, 2639, 2611, 2584, 2558, 2531, 2504, 2478, 2452, 2426, 2401, 2375, 2350, 2325, 2300,
++	2275, 2251, 2227, 2203, 2179, 2155, 2132, 2108, 2085, 2062, 2040, 2017, 1995, 1973, 1951,
++	1929, 1907, 1886, 1865, 1844, 1823, 1802, 1782, 1762, 1741, 1722, 1702, 1682, 1663, 1644,
++	1624, 1606, 1587, 1568, 1550, 1532, 1514, 1496, 1478, 1461, 1443, 1426, 1409, 1392, 1376,
++	1359, 1343, 1326, 1310, 1294, 1279, 1263, 1248, 1232, 1217, 1202, 1187, 1173, 1158, 1144,
++	1129, 1115, 1101, 1087, 1074, 1060, 1047, 1034, 1020, 1007, 995, 982, 969, 957, 945, 932,
++	920, 908, 897, 885, 873, 862, 851, 839, 828, 817, 807, 796, 785, 775, 765, 754, 744, 734,
++	724, 715, 705, 695, 686, 677, 667, 658, 649, 640, 632, 623, 614, 606, 597, 589, 581, 573,
++	565, 557, 549, 541, 534, 526, 519, 511, 504, 497, 490, 483, 476, 469, 462, 456, 449, 442,
++	436, 430, 423, 417, 411, 405, 399, 393, 387, 382, 376, 371, 365, 360, 354, 349};
++
++	const u16 weights2[1024] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
++	1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10, 11, 12, 13, 14, 16,
++	17, 18, 20, 22, 24, 25, 28, 30, 32, 35, 38, 41, 44, 47, 51, 55, 59, 64, 68, 73, 79, 85, 91,
++	97, 104, 112, 120, 128, 137, 147, 157, 168, 179, 191, 204, 217, 232, 247, 263, 280, 298,
++	316, 336, 357, 379, 402, 427, 453, 480, 508, 538, 569, 602, 636, 673, 710, 750, 791, 835,
++	880, 927, 976, 1028, 1081, 1137, 1196, 1256, 1319, 1385, 1453, 1524, 1597, 1674, 1753,
++	1835, 1919, 2007, 2098, 2192, 2289, 2389, 2493, 2600, 2710, 2823, 2939, 3059, 3183, 3310,
++	3440, 3574, 3711, 3852, 3996, 4143, 4294, 4448, 4606, 4767, 4931, 5099, 5270, 5444, 5621,
++	5801, 5984, 6169, 6358, 6549, 6743, 6940, 7138, 7339, 7542, 7747, 7954, 8162, 8372, 8584,
++	8796, 9010, 9224, 9439, 9655, 9870, 10086, 10302, 10517, 10732, 10946, 11159, 11370, 11581,
++	11789, 11996, 12200, 12403, 12602, 12799, 12993, 13183, 13370, 13553, 13733, 13908, 14078,
++	14244, 14406, 14562, 14713, 14858, 14998, 15132, 15260, 15382, 15497, 15606, 15708, 15804,
++	15893, 15974, 16049, 16116, 16176, 16228, 16273, 16310, 16340, 16362, 16376, 16383, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384,
++	16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384, 16384};
++
++	xhdrmg_write(xhdrmg, XHDRMERGE_WIDTH,
++		     xhdrmg->formats[XVIP_PAD_SOURCE].width);
++	xhdrmg_write(xhdrmg, XHDRMERGE_HEIGHT,
++		     xhdrmg->formats[XVIP_PAD_SOURCE].height);
++
++	xhdrmg_set_lut_entries(xhdrmg, XHDRMERGE_LUT_ADD, weights1, weights2);
++
++	/* Start Demosaic Video IP */
++	xhdrmg_write(xhdrmg, XHDRMERGE_AP_CTRL, XHDRMERGE_STREAM_ON);
++	return 0;
++}
++
++static const struct v4l2_subdev_video_ops xhdrmg_video_ops = {
++	.s_stream = xhdrmg_s_stream,
++};
++
++static int xhdrmg_get_format(struct v4l2_subdev *subdev,
++			     struct v4l2_subdev_state *sd_state,
++			     struct v4l2_subdev_format *fmt)
++{
++	struct xhdrmg_dev *xhdrmg = to_xhdrmg(subdev);
++	struct v4l2_mbus_framefmt *get_fmt;
++
++	get_fmt = __xhdrmg_get_pad_format(xhdrmg, sd_state, fmt->pad, fmt->which);
++	if (!get_fmt)
++		return -EINVAL;
++
++	fmt->format = *get_fmt;
++
++	return 0;
++}
++
++static bool
++xhdrmg_is_format_bayer(struct xhdrmg_dev *xhdrmg, u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SRGGB12_1X12:
++	case MEDIA_BUS_FMT_SRGGB16_1X16:
++		xhdrmg->bayer_fmt = XHDRMERGE_RGGB;
++		break;
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG12_1X12:
++	case MEDIA_BUS_FMT_SGRBG16_1X16:
++		xhdrmg->bayer_fmt = XHDRMERGE_GRBG;
++		break;
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG12_1X12:
++	case MEDIA_BUS_FMT_SGBRG16_1X16:
++		xhdrmg->bayer_fmt = XHDRMERGE_GBRG;
++		break;
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SBGGR12_1X12:
++	case MEDIA_BUS_FMT_SBGGR16_1X16:
++		xhdrmg->bayer_fmt = XHDRMERGE_BGGR;
++		break;
++	default:
++		dev_dbg(xhdrmg->xvip.dev, "Unsupported format for Sink/Source Pad");
++		xhdrmg->bayer_fmt = XHDRMERGE_RGGB;
++		return false;
++	}
++	return true;
++}
++
++static int xhdrmg_set_format(struct v4l2_subdev *subdev,
++			     struct v4l2_subdev_state *sd_state,
++			     struct v4l2_subdev_format *fmt)
++{
++	struct xhdrmg_dev *xhdrmg = to_xhdrmg(subdev);
++	struct v4l2_mbus_framefmt *__format;
++
++	__format = __xhdrmg_get_pad_format(xhdrmg, sd_state, fmt->pad, fmt->which);
++	if (!__format)
++		return -EINVAL;
++
++	*__format = fmt->format;
++
++	__format->width = clamp_t(unsigned int, fmt->format.width,
++				  XHDRMERGE_MIN_WIDTH, xhdrmg->max_width);
++	__format->height = clamp_t(unsigned int, fmt->format.height,
++				   XHDRMERGE_MIN_HEIGHT, xhdrmg->max_height);
++
++	if (xhdrmg_is_format_bayer(xhdrmg, __format->code)) {
++		dev_dbg(xhdrmg->xvip.dev,
++			"Unsupported Sink Pad Media format, defaulting to RGGB");
++			__format->code = MEDIA_BUS_FMT_SRGGB10_1X10;
++	}
++
++	fmt->format = *__format;
++	return 0;
++}
++
++static int xhdrmg_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
++{
++	struct xhdrmg_dev *xhdrmg = to_xhdrmg(subdev);
++	struct v4l2_mbus_framefmt *format;
++
++	format = v4l2_subdev_get_try_format(subdev, fh->state, XHDRMERGE_PAD_SINK_STREAM0);
++	*format = xhdrmg->default_formats[XHDRMERGE_PAD_SINK_STREAM0];
++	format = v4l2_subdev_get_try_format(subdev, fh->state, XHDRMERGE_PAD_SINK_STREAM1);
++	*format = xhdrmg->default_formats[XHDRMERGE_PAD_SINK_STREAM1];
++
++	format = v4l2_subdev_get_try_format(subdev, fh->state, XHDRMERGE_PAD_SOURCE);
++	*format = xhdrmg->default_formats[XHDRMERGE_PAD_SOURCE];
++	return 0;
++}
++
++static int xhdrmg_close(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
++{
++	return 0;
++}
++
++static const struct v4l2_subdev_internal_ops xhdrmg_internal_ops = {
++	.open = xhdrmg_open,
++	.close = xhdrmg_close,
++};
++
++static const struct v4l2_subdev_pad_ops xhdrmg_pad_ops = {
++	.enum_mbus_code = xvip_enum_mbus_code,
++	.enum_frame_size = xvip_enum_frame_size,
++	.get_fmt = xhdrmg_get_format,
++	.set_fmt = xhdrmg_set_format,
++};
++
++static const struct v4l2_subdev_ops xhdrmg_ops = {
++	.video = &xhdrmg_video_ops,
++	.pad = &xhdrmg_pad_ops,
++};
++
++static const struct media_entity_operations xhdrmg_media_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++};
++
++static int xhdrmg_parse_of(struct xhdrmg_dev *xhdrmg)
++{
++	struct device *dev = xhdrmg->xvip.dev;
++	struct device_node *node = dev->of_node;
++	struct device_node *ports;
++	struct device_node *port;
++	u32 port_id = 0;
++	int rval;
++
++	rval = of_property_read_u32(node, "xlnx,max-height",
++				    &xhdrmg->max_height);
++	if (rval < 0) {
++		dev_err(dev, "missing xlnx,max-height property!");
++		return -EINVAL;
++	} else if (xhdrmg->max_height > XHDRMERGE_MAX_HEIGHT ||
++		 xhdrmg->max_height < XHDRMERGE_MIN_HEIGHT) {
++		dev_err(dev, "Invalid height in dt");
++		return -EINVAL;
++	}
++
++	rval = of_property_read_u32(node, "xlnx,max-width",
++				    &xhdrmg->max_width);
++	if (rval < 0) {
++		dev_err(dev, "missing xlnx,max-width property!");
++		return -EINVAL;
++	} else if (xhdrmg->max_width > XHDRMERGE_MAX_WIDTH ||
++		 xhdrmg->max_width < XHDRMERGE_MIN_WIDTH) {
++		dev_err(dev, "Invalid width in dt");
++		return -EINVAL;
++	}
++
++	ports = of_get_child_by_name(node, "ports");
++	if (!ports)
++		ports = node;
++	/* Get the format description for each pad */
++	for_each_child_of_node(ports, port) {
++		if (port->name && (of_node_cmp(port->name, "port") == 0)) {
++			const struct xvip_video_format *format;
++
++			rval = of_property_read_u32(port, "reg", &port_id);
++			if (rval < 0) {
++				dev_err(dev, "No reg in DT");
++				return rval;
++			}
++
++			if (port_id >= XHDRMERGE_PAD_MAX) {
++				dev_err(dev, "Invalid reg in DT");
++				return -EINVAL;
++			}
++			ports++;
++		}
++	}
++
++	xhdrmg->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(xhdrmg->rst_gpio)) {
++		if (PTR_ERR(xhdrmg->rst_gpio) != -EPROBE_DEFER)
++			dev_err(dev, "Reset GPIO not setup in DT");
++		return PTR_ERR(xhdrmg->rst_gpio);
++	}
++	return 0;
++}
++
++static int xhdrmg_probe(struct platform_device *pdev)
++{
++	struct xhdrmg_dev *xhdrmg;
++	struct v4l2_subdev *subdev;
++	struct v4l2_mbus_framefmt *default_format;
++	int rval;
++
++	xhdrmg = devm_kzalloc(&pdev->dev, sizeof(*xhdrmg), GFP_KERNEL);
++	if (!xhdrmg)
++		return -ENOMEM;
++	xhdrmg->xvip.dev = &pdev->dev;
++	rval = xhdrmg_parse_of(xhdrmg);
++	if (rval < 0)
++		return rval;
++	rval = xvip_init_resources(&xhdrmg->xvip);
++	if (rval)
++		return -EIO;
++
++	/* Reset HDR Extract IP */
++	gpiod_set_value_cansleep(xhdrmg->rst_gpio,
++				 XHDRMERGE_RESET_DEASSERT);
++
++	/* Init V4L2 subdev */
++	subdev = &xhdrmg->xvip.subdev;
++	v4l2_subdev_init(subdev, &xhdrmg_ops);
++	subdev->dev = &pdev->dev;
++	subdev->internal_ops = &xhdrmg_internal_ops;
++	strscpy(subdev->name, dev_name(&pdev->dev), sizeof(subdev->name));
++	subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++
++	/* Default Format Initialization */
++	default_format = &xhdrmg->default_formats[XHDRMERGE_PAD_SOURCE];
++	default_format->code = MEDIA_BUS_FMT_SRGGB10_1X10;
++	default_format->colorspace = V4L2_COLORSPACE_SRGB;
++	default_format->width = XHDRMERGE_DEF_OUT_WIDTH;
++	default_format->height = XHDRMERGE_DEF_OUT_HEIGHT;
++	xhdrmg->formats[XHDRMERGE_PAD_SOURCE] = *default_format;
++
++	default_format = &xhdrmg->default_formats[XHDRMERGE_PAD_SINK_STREAM0];
++	*default_format = xhdrmg->default_formats[XHDRMERGE_PAD_SINK_STREAM0];
++	default_format->width = XHDRMERGE_DEF_IN_WIDTH;
++	default_format->height = XHDRMERGE_DEF_IN_HEIGHT;
++	xhdrmg->formats[XHDRMERGE_PAD_SINK_STREAM0] = *default_format;
++	xhdrmg->formats[XHDRMERGE_PAD_SINK_STREAM1] = *default_format;
++
++	xhdrmg->pads[2].flags = MEDIA_PAD_FL_SOURCE;
++	xhdrmg->pads[0].flags = MEDIA_PAD_FL_SINK;
++	xhdrmg->pads[1].flags = MEDIA_PAD_FL_SINK;
++
++	/* Init Media Entity */
++	subdev->entity.ops = &xhdrmg_media_ops;
++	rval = media_entity_pads_init(&subdev->entity, 3, xhdrmg->pads);
++	if (rval < 0)
++		goto media_error;
++
++	platform_set_drvdata(pdev, xhdrmg);
++	rval = v4l2_async_register_subdev(subdev);
++	if (rval < 0) {
++		dev_err(&pdev->dev, "failed to register subdev");
++		goto v4l2_subdev_error;
++	}
++	dev_info(&pdev->dev,
++		 "Xilinx Video HDR MERGE Probe Successful");
++	return 0;
++
++v4l2_subdev_error:
++	media_entity_cleanup(&subdev->entity);
++media_error:
++	xvip_cleanup_resources(&xhdrmg->xvip);
++	return rval;
++}
++
++static int xhdrmg_remove(struct platform_device *pdev)
++{
++	struct xhdrmg_dev *xhdrmg = platform_get_drvdata(pdev);
++	struct v4l2_subdev *subdev = &xhdrmg->xvip.subdev;
++
++	v4l2_async_unregister_subdev(subdev);
++	media_entity_cleanup(&subdev->entity);
++	xvip_cleanup_resources(&xhdrmg->xvip);
++	return 0;
++}
++
++static const struct of_device_id xhdrmg_of_id_table[] = {
++	{.compatible = "xlnx,hdrmerge-1.0"},
++	{ }
++};
++MODULE_DEVICE_TABLE(of, xhdrmg_of_id_table);
++
++static struct platform_driver xhdrmg_driver = {
++	.driver = {
++		.name = "xilinx-hdrmerge",
++		.of_match_table = xhdrmg_of_id_table,
++	},
++	.probe = xhdrmg_probe,
++	.remove = xhdrmg_remove,
++};
++
++module_platform_driver(xhdrmg_driver);
++MODULE_DESCRIPTION("Xilinx HDR Merge IP Driver");
++MODULE_LICENSE("GPL v2");
+-- 
+2.17.1
+
