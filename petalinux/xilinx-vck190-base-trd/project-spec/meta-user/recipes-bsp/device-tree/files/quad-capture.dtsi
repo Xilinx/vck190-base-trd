@@ -4,7 +4,7 @@
 	cap_pipe_pipe_0_isp_0: isp@a40c0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,ISPPipeline_accel";
+		compatible = "xlnx,isppipeline-accel-1.0";
 		reg = <0x0 0xa40c0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 27 1>;
 		xlnx,max-height = <1080>;
@@ -101,7 +101,7 @@
 	cap_pipe_pipe_1_isp_1: isp@a40e0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,ISPPipeline_accel";
+		compatible = "xlnx,isppipeline-accel-1.0";
 		reg = <0x0 0xa40e0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 30 1>;
 		xlnx,max-height = <1080>;
@@ -198,7 +198,7 @@
 	cap_pipe_pipe_2_isp_2: isp@a4180000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,ISPPipeline_accel";
+		compatible = "xlnx,isppipeline-accel-1.0";
 		reg = <0x0 0xa4180000 0x0 0x10000>;
 		reset-gpios = <&gpio0 33 1>;
 		xlnx,max-height = <1080>;
@@ -295,7 +295,7 @@
 	cap_pipe_pipe_3_isp_3: isp@a41a0000 {
 		clock-names = "ap_clk";
 		clocks = <&misc_clk_0>;
-		compatible = "xlnx,ISPPipeline_accel";
+		compatible = "xlnx,isppipeline-accel-1.0";
 		reg = <0x0 0xa41a0000 0x0 0x10000>;
 		reset-gpios = <&gpio0 36 1>;
 		xlnx,max-height = <1080>;
