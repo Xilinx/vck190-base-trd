@@ -1,5 +1,5 @@
 set ::PS_INST PS_0
-set PS_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips PS_0 ] 
+set PS_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips PS_0 ]
 
 apply_bd_automation -rule xilinx.com:bd_rule:cips -config { board_preset {Yes} boot_config {Custom} configure_noc {Add new AXI NoC} debug_config {JTAG} design_flow {Full System} mc_type {None} num_mc {1} pl_clocks {None} pl_resets {None}}  [get_bd_cells PS_0]
 
@@ -55,7 +55,7 @@ CONFIG.NUM_MI {1} \
 CONFIG.NUM_NMI {0} \
 CONFIG.NUM_NSI {0} \
 CONFIG.NUM_SI {13} \
-] $NOC_0 
+] $NOC_0
 
 set_property -dict [ list \
 CONFIG.CH0_LPDDR4_0_BOARD_INTERFACE {ch0_lpddr4_c0} \
@@ -455,6 +455,10 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
 
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_CTRL
 
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_control
+
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_control2
+
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_CTRL1
 
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_ctrl_1
@@ -470,6 +474,12 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
 
   # Create instance: ISPPipeline_accel_0, and set properties
   set ISPPipeline_accel_0 [ create_bd_cell -type ip -vlnv xilinx.com:hls:ISPPipeline_accel ISPPipeline_accel_0 ]
+
+  # Create instance: extractEFrames_accel_0, and set properties
+  set extractEFrames_accel_0 [ create_bd_cell -type ip -vlnv xilinx.com:hls:extractEFrames_accel extractEFrames_accel_0 ]
+
+  # Create instance: hdrmerge_accel_0, and set properties
+  set hdrmerge_accel_0 [ create_bd_cell -type ip -vlnv xilinx.com:hls:hdrmerge_accel hdrmerge_accel_0 ]
 
   # Create instance: axis_data_fifo_cap, and set properties
   set axis_data_fifo_cap [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo axis_data_fifo_cap ]
@@ -542,12 +552,33 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
    CONFIG.DOUT_WIDTH {1} \
  ] $xlslice_3
 
+  # Create instance: xlslice_4, and set properties
+  set xlslice_4 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice xlslice_4 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {5} \
+   CONFIG.DIN_TO {5} \
+   CONFIG.DOUT_WIDTH {1} \
+ ] $xlslice_4
+
+  # Create instance: xlslice_5, and set properties
+  set xlslice_5 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice xlslice_5 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {6} \
+   CONFIG.DIN_TO {6} \
+   CONFIG.DOUT_WIDTH {1} \
+ ] $xlslice_5
+
   # Create interface connections
   connect_bd_intf_net -intf_net ISPPipeline_accel_0_m_axis_video [get_bd_intf_pins ISPPipeline_accel_0/m_axis_video] [get_bd_intf_pins v_proc_ss_0/s_axis]
-  connect_bd_intf_net -intf_net axis_data_fifo_0_M_AXIS [get_bd_intf_pins ISPPipeline_accel_0/s_axis_video] [get_bd_intf_pins axis_data_fifo_cap/M_AXIS]
+  connect_bd_intf_net -intf_net axis_data_fifo_0_M_AXIS [get_bd_intf_pins extractEFrames_accel_0/in_ptr] [get_bd_intf_pins axis_data_fifo_cap/M_AXIS]
+  connect_bd_intf_net -intf_net extractEFrames_accel_0_lef_ptr [get_bd_intf_pins extractEFrames_accel_0/lef_ptr] [get_bd_intf_pins hdrmerge_accel_0/img_in1]
+  connect_bd_intf_net -intf_net extractEFrames_accel_0_sef_ptr [get_bd_intf_pins extractEFrames_accel_0/sef_ptr] [get_bd_intf_pins hdrmerge_accel_0/img_in2]
+  connect_bd_intf_net -intf_net hdrmerge_accel_0_img_out [get_bd_intf_pins ISPPipeline_accel_0/s_axis_video] [get_bd_intf_pins hdrmerge_accel_0/img_out]
   connect_bd_intf_net -intf_net mipi_csi2_rx_subsyst_0_video_out [get_bd_intf_pins S_AXIS] [get_bd_intf_pins axis_data_fifo_cap/S_AXIS]
   connect_bd_intf_net -intf_net s_axi_ctrl_1_1 [get_bd_intf_pins s_axi_ctrl_1] [get_bd_intf_pins v_proc_ss_0/s_axi_ctrl]
   connect_bd_intf_net -intf_net smartconnect_2_M00_AXI [get_bd_intf_pins s_axi_CTRL1] [get_bd_intf_pins ISPPipeline_accel_0/s_axi_CTRL]
+  connect_bd_intf_net -intf_net smartconnect_2_M01_AXI [get_bd_intf_pins s_axi_control2] [get_bd_intf_pins hdrmerge_accel_0/s_axi_control]
+  connect_bd_intf_net -intf_net smartconnect_2_M02_AXI [get_bd_intf_pins s_axi_control] [get_bd_intf_pins extractEFrames_accel_0/s_axi_control]
   connect_bd_intf_net -intf_net smartconnect_2_M03_AXI [get_bd_intf_pins s_axi_CTRL] [get_bd_intf_pins v_frmbuf_wr_0/s_axi_CTRL]
   connect_bd_intf_net -intf_net v_frmbuf_wr_0_m_axi_mm_video [get_bd_intf_pins M00_AXI] [get_bd_intf_pins v_frmbuf_wr_0/m_axi_mm_video]
   connect_bd_intf_net -intf_net v_proc_ss_0_m_axis [get_bd_intf_pins v_frmbuf_wr_0/s_axis_video] [get_bd_intf_pins v_proc_ss_0/m_axis]
@@ -558,17 +589,23 @@ proc create_hier_cell_cap_pipe { parentCell nameHier } {
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_1/Din] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_2/Din] -boundary_type upper
   connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_3/Din] -boundary_type upper
+  connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_4/Din] -boundary_type upper
+  connect_bd_net -net axi_gpio_0_gpio_io_o [get_bd_pins Din] [get_bd_pins xlslice_5/Din] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins ISPPipeline_accel_0/ap_clk] -boundary_type upper
+  connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins extractEFrames_accel_0/ap_clk] -boundary_type upper
+  connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins hdrmerge_accel_0/ap_clk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins axis_data_fifo_cap/s_axis_aclk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_frmbuf_wr_0/ap_clk] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_proc_ss_0/aclk_axis] -boundary_type upper
   connect_bd_net -net clk_wizard_0_clk_out3 [get_bd_pins video_clk] [get_bd_pins v_proc_ss_0/aclk_ctrl] -boundary_type upper
   connect_bd_net -net v_frmbuf_wr_0_interrupt [get_bd_pins frm_buf_irq] [get_bd_pins v_frmbuf_wr_0/interrupt]
   connect_bd_net -net vcc_dout [get_bd_pins dout_1] [get_bd_pins vcc/dout]
-  connect_bd_net -net xlslice_0_Dout [get_bd_pins ISPPipeline_accel_0/ap_rst_n] [get_bd_pins xlslice_0/Dout]
-  connect_bd_net -net xlslice_3_Dout [get_bd_pins v_proc_ss_0/aresetn_ctrl] [get_bd_pins xlslice_1/Dout]
-  connect_bd_net -net xlslice_4_Dout [get_bd_pins v_frmbuf_wr_0/ap_rst_n] [get_bd_pins xlslice_2/Dout]
-  connect_bd_net -net xlslice_5_Dout [get_bd_pins Dout] [get_bd_pins xlslice_3/Dout]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins extractEFrames_accel_0/ap_rst_n] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net xlslice_1_Dout [get_bd_pins hdrmerge_accel_0/ap_rst_n] [get_bd_pins xlslice_1/Dout]
+  connect_bd_net -net xlslice_2_Dout [get_bd_pins ISPPipeline_accel_0/ap_rst_n] [get_bd_pins xlslice_2/Dout]
+  connect_bd_net -net xlslice_3_Dout [get_bd_pins v_proc_ss_0/aresetn_ctrl] [get_bd_pins xlslice_3/Dout]
+  connect_bd_net -net xlslice_4_Dout [get_bd_pins v_frmbuf_wr_0/ap_rst_n] [get_bd_pins xlslice_4/Dout]
+  connect_bd_net -net xlslice_5_Dout [get_bd_pins Dout] [get_bd_pins xlslice_5/Dout]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -860,6 +897,10 @@ proc create_hier_cell_mipi_capture_pipe { parentCell nameHier } {
 
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_CTRL
 
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_control
+
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_control2
+
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_CTRL1
 
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 s_axi_ctrl_1
@@ -892,6 +933,8 @@ proc create_hier_cell_mipi_capture_pipe { parentCell nameHier } {
   connect_bd_intf_net -intf_net mipi_csi_rx_ss_IIC_sensor [get_bd_intf_pins sensor_iic] [get_bd_intf_pins mipi_csi_rx_ss/IIC_sensor]
   connect_bd_intf_net -intf_net mipi_csi_rx_ss_video_out [get_bd_intf_pins cap_pipe/S_AXIS] [get_bd_intf_pins mipi_csi_rx_ss/video_out]
   connect_bd_intf_net -intf_net s_axi_CTRL1_1 [get_bd_intf_pins s_axi_CTRL1] [get_bd_intf_pins cap_pipe/s_axi_CTRL1]
+  connect_bd_intf_net -intf_net s_axi_control_1 [get_bd_intf_pins s_axi_control] [get_bd_intf_pins cap_pipe/s_axi_control]
+  connect_bd_intf_net -intf_net s_axi_control_2 [get_bd_intf_pins s_axi_control2] [get_bd_intf_pins cap_pipe/s_axi_control2]
   connect_bd_intf_net -intf_net s_axi_CTRL_1 [get_bd_intf_pins s_axi_CTRL] [get_bd_intf_pins cap_pipe/s_axi_CTRL]
   connect_bd_intf_net -intf_net s_axi_ctrl_1_1 [get_bd_intf_pins s_axi_ctrl_1] [get_bd_intf_pins cap_pipe/s_axi_ctrl_1]
   connect_bd_intf_net -intf_net smartconnect_gp0_M04_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins mipi_csi_rx_ss/S_AXI]
@@ -1608,7 +1651,7 @@ proc create_root_design { parentCell } {
   set smartconnect_gp0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect smartconnect_gp0 ]
   set_property -dict [ list \
    CONFIG.NUM_CLKS {3} \
-   CONFIG.NUM_MI {14} \
+   CONFIG.NUM_MI {16} \
    CONFIG.NUM_SI {1} \
  ] $smartconnect_gp0
 
@@ -1651,6 +1694,8 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net [get_bd_intf_nets mipi_capture_pipe_M00_AXI] [get_bd_intf_pins axi_perf_mon_0/SLOT_5_AXI] [get_bd_intf_pins mipi_capture_pipe/M00_AXI]
   connect_bd_intf_net -intf_net mipi_csi_rx_ss_IIC_sensor [get_bd_intf_ports sensor_iic] [get_bd_intf_pins mipi_capture_pipe/sensor_iic]
   connect_bd_intf_net -intf_net s_axi_CTRL1_1 [get_bd_intf_pins mipi_capture_pipe/s_axi_CTRL1] [get_bd_intf_pins smartconnect_gp0/M07_AXI]
+  connect_bd_intf_net -intf_net s_axi_control_1 [get_bd_intf_pins mipi_capture_pipe/s_axi_control] [get_bd_intf_pins smartconnect_gp0/M14_AXI]
+  connect_bd_intf_net -intf_net s_axi_control_2 [get_bd_intf_pins mipi_capture_pipe/s_axi_control2] [get_bd_intf_pins smartconnect_gp0/M15_AXI]
   connect_bd_intf_net -intf_net s_axi_CTRL_1 [get_bd_intf_pins mipi_capture_pipe/s_axi_CTRL] [get_bd_intf_pins smartconnect_gp0/M06_AXI]
   connect_bd_intf_net -intf_net s_axi_ctrl_1_1 [get_bd_intf_pins mipi_capture_pipe/s_axi_ctrl_1] [get_bd_intf_pins smartconnect_gp0/M10_AXI]
   connect_bd_intf_net -intf_net s_axi_ctrl_vmix_1 [get_bd_intf_pins display_pipe/s_axi_ctrl_vmix] [get_bd_intf_pins smartconnect_gp0/M03_AXI]
@@ -1767,7 +1812,9 @@ proc create_root_design { parentCell } {
   connect_bd_net -net versal_cips_ss_interconnect_aresetn [get_bd_pins rst_processor_pl_100Mhz/interconnect_aresetn] [get_bd_pins smartconnect_gp0/aresetn]
 
   # Create address segments
-  assign_bd_address -offset 0xA40C0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/cap_pipe/ISPPipeline_accel_0/s_axi_CTRL/Reg] -force
+  assign_bd_address -offset 0xA40C0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/cap_pipe/extractEFrames_accel_0/s_axi_control/Reg] -force
+  assign_bd_address -offset 0xA40E0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/cap_pipe/hdrmerge_accel_0/s_axi_control/Reg] -force
+  assign_bd_address -offset 0xA40F0000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/cap_pipe/ISPPipeline_accel_0/s_axi_CTRL/Reg] -force
   assign_bd_address -offset 0xA4200000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs audio_pipe/audio_formatter_0/s_axi_lite/reg0] -force
   assign_bd_address -offset 0xA4070000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs mipi_capture_pipe/mipi_csi_rx_ss/axi_iic_1_sensor/S_AXI/Reg] -force
   assign_bd_address -offset 0xA4050000 -range 0x00010000 -target_address_space [get_bd_addr_spaces ${::PS_INST}/Data1] [get_bd_addr_segs axi_perf_mon_0/S_AXI/Reg] -force

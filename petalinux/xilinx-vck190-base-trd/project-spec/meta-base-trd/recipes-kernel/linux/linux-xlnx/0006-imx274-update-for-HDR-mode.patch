@@ -1,0 +1,128 @@
+From ea6e3ae943d5d80a8650e42116b69a2e33d0191f Mon Sep 17 00:00:00 2001
+From: Kaushal Kumar <kaushal.kumar@amd.com>
+Date: Wed, 14 Sep 2022 15:25:21 +0530
+Subject: [PATCH 6/6] imx274-update-for-HDR-mode
+
+The sensor register settings for HDR mode is obtained
+from sony IMX274 datasheet.
+
+Signed-off-by: Kaushal Kumar <kaushal.kumar@amd.com>
+---
+ drivers/media/i2c/imx274.c | 60 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 49 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+index 4d9b64c61f60..e93eca4ae6d1 100644
+--- a/drivers/media/i2c/imx274.c
++++ b/drivers/media/i2c/imx274.c
+@@ -223,17 +223,33 @@ static const char * const tp_qmenu[] = {
+  * 3840x2160 resolution, raw10 data and mipi four lane output
+  */
+ static const struct reg_8 imx274_mode1_3840x2160_raw10[] = {
+-	{0x3004, 0x01},
++	{0x3004, 0x06},
+ 	{0x3005, 0x01},
+ 	{0x3006, 0x00},
+-	{0x3007, 0xa2},
++	{0x3007, 0x02},
+ 
+ 	{0x3018, 0xA2}, /* output XVS, HVS */
+-
++	{0x3019, 0x11},
++	{0x302E, 0x06},
++	{0x302F, 0x00},
++	{0x3030, 0x0E},
++	{0x3031, 0x00},
++	{0x3032, 0x08},
++	{0x3041, 0x31},
++	{0x3042, 0x07},
++	{0x3043, 0x01},
+ 	{0x306B, 0x05},
+ 	{0x30E2, 0x01},
+-
++	{0x30E9, 0x01},
++	{0x30F6, 0x1C},
++	{0x30F7, 0x04},
++	{0x30F8, 0xEC},
++	{0x30F9, 0x08},
+ 	{0x30EE, 0x01},
++	{0x3130, 0x86},
++	{0x3131, 0x08},
++	{0x3132, 0x8E},
++	{0x3133, 0x08},
+ 	{0x3342, 0x0A},
+ 	{0x3343, 0x00},
+ 	{0x3344, 0x16},
+@@ -253,6 +269,7 @@ static const struct reg_8 imx274_mode1_3840x2160_raw10[] = {
+ 	{0x366C, 0x19},
+ 	{0x366D, 0x17},
+ 	{0x3A41, 0x08},
++	{0x3012, 0x01},
+ 
+ 	{IMX274_TABLE_END, 0x00}
+ };
+@@ -264,17 +281,33 @@ static const struct reg_8 imx274_mode1_3840x2160_raw10[] = {
+  * 1920x1080 resolution, raw10 data and mipi four lane output
+  */
+ static const struct reg_8 imx274_mode3_1920x1080_raw10[] = {
+-	{0x3004, 0x02},
++	{0x3004, 0x07},
+ 	{0x3005, 0x21},
+ 	{0x3006, 0x00},
+-	{0x3007, 0xb1},
+-
++	{0x3007, 0x11},
+ 	{0x3018, 0xA2}, /* output XVS, HVS */
+-
++	{0x3019, 0x11},
++	{0x302E, 0x04},
++	{0x302F, 0x00},
++	{0x3030, 0x0A},
++	{0x3031, 0x00},
++	{0x3032, 0x06},
++	{0x3033, 0x00},
++	{0x3041, 0x31},
++	{0x3042, 0x04},
++	{0x3043, 0x01},
+ 	{0x306B, 0x05},
+ 	{0x30E2, 0x02},
+-
++	{0x30E9, 0x01},
++	{0x30F6, 0x10},
++	{0x30F7, 0x04},
++	{0x30F8, 0x83},
++	{0x30F9, 0x04},
+ 	{0x30EE, 0x01},
++	{0x3130, 0x4E},
++	{0x3131, 0x04},
++	{0x3132, 0x54},
++	{0x3133, 0x04},
+ 	{0x3342, 0x0A},
+ 	{0x3343, 0x00},
+ 	{0x3344, 0x1A},
+@@ -1418,8 +1451,8 @@ static void imx274_load_default(struct stimx274 *priv)
+ 	/* load default control values */
+ 	priv->frame_interval.numerator = 1;
+ 	priv->frame_interval.denominator = IMX274_DEF_FRAME_RATE;
+-	priv->ctrls.exposure->val = 1000000 / IMX274_DEF_FRAME_RATE;
+-	priv->ctrls.gain->val = IMX274_DEF_GAIN;
++	priv->ctrls.exposure->val = 1988;
++	priv->ctrls.gain->val = 3013;
+ 	priv->ctrls.vflip->val = 0;
+ 	priv->ctrls.test_pattern->val = TEST_PATTERN_DISABLED;
+ }
+@@ -1472,6 +1505,11 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+ 		if (ret)
+ 			goto fail;
+ 
++		/* load mode registers */
++		ret = imx274_mode_regs(imx274);
++		if (ret)
++			goto fail;
++
+ 		/* start stream */
+ 		ret = imx274_start_stream(imx274);
+ 		if (ret)
+-- 
+2.17.1
+
