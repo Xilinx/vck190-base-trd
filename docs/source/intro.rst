@@ -25,7 +25,7 @@ The following is a list of supported platforms including key I/O interfaces:
 
     * File source
 
-    * MIPI CSI-2 image sensor capture pipeline via FMC daughter card
+    * MIPI CSI-2 image sensor capture pipeline via FMC daughter card, HDR enabled
 
   * Processing:
 
@@ -53,12 +53,12 @@ The following is a list of supported platforms including key I/O interfaces:
 * Platform 3 - *vck190_hdmiRx_hdmiTx*:
 
   Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
-  design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
-  supports capture of audio data.
+  design and pre-instantiated set of I/O interfaces remain the same. HDMI RX 
+  also supports capture of audio data.
 
-  Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio
-  source is a file. In case of Platform 3 the audio source can be a either a file or
-  HDMI RX.
+  Audio replay can be done on all platforms. For Platform 1 and Platform 2 the 
+  audio source is a file. In case of Platform 3 the audio source can be a either
+  a file or  HDMI RX.
 
 .. image:: images/system-bd.jpg
     :width: 1200px
@@ -86,6 +86,31 @@ Working of above frameworks are detailed in Chapter 9.
 .. image:: images/sw-stack.jpg
     :width: 700px
     :alt: Software Stack Overview
+
+
+
+High Dynamic Range Video
+------------------------
+
+Base TRD supports high dynamic range (HDR) video with capture and display pipelines,
+following is a brief introduction. 
+
+**Multi-exposure Digital Overlap High Dynamic Range (DOL-HDR) capture**
+
+High dynamic range image is a technique obtained by combining several different 
+exposures frames of the same subject matter. IMX274 camera sensor supports 
+capturing objects at two different exposure, HDR extract IP segregates the 
+sensor data (DOL data) into short and long exposure frames. HDR merge will 
+generate the HDR frame form the data obtained. The HDR frame results in an image
+with a greater dynamic range than what is possible by taking one single exposure. 
+HDR is useful for recording many real-world scenes containing very bright, 
+direct sunlight to extreme shade.
+
+**Note:**
+
+- Only Platform 1 has the ability to capture HDR frames.
+
+- 4k HDR video in platform 1 has a max framerate of 30fps, limited by the sensor.
 
 Design Files
 ---------------------
