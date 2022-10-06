@@ -83,8 +83,9 @@ register interface.
   CSI-2 Receiver Subsystem Product Guide (`PG232 <https://www.xilinx.com/support/documentation/ip_documentation/mipi_csi2_rx_subsystem/v5_0/pg232-mipi-csi2-rx.pdf>`_).
 
 * The HDR extract block takes single digital overlapped frame from the sensor as input 
-  and returns two output exposure frames - Short Exposure Frame and a Long Exposure Frame
-
+  and returns two output exposure frames - Short Exposure Frame and a Long Exposure Frame.
+  For more information on this function refer to `Vitis Vision Libraries HDR Extract exposure frames <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/api-reference.html#extract-exposure-frames>`_.
+  
 * Creating High Dynamic Range images requires at least two frames that are captured with 
   different exposure times. HDR Merge module will generate the HDR frame with these varied 
   exposure frames. HDR Merge in RGB domain is complex and expensive in terms of latency, 
