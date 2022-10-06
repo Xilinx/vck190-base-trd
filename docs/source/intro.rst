@@ -54,7 +54,7 @@ The following is a list of supported platforms including key I/O interfaces:
 
   Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
   design and pre-instantiated set of I/O interfaces remain the same. HDMI RX 
-  also supports capture of audio data.
+  is HDR10 capable and also supports capture of audio data.
 
   Audio replay can be done on all platforms. For Platform 1 and Platform 2 the 
   audio source is a file. In case of Platform 3 the audio source can be a either
@@ -111,6 +111,20 @@ direct sunlight to extreme shade.
 - Only Platform 1 has the ability to capture HDR frames.
 
 - 4k HDR video in platform 1 has a max framerate of 30fps, limited by the sensor.
+
+
+**High Dynamic Range Display (HDR10)**
+
+The dynamic range of a display refers to its luminance, the maximum and minimum
+amount of light the display is capable of producing. High dynamic range(HDR) is 
+the capability to represent a large luminance variation in the video signal, i.e.,
+from very dark values (0.00005 cd/m2) to very bright values (greater  than
+1000 cd/m2). HDR creates brighter whites, darker blacks, and brighter colors
+that better match images we see in the real world. HDR10 uses ST2084 EOTF,
+a single content layer with static metadata, this static metadata information is
+supported in the underlying infrastructure of the platform 3 TRD 
+*vck190_hdmiRx_hdmiTx* mentioned above, where both source and sink elements are
+HDR10 capable (HDMI-RX and HDMI-TX). 
 
 Design Files
 ---------------------
