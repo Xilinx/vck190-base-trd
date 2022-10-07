@@ -259,10 +259,10 @@ Table : V4L2 Drivers Used in Capture Pipelines
 |                                         | - Sets media bus format and resolution on output pad.                                                                        |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
 | HDR Extract                             | - Sets media bus format and resolution on input pad.                                                                         |
-|                                         | - Sets media bus format and resolution on two output pads.                                                                        |
+|                                         | - Sets media bus format and resolution on two output pads.                                                                   |
 |                                         | - Configure HDR Extract IP and stream data to produce Short Exposure Frame (SEF) and Long Exposre Frames(LEF).               |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
-| HDR Merge                               | - Sets media bus format and resolution on two input pads.                                                                         |
+| HDR Merge                               | - Sets media bus format and resolution on two input pads.                                                                    |
 |                                         | - Sets media bus format and resolution on output pad.                                                                        |
 |                                         | - Configure HDR Merge IP and stream data to produce a single HDR Frame from SEF and LEF.                                     |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
