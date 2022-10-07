@@ -1,6 +1,10 @@
 Revision History
 ================
 
+**2022.1 v1.5**
+
+* Add DOL HDR support in single-sensor capture pipeline
+
 **2022.1 v1.4**
 
 * Update Vivado/Vitis/Petalinux tools versions to 2022.1
