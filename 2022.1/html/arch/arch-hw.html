@@ -55,7 +55,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'2022.1-1.4',
+              VERSION:'2022.1-1.5',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -232,7 +232,7 @@
             
             
               <div class="version">
-                1.4
+                1.5
               </div>
             
           
@@ -414,6 +414,14 @@ CSI-2 receive interface according to the MIPI CSI-2 standard v2.0 with underlyin
 MIPI D-PHY standard v1.2. The subsystem captures images from the IMX274 sensor in
 RAW10 format and outputs AXI4-Stream video data. For more information see the MIPI
 CSI-2 Receiver Subsystem Product Guide (<a class="reference external" href="https://www.xilinx.com/support/documentation/ip_documentation/mipi_csi2_rx_subsystem/v5_0/pg232-mipi-csi2-rx.pdf">PG232</a>).</li>
+<li>The HDR extract block takes single digital overlapped frame from the sensor as input
+and returns two output exposure frames - Short Exposure Frame and a Long Exposure Frame.
+For more information on this function refer to <a class="reference external" href="https://xilinx.github.io/Vitis_Libraries/vision/2022.1/api-reference.html#extract-exposure-frames">Vitis Vision Libraries HDR Extract exposure frames</a>.</li>
+<li>Creating High Dynamic Range images requires at least two frames that are captured with
+different exposure times. HDR Merge module will generate the HDR frame with these varied
+exposure frames. HDR Merge in RGB domain is complex and expensive in terms of latency,
+because of camera response function. Hence the current module works in Bayer domain.
+For information on this function refer to <a class="reference external" href="https://xilinx.github.io/Vitis_Libraries/vision/2022.1/api-reference.html#hdr-merge">Vitis Vision Libraries HDR Merge</a>.</li>
 <li>The Image Single Processing IP is available in the Vitis Vision librarires
 (<a class="reference external" href="https://github.com/Xilinx/Vitis_Libraries/tree/master/vision/L1).The">https://github.com/Xilinx/Vitis_Libraries/tree/master/vision/L1).The</a> IP receives the
 RAW10 AXI4-Stream input data and interpolates the missing color components for every
@@ -441,7 +449,8 @@ transfer, an interrupt is generated. A GPIO is used to reset the IP between
 resolution changes.</li>
 </ul>
 <p>All the IPs in this pipeline are configured to transport 4ppc &#64; 150 MHz, enabling up to
-3840x2160 resolution at 60 frames per second (fps).</p>
+3840x2160 resolution at 30 HDR frames per second (fps). Each HDR frame is a composite
+of a long exposure frame and a short exposure frame, so effective frame rate is 60fps.</p>
 <ul class="simple">
 <li>Time to transfer one frame: (3840 + 560) x (2160 + 90) / (150 MHz * 4ppc) = 0.0165 ms</li>
 <li>Number of frames transferred per second = 1/0.0165 = 60 frames</li>
@@ -453,7 +462,7 @@ the AXI-Lite interface of the IPs at run-time. The drivers for the above blocks 
 APIs to set these values in a user application.</p>
 <ul class="simple">
 <li>For the pass-through design (no accelerator) user can choose between 720p60, 1080p60,
-2160p30, and 2160p60.</li>
+and 2160p30.</li>
 </ul>
 </div>
 <div class="section" id="quad-sensor-mipi-capture">
@@ -766,16 +775,22 @@ used in this design.</p>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 1</td>
-<td>Asynchronous reset for the demosaic IP</td>
+<td>Asynchronous reset for the HDR extract IP</td>
 </tr>
 <tr class="row-odd"><td>lpd_gpio_o 2</td>
-<td>Asynchronous reset for the VPSS CSC IP</td>
+<td>Asynchronous reset for the HDR merge IP</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 3</td>
-<td>Asynchronous reset for the frame buffer write IP</td>
+<td>Asynchronous reset for the ISP IP</td>
 </tr>
 <tr class="row-odd"><td>lpd_gpio_o 4</td>
-<td>Asynchronous reset for the sensor GPIO</td>
+<td>Asynchronous reset for the VPSS CSC IP</td>
+</tr>
+<tr class="row-even"><td>lpd_gpio_o 5</td>
+<td>Asynchronous reset for the frame buffer write IP</td>
+</tr>
+<tr class="row-odd"><td>lpd_gpio_o 6</td>
+<td>Asynchronous reset for the sensor</td>
 </tr>
 <tr class="row-even"><td><cite>GPIO for Quad Sensor platform</cite></td>
 <td>&#160;</td>
@@ -790,7 +805,7 @@ used in this design.</p>
 <td>Asynchronous reset for the frame buffer write IP stream 0</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 4</td>
-<td>Asynchronous reset for the demosaic IP stream 1</td>
+<td>Asynchronous reset for the ISP IP stream 1</td>
 </tr>
 <tr class="row-odd"><td>lpd_gpio_o 5</td>
 <td>Asynchronous reset for the VPSS CSC IP stream 1</td>
@@ -799,7 +814,7 @@ used in this design.</p>
 <td>Asynchronous reset for the frame buffer write IP stream 1</td>
 </tr>
 <tr class="row-odd"><td>lpd_gpio_o 7</td>
-<td>Asynchronous reset for the demosaic IP stream 2</td>
+<td>Asynchronous reset for the ISP IP stream 2</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 8</td>
 <td>Asynchronous reset for the VPSS CSC IP stream 3</td>
@@ -808,9 +823,9 @@ used in this design.</p>
 <td>Asynchronous reset for the frame buffer write IP stream</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 10</td>
-<td>Asynchronous reset for the demosaic IP stream 3</td>
+<td>Asynchronous reset for the ISP IP stream 3</td>
 </tr>
-<tr class="row-odd"><td>lpd_gpio_o 10</td>
+<tr class="row-odd"><td>lpd_gpio_o 11</td>
 <td>Asynchronous reset for the VPSS CSC IP stream 3</td>
 </tr>
 <tr class="row-even"><td>lpd_gpio_o 12</td>
@@ -952,7 +967,7 @@ and limitations under the License.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on July 29, 2022.
+        Last updated on October 11, 2022.
       </span>
 
     </p>

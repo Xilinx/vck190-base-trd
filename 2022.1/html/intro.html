@@ -55,7 +55,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'2022.1-1.4',
+              VERSION:'2022.1-1.5',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -232,7 +232,7 @@
             
             
               <div class="version">
-                1.4
+                1.5
               </div>
             
           
@@ -262,8 +262,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#platforms">2.1. Platforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#software-stack">2.2. Software Stack</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#design-files">2.3. Design Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#licenses">2.4. Licenses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#high-dynamic-range-video">2.3. High Dynamic Range Video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-files">2.4. Design Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licenses">2.5. Licenses</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">3. Run the Prebuilt Image</a></li>
@@ -361,7 +362,7 @@ silicon only, for the VCK190 evaluation board.</p>
 <li>Sources:<ul>
 <li>USB webcam capture pipeline</li>
 <li>File source</li>
-<li>MIPI CSI-2 image sensor capture pipeline via FMC daughter card</li>
+<li>MIPI CSI-2 image sensor capture pipeline via FMC daughter card, HDR enabled</li>
 </ul>
 </li>
 <li>Processing:<ul>
@@ -385,11 +386,11 @@ replacement of IMX274 image sensor with Avnet Multi-Camera image sensor.</p>
 </li>
 <li><p class="first">Platform 3 - <em>vck190_hdmiRx_hdmiTx</em>:</p>
 <p>Platform 3 uses HDMI RX in the capture pipeline, while the rest of the hardware
-design and pre-instantiated set of I/O interfaces remain the same. HDMI RX also
-supports capture of audio data.</p>
-<p>Audio replay can be done on all platforms. For Platform 1 and Plaform 2 the audio
-source is a file. In case of Platform 3 the audio source can be a either a file or
-HDMI RX.</p>
+design and pre-instantiated set of I/O interfaces remain the same. HDMI RX
+is HDR10 capable and also supports capture of audio data.</p>
+<p>Audio replay can be done on all platforms. For Platform 1 and Platform 2 the
+audio source is a file. In case of Platform 3 the audio source can be a either
+a file or  HDMI RX.</p>
 </li>
 </ul>
 <a class="reference internal image-reference" href="_images/system-bd.jpg"><img alt="System Design Block Diagram" src="_images/system-bd.jpg" style="width: 1200px;" /></a>
@@ -408,8 +409,38 @@ HDMI RX.</p>
 <p>Working of above frameworks are detailed in Chapter 9.</p>
 <a class="reference internal image-reference" href="_images/sw-stack1.jpg"><img alt="Software Stack Overview" src="_images/sw-stack1.jpg" style="width: 700px;" /></a>
 </div>
+<div class="section" id="high-dynamic-range-video">
+<h2>2.3. High Dynamic Range Video<a class="headerlink" href="#high-dynamic-range-video" title="Permalink to this headline">¶</a></h2>
+<p>Base TRD supports high dynamic range (HDR) video with capture and display pipelines,
+following is a brief introduction.</p>
+<p><strong>Multi-exposure Digital Overlap High Dynamic Range (DOL-HDR) capture</strong></p>
+<p>High dynamic range image is a technique obtained by combining several different
+exposures frames of the same subject matter. IMX274 camera sensor supports
+capturing objects at two different exposure, HDR extract IP segregates the
+sensor data (DOL data) into short and long exposure frames. HDR merge will
+generate the HDR frame form the data obtained. The HDR frame results in an image
+with a greater dynamic range than what is possible by taking one single exposure.
+HDR is useful for recording many real-world scenes containing very bright,
+direct sunlight to extreme shade.</p>
+<p><strong>Note:</strong></p>
+<ul class="simple">
+<li>Only Platform 1 has the ability to capture HDR frames.</li>
+<li>4k HDR video in platform 1 has a max framerate of 30fps, limited by the sensor.</li>
+</ul>
+<p><strong>High Dynamic Range Display (HDR10)</strong></p>
+<p>The dynamic range of a display refers to its luminance, the maximum and minimum
+amount of light the display is capable of producing. High dynamic range(HDR) is
+the capability to represent a large luminance variation in the video signal, i.e.,
+from very dark values (0.00005 cd/m2) to very bright values (greater  than
+1000 cd/m2). HDR creates brighter whites, darker blacks, and brighter colors
+that better match images we see in the real world. HDR10 uses ST2084 EOTF,
+a single content layer with static metadata, this static metadata information is
+supported in the underlying infrastructure of the platform 3 TRD
+<em>vck190_hdmiRx_hdmiTx</em> mentioned above, where both source and sink elements are
+HDR10 capable (HDMI-RX and HDMI-TX).</p>
+</div>
 <div class="section" id="design-files">
-<h2>2.3. Design Files<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
+<h2>2.4. Design Files<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>The design source files are available at <a class="reference external" href="https://github.com/Xilinx/vck190-base-trd.git">https://github.com/Xilinx/vck190-base-trd.git</a>
 It has the following contents:</p>
 <ul class="simple">
@@ -457,7 +488,7 @@ into a directory referred to as <code class="docutils literal"><span class="pre"
 </div>
 </div>
 <div class="section" id="licenses">
-<h2>2.4. Licenses<a class="headerlink" href="#licenses" title="Permalink to this headline">¶</a></h2>
+<h2>2.5. Licenses<a class="headerlink" href="#licenses" title="Permalink to this headline">¶</a></h2>
 <p>The design includes files licensed by Xilinx and third parties under the terms
 of the GNU General Public License, GNU Lesser General Public License,
 BSD License, MIT License, and other licenses. The file
@@ -507,7 +538,7 @@ and limitations under the License.</p>
   <div role="contentinfo" class="copyright">
     <p class="footerinfo">
       <span class="lastupdated">
-        Last updated on July 29, 2022.
+        Last updated on October 11, 2022.
       </span>
 
     </p>

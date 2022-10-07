@@ -8,8 +8,8 @@ application supports 4 models - yolov3, refinedet, densebox, ssd.
 Use SD card images for Platform 1 - *vck190_mipiRxSingle_hdmiTx* or
 Platform 2 - *vck190_mipiRxQuad_hdmiTx* based on the input source.
 
-Follow these steps to boot the board into Linux. These steps can be skipped 
-if you are already at the Linux prompt *xilinx-vck190-20221* 
+Follow these steps to boot the board into Linux. These steps can be skipped
+if you are already at the Linux prompt *xilinx-vck190-20221*
 
 * Ensure all steps under the section :ref:`Board Setup<Board Setup>` are
   verified. Make connections based on the input source and output sink
@@ -85,7 +85,7 @@ Examples for single-mipi sensor
 
      sudo smart-mipi-app -s -m 2
 
-**Note:** Currently, Only **yolov3, densebox, refinedet, ssd** models are supported by this application.
+**Note:** Currently, Only **yolov3, facedetect, refinedet, ssd** models are supported by this application.
 
 Command Options:
 >>>>>>>>>>>>>>>>

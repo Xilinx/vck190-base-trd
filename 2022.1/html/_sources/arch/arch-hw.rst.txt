@@ -82,6 +82,16 @@ register interface.
   RAW10 format and outputs AXI4-Stream video data. For more information see the MIPI
   CSI-2 Receiver Subsystem Product Guide (`PG232 <https://www.xilinx.com/support/documentation/ip_documentation/mipi_csi2_rx_subsystem/v5_0/pg232-mipi-csi2-rx.pdf>`_).
 
+* The HDR extract block takes single digital overlapped frame from the sensor as input 
+  and returns two output exposure frames - Short Exposure Frame and a Long Exposure Frame.
+  For more information on this function refer to `Vitis Vision Libraries HDR Extract exposure frames <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/api-reference.html#extract-exposure-frames>`_.
+  
+* Creating High Dynamic Range images requires at least two frames that are captured with 
+  different exposure times. HDR Merge module will generate the HDR frame with these varied 
+  exposure frames. HDR Merge in RGB domain is complex and expensive in terms of latency, 
+  because of camera response function. Hence the current module works in Bayer domain.
+  For information on this function refer to `Vitis Vision Libraries HDR Merge <https://xilinx.github.io/Vitis_Libraries/vision/2022.1/api-reference.html#hdr-merge>`_.
+
 
 * The Image Single Processing IP is available in the Vitis Vision librarires
   (https://github.com/Xilinx/Vitis_Libraries/tree/master/vision/L1).The IP receives the
@@ -115,7 +125,8 @@ register interface.
   resolution changes.
 
 All the IPs in this pipeline are configured to transport 4ppc @ 150 MHz, enabling up to
-3840x2160 resolution at 60 frames per second (fps).
+3840x2160 resolution at 30 HDR frames per second (fps). Each HDR frame is a composite
+of a long exposure frame and a short exposure frame, so effective frame rate is 60fps.
 
 * Time to transfer one frame: (3840 + 560) x (2160 + 90) / (150 MHz * 4ppc) = 0.0165 ms
 * Number of frames transferred per second = 1/0.0165 = 60 frames
@@ -128,7 +139,7 @@ the AXI-Lite interface of the IPs at run-time. The drivers for the above blocks 
 APIs to set these values in a user application.
 
 * For the pass-through design (no accelerator) user can choose between 720p60, 1080p60,
-  2160p30, and 2160p60.
+  and 2160p30.
 
 Quad Sensor MIPI Capture
 ^^^^^^^^^^^^^^^^^^^^^^^^
